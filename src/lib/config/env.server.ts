@@ -15,11 +15,19 @@ function retrievalMode(): 'auto' | 'dense' | 'lexical' {
   return raw === 'dense' || raw === 'lexical' ? raw : 'auto';
 }
 
+const siteUrl = stripTrailingSlash(
+  envText(process.env.SITE_URL, 'https://www.jetking.com'),
+);
+
 const ollamaBaseUrl = stripTrailingSlash(
   envText(process.env.OLLAMA_BASE_URL, 'http://localhost:11434'),
 );
 
 export const serverEnv = {
+  /** Origin of the Jetking website that answers link out to. */
+  siteUrl,
+  /** Host only, for display: "jetking.com". */
+  siteHost: siteUrl.replace(/^https?:\/\/(www\.)?/, ''),
   ollamaBaseUrl,
   /** Chat completion endpoint, derived so only the base URL is configured. */
   ollamaChatUrl: `${ollamaBaseUrl}/api/chat`,

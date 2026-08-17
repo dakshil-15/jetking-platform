@@ -34,10 +34,6 @@ export function envBoolean(value: string | undefined, fallback: boolean): boolea
 
 export const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, '');
 
-const siteUrl = stripTrailingSlash(
-  envText(process.env.NEXT_PUBLIC_SITE_URL, 'https://www.jetking.com'),
-);
-
 const whatsappNumber = envText(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER, '919999999999').replace(
   /\D/g,
   '',
@@ -49,10 +45,6 @@ const whatsappMessage = envText(
 );
 
 export const publicEnv = {
-  /** Origin of the Jetking website that answers link out to. */
-  siteUrl,
-  /** Host only, for display: "jetking.com". */
-  siteHost: siteUrl.replace(/^https?:\/\/(www\.)?/, ''),
   whatsappNumber,
   whatsappMessage,
   /** Ready-to-use click-to-chat link. */

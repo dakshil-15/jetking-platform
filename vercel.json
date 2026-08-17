@@ -3,7 +3,7 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "env": {
-    "NEXT_PUBLIC_SITE_URL": "@next_public_site_url",
+    "SITE_URL": "@site_url",
     "PERSONA_COOKIE_SECRET": "@persona_cookie_secret",
     "CONTENT_SOURCE": "local",
     "GUIDE_ENABLED": "true",
