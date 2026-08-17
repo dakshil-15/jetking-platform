@@ -1,0 +1,408 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   CENTRES — scoped under `.centres-page`
+   Index shares the Future-Ready dark canvas with blog / student / explore.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.centres-page {
+  --centres-ink: #f4f4f8;
+  --centres-ink-secondary: #d0d0da;
+  --centres-ink-muted: #b4b4c0;
+  --centres-accent: #c41e24;
+  --centres-accent-soft: #ff6b70;
+  --centres-accent-tint: #3a181c;
+  --centres-canvas: #07070c;
+  --centres-surface: #0c0c12;
+  --centres-card: #14141c;
+  --centres-hairline: rgb(255 100 105 / 0.65);
+  --centres-shadow:
+    0 8px 28px rgb(0 0 0 / 0.45),
+    0 0 20px rgb(232 36 43 / 0.08);
+  --centres-shadow-hover:
+    0 0 0 1px rgb(255 107 112 / 0.75),
+    0 0 36px rgb(232 36 43 / 0.35),
+    0 16px 40px rgb(0 0 0 / 0.55);
+
+  /* Track accents — same language as student recommended cards */
+  --centres-cyber: #d2c0ff;
+  --centres-cloud: #a8c8ff;
+  --centres-network: #8eecc0;
+  --centres-ai: #ffc49a;
+  --centres-cyber-tint: #2a2240;
+  --centres-cloud-tint: #1a2438;
+  --centres-network-tint: #1a2e22;
+  --centres-ai-tint: #2e1c14;
+
+  /* Chamfered placement cards — matches blog card clip language */
+  --centres-card-cut: 18px;
+  --centres-card-cut-inner: 16px;
+
+  background: var(--centres-canvas);
+  color: var(--centres-ink);
+  isolation: isolate;
+  /* Clip decorative orbs so they don't cause horizontal page scroll.
+     Use `clip` (not `hidden`) so sticky filter sidebar still works. */
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.centres-page::before,
+.centres-page::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: centres-orb-pulse 6.5s var(--ease-out-soft) infinite alternate;
+}
+
+.centres-page::before {
+  top: -10%;
+  right: -8%;
+  width: min(720px, 70vw);
+  height: min(720px, 70vw);
+  max-width: 100%;
+  background: radial-gradient(circle, rgb(232 36 43 / 0.38) 0%, transparent 68%);
+}
+
+.centres-page::after {
+  bottom: 12%;
+  left: -12%;
+  width: min(640px, 65vw);
+  height: min(640px, 65vw);
+  max-width: 100%;
+  background: radial-gradient(circle, rgb(200 24 48 / 0.28) 0%, transparent 70%);
+  animation-delay: -3.2s;
+}
+
+@keyframes centres-orb-pulse {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+.centres-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.centres-card {
+  background: var(--centres-card);
+  border: 1px solid var(--centres-hairline);
+  box-shadow: var(--centres-shadow);
+  transition:
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-base) var(--ease-out-soft),
+    border-color var(--duration-base) var(--ease-out-soft);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .centres-card-interactive:hover {
+    box-shadow: var(--centres-shadow-hover);
+    transform: translateY(-2px);
+  }
+}
+
+.centres-card-interactive:focus-within {
+  box-shadow: var(--centres-shadow-hover);
+}
+
+@media (min-width: 640px) {
+  .centres-page {
+    --centres-card-cut: 22px;
+    --centres-card-cut-inner: 20px;
+  }
+}
+
+/* Chamfered shell — top-left + bottom-right cut (blog card language) */
+.centres-clip-shell {
+  display: block;
+  height: 100%;
+  padding: 1.5px;
+  background: linear-gradient(180deg, rgb(255 107 112 / 0.9) 0%, rgb(139 0 20 / 0.7) 100%);
+  clip-path: polygon(
+    var(--centres-card-cut) 0,
+    100% 0,
+    100% calc(100% - var(--centres-card-cut)),
+    calc(100% - var(--centres-card-cut)) 100%,
+    0 100%,
+    0 var(--centres-card-cut)
+  );
+  filter:
+    drop-shadow(0 8px 24px rgb(0 0 0 / 0.45))
+    drop-shadow(0 0 18px rgb(232 36 43 / 0.12));
+  transition:
+    filter var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-base) var(--ease-out-soft),
+    background var(--duration-base) var(--ease-out-soft);
+}
+
+.centres-clip-card {
+  height: 100%;
+  background: var(--centres-card);
+  border: none;
+  box-shadow: none;
+  clip-path: polygon(
+    var(--centres-card-cut-inner) 0,
+    100% 0,
+    100% calc(100% - var(--centres-card-cut-inner)),
+    calc(100% - var(--centres-card-cut-inner)) 100%,
+    0 100%,
+    0 var(--centres-card-cut-inner)
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .centres-clip-interactive:hover {
+    background: linear-gradient(180deg, rgb(255 130 135 / 1) 0%, rgb(180 20 40 / 0.85) 100%);
+    filter:
+      drop-shadow(0 14px 32px rgb(0 0 0 / 0.55))
+      drop-shadow(0 0 28px rgb(232 36 43 / 0.38));
+    transform: translateY(-3px);
+  }
+}
+
+.centres-clip-interactive:focus-within {
+  background: linear-gradient(180deg, rgb(255 130 135 / 1) 0%, rgb(180 20 40 / 0.85) 100%);
+  filter:
+    drop-shadow(0 14px 32px rgb(0 0 0 / 0.55))
+    drop-shadow(0 0 28px rgb(232 36 43 / 0.38));
+}
+
+.centres-clip-media {
+  background: linear-gradient(145deg, #2a1618 0%, #14141c 55%, #1a1218 100%);
+}
+
+.centres-cta-band {
+  background:
+    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.35) 0%, transparent 55%),
+    linear-gradient(155deg, #1a1218 0%, #101018 52%, #07070c 100%);
+  border: 1px solid var(--centres-hairline);
+}
+
+.centres-why {
+  background:
+    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.35) 0%, transparent 55%),
+    linear-gradient(155deg, #1a1218 0%, #101018 52%, #07070c 100%);
+  border: 1px solid var(--centres-hairline);
+}
+
+.centres-detail-hero {
+  border: 1px solid var(--centres-hairline);
+  box-shadow: var(--centres-shadow);
+  background: #07070c;
+}
+
+.centres-detail-wash {
+  background:
+    linear-gradient(
+      105deg,
+      rgb(7 7 12 / 0.97) 0%,
+      rgb(7 7 12 / 0.9) 36%,
+      rgb(7 7 12 / 0.55) 58%,
+      rgb(7 7 12 / 0.2) 78%,
+      transparent 100%
+    ),
+    linear-gradient(to top, rgb(7 7 12 / 0.7) 0%, transparent 48%),
+    radial-gradient(circle at 72% 28%, rgb(232 36 43 / 0.22) 0%, transparent 42%);
+}
+
+@media (max-width: 639px) {
+  .centres-detail-wash {
+    background:
+      linear-gradient(to top, rgb(7 7 12 / 0.96) 0%, rgb(7 7 12 / 0.78) 40%, rgb(7 7 12 / 0.4) 100%),
+      linear-gradient(105deg, rgb(7 7 12 / 0.6) 0%, transparent 70%);
+  }
+}
+
+.centres-quote {
+  border-radius: 22px;
+  background: linear-gradient(145deg, #c41e24 0%, #8b1519 100%);
+  box-shadow:
+    0 0 28px rgb(196 30 36 / 0.35),
+    0 20px 44px rgb(0 0 0 / 0.45);
+}
+
+.centres-course-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0.85rem 0.45rem 0.7rem;
+  background: linear-gradient(135deg, #ff4d55 0%, #c41e24 52%, #a81820 100%);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  line-height: 1;
+  border-radius: 0 0 0 12px;
+  box-shadow:
+    0 4px 16px rgb(196 30 36 / 0.5),
+    inset 0 1px 0 rgb(255 255 255 / 0.22);
+  pointer-events: none;
+}
+
+.centres-course-badge svg {
+  flex-shrink: 0;
+  opacity: 0.95;
+}
+
+/* FAQ accordion — plus morphs to minus when open */
+.centres-faq-toggle-icon {
+  position: relative;
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.centres-faq-toggle-icon::before,
+.centres-faq-toggle-icon::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  background: currentColor;
+  border-radius: 1px;
+  transition:
+    transform var(--duration-base) var(--ease-out-soft),
+    opacity var(--duration-base) var(--ease-out-soft);
+}
+
+.centres-faq-toggle-icon::before {
+  width: 12px;
+  height: 2px;
+  transform: translate(-50%, -50%);
+}
+
+.centres-faq-toggle-icon::after {
+  width: 2px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+}
+
+.group[open] .centres-faq-toggle-icon::after,
+.group:open .centres-faq-toggle-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg) scaleY(0);
+  opacity: 0;
+}
+
+.group[open] .centres-faq-toggle,
+.group:open .centres-faq-toggle {
+  border-color: rgb(255 107 112 / 0.55);
+  background: rgb(232 36 43 / 0.22);
+}
+
+.centres-float-chip {
+  background: rgb(20 20 28 / 0.92);
+  border: 1px solid rgb(255 80 90 / 0.22);
+  box-shadow: 0 14px 34px rgb(0 0 0 / 0.45);
+  backdrop-filter: blur(10px);
+}
+
+.centres-reveal {
+  animation: centres-reveal-up 0.7s var(--ease-out-soft) both;
+}
+
+.centres-reveal-delay-1 {
+  animation-delay: 0.08s;
+}
+.centres-reveal-delay-2 {
+  animation-delay: 0.16s;
+}
+.centres-reveal-delay-3 {
+  animation-delay: 0.24s;
+}
+
+@keyframes centres-reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.centres-hero-banner {
+  border: 1px solid var(--centres-hairline);
+  box-shadow: var(--centres-shadow);
+  background: #07070c;
+}
+
+.centres-hero-wash {
+  background:
+    linear-gradient(
+      105deg,
+      rgb(7 7 12 / 0.96) 0%,
+      rgb(7 7 12 / 0.88) 38%,
+      rgb(7 7 12 / 0.45) 58%,
+      rgb(7 7 12 / 0.12) 78%,
+      transparent 100%
+    ),
+    linear-gradient(to top, rgb(7 7 12 / 0.55) 0%, transparent 42%);
+}
+
+@media (max-width: 639px) {
+  .centres-hero-wash {
+    background:
+      linear-gradient(to top, rgb(7 7 12 / 0.94) 0%, rgb(7 7 12 / 0.72) 42%, rgb(7 7 12 / 0.35) 100%),
+      linear-gradient(105deg, rgb(7 7 12 / 0.55) 0%, transparent 70%);
+  }
+}
+
+.centres-hero-search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.centres-filter-sticky {
+  background: var(--centres-card);
+}
+
+.centres-filter-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 107 112 / 0.35) transparent;
+}
+
+.centres-filter-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.centres-filter-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgb(255 107 112 / 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .centres-page::before,
+  .centres-page::after {
+    animation: none;
+  }
+
+  .centres-reveal,
+  .centres-reveal-delay-1,
+  .centres-reveal-delay-2,
+  .centres-reveal-delay-3 {
+    animation: none;
+  }
+
+  .centres-faq-toggle-icon::before,
+  .centres-faq-toggle-icon::after {
+    transition: none;
+  }
+
+  .centres-clip-shell,
+  .centres-clip-interactive:hover {
+    transition: none;
+    transform: none;
+  }
+}

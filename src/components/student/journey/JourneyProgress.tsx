@@ -1,0 +1,76 @@
+'use client';
+
+import type { StudentJourneyStep } from '@/persona/studentJourney';
+import { PROGRESS_STEP_LABELS, PROGRESS_STEPS, stepIndex } from '@/persona/studentJourney';
+import { Check } from 'lucide-react';
+
+/**
+ * Journey progress bar.
+ *
+ * The visible label is hidden below the `xs` breakpoint to keep five steps on a
+ * narrow phone, so each step also carries an `sr-only` name and status. Without
+ * it a screen-reader user on a small viewport hears "1 2 3 4 5" and nothing else.
+ */
+export function JourneyProgress({ current }: { current: StudentJourneyStep }) {
+  const currentIdx = stepIndex(current);
+
+  return (
+    <nav aria-label="Student journey progress" className="w-full">
+      <ol className="flex items-center justify-between gap-1 sm:gap-2">
+        {PROGRESS_STEPS.map((step, i) => {
+          const idx = stepIndex(step);
+          const done = currentIdx > idx || current === 'complete';
+          const active = current === step;
+          const label = PROGRESS_STEP_LABELS[step];
+
+          return (
+            <li
+              key={step}
+              className="flex min-w-0 flex-1 items-center"
+              aria-current={active ? 'step' : undefined}
+            >
+              <div className="flex min-w-0 flex-col items-center gap-1.5 text-center">
+                <span
+                  aria-hidden="true"
+                  className={[
+                    'grid h-8 w-8 shrink-0 place-items-center rounded-full text-[12px] font-bold transition-colors sm:h-9 sm:w-9',
+                    done
+                      ? 'bg-[var(--stu-accent)] text-white'
+                      : active
+                        ? 'border-2 border-[var(--stu-accent-soft)] bg-[var(--stu-accent-tint)] text-[var(--stu-accent-soft)]'
+                        : 'border border-[var(--stu-hairline)] bg-[var(--stu-card)] text-[var(--stu-ink-muted)]',
+                  ].join(' ')}
+                >
+                  {done ? <Check className="h-4 w-4" strokeWidth={2.5} /> : i + 1}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className={[
+                    'hidden text-[10px] font-semibold tracking-wide uppercase xs:block sm:text-[11px]',
+                    active ? 'text-[var(--stu-accent-soft)]' : 'text-[var(--stu-ink-muted)]',
+                  ].join(' ')}
+                >
+                  {label}
+                </span>
+                <span className="sr-only">
+                  {`Step ${i + 1} of ${PROGRESS_STEPS.length}: ${label} — ${
+                    done ? 'completed' : active ? 'current step' : 'not started'
+                  }`}
+                </span>
+              </div>
+              {i < PROGRESS_STEPS.length - 1 ? (
+                <span
+                  aria-hidden="true"
+                  className={[
+                    'mx-0.5 h-px flex-1 sm:mx-1',
+                    done ? 'bg-[var(--stu-accent-soft)]/60' : 'bg-[var(--stu-hairline)]/40',
+                  ].join(' ')}
+                />
+              ) : null}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}

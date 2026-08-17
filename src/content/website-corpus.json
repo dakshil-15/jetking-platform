@@ -1,0 +1,925 @@
+{
+  "builtAt": "2026-08-17T06:44:34.731Z",
+  "contentSource": "local",
+  "count": 61,
+  "items": [
+    {
+      "id": "course:bca-cloud-cyber-security",
+      "type": "course",
+      "title": "BCA in Cloud Computing & Cyber Security",
+      "path": "/courses/bca-cloud-cyber-security",
+      "text": "Programme: BCA in Cloud Computing & Cyber Security. Level: degree. Duration: 3 years. Eligibility: 10+2 pass in any stream. No entrance test required. A UGC-recognised bachelor degree built around industry certification. Students work on cloud infrastructure and security tooling from the first year, with placement support beginning before the degree completes. What you can do after it: Graduate with a recognised BCA degree plus stacked industry certifications; Build and secure cloud infrastructure on major providers; Enter roles such as Cloud Support Associate, SOC Analyst, or Network Engineer. Modules covered: Foundations of computing and networking; Linux system administration; Cloud infrastructure and virtualisation; Cyber security operations and incident response; Industry capstone project. Industry certifications: Red Hat, CompTIA, Cloud platform associate.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "course:cyber-security-specialist",
+      "type": "course",
+      "title": "Cyber Security Specialist Programme",
+      "path": "/courses/cyber-security-specialist",
+      "text": "Programme: Cyber Security Specialist Programme. Level: diploma. Duration: 12 months. Eligibility: 10+2 pass, or graduates and working professionals seeking a career change. A hands-on programme covering defensive and offensive security practice, built for learners who want to move into a security operations role without a multi-year degree commitment. What you can do after it: Operate as a Tier-1 SOC analyst; Run vulnerability assessments and interpret findings; Prepare for recognised industry security certifications. Modules covered: Networking and protocol fundamentals; Operating system hardening; Threat detection and SIEM operations; Ethical hacking and penetration testing basics; Governance, risk and compliance overview. Industry certifications: CompTIA Security+, Red Hat.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "course:cloud-devops-engineer",
+      "type": "course",
+      "title": "Cloud & DevOps Engineer Programme",
+      "path": "/courses/cloud-devops-engineer",
+      "text": "Programme: Cloud & DevOps Engineer Programme. Level: diploma. Duration: 10 months. Eligibility: Graduates or working professionals with basic IT familiarity. Designed for upskillers already in an IT role. Covers cloud infrastructure, containerisation and CI/CD pipelines with an emphasis on production practice rather than theory. What you can do after it: Deploy and operate containerised workloads; Build CI/CD pipelines end to end; Move into Cloud Engineer or DevOps Associate roles. Modules covered: Linux and shell proficiency; Cloud compute, storage and networking; Containers and orchestration; CI/CD tooling and automation; Infrastructure as code. Industry certifications: Red Hat, Cloud platform associate.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "course:network-infrastructure-engineer",
+      "type": "course",
+      "title": "Network & Infrastructure Engineer Programme",
+      "path": "/courses/network-infrastructure-engineer",
+      "text": "Programme: Network & Infrastructure Engineer Programme. Level: diploma. Duration: 9 months. Eligibility: 10+2 pass. No prior IT experience required. The classic Jetking networking track, updated for hybrid cloud environments. Suited to learners who want a structured entry into IT infrastructure roles. What you can do after it: Configure and troubleshoot enterprise networks; Administer Windows and Linux server environments; Enter roles such as Network Support Engineer or IT Infrastructure Associate. Modules covered: Networking fundamentals and routing; Windows server administration; Linux server administration; Network security essentials; Hybrid cloud connectivity. Industry certifications: CompTIA Network+, Red Hat.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "course:ai-cloud-track",
+      "type": "course",
+      "title": "AI & Cloud Applications Track",
+      "path": "/courses/ai-cloud-track",
+      "text": "Programme: AI & Cloud Applications Track. Level: certification. Duration: 6 months. Eligibility: Graduates, or learners who have completed a Jetking foundation programme. A shorter, focused track on applying AI services within cloud environments — aimed at learners who already have infrastructure grounding and want to add applied AI capability. What you can do after it: Integrate managed AI services into applications; Understand model deployment and cost considerations; Add an applied AI specialisation to an infrastructure profile. Modules covered: Cloud AI service landscape; Working with model APIs; Data handling and pipelines; Deployment, monitoring and cost control. Industry certifications: Cloud platform AI associate.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "course:it-foundation-programme",
+      "type": "course",
+      "title": "IT Foundation Programme",
+      "path": "/courses/it-foundation-programme",
+      "text": "Programme: IT Foundation Programme. Level: short. Duration: 4 months. Eligibility: 10th pass or above. Absolute beginners welcome. An entry point for learners with no technical background, covering computing fundamentals, networking basics and the study habits needed for a longer programme. What you can do after it: Build confidence with computing and networking fundamentals; Identify which specialist track fits your goals; Progress into a diploma or degree programme. Modules covered: Computing fundamentals; Introduction to networking; Introduction to operating systems; Career orientation and pathway planning.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-eligibility-bca",
+      "type": "faq",
+      "title": "What is the eligibility for the BCA in Cloud Computing & Cyber Security?",
+      "path": "/faq",
+      "text": "Question: What is the eligibility for the BCA in Cloud Computing & Cyber Security? Answer: You need to have passed 10+2 in any stream. There is no entrance test for admission to the programme.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-entrance-test",
+      "type": "faq",
+      "title": "Is there an entrance exam?",
+      "path": "/faq",
+      "text": "Question: Is there an entrance exam? Answer: Jetking programmes do not require an entrance test. Admission is based on eligibility criteria for the specific programme, and a counsellor will confirm your fit during the enquiry conversation.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-fees-general",
+      "type": "faq",
+      "title": "How much do the courses cost?",
+      "path": "/faq",
+      "text": "Question: How much do the courses cost? Answer: Fees vary by programme, centre and intake, so they are confirmed by a counsellor rather than published as a single figure. EMI options are available on most programmes.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-emi",
+      "type": "faq",
+      "title": "Are instalment or EMI options available?",
+      "path": "/faq",
+      "text": "Question: Are instalment or EMI options available? Answer: EMI options are available on most programmes. The specific arrangements depend on the centre and the programme, and a counsellor will walk you through what applies to your case.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-working-professional",
+      "type": "faq",
+      "title": "Can I study while working full time?",
+      "path": "/faq",
+      "text": "Question: Can I study while working full time? Answer: Several centres run evening and weekend batches specifically for working professionals. Availability varies by centre, so it is worth checking with the centre nearest you.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-no-background",
+      "type": "faq",
+      "title": "Can I join without any technical background?",
+      "path": "/faq",
+      "text": "Question: Can I join without any technical background? Answer: Yes. The IT Foundation Programme is designed for learners with no prior technical experience, and it leads into the longer diploma and degree tracks.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-placement-support",
+      "type": "faq",
+      "title": "What does placement support include?",
+      "path": "/faq",
+      "text": "Question: What does placement support include? Answer: Placement support covers interview preparation, profile building and introductions to hiring employers. Specific outcomes depend on the programme, the centre and the individual learner, so a counsellor can give you the picture for the centre you are considering.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-certifications",
+      "type": "faq",
+      "title": "Which industry certifications are included?",
+      "path": "/faq",
+      "text": "Question: Which industry certifications are included? Answer: Programmes are built around recognised industry certifications including Red Hat and CompTIA tracks. The exact certifications included depend on the programme you choose.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-centre-locations",
+      "type": "faq",
+      "title": "Where are Jetking centres located?",
+      "path": "/faq",
+      "text": "Question: Where are Jetking centres located? Answer: Jetking operates centres across India. You can browse centres by city to find the one nearest you, along with the programmes each centre offers.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-franchise-enquiry",
+      "type": "faq",
+      "title": "How do I enquire about a Jetking franchise?",
+      "path": "/faq",
+      "text": "Question: How do I enquire about a Jetking franchise? Answer: Franchise enquiries go through a dedicated team. Submitting the franchise enquiry form starts a conversation about territory availability, the operating model and what partnership involves.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-franchise-profile",
+      "type": "faq",
+      "title": "What is the profile of a Jetking Franchisee?",
+      "path": "/faq",
+      "text": "Question: What is the profile of a Jetking Franchisee? Answer: Jetking franchisees typically include: (1) existing entrepreneurs looking for new opportunities in the education business, (2) professionals with 5–7 years of work experience in any industry, and (3) engineers or MBA graduates with a passion to work in the education business.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-franchise-build-centre",
+      "type": "faq",
+      "title": "Who will build my centre? Can I use my existing centre?",
+      "path": "/faq",
+      "text": "Question: Who will build my centre? Can I use my existing centre? Answer: We will help you build your centre. You can also use your existing setup, provided it matches Jetking’s specifications.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-franchise-responsibilities",
+      "type": "faq",
+      "title": "What are the responsibilities of a Franchise?",
+      "path": "/faq",
+      "text": "Question: What are the responsibilities of a Franchise? Answer: As a Jetking franchise, you will be responsible for: (1) investing to set up the training centre as per Jetking specifications, (2) managing and operating the centre daily, (3) following standard operating procedures and conducting training as per Jetking guidelines, (4) creating strong student word-of-mouth by delivering good quality training and good placements, and (5) generating business through multiple marketing activities in your local area.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-franchise-multiple-centres",
+      "type": "faq",
+      "title": "Can I own more than one Franchisee?",
+      "path": "/faq",
+      "text": "Question: Can I own more than one Franchisee? Answer: Yes. Depending upon your performance, you can open another Jetking franchise in any location.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-franchise-training",
+      "type": "faq",
+      "title": "Will I be trained to run a Jetking franchise?",
+      "path": "/faq",
+      "text": "Question: Will I be trained to run a Jetking franchise? Answer: Yes. We provide training on A–Z of the education business. This includes training for marketing, branding, technology, delivery, recruitment and other support required for day-to-day operations of your learning centre.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-franchise-technical-training",
+      "type": "faq",
+      "title": "What kind of technical training will I receive as a franchise?",
+      "path": "/faq",
+      "text": "Question: What kind of technical training will I receive as a franchise? Answer: Technical training is provided to your faculty members so they can conduct batches. We also run training programmes to upskill the faculties from time to time.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-franchise-quality",
+      "type": "faq",
+      "title": "Who enforces quality at Jetking?",
+      "path": "/faq",
+      "text": "Question: Who enforces quality at Jetking? Answer: Jetking is ISO 9001:2015 certified and operates through a comprehensive Quality Management Program. Alongside ISO processes, the QMP supports continual improvement in centre operations and delivers customer satisfaction.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-franchise-start",
+      "type": "faq",
+      "title": "How do I start a Jetking Franchise?",
+      "path": "/faq",
+      "text": "Question: How do I start a Jetking Franchise? Answer: Jetking works according to a quality management system and a comprehensive Quality Management Program that supports continual improvement for centre operations. This helps deliver student satisfaction and centre performance.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-course-duration",
+      "type": "faq",
+      "title": "How long do the programmes take?",
+      "path": "/faq",
+      "text": "Question: How long do the programmes take? Answer: Programme length ranges from a 4-month foundation course to a 3-year BCA degree. Diploma programmes typically run between 9 and 12 months.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faq:faq-difference-cloud-cyber",
+      "type": "faq",
+      "title": "What is the difference between the cloud and cyber security tracks?",
+      "path": "/faq",
+      "text": "Question: What is the difference between the cloud and cyber security tracks? Answer: Cloud programmes focus on building and operating infrastructure, while cyber security programmes focus on defending it — detecting threats and responding to incidents. Both share networking and operating system fundamentals, and a counsellor can help you decide which suits your goals.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:cloud-computing-career-after-12th:0",
+      "type": "blog",
+      "title": "Starting a cloud computing career after 12th: what the first three years look like — Starting a cloud computing career after 12th: what the first three years look like",
+      "path": "/blog/cloud-computing-career-after-12th",
+      "text": "A realistic walkthrough of the path from finishing school to a first cloud role — what you study, when you start applying, and what employers actually check. Choosing a technical path straight after 12th is less about picking the trendiest term and more about understanding what the first job actually asks of you. Cloud roles at entry level are operational: you are keeping systems running, responding to alerts, and learning the specific environment your employer uses.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:cloud-computing-career-after-12th:1",
+      "type": "blog",
+      "title": "Starting a cloud computing career after 12th: what the first three years look like — Year one: fundamentals that do not go out of date",
+      "path": "/blog/cloud-computing-career-after-12th",
+      "text": "Networking and operating systems are the foundation. Every cloud platform is an abstraction over these, and troubleshooting almost always resolves down to them. Learners who skip this stage tend to stall when something breaks in a way the tutorial did not cover. How networks route traffic, and how to read what went wrong. Linux command line fluency — not memorised commands, but comfort. How virtualisation underpins everything a cloud provider sells you",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:cloud-computing-career-after-12th:2",
+      "type": "blog",
+      "title": "Starting a cloud computing career after 12th: what the first three years look like — Year two: specialisation and certification",
+      "path": "/blog/cloud-computing-career-after-12th",
+      "text": "This is where the cloud and security tracks separate. Both remain employable; they suit different temperaments. Cloud work rewards people who enjoy building and automating. Security work rewards people who enjoy investigating.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:cloud-computing-career-after-12th:3",
+      "type": "blog",
+      "title": "Starting a cloud computing career after 12th: what the first three years look like — Year three: the job search starts before you finish",
+      "path": "/blog/cloud-computing-career-after-12th",
+      "text": "The most common mistake is treating placement as something that begins after the final exam. Internships, project work and certification all carry more weight with employers than the completion date on a certificate.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:cyber-security-vs-cloud-computing:0",
+      "type": "blog",
+      "title": "Cyber security or cloud computing: how to tell which one suits you — Cyber security or cloud computing: how to tell which one suits you",
+      "path": "/blog/cyber-security-vs-cloud-computing",
+      "text": "These two tracks look similar from outside and feel very different from inside. A practical way to choose, based on the work rather than the job title. Prospective students routinely ask which of these two pays more. It is the wrong question — the pay bands overlap heavily at entry level. The better question is which kind of day you want.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:cyber-security-vs-cloud-computing:1",
+      "type": "blog",
+      "title": "Cyber security or cloud computing: how to tell which one suits you — The shape of the work",
+      "path": "/blog/cyber-security-vs-cloud-computing",
+      "text": "Cloud engineering is constructive. You are building, automating and improving systems, and the feedback loop is that something works better than it did. Security is investigative and adversarial. You are looking for what is wrong, often under time pressure, and the feedback loop is that nothing bad happened. People who enjoy finishing things tend to prefer cloud. People who enjoy finding things tend to prefer security.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:cyber-security-vs-cloud-computing:2",
+      "type": "blog",
+      "title": "Cyber security or cloud computing: how to tell which one suits you — What both require",
+      "path": "/blog/cyber-security-vs-cloud-computing",
+      "text": "Solid networking fundamentals — non-negotiable for either. Comfort with Linux. Willingness to keep learning after the certification is signed",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:switching-to-it-career-at-30:0",
+      "type": "blog",
+      "title": "Switching into IT in your thirties: what actually transfers — Switching into IT in your thirties: what actually transfers",
+      "path": "/blog/switching-to-it-career-at-30",
+      "text": "Career changers consistently underestimate how much of their existing experience counts. A look at what transfers, what does not, and how to sequence the change. The anxiety most career changers bring is that they are starting from zero. In practice, they are not — but the things that transfer are rarely the things they expect.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:switching-to-it-career-at-30:1",
+      "type": "blog",
+      "title": "Switching into IT in your thirties: what actually transfers — What transfers",
+      "path": "/blog/switching-to-it-career-at-30",
+      "text": "Working professionally: meeting deadlines, escalating clearly, handling a difficult stakeholder. Domain knowledge — a banking background is a genuine advantage in BFSI security roles. Judgement about what matters, which is the hardest thing to teach a fresh graduate",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:switching-to-it-career-at-30:2",
+      "type": "blog",
+      "title": "Switching into IT in your thirties: what actually transfers — What does not",
+      "path": "/blog/switching-to-it-career-at-30",
+      "text": "Technical fundamentals have to be built properly. There is no shortcut here, and attempting one produces the most common failure mode: a candidate who can operate a tool but cannot diagnose why it stopped working.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:switching-to-it-career-at-30:3",
+      "type": "blog",
+      "title": "Switching into IT in your thirties: what actually transfers — Sequencing the change",
+      "path": "/blog/switching-to-it-career-at-30",
+      "text": "Most successful changers do not resign first. Evening or weekend batches, then a period of overlap, then the move. It takes longer and it works more often.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:what-parents-should-ask-it-institute:0",
+      "type": "blog",
+      "title": "Seven questions parents should ask any IT training institute — Seven questions parents should ask any IT training institute",
+      "path": "/blog/what-parents-should-ask-it-institute",
+      "text": "A checklist for families evaluating technical training — the questions that separate a substantive programme from a well-marketed one. Parents funding a technical programme are making a significant decision with limited technical context. These questions are designed to be answerable by any institute acting in good faith. What is the recognition status of the qualification, and who recognises it?. What proportion of the last completed batch was placed, and where?. What is the total cost, including certification and examination fees?. Who teaches, and what is their industry background?. What does placement support actually consist of — is it introductions, or is it training?. What happens if my child struggles partway through?. Can I speak to a recent graduate?",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:what-parents-should-ask-it-institute:1",
+      "type": "blog",
+      "title": "Seven questions parents should ask any IT training institute — On placement claims",
+      "path": "/blog/what-parents-should-ask-it-institute",
+      "text": "Ask for the denominator. A placement percentage is only meaningful alongside how many students it was calculated from and whether it counts students who did not complete the programme. A serious institute will answer all seven without hesitation. Reluctance on any of them is itself information.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:devops-skills-in-demand:0",
+      "type": "blog",
+      "title": "The DevOps skills employers are actually screening for — The DevOps skills employers are actually screening for",
+      "path": "/blog/devops-skills-in-demand",
+      "text": "Job descriptions list twenty tools. Interviews test about four things. Here is the gap, and what to prioritise. DevOps job descriptions have become inventories of every tool the team has ever touched. Interview processes are far narrower, and understanding that difference saves months of misdirected study.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:devops-skills-in-demand:1",
+      "type": "blog",
+      "title": "The DevOps skills employers are actually screening for — What gets tested",
+      "path": "/blog/devops-skills-in-demand",
+      "text": "Can you debug a failing pipeline you did not write?. Do you understand what a container actually is, beyond the commands?. Can you reason about a production incident under questioning?. Do you write automation that someone else can maintain?",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:devops-skills-in-demand:2",
+      "type": "blog",
+      "title": "The DevOps skills employers are actually screening for — What rarely gets tested",
+      "path": "/blog/devops-skills-in-demand",
+      "text": "Tool-specific syntax recall. Interviewers assume documentation exists. Depth in one toolchain consistently beats shallow familiarity with six.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:it-training-franchise-india:0",
+      "type": "blog",
+      "title": "What running an IT training franchise involves — What running an IT training franchise involves",
+      "path": "/blog/it-training-franchise-india",
+      "text": "An honest look at the operating reality of a training centre — the work, the local dynamics, and where new franchise partners typically underestimate effort. Prospective franchise partners generally arrive with a financial model and an underdeveloped picture of the operating work. The model matters, but the operating work determines whether the model holds.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:it-training-franchise-india:1",
+      "type": "blog",
+      "title": "What running an IT training franchise involves — The work is local",
+      "path": "/blog/it-training-franchise-india",
+      "text": "Enrolment is driven by relationships with schools, colleges and local employers in your catchment. National brand recognition opens the conversation; it does not close the admission.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "post:it-training-franchise-india:2",
+      "type": "blog",
+      "title": "What running an IT training franchise involves — Where partners underestimate",
+      "path": "/blog/it-training-franchise-india",
+      "text": "Faculty recruitment and retention in a competitive local market. Counsellor capability — it is a specialist skill, not general sales. The seasonality of admissions cycles and the cash-flow discipline it requires Partners who treat the centre as an operating business rather than a passive investment consistently perform better.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "centre:hyderabad:ameerpet",
+      "type": "centre",
+      "title": "Jetking Ameerpet",
+      "path": "/centres/ameerpet",
+      "text": "Jetking Ameerpet is a Jetking centre in Ameerpet, Hyderabad, Telangana. It offers these programmes: bca-cloud-cyber-security, network-infrastructure-engineer, cloud-devops-engineer.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "centre:mumbai:andheri",
+      "type": "centre",
+      "title": "Jetking Andheri",
+      "path": "/centres/andheri",
+      "text": "Jetking Andheri is a Jetking centre in Andheri West, Mumbai, Maharashtra. It offers these programmes: bca-cloud-cyber-security, cyber-security-specialist, network-infrastructure-engineer.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "centre:pune:hinjewadi",
+      "type": "centre",
+      "title": "Jetking Hinjewadi",
+      "path": "/centres/hinjewadi",
+      "text": "Jetking Hinjewadi is a Jetking centre in Hinjewadi, Pune, Maharashtra. It offers these programmes: cloud-devops-engineer, ai-cloud-track, cyber-security-specialist.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "centre:bengaluru:koramangala",
+      "type": "centre",
+      "title": "Jetking Koramangala",
+      "path": "/centres/koramangala",
+      "text": "Jetking Koramangala is a Jetking centre in Koramangala, Bengaluru, Karnataka. It offers these programmes: cloud-devops-engineer, ai-cloud-track.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "centre:delhi:laxmi-nagar",
+      "type": "centre",
+      "title": "Jetking Laxmi Nagar",
+      "path": "/centres/laxmi-nagar",
+      "text": "Jetking Laxmi Nagar is a Jetking centre in Laxmi Nagar, Delhi, Delhi. It offers these programmes: bca-cloud-cyber-security, cyber-security-specialist, it-foundation-programme.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "centre:pune:shivajinagar",
+      "type": "centre",
+      "title": "Jetking Shivajinagar",
+      "path": "/centres/shivajinagar",
+      "text": "Jetking Shivajinagar is a Jetking centre in Shivajinagar, Pune, Maharashtra. It offers these programmes: bca-cloud-cyber-security, cloud-devops-engineer, cyber-security-specialist.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "centre:mumbai:thane",
+      "type": "centre",
+      "title": "Jetking Thane",
+      "path": "/centres/thane",
+      "text": "Jetking Thane is a Jetking centre in Thane West, Mumbai, Maharashtra. It offers these programmes: bca-cloud-cyber-security, network-infrastructure-engineer, it-foundation-programme.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "city:bengaluru",
+      "type": "centre",
+      "title": "Jetking centres in Bengaluru",
+      "path": "/centres/bengaluru",
+      "text": "Bengaluru centres focus on cloud and DevOps tracks, reflecting local demand from product and services employers. Jetking has centres in Bengaluru, Karnataka.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "city:delhi",
+      "type": "centre",
+      "title": "Jetking centres in Delhi",
+      "path": "/centres/delhi",
+      "text": "Jetking centres in Delhi run degree and diploma programmes with dedicated placement coordination for the NCR employer base. Jetking has centres in Delhi, Delhi.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "city:hyderabad",
+      "type": "centre",
+      "title": "Jetking centres in Hyderabad",
+      "path": "/centres/hyderabad",
+      "text": "Hyderabad centres offer the full Jetking programme range, including the BCA degree track and short upskilling certifications. Jetking has centres in Hyderabad, Telangana.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "city:mumbai",
+      "type": "centre",
+      "title": "Jetking centres in Mumbai",
+      "path": "/centres/mumbai",
+      "text": "Jetking centres across Mumbai offer cloud, cyber security and networking programmes with placement support into the city’s IT services and BFSI employers. Jetking has centres in Mumbai, Maharashtra.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "city:pune",
+      "type": "centre",
+      "title": "Jetking centres in Pune",
+      "path": "/centres/pune",
+      "text": "Pune centres serve students and working professionals across the city’s technology corridor, with evening batches available for upskillers. Jetking has centres in Pune, Maharashtra.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "policy:admissions",
+      "type": "info",
+      "title": "Admissions policy",
+      "path": "/faq",
+      "text": "Admissions policy. How Jetking evaluates eligibility and enrols students across centres. Admissions are handled at the centre level. Counsellors verify eligibility against the published programme requirements and guide applicants through documentation and batch selection. Eligibility Each programme lists its own eligibility on the course page. Degree tracks typically require completion of Class 12; short certifications may accept working professionals with relevant experience.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "policy:refund",
+      "type": "info",
+      "title": "Refund & fee policy",
+      "path": "/faq",
+      "text": "Refund & fee policy. High-level fee and refund guidance. Exact figures are centre-specific. Programme fees vary by centre and batch. Published fee figures on the site are structured data only when Jetking has authorised disclosure. For a quote, speak to a counsellor at your nearest centre.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "faculty:ananya-sharma",
+      "type": "info",
+      "title": "Ananya Sharma",
+      "path": "/",
+      "text": "Ananya Sharma, Lead Instructor — Cloud & Cyber Security. Ananya teaches cloud architecture and defensive security modules across degree and professional tracks, with a focus on lab-led certification prep. Specialisations: Cloud, Cyber Security, AWS.",
+      "source": "website-content-source"
+    },
+    {
+      "id": "placement:main",
+      "type": "placement",
+      "title": "Placement support",
+      "path": "/placements",
+      "text": "Placement support. Jetking counsellors and placement teams help students prepare for interviews and connect with hiring partners. Outcomes vary by programme, centre, and student effort — no placement is guaranteed. Placement support includes resume workshops, mock interviews, and introductions to hiring partners where available. Results depend on the student, the market, and the programme.",
+      "source": "website-content-source"
+    }
+  ],
+  "structured": {
+    "courses": [
+      {
+        "slug": "bca-cloud-cyber-security",
+        "title": "BCA in Cloud Computing & Cyber Security",
+        "shortTitle": "BCA — Cloud & Cyber",
+        "level": "degree",
+        "duration": "3 years",
+        "eligibility": "10+2 pass in any stream. No entrance test required.",
+        "summary": "A UGC-recognised bachelor degree built around industry certification. Students work on cloud infrastructure and security tooling from the first year, with placement support beginning before the degree completes.",
+        "outcomes": [
+          "Graduate with a recognised BCA degree plus stacked industry certifications",
+          "Build and secure cloud infrastructure on major providers",
+          "Enter roles such as Cloud Support Associate, SOC Analyst, or Network Engineer"
+        ],
+        "modules": [
+          "Foundations of computing and networking",
+          "Linux system administration",
+          "Cloud infrastructure and virtualisation",
+          "Cyber security operations and incident response",
+          "Industry capstone project"
+        ],
+        "certifications": [
+          "Red Hat",
+          "CompTIA",
+          "Cloud platform associate"
+        ],
+        "fees": {
+          "disclosed": false,
+          "emiAvailable": true,
+          "note": "Fees vary by centre and intake. Confirmed by a counsellor."
+        },
+        "personaRelevance": {
+          "student": 1,
+          "parent": 0.9,
+          "professional": 0.2
+        },
+        "seo": {
+          "title": "BCA in Cloud Computing & Cyber Security | Jetking",
+          "description": "A 3-year BCA degree in cloud computing and cyber security. No entrance test, industry certifications included, placement support. Eligibility: 10+2 any stream."
+        },
+        "featured": true,
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "cyber-security-specialist",
+        "title": "Cyber Security Specialist Programme",
+        "shortTitle": "Cyber Security Specialist",
+        "level": "diploma",
+        "duration": "12 months",
+        "eligibility": "10+2 pass, or graduates and working professionals seeking a career change.",
+        "summary": "A hands-on programme covering defensive and offensive security practice, built for learners who want to move into a security operations role without a multi-year degree commitment.",
+        "outcomes": [
+          "Operate as a Tier-1 SOC analyst",
+          "Run vulnerability assessments and interpret findings",
+          "Prepare for recognised industry security certifications"
+        ],
+        "modules": [
+          "Networking and protocol fundamentals",
+          "Operating system hardening",
+          "Threat detection and SIEM operations",
+          "Ethical hacking and penetration testing basics",
+          "Governance, risk and compliance overview"
+        ],
+        "certifications": [
+          "CompTIA Security+",
+          "Red Hat"
+        ],
+        "fees": {
+          "disclosed": false,
+          "emiAvailable": true,
+          "note": "Fees vary by centre and intake. Confirmed by a counsellor."
+        },
+        "personaRelevance": {
+          "professional": 1,
+          "student": 0.7,
+          "parent": 0.4
+        },
+        "seo": {
+          "title": "Cyber Security Specialist Course — 12 Months | Jetking",
+          "description": "A 12-month cyber security specialist programme covering SOC operations, threat detection and ethical hacking. Open to 10+2 pass and working professionals."
+        },
+        "featured": true,
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "cloud-devops-engineer",
+        "title": "Cloud & DevOps Engineer Programme",
+        "shortTitle": "Cloud & DevOps",
+        "level": "diploma",
+        "duration": "10 months",
+        "eligibility": "Graduates or working professionals with basic IT familiarity.",
+        "summary": "Designed for upskillers already in an IT role. Covers cloud infrastructure, containerisation and CI/CD pipelines with an emphasis on production practice rather than theory.",
+        "outcomes": [
+          "Deploy and operate containerised workloads",
+          "Build CI/CD pipelines end to end",
+          "Move into Cloud Engineer or DevOps Associate roles"
+        ],
+        "modules": [
+          "Linux and shell proficiency",
+          "Cloud compute, storage and networking",
+          "Containers and orchestration",
+          "CI/CD tooling and automation",
+          "Infrastructure as code"
+        ],
+        "certifications": [
+          "Red Hat",
+          "Cloud platform associate"
+        ],
+        "fees": {
+          "disclosed": false,
+          "emiAvailable": true,
+          "note": "Fees vary by centre and intake. Confirmed by a counsellor."
+        },
+        "personaRelevance": {
+          "professional": 1,
+          "student": 0.4
+        },
+        "seo": {
+          "title": "Cloud & DevOps Engineer Course — 10 Months | Jetking",
+          "description": "A 10-month cloud and DevOps programme for working professionals. Containers, CI/CD, infrastructure as code and cloud operations with hands-on labs."
+        },
+        "featured": true,
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "network-infrastructure-engineer",
+        "title": "Network & Infrastructure Engineer Programme",
+        "shortTitle": "Network Engineer",
+        "level": "diploma",
+        "duration": "9 months",
+        "eligibility": "10+2 pass. No prior IT experience required.",
+        "summary": "The classic Jetking networking track, updated for hybrid cloud environments. Suited to learners who want a structured entry into IT infrastructure roles.",
+        "outcomes": [
+          "Configure and troubleshoot enterprise networks",
+          "Administer Windows and Linux server environments",
+          "Enter roles such as Network Support Engineer or IT Infrastructure Associate"
+        ],
+        "modules": [
+          "Networking fundamentals and routing",
+          "Windows server administration",
+          "Linux server administration",
+          "Network security essentials",
+          "Hybrid cloud connectivity"
+        ],
+        "certifications": [
+          "CompTIA Network+",
+          "Red Hat"
+        ],
+        "fees": {
+          "disclosed": false,
+          "emiAvailable": true,
+          "note": "Fees vary by centre and intake. Confirmed by a counsellor."
+        },
+        "personaRelevance": {
+          "student": 0.9,
+          "professional": 0.6,
+          "parent": 0.7
+        },
+        "seo": {
+          "title": "Network & Infrastructure Engineer Course | Jetking",
+          "description": "A 9-month network and infrastructure engineering programme. Routing, server administration and hybrid cloud connectivity. Open to 10+2 pass, no experience needed."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "ai-cloud-track",
+        "title": "AI & Cloud Applications Track",
+        "shortTitle": "AI & Cloud",
+        "level": "certification",
+        "duration": "6 months",
+        "eligibility": "Graduates, or learners who have completed a Jetking foundation programme.",
+        "summary": "A shorter, focused track on applying AI services within cloud environments — aimed at learners who already have infrastructure grounding and want to add applied AI capability.",
+        "outcomes": [
+          "Integrate managed AI services into applications",
+          "Understand model deployment and cost considerations",
+          "Add an applied AI specialisation to an infrastructure profile"
+        ],
+        "modules": [
+          "Cloud AI service landscape",
+          "Working with model APIs",
+          "Data handling and pipelines",
+          "Deployment, monitoring and cost control"
+        ],
+        "certifications": [
+          "Cloud platform AI associate"
+        ],
+        "fees": {
+          "disclosed": false,
+          "emiAvailable": true,
+          "note": "Fees vary by centre and intake. Confirmed by a counsellor."
+        },
+        "personaRelevance": {
+          "professional": 1,
+          "student": 0.5
+        },
+        "seo": {
+          "title": "AI & Cloud Applications Course — 6 Months | Jetking",
+          "description": "A 6-month applied AI and cloud track covering managed AI services, model APIs, deployment and cost control. For graduates and Jetking foundation learners."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "it-foundation-programme",
+        "title": "IT Foundation Programme",
+        "shortTitle": "IT Foundation",
+        "level": "short",
+        "duration": "4 months",
+        "eligibility": "10th pass or above. Absolute beginners welcome.",
+        "summary": "An entry point for learners with no technical background, covering computing fundamentals, networking basics and the study habits needed for a longer programme.",
+        "outcomes": [
+          "Build confidence with computing and networking fundamentals",
+          "Identify which specialist track fits your goals",
+          "Progress into a diploma or degree programme"
+        ],
+        "modules": [
+          "Computing fundamentals",
+          "Introduction to networking",
+          "Introduction to operating systems",
+          "Career orientation and pathway planning"
+        ],
+        "certifications": [],
+        "fees": {
+          "disclosed": false,
+          "emiAvailable": true,
+          "note": "Fees vary by centre and intake. Confirmed by a counsellor."
+        },
+        "personaRelevance": {
+          "student": 0.8,
+          "parent": 0.8
+        },
+        "seo": {
+          "title": "IT Foundation Programme — 4 Months | Jetking",
+          "description": "A 4-month IT foundation course for complete beginners. Computing and networking fundamentals plus guided pathway planning. Eligibility: 10th pass."
+        },
+        "updatedAt": "2026-07-01"
+      }
+    ],
+    "centres": [
+      {
+        "slug": "ameerpet",
+        "name": "Jetking Ameerpet",
+        "citySlug": "hyderabad",
+        "addressLine": "Placeholder address, Ameerpet",
+        "locality": "Ameerpet",
+        "state": "Telangana",
+        "pincode": "500016",
+        "coursesOffered": [
+          "bca-cloud-cyber-security",
+          "network-infrastructure-engineer",
+          "cloud-devops-engineer"
+        ],
+        "seo": {
+          "title": "Jetking Ameerpet, Hyderabad — IT Training Centre",
+          "description": "Jetking Ameerpet centre in Hyderabad offering BCA, networking, cloud and DevOps courses. Address and enquiry details."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "andheri",
+        "name": "Jetking Andheri",
+        "citySlug": "mumbai",
+        "addressLine": "Placeholder address, Andheri West",
+        "locality": "Andheri West",
+        "state": "Maharashtra",
+        "pincode": "400058",
+        "coursesOffered": [
+          "bca-cloud-cyber-security",
+          "cyber-security-specialist",
+          "network-infrastructure-engineer"
+        ],
+        "seo": {
+          "title": "Jetking Andheri, Mumbai — IT Training Centre",
+          "description": "Jetking Andheri centre in Mumbai offering BCA, cyber security and networking courses. Address, courses offered and enquiry details."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "hinjewadi",
+        "name": "Jetking Hinjewadi",
+        "citySlug": "pune",
+        "addressLine": "Placeholder address, Hinjewadi Phase 1",
+        "locality": "Hinjewadi",
+        "state": "Maharashtra",
+        "pincode": "411057",
+        "coursesOffered": [
+          "cloud-devops-engineer",
+          "ai-cloud-track",
+          "cyber-security-specialist"
+        ],
+        "seo": {
+          "title": "Jetking Hinjewadi, Pune — IT Training Centre",
+          "description": "Jetking Hinjewadi centre in Pune offering cloud, DevOps and AI application courses with evening batches for professionals."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "koramangala",
+        "name": "Jetking Koramangala",
+        "citySlug": "bengaluru",
+        "addressLine": "Placeholder address, Koramangala",
+        "locality": "Koramangala",
+        "state": "Karnataka",
+        "pincode": "560034",
+        "coursesOffered": [
+          "cloud-devops-engineer",
+          "ai-cloud-track"
+        ],
+        "seo": {
+          "title": "Jetking Koramangala, Bengaluru — IT Training Centre",
+          "description": "Jetking Koramangala centre in Bengaluru offering cloud, DevOps and applied AI courses for working professionals."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "laxmi-nagar",
+        "name": "Jetking Laxmi Nagar",
+        "citySlug": "delhi",
+        "addressLine": "Placeholder address, Laxmi Nagar",
+        "locality": "Laxmi Nagar",
+        "state": "Delhi",
+        "pincode": "110092",
+        "coursesOffered": [
+          "bca-cloud-cyber-security",
+          "cyber-security-specialist",
+          "it-foundation-programme"
+        ],
+        "seo": {
+          "title": "Jetking Laxmi Nagar, Delhi — IT Training Centre",
+          "description": "Jetking Laxmi Nagar centre in Delhi offering BCA, cyber security and IT foundation courses. Address and enquiry details."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "shivajinagar",
+        "name": "Jetking Shivajinagar",
+        "citySlug": "pune",
+        "addressLine": "Placeholder address, Shivajinagar",
+        "locality": "Shivajinagar",
+        "state": "Maharashtra",
+        "pincode": "411005",
+        "coursesOffered": [
+          "bca-cloud-cyber-security",
+          "cloud-devops-engineer",
+          "cyber-security-specialist"
+        ],
+        "seo": {
+          "title": "Jetking Shivajinagar, Pune — IT Training Centre",
+          "description": "Jetking Shivajinagar centre in Pune offering BCA, cloud, DevOps and cyber security courses. Address and enquiry details."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "thane",
+        "name": "Jetking Thane",
+        "citySlug": "mumbai",
+        "addressLine": "Placeholder address, Thane West",
+        "locality": "Thane West",
+        "state": "Maharashtra",
+        "pincode": "400601",
+        "coursesOffered": [
+          "bca-cloud-cyber-security",
+          "network-infrastructure-engineer",
+          "it-foundation-programme"
+        ],
+        "seo": {
+          "title": "Jetking Thane, Mumbai — IT Training Centre",
+          "description": "Jetking Thane centre offering BCA, networking and IT foundation courses. Address, courses offered and enquiry details."
+        },
+        "updatedAt": "2026-07-01"
+      }
+    ],
+    "cities": [
+      {
+        "slug": "bengaluru",
+        "name": "Bengaluru",
+        "state": "Karnataka",
+        "intro": "Bengaluru centres focus on cloud and DevOps tracks, reflecting local demand from product and services employers.",
+        "seo": {
+          "title": "IT Courses in Bengaluru — Cloud & DevOps | Jetking",
+          "description": "Jetking centres in Bengaluru offering cloud, DevOps and cyber security programmes with placement support. Find your nearest Bengaluru centre."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "delhi",
+        "name": "Delhi",
+        "state": "Delhi",
+        "intro": "Jetking centres in Delhi run degree and diploma programmes with dedicated placement coordination for the NCR employer base.",
+        "seo": {
+          "title": "IT Courses in Delhi — Cloud & Cyber Security | Jetking",
+          "description": "Jetking centres in Delhi offering BCA, cyber security and cloud computing courses with NCR placement support. Find your nearest Delhi centre."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "hyderabad",
+        "name": "Hyderabad",
+        "state": "Telangana",
+        "intro": "Hyderabad centres offer the full Jetking programme range, including the BCA degree track and short upskilling certifications.",
+        "seo": {
+          "title": "IT Courses in Hyderabad — Cloud & Cyber Security | Jetking",
+          "description": "Jetking centres in Hyderabad offering BCA, cyber security, cloud and networking courses with placement support."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "mumbai",
+        "name": "Mumbai",
+        "state": "Maharashtra",
+        "intro": "Jetking centres across Mumbai offer cloud, cyber security and networking programmes with placement support into the city’s IT services and BFSI employers.",
+        "seo": {
+          "title": "IT Courses in Mumbai — Cloud & Cyber Security | Jetking",
+          "description": "Jetking centres in Mumbai offering BCA, cyber security, cloud and networking courses with placement support. Find your nearest Mumbai centre."
+        },
+        "updatedAt": "2026-07-01"
+      },
+      {
+        "slug": "pune",
+        "name": "Pune",
+        "state": "Maharashtra",
+        "intro": "Pune centres serve students and working professionals across the city’s technology corridor, with evening batches available for upskillers.",
+        "seo": {
+          "title": "IT Courses in Pune — Cloud & Cyber Security | Jetking",
+          "description": "Jetking centres in Pune offering BCA, cyber security, cloud and DevOps courses. Weekend and evening batches for working professionals."
+        },
+        "updatedAt": "2026-07-01"
+      }
+    ]
+  }
+}

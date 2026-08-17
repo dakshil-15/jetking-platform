@@ -1,0 +1,372 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   WORKING PROFESSIONAL LANDING — scoped under `.professional-page`
+   Mirrors the Student landing token set and card language for continuity.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.professional-page {
+  --v2-canvas: #07070c;
+  --v2-card: #14141c;
+  --v2-hairline: rgb(255 80 90 / 0.18);
+  --v2-ink: #f4f4f8;
+  --v2-ink-secondary: #c4c4d0;
+  --v2-ink-muted: #9a9aa8;
+  --v2-accent: #e8242b;
+  --v2-accent-soft: #ff4d54;
+  --v2-eyebrow: #ff8a90;
+  --v2-ink-bar: #101018;
+  --v2-shadow-card:
+    0 8px 28px rgb(0 0 0 / 0.45),
+    0 0 20px rgb(232 36 43 / 0.08);
+  --v2-shadow-card-hover:
+    0 0 0 1px rgb(255 107 112 / 0.75),
+    0 0 36px rgb(232 36 43 / 0.35),
+    0 16px 40px rgb(0 0 0 / 0.55);
+
+  --pro-ink: #f4f4f8;
+  --pro-ink-secondary: #d0d0da;
+  --pro-ink-muted: #b4b4c0;
+  --pro-accent: #c41e24;
+  --pro-accent-soft: #ff6b70;
+  --pro-accent-tint: #3a181c;
+  --pro-canvas: #07070c;
+  --pro-surface: #0c0c12;
+  --pro-card: #14141c;
+  --pro-navy: #c41e24;
+  --pro-hairline: rgb(255 100 105 / 0.65);
+  --pro-shadow:
+    0 8px 28px rgb(0 0 0 / 0.45),
+    0 0 20px rgb(232 36 43 / 0.08);
+  --pro-shadow-hover:
+    0 0 0 1px rgb(255 107 112 / 0.75),
+    0 0 36px rgb(232 36 43 / 0.35),
+    0 16px 40px rgb(0 0 0 / 0.55);
+
+  --pro-cyber: #d2c0ff;
+  --pro-cloud: #a8c8ff;
+  --pro-network: #8eecc0;
+  --pro-ai: #ffc49a;
+  --pro-cyber-tint: #2a2240;
+  --pro-cloud-tint: #1a2438;
+  --pro-network-tint: #1a2e22;
+  --pro-ai-tint: #2e1c14;
+
+  background: var(--pro-canvas);
+  color: var(--pro-ink);
+  isolation: isolate;
+}
+
+.professional-page::before,
+.professional-page::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: pro-orb-pulse 6.5s var(--ease-out-soft) infinite alternate;
+}
+
+.professional-page::before {
+  top: -10%;
+  right: -8%;
+  width: min(720px, 70vw);
+  height: min(720px, 70vw);
+  background: radial-gradient(circle, rgb(232 36 43 / 0.38) 0%, transparent 68%);
+}
+
+.professional-page::after {
+  bottom: 18%;
+  left: -12%;
+  width: min(640px, 65vw);
+  height: min(640px, 65vw);
+  background: radial-gradient(circle, rgb(200 24 48 / 0.28) 0%, transparent 70%);
+  animation-delay: -3.2s;
+}
+
+@keyframes pro-orb-pulse {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+.professional-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pro-card {
+  background: var(--pro-card);
+  border: 1px solid var(--pro-hairline);
+  box-shadow: var(--pro-shadow);
+  transition:
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-base) var(--ease-out-soft);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pro-card-interactive:hover {
+    box-shadow: var(--pro-shadow-hover);
+    transform: translateY(-3px);
+  }
+}
+
+.pro-float {
+  background: rgb(20 20 28 / 0.92);
+  border: 1px solid rgb(255 80 90 / 0.22);
+  box-shadow: 0 14px 34px rgb(0 0 0 / 0.45);
+  backdrop-filter: blur(10px);
+}
+
+.pro-surface-band {
+  background: var(--pro-surface);
+  color: var(--pro-ink);
+}
+
+.pro-journey-panel {
+  background:
+    radial-gradient(80% 60% at 10% 20%, rgb(232 36 43 / 0.16) 0%, transparent 55%),
+    radial-gradient(70% 50% at 90% 80%, rgb(196 168 255 / 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, #14141c 0%, #101018 48%, #0c0c12 100%);
+  border: 1px solid var(--pro-hairline);
+}
+
+.pro-path-track {
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1.25rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.pro-path-track::-webkit-scrollbar {
+  display: none;
+}
+
+.pro-path-step-card {
+  scroll-snap-align: center;
+  background: rgb(20 20 28 / 0.55);
+  border: 1px solid rgb(255 100 105 / 0.22);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+}
+
+.pro-path-step-card-final {
+  border-color: rgb(255 107 112 / 0.55);
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgb(232 36 43 / 0.14) 0%, transparent 60%),
+    rgb(20 20 28 / 0.72);
+  box-shadow:
+    0 0 24px rgb(232 36 43 / 0.18),
+    0 8px 24px rgb(0 0 0 / 0.25);
+}
+
+.pro-path-node-final {
+  border-color: var(--pro-accent-soft);
+  background: var(--pro-accent-tint);
+  box-shadow: 0 0 22px rgb(232 36 43 / 0.35);
+}
+
+/* Continuous desktop connector — sits at vertical center of the step nodes. */
+.pro-path-rail {
+  background: rgb(255 100 105 / 0.35);
+}
+
+.pro-path-rail-accent {
+  background: rgb(255 107 112 / 0.7);
+}
+
+.pro-why {
+  background:
+    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.35) 0%, transparent 55%),
+    linear-gradient(155deg, #1a1218 0%, #101018 52%, #07070c 100%);
+  border: 1px solid var(--pro-hairline);
+}
+
+.pro-program-track,
+.pro-course-track {
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter, 1.25rem);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.pro-program-track::-webkit-scrollbar,
+.pro-course-track::-webkit-scrollbar {
+  display: none;
+}
+
+.pro-course-card {
+  scroll-snap-align: start;
+  isolation: isolate;
+  transition:
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-base) var(--ease-out-soft);
+}
+
+.pro-course-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0.85rem 0.45rem 0.7rem;
+  background: linear-gradient(135deg, #ff4d55 0%, #c41e24 52%, #a81820 100%);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  line-height: 1;
+  border-radius: 0 21px 0 14px;
+  box-shadow:
+    0 4px 16px rgb(196 30 36 / 0.5),
+    inset 0 1px 0 rgb(255 255 255 / 0.22);
+  pointer-events: none;
+}
+
+.pro-course-badge svg {
+  flex-shrink: 0;
+  opacity: 0.95;
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+  .pro-program-card:hover,
+  .pro-course-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--pro-shadow-hover);
+  }
+
+  .pro-course-track .pro-course-card:hover {
+    z-index: 2;
+  }
+}
+
+.pro-quote {
+  background: linear-gradient(145deg, #c41e24 0%, #8b1519 100%);
+  box-shadow:
+    0 0 28px rgb(196 30 36 / 0.35),
+    0 20px 44px rgb(0 0 0 / 0.45);
+}
+
+.pro-partner-logo {
+  filter: grayscale(1);
+  opacity: 0.55;
+  transition:
+    filter var(--duration-base) var(--ease-out-soft),
+    opacity var(--duration-base) var(--ease-out-soft);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pro-partner-logo:hover {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+}
+
+.pro-bottom-cta {
+  background:
+    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.28) 0%, transparent 55%),
+    linear-gradient(155deg, #0b1120 0%, #07070c 100%);
+  border-top: 1px solid var(--pro-hairline);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .professional-page::before,
+  .professional-page::after {
+    animation: none;
+  }
+
+  .pro-card,
+  .pro-program-card,
+  .pro-course-card {
+    transition: none;
+  }
+
+  .pro-card-interactive:hover,
+  .pro-program-card:hover,
+  .pro-course-card:hover {
+    transform: none;
+  }
+}
+
+/* Light counterpart for the professional landing's local token system. */
+html:not(.dark) .professional-page {
+  --v2-canvas: #fbfafc;
+  --v2-card: #ffffff;
+  --v2-hairline: rgb(20 20 31 / 0.14);
+  --v2-ink: #14141f;
+  --v2-ink-secondary: #475467;
+  --v2-ink-muted: #667085;
+  --v2-accent: #c41e24;
+  --v2-accent-soft: #a50d13;
+  --v2-eyebrow: #a50d13;
+  --v2-ink-bar: #171722;
+  --v2-shadow-card: 0 10px 30px rgb(20 20 31 / 0.09);
+  --v2-shadow-card-hover:
+    0 0 0 1px rgb(196 30 36 / 0.35),
+    0 18px 44px rgb(60 50 90 / 0.14);
+
+  --pro-ink: #14141f;
+  --pro-ink-secondary: #475467;
+  --pro-ink-muted: #667085;
+  --pro-accent: #c41e24;
+  --pro-accent-soft: #a50d13;
+  --pro-accent-tint: #fff0f1;
+  --pro-canvas: #fbfafc;
+  --pro-surface: #f3f1f5;
+  --pro-card: #ffffff;
+  --pro-navy: #c41e24;
+  --pro-hairline: rgb(20 20 31 / 0.14);
+  --pro-shadow: 0 10px 30px rgb(20 20 31 / 0.09);
+  --pro-shadow-hover:
+    0 0 0 1px rgb(196 30 36 / 0.35),
+    0 18px 44px rgb(60 50 90 / 0.14);
+
+  --pro-cyber: #5f3aa8;
+  --pro-cloud: #2454a6;
+  --pro-network: #17683b;
+  --pro-ai: #9a4312;
+  --pro-cyber-tint: #eee8ff;
+  --pro-cloud-tint: #e9f0ff;
+  --pro-network-tint: #e8f7ed;
+  --pro-ai-tint: #fff0e7;
+}
+
+html:not(.dark) .professional-page::before {
+  background: radial-gradient(circle, rgb(232 36 43 / 0.13) 0%, transparent 68%);
+}
+
+html:not(.dark) .professional-page::after {
+  background: radial-gradient(circle, rgb(95 58 168 / 0.09) 0%, transparent 70%);
+}
+
+html:not(.dark) .professional-page .pro-float {
+  background: rgb(255 255 255 / 0.92);
+  border-color: rgb(20 20 31 / 0.12);
+  box-shadow: 0 14px 34px rgb(20 20 31 / 0.14);
+}
+
+html:not(.dark) .professional-page .pro-journey-panel {
+  background:
+    radial-gradient(80% 60% at 10% 20%, rgb(232 36 43 / 0.08) 0%, transparent 55%),
+    radial-gradient(70% 50% at 90% 80%, rgb(95 58 168 / 0.07) 0%, transparent 50%),
+    linear-gradient(180deg, #ffffff 0%, #f8f6fa 100%);
+}
+
+html:not(.dark) .professional-page .pro-path-step-card {
+  background: rgb(255 255 255 / 0.82);
+  border-color: var(--pro-hairline);
+  box-shadow: 0 8px 24px rgb(20 20 31 / 0.08);
+}
+
+html:not(.dark) .professional-page .pro-path-step-card-final {
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgb(232 36 43 / 0.08) 0%, transparent 60%),
+    #fff8f8;
+}

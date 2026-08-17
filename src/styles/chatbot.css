@@ -1,0 +1,611 @@
+/* ------------------------------------------------------------------------- */
+/* Variants                                                                   */
+/* ------------------------------------------------------------------------- */
+
+/* Theme is driven by a `.dark` class on <html> so the user can override the
+   OS preference. `:where()` keeps specificity at 0 so utilities still win. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------------- */
+/* Primitive tokens                                                           */
+/*                                                                            */
+/* Copied from the Jetking website's own stylesheet so the assistant renders   */
+/* in the same palette as the pages it answers about. Components never         */
+/* reference this layer directly.                                             */
+/* ------------------------------------------------------------------------- */
+
+@theme {
+  /* Jetking red */
+  --color-jk-50: #fef3f2;
+  --color-jk-100: #fee4e2;
+  --color-jk-200: #fecdca;
+  --color-jk-300: #fda29b;
+  --color-jk-400: #f97066;
+  --color-jk-500: #ea1c24;
+  --color-jk-600: #c7141c;
+  --color-jk-700: #a50d13;
+
+  /* Neutral ramp */
+  --color-gray-25: #fcfcfd;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f2f4f7;
+  --color-gray-200: #e4e7ec;
+  --color-gray-300: #cfd4dc;
+  --color-gray-400: #98a2b3;
+  --color-gray-500: #667085;
+  --color-gray-600: #475467;
+  --color-gray-700: #344054;
+  --color-gray-800: #182230;
+  --color-gray-900: #101828;
+  --color-gray-950: #0b111e;
+
+  /* Feedback */
+  --color-danger-500: #ea1c24;
+  --color-danger-600: #c7141c;
+  --color-success-500: #067647;
+  --color-success-400: #47cd89;
+
+  /* Radii — the site's scale */
+  --radius-sm: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-input: 0.625rem;
+  --radius-xl: 0.75rem;
+  --radius-image: 0.75rem;
+  --radius-card: 1rem;
+  --radius-2xl: 1rem;
+  --radius-dialog: 1.25rem;
+  --radius-3xl: 1.5rem;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-fade-in: fade-in 0.28s var(--ease-out-soft) both;
+  --animate-rise-in: rise-in 0.35s var(--ease-out-soft) both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-slide-in-left: slide-in-left 0.24s var(--ease-out-soft) both;
+
+  /* Layout constants shared between JS and CSS */
+  --spacing-sidebar: 17rem;
+  --spacing-sidebar-collapsed: 3.5rem;
+  --spacing-thread: 50rem;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Semantic tokens — the only layer components consume.                       */
+/* ------------------------------------------------------------------------- */
+
+.chatbot-app {
+  color-scheme: light;
+
+  --font-jakarta: var(--font-body-src);
+  --font-bricolage: var(--font-display-src);
+
+  --canvas: #ffffff;
+  --surface: #ffffff;
+  --color-surface: var(--surface);
+  --surface-sunken: var(--color-gray-25);
+  --surface-raised: #ffffff;
+  --surface-hover: var(--color-jk-50);
+  --surface-active: var(--color-jk-100);
+
+  --rail: #ffffff;
+  --bubble-user: var(--color-jk-50);
+
+  --line: var(--color-gray-200);
+  --line-strong: var(--color-gray-300);
+
+  --ink: var(--color-gray-900);
+  --ink-muted: var(--color-gray-600);
+  --ink-subtle: var(--color-gray-500);
+  --ink-inverse: #ffffff;
+
+  --brand: var(--color-jk-500);
+  --brand-hover: var(--color-jk-600);
+  --brand-active: var(--color-jk-700);
+  --brand-soft: var(--color-jk-50);
+  --brand-border: var(--color-jk-200);
+  --brand-ink: #ffffff;
+
+  --focus-ring: var(--color-jk-500);
+
+  --shadow-panel: 0 4px 12px #10182812, 0 2px 4px #1018280a;
+  --shadow-pop: 0 12px 32px #1018281a, 0 4px 8px #1018280a;
+  --shadow-composer: 0 1px 3px #10182814, 0 1px 2px #1018280a;
+  --shadow-accent: 0 6px 20px #c7141c38;
+}
+
+.dark .chatbot-app {
+  color-scheme: dark;
+
+  --canvas: #0b111e;
+  --surface: #101828;
+  --surface-sunken: #070c15;
+  --surface-raised: #101828;
+  --surface-hover: #ffffff0f;
+  --surface-active: #ffffff1f;
+
+  --rail: #070c15;
+  --bubble-user: #182230;
+
+  --line: #ffffff1a;
+  --line-strong: #ffffff29;
+
+  --ink: #ffffff;
+  --ink-muted: #c3cad6;
+  --ink-subtle: #98a2b3;
+  --ink-inverse: var(--color-gray-900);
+
+  --brand: var(--color-jk-500);
+  --brand-hover: var(--color-jk-400);
+  --brand-active: var(--color-jk-300);
+  --brand-soft: #ea1c241f;
+  --brand-border: #ea1c244d;
+  --brand-ink: #ffffff;
+
+  --focus-ring: var(--color-jk-400);
+
+  --shadow-panel: 0 4px 12px #00000052, 0 2px 4px #00000029;
+  --shadow-pop: 0 12px 32px #00000066, 0 4px 8px #00000033;
+  --shadow-composer: 0 1px 3px #00000047, 0 1px 2px #00000029;
+  --shadow-accent: 0 6px 20px #ea1c2440;
+}
+
+/* Expose the semantic layer as Tailwind utilities: bg-canvas, text-ink, … */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-active: var(--surface-active);
+  --color-rail: var(--rail);
+  --color-bubble-user: var(--bubble-user);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-ink-inverse: var(--ink-inverse);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-active: var(--brand-active);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-border: var(--brand-border);
+  --color-brand-ink: var(--brand-ink);
+
+  --shadow-panel: var(--shadow-panel);
+  --shadow-pop: var(--shadow-pop);
+  --shadow-composer: var(--shadow-composer);
+  --shadow-accent: var(--shadow-accent);
+
+}
+
+/* ------------------------------------------------------------------------- */
+/* Base                                                                       */
+/* ------------------------------------------------------------------------- */
+
+@layer base {
+  .chatbot-app,
+  .chatbot-app * {
+    border-color: var(--line);
+  }
+
+  .chatbot-app {
+    -webkit-tap-highlight-color: transparent;
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+  }
+
+  /* The site sets display type on every heading level. */
+  .chatbot-app h1,
+  .chatbot-app h2,
+  .chatbot-app h3,
+  .chatbot-app h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  .chatbot-app ::selection {
+    background-color: color-mix(in oklab, var(--brand) 20%, transparent);
+  }
+
+  .chatbot-app :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  .chatbot-app button,
+  .chatbot-app input,
+  .chatbot-app textarea,
+  .chatbot-app select {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/* Utilities                                                                  */
+/* ------------------------------------------------------------------------- */
+
+@utility scrollbar-subtle {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: var(--line-strong);
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/* Keyframes                                                                  */
+/* ------------------------------------------------------------------------- */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Jetking AI console — reactor rings, loader choreography, drawer. */
+@keyframes jk-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes jk-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes jk-slide-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes jk-load {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+@keyframes jk-pulse {
+  0%,
+  100% {
+    opacity: 0.82;
+    filter: drop-shadow(0 0 8px #ea1c2455);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 20px #ea1c24aa);
+  }
+}
+
+@keyframes jk-blink {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes jk-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes jk-mark-in {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 18px #ea1c2488);
+  }
+}
+
+@keyframes jk-draw-fade {
+  0%,
+  55% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes jk-draw-stroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Isometric Jetking shield — readable 3D extrusion inside the reactor. */
+@keyframes jk-float-3d {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(1.5deg);
+  }
+}
+
+@keyframes jk-shadow-3d {
+  0%,
+  100% {
+    transform: translateX(-40%) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateX(-40%) scale(0.86);
+    opacity: 0.3;
+  }
+}
+
+@keyframes jk-shine-3d {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateX(-130%) skewX(-20deg);
+  }
+  40% {
+    opacity: 0.55;
+  }
+  55% {
+    opacity: 0;
+    transform: translateX(130%) skewX(-20deg);
+  }
+}
+
+.jk-shield-3d {
+  /* room for the SE extrusion offset */
+  overflow: visible;
+}
+
+.jk-shield-3d-scene {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: jk-float-3d 5.5s ease-in-out infinite;
+}
+
+.jk-shield-3d-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.jk-shield-3d-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: brightness(1.15) contrast(1.1) drop-shadow(-1px -1px 0 #ff8a8a88) drop-shadow(0 0 8px #ea1c2466);
+}
+
+.jk-shield-3d-shine {
+  pointer-events: none;
+  position: absolute;
+  inset: 6% 12%;
+  border-radius: 40% / 46%;
+  background: linear-gradient(
+    115deg,
+    transparent 34%,
+    #ffffff66 48%,
+    #ffffffcc 50%,
+    #ffffff66 52%,
+    transparent 66%
+  );
+  mix-blend-mode: screen;
+  animation: jk-shine-3d 5.5s ease-in-out infinite;
+}
+
+.jk-shield-3d-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -18%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #ea1c2466 0%, #00000088 45%, transparent 72%);
+  filter: blur(5px);
+  animation: jk-shadow-3d 5.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.jk-loader-draw .jk-draw-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: jk-draw-stroke 0.85s var(--ease-out-soft) forwards;
+}
+
+/* Chat header equalizer — staggered bar pulse. */
+@keyframes jk-soundwave {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+    opacity: 0.55;
+  }
+  35% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  65% {
+    transform: scaleY(0.55);
+    opacity: 0.75;
+  }
+}
+
+.jk-soundwave-bar {
+  display: block;
+  transform-origin: center center;
+  will-change: transform;
+  animation: jk-soundwave var(--jk-bar-duration, 1s) ease-in-out
+    var(--jk-bar-delay, 0s) infinite;
+}
+
+.jk-soundwave.is-busy .jk-soundwave-bar {
+  animation-duration: calc(var(--jk-bar-duration, 1s) * 0.55);
+  background-color: var(--color-jk-500);
+  opacity: 1;
+}
+
+/* Typing caret + bounce dots + message / step entrances. */
+@keyframes jk-caret {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes jk-dot-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes jk-msg-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes jk-step-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.jk-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--color-jk-500);
+  border-radius: 1px;
+  animation: jk-caret 0.9s step-end infinite;
+}
+
+.jk-typing-dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-jk-500);
+  animation: jk-dot-bounce 1.05s ease-in-out infinite;
+}
+
+.jk-msg-in {
+  animation: jk-msg-in 0.38s var(--ease-out-soft) both;
+}
+
+.jk-step-in {
+  animation: jk-step-in 0.32s var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatbot-app *,
+  .chatbot-app *::before,
+  .chatbot-app *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

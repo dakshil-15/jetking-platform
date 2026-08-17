@@ -1,0 +1,127 @@
+import Link from 'next/link';
+import type { Route } from 'next';
+import { ArrowRight, Building2, MessageCircle, Phone } from 'lucide-react';
+import { siteConfig } from '@/lib/site';
+import { CentresHero } from './CentresHero';
+import { CentresIndex } from './CentresIndex';
+
+type CitySummary = { slug: string; name: string; state: string };
+type CentreSummary = {
+  slug: string;
+  name: string;
+  citySlug: string;
+  addressLine: string;
+  locality: string;
+  state: string;
+  pincode: string;
+  phone?: string;
+};
+
+const ENQUIRY_PHONE = {
+  display: '07666830000',
+  tel: 'tel:07666830000',
+} as const;
+
+function CentresBottomCta() {
+  return (
+    <section className="bg-[var(--centres-surface)] pb-14 sm:pb-16 lg:pb-20" aria-labelledby="centres-cta">
+      <div className="shell">
+        <div className="centres-cta-band overflow-hidden rounded-[28px] px-6 py-10 xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-12">
+            <div>
+              <p className="text-[12px] font-bold tracking-[0.14em] text-[var(--centres-accent-soft)] uppercase">
+                Need help choosing?
+              </p>
+              <h2
+                id="centres-cta"
+                className="mt-3 font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
+              >
+                Talk to a counsellor about your nearest centre
+              </h2>
+              <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-foreground-secondary sm:text-[15.5px]">
+                A short conversation about your goals, background and nearest {siteConfig.name} centre
+                — no obligation, no scripted pitch.
+              </p>
+              <ul className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-3">
+                <li>
+                  <a
+                    href={ENQUIRY_PHONE.tel}
+                    className="flex items-center gap-2 text-[13px] font-semibold text-foreground-secondary transition-colors hover:text-white"
+                  >
+                    <Phone
+                      className="h-4 w-4 text-[var(--centres-accent-soft)]"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                    {ENQUIRY_PHONE.display}
+                  </a>
+                </li>
+                <li className="flex items-center gap-2 text-[13px] font-semibold text-foreground-secondary">
+                  <MessageCircle
+                    className="h-4 w-4 text-[var(--centres-accent-soft)]"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
+                  Free career counselling
+                </li>
+                <li className="flex items-center gap-2 text-[13px] font-semibold text-foreground-secondary">
+                  <Building2
+                    className="h-4 w-4 text-[var(--centres-accent-soft)]"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
+                  Centre visits arranged on request
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
+              <Link
+                href={'/enquiry' as Route}
+                className="group/enq inline-flex min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--centres-accent)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.35)] transition-colors hover:bg-jk-700 xs:text-[15px]"
+              >
+                <span>Enquire now</span>
+                <span
+                  aria-hidden="true"
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/enq:translate-x-0.5"
+                >
+                  <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+                </span>
+              </Link>
+              <Link
+                href={'/courses' as Route}
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/25 px-6 py-3 text-[14.5px] font-bold text-white transition-colors hover:border-white/45 hover:bg-white/5 xs:text-[15px]"
+              >
+                Browse programmes
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function CentresLanding({
+  cities,
+  centres,
+  initialQuery = '',
+}: {
+  cities: CitySummary[];
+  centres: CentreSummary[];
+  initialQuery?: string;
+}) {
+  return (
+    <div className="centres-page relative">
+      <CentresHero
+        cityCount={cities.length}
+        centreCount={centres.length}
+        initialQuery={initialQuery}
+      />
+
+      <CentresIndex cities={cities} centres={centres} initialQuery={initialQuery} />
+
+      <CentresBottomCta />
+    </div>
+  );
+}

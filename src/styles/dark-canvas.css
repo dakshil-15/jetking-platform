@@ -1,0 +1,522 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   DARK CANVAS — shared "Future-Ready" dark theme
+   ──────────────────────────────────────────────────────────────────────────
+   One source of truth for the dark skin that home, blog, student, courses,
+   franchise, professional and centres all share. Historically each page
+   redeclared the same palette under its own prefix (`--v2-*`, `--blog-*`, …);
+   this layer consolidates it into semantic `--dc-*` tokens plus a small set of
+   reusable primitives.
+
+   USAGE
+     • Add `.dark-canvas` to a page/section root to opt into the theme. It sets
+       the canvas background, base ink colour, the `--dc-*` tokens and an
+       isolated stacking context, and paints two animated glow orbs behind the
+       content. Add `.no-orbs` to suppress the orbs.
+     • Compose content with the primitives below (`dc-card-shell` / `dc-card`,
+       `dc-panel`, `dc-banner`, `dc-glass`, `dc-cta`, `dc-chip`, `dc-filter-row`,
+       `dc-heading-glow`, …) or reference the tokens directly in Tailwind
+       arbitrary values, e.g. `text-[var(--dc-ink)]`.
+     • Pair with `.surface-inverse` when the page reuses paper-themed components
+       (breadcrumbs, section heads, `.card`, `.glass`): that flips the semantic
+       `--color-*` tokens so they read on dark, while `--dc-*` supplies the
+       Future-Ready accent layer on top. See `/courses` for the reference wiring.
+     • If the page has sticky chrome, use `.dc-flow` + `.no-orbs` + a `.dc-orbs`
+       child instead of the built-in orbs (see the flow-modifier note below).
+
+   Existing skins (home.css / blog.css / …) are untouched and may migrate onto
+   these tokens incrementally.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.dark-canvas {
+  /* ── Canvas & surfaces ─────────────────────────────────────────────── */
+  --dc-canvas: #07070c;
+  --dc-surface: #0c0c12;
+  --dc-card: #14141c;
+  --dc-card-warm: #1a1210;
+
+  /* ── Ink ───────────────────────────────────────────────────────────── */
+  --dc-ink: #f4f4f8;
+  --dc-ink-secondary: #cfcfda;
+  --dc-ink-muted: #a8a8b6;
+
+  /* ── Accent (Jetking red) ──────────────────────────────────────────── */
+  --dc-accent: #e8242b;
+  --dc-accent-hover: #c41e24;
+  --dc-accent-soft: #ff6b70;
+  --dc-eyebrow: #ff8a90;
+  --dc-accent-tint: #3a181c;
+
+  /* ── Lines ─────────────────────────────────────────────────────────── */
+  --dc-hairline: rgb(255 100 105 / 0.4);
+  --dc-hairline-strong: rgb(255 100 105 / 0.65);
+
+  /* ── Shadows & glows ───────────────────────────────────────────────── */
+  --dc-shadow:
+    0 8px 28px rgb(0 0 0 / 0.45),
+    0 0 20px rgb(232 36 43 / 0.08);
+  --dc-shadow-hover:
+    0 0 0 1px rgb(255 107 112 / 0.75),
+    0 0 36px rgb(232 36 43 / 0.35),
+    0 16px 40px rgb(0 0 0 / 0.55);
+  --dc-glow-red:
+    0 0 22px rgb(232 36 43 / 0.5),
+    0 8px 26px rgb(232 36 43 / 0.28);
+
+  /* ── Card chamfer (top-left + bottom-right crop) ───────────────────── */
+  --dc-cut: 18px;
+  --dc-cut-inner: 16px;
+
+  background: var(--dc-canvas);
+  color: var(--dc-ink);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .dark-canvas {
+    --dc-cut: 22px;
+    --dc-cut-inner: 20px;
+  }
+}
+
+/* ── Ambient glow orbs ──────────────────────────────────────────────────
+   Two blurred radial gradients that drift behind the content. Purely
+   decorative and pointer-inert. Suppress with `.dark-canvas.no-orbs`. */
+.dark-canvas::before,
+.dark-canvas::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: dc-orb-pulse 6.5s var(--ease-out-soft) infinite alternate;
+}
+
+.dark-canvas.no-orbs::before,
+.dark-canvas.no-orbs::after {
+  content: none;
+}
+
+.dark-canvas::before {
+  top: -10%;
+  right: -8%;
+  width: min(720px, 70vw);
+  height: min(720px, 70vw);
+  background: radial-gradient(circle, rgb(232 36 43 / 0.38) 0%, transparent 68%);
+}
+
+.dark-canvas::after {
+  bottom: 8%;
+  left: -12%;
+  width: min(640px, 65vw);
+  height: min(640px, 65vw);
+  background: radial-gradient(circle, rgb(200 24 48 / 0.28) 0%, transparent 70%);
+  animation-delay: -3.2s;
+}
+
+@keyframes dc-orb-pulse {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+/* Lift real content above the orbs. */
+.dark-canvas > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dark-canvas::before,
+  .dark-canvas::after {
+    animation: none;
+  }
+}
+
+/* ── Flow modifier + decoupled orbs ─────────────────────────────────────────
+   `.dark-canvas` self-clips (`overflow: hidden`) to crop its ::before/::after
+   orbs. That clip silently breaks `position: sticky` on any descendant — an
+   ancestor with a non-visible overflow becomes the sticky scroll container, so
+   a sticky filter bar or sub-nav just scrolls away instead of pinning.
+
+   For a page that carries sticky chrome: add `.dc-flow` to opt out of the clip,
+   `.no-orbs` to suppress the built-in orbs, and drop a `.dc-orbs` element in as
+   the first child. `.dc-orbs` clips itself, so the glow is preserved without
+   constraining the content column. */
+.dark-canvas.dc-flow {
+  overflow: visible;
+}
+
+.dc-orbs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Sit behind content, which `.dark-canvas > *` otherwise lifts to z-index:1. */
+.dark-canvas > .dc-orbs {
+  z-index: 0;
+}
+
+.dc-orbs::before,
+.dc-orbs::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: dc-orb-pulse 6.5s var(--ease-out-soft) infinite alternate;
+}
+
+.dc-orbs::before {
+  top: -10%;
+  right: -8%;
+  width: min(720px, 70vw);
+  height: min(720px, 70vw);
+  background: radial-gradient(circle, rgb(232 36 43 / 0.38) 0%, transparent 68%);
+}
+
+.dc-orbs::after {
+  bottom: 8%;
+  left: -12%;
+  width: min(640px, 65vw);
+  height: min(640px, 65vw);
+  background: radial-gradient(circle, rgb(200 24 48 / 0.28) 0%, transparent 70%);
+  animation-delay: -3.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dc-orbs::before,
+  .dc-orbs::after {
+    animation: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PRIMITIVES
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Chamfered card ─────────────────────────────────────────────────────
+   Outer shell = gradient rim; inner fill uses a slightly smaller cut so the
+   border reads evenly. `filter:drop-shadow` follows clip-path (box-shadow does
+   not). Wrap `.dc-card` inside `.dc-card-shell`; add `.dc-card-interactive`
+   to the shell for hover/focus lift. */
+.dc-card-shell {
+  display: block;
+  height: 100%;
+  padding: 1.5px;
+  background: linear-gradient(180deg, rgb(255 107 112 / 0.9) 0%, rgb(139 0 20 / 0.7) 100%);
+  clip-path: polygon(
+    var(--dc-cut) 0,
+    100% 0,
+    100% calc(100% - var(--dc-cut)),
+    calc(100% - var(--dc-cut)) 100%,
+    0 100%,
+    0 var(--dc-cut)
+  );
+  filter:
+    drop-shadow(0 8px 24px rgb(0 0 0 / 0.45))
+    drop-shadow(0 0 18px rgb(232 36 43 / 0.12));
+  transition:
+    filter var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-base) var(--ease-out-soft),
+    background var(--duration-base) var(--ease-out-soft);
+}
+
+.dc-card {
+  height: 100%;
+  background: var(--dc-card);
+  border: none;
+  box-shadow: none;
+  clip-path: polygon(
+    var(--dc-cut-inner) 0,
+    100% 0,
+    100% calc(100% - var(--dc-cut-inner)),
+    calc(100% - var(--dc-cut-inner)) 100%,
+    0 100%,
+    0 var(--dc-cut-inner)
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dc-card-interactive:hover {
+    background: linear-gradient(180deg, rgb(255 130 135 / 1) 0%, rgb(180 20 40 / 0.85) 100%);
+    filter:
+      drop-shadow(0 14px 32px rgb(0 0 0 / 0.55))
+      drop-shadow(0 0 28px rgb(232 36 43 / 0.38));
+    transform: translateY(-3px);
+  }
+}
+
+.dc-card-interactive:focus-within {
+  background: linear-gradient(180deg, rgb(255 130 135 / 1) 0%, rgb(180 20 40 / 0.85) 100%);
+  filter:
+    drop-shadow(0 14px 32px rgb(0 0 0 / 0.55))
+    drop-shadow(0 0 28px rgb(232 36 43 / 0.38));
+}
+
+/* Selected/active shell — persistent red rim without the lift. */
+.dc-card-selected {
+  background: linear-gradient(180deg, rgb(255 130 135 / 1) 0%, rgb(180 20 40 / 0.9) 100%);
+  filter:
+    drop-shadow(0 12px 30px rgb(0 0 0 / 0.55))
+    drop-shadow(0 0 26px rgb(232 36 43 / 0.4));
+}
+
+/* Media plate for cards without imagery. */
+.dc-card-media {
+  background: linear-gradient(145deg, #2a1618 0%, #14141c 55%, #1a1218 100%);
+}
+
+/* ── Panel ──────────────────────────────────────────────────────────────────
+   A plain rounded dark surface for large or *expandable* cards where the
+   chamfered `.dc-card` clip-path would crop overflowing content — accordions,
+   in-place detail, tables, media that bleeds. Same ink + red-bloom vocabulary
+   as `.dc-card`, minus the clip. Hairline rim, red bloom on hover/focus, and a
+   persistent red rim for the selected/active state.
+     • `.dc-panel-interactive` → hover/focus lift + glow
+     • `.dc-panel-selected`    → persistent red rim, no lift */
+.dc-panel {
+  background: var(--dc-card);
+  border: 1px solid var(--dc-hairline);
+  box-shadow: var(--dc-shadow);
+  transition:
+    border-color var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-base) var(--ease-out-soft);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dc-panel-interactive:hover {
+    border-color: var(--dc-accent-soft);
+    box-shadow: var(--dc-shadow-hover);
+    transform: translateY(-3px);
+  }
+}
+
+.dc-panel-interactive:focus-within {
+  border-color: var(--dc-accent-soft);
+  box-shadow: var(--dc-shadow-hover);
+}
+
+.dc-panel-selected {
+  border-color: var(--dc-accent-soft);
+  box-shadow: var(--dc-shadow-hover);
+  transform: none;
+}
+
+/* ── Banner ─────────────────────────────────────────────────────────────────
+   Cinematic hero plate: a framed photo with a left-anchored dark wash so the
+   display copy stays legible over the image. Same treatment the blog and centres
+   heroes use, now available site-wide. Layer order inside a `.dc-banner`:
+     1. the <img> (fill, object-cover)
+     2. `.dc-banner-wash` (absolute inset-0, pointer-events-none)
+     3. the copy column (relative, z-1) */
+.dc-banner {
+  border: 1px solid var(--dc-hairline-strong);
+  box-shadow: var(--dc-shadow);
+  background: var(--dc-canvas);
+}
+
+.dc-banner-wash {
+  background:
+    linear-gradient(
+      105deg,
+      rgb(7 7 12 / 0.96) 0%,
+      rgb(7 7 12 / 0.88) 38%,
+      rgb(7 7 12 / 0.45) 58%,
+      rgb(7 7 12 / 0.12) 78%,
+      transparent 100%
+    ),
+    linear-gradient(to top, rgb(7 7 12 / 0.55) 0%, transparent 42%);
+}
+
+@media (max-width: 639px) {
+  .dc-banner-wash {
+    background:
+      linear-gradient(to top, rgb(7 7 12 / 0.94) 0%, rgb(7 7 12 / 0.72) 42%, rgb(7 7 12 / 0.35) 100%),
+      linear-gradient(105deg, rgb(7 7 12 / 0.55) 0%, transparent 70%);
+  }
+}
+
+/* ── Filter row ──────────────────────────────────────────────────────────────
+   Vertical filter list item for a sidebar filter menu (label + trailing count).
+   Drives its active state off `aria-pressed="true"` / `[data-active]`. */
+.dc-filter-row {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--dc-ink-secondary);
+  transition:
+    color var(--duration-base) var(--ease-out-soft),
+    border-color var(--duration-base) var(--ease-out-soft),
+    background-color var(--duration-base) var(--ease-out-soft);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dc-filter-row:hover {
+    color: var(--dc-ink);
+    border-color: rgb(255 100 105 / 0.2);
+    background: rgb(255 100 105 / 0.06);
+  }
+}
+
+.dc-filter-row[aria-pressed='true'],
+.dc-filter-row[data-active='true'] {
+  color: var(--dc-ink);
+  border-color: rgb(255 107 112 / 0.55);
+  background: var(--dc-accent-tint);
+}
+
+/* ── Brand logo glyph ────────────────────────────────────────────────────────
+   Monochrome brand/tech logo rendered as a CSS mask. Colour it with `color`
+   (or an explicit background) — brand tiles pass the official hex so glyphs
+   read in their original brand colour on the dark canvas.
+   Set the source with the `--logo` custom property:
+     <span class="dc-logo" style={{ '--logo': "url(/logos/aws.svg)", color: '#FF9900' }} /> */
+.dc-logo {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
+}
+
+/* Thin red scrollbar for a scrolling filter column. */
+.dc-filter-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 107 112 / 0.35) transparent;
+}
+
+.dc-filter-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.dc-filter-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgb(255 107 112 / 0.35);
+}
+
+/* ── Glass bar ──────────────────────────────────────────────────────────
+   Translucent dark surface for sticky control/filter bars. */
+.dc-glass {
+  background: rgb(12 12 18 / 0.72);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-color: var(--dc-hairline);
+}
+
+/* ── Text glow ──────────────────────────────────────────────────────────
+   Subtle red bloom on display headings and the accent word. */
+.dc-eyebrow {
+  color: var(--dc-eyebrow);
+  text-shadow: 0 0 18px rgb(255 107 112 / 0.35);
+}
+
+.dc-heading-glow {
+  text-shadow: 0 0 32px rgb(232 36 43 / 0.18);
+}
+
+.dc-accent-glow {
+  color: var(--dc-accent-soft);
+  text-shadow: 0 0 26px rgb(232 36 43 / 0.45);
+}
+
+/* ── CTA button ─────────────────────────────────────────────────────────
+   Accent fill with the signature red glow. Compose sizing/shape with
+   utilities; this only owns colour + glow. */
+.dc-cta {
+  background: var(--dc-accent);
+  color: #fff;
+  box-shadow: var(--dc-glow-red);
+  transition:
+    background-color var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-base) var(--ease-out-soft);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dc-cta:hover {
+    background: var(--dc-accent-hover);
+    box-shadow:
+      0 0 30px rgb(232 36 43 / 0.6),
+      0 10px 30px rgb(232 36 43 / 0.3);
+    transform: translateY(-1px);
+  }
+}
+
+/* ── Filter chip ────────────────────────────────────────────────────────
+   Pill toggle. Drives its own active state off `aria-pressed="true"` /
+   `[data-active]`, so the component only supplies the attribute. */
+.dc-chip {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid var(--dc-hairline);
+  background: var(--dc-card);
+  color: var(--dc-ink-muted);
+  font-weight: 700;
+  transition:
+    color var(--duration-base) var(--ease-out-soft),
+    border-color var(--duration-base) var(--ease-out-soft),
+    background-color var(--duration-base) var(--ease-out-soft);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dc-chip:hover {
+    color: var(--dc-ink);
+    border-color: var(--dc-accent-soft);
+  }
+}
+
+.dc-chip[aria-pressed='true'],
+.dc-chip[data-active='true'] {
+  background: var(--dc-accent);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 0 18px rgb(196 30 36 / 0.35);
+}
+
+/* ── Search / text input ────────────────────────────────────────────────
+   Rounded dark field; strips the native search cancel affordance. */
+.dc-input {
+  border: 1px solid var(--dc-hairline);
+  background: var(--dc-card);
+  color: var(--dc-ink);
+  transition:
+    border-color var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft);
+}
+
+.dc-input::placeholder {
+  color: var(--dc-ink-muted);
+}
+
+.dc-input:focus {
+  outline: none;
+  border-color: var(--dc-accent-soft);
+  box-shadow: 0 0 0 3px rgb(255 107 112 / 0.18);
+}
+
+.dc-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}

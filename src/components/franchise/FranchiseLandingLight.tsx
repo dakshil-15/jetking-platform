@@ -1,0 +1,646 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import {
+  ArrowRight,
+  Award,
+  Building2,
+  CheckCircle2,
+  Download,
+  FileText,
+  Handshake,
+  Headphones,
+  LineChart,
+  Mail,
+  Megaphone,
+  Rocket,
+  Settings2,
+  Shield,
+  ShieldCheck,
+  TrendingUp,
+  Users,
+  UsersRound,
+} from 'lucide-react';
+import type { Faq, Testimonial } from '@/lib/content/types';
+import { siteConfig } from '@/lib/site';
+import { FranchiseTestimonialSliderLight } from './FranchiseTestimonialSliderLight';
+import { FranchiseEnquiryFormLight } from './FranchiseEnquiryFormLight';
+import { Disclosure } from '@/components/Disclosure';
+
+const PARTNER_AVATARS = [
+  '/franchise/partner-avatar-1.png',
+  '/franchise/partner-avatar-2.png',
+  '/franchise/partner-avatar-3.png',
+  '/franchise/hero-partner.png',
+] as const;
+
+const ORBIT = [
+  {
+    label: 'Brand',
+    detail: '78+ years of trust',
+    icon: Award,
+    className: 'top-[6%] left-0 sm:left-[-4%] lg:left-[-8%]',
+  },
+  {
+    label: 'Support',
+    detail: 'End-to-end ops help',
+    icon: Handshake,
+    className: 'top-[4%] right-0 sm:right-[-2%] lg:right-[-6%]',
+  },
+  {
+    label: 'Growth',
+    detail: 'Local marketing push',
+    icon: Megaphone,
+    className: 'bottom-[10%] left-0 sm:left-[-2%] lg:left-[-10%]',
+  },
+  {
+    label: 'Returns',
+    detail: 'Attractive ROI path',
+    icon: LineChart,
+    className: 'bottom-[8%] right-0 sm:right-[-2%] lg:right-[-8%]',
+  },
+] as const;
+
+const WHY_STATS = [
+  { icon: Users, value: '100+', label: 'Successful Entrepreneurs' },
+  { icon: UsersRound, value: '11+ Lakh', label: 'Students Trained' },
+  { icon: Building2, value: 'Pan-India', label: 'Centre Network' },
+  { icon: Award, value: '78+', label: 'Years of Brand Legacy' },
+  { icon: ShieldCheck, value: 'Awarded', label: 'Franchise Support' },
+] as const;
+
+const JUMP_START = [
+  {
+    icon: Users,
+    title: 'Manpower Support',
+    detail:
+      'Regular training programmes keep your team engaged and ready to perform every day.',
+  },
+  {
+    icon: Settings2,
+    title: 'Hassle-Free Operations',
+    detail:
+      'Online systems cover A–Z of centre management so you always know what needs attention.',
+  },
+  {
+    icon: Megaphone,
+    title: 'Advertising & Marketing',
+    detail:
+      'Local marketing, PR and digital campaigns build strong awareness in your territory.',
+  },
+  {
+    icon: Rocket,
+    title: 'Start-Up Launch',
+    detail:
+      'Location, design, construction, hiring and training — we help you open at peak readiness.',
+  },
+] as const;
+
+const LAUNCH_STEPS = [
+  {
+    step: '01',
+    icon: FileText,
+    title: 'Pre-launch',
+    body: 'Location, interiors, recruitment, branding and technical setup before you open doors.',
+  },
+  {
+    step: '02',
+    icon: Rocket,
+    title: 'Launch',
+    body: 'Kick-starter plan, staff training, launch promotions and media coverage.',
+  },
+  {
+    step: '03',
+    icon: Users,
+    title: 'Training',
+    body: 'Tech training, quality management, online programmes and courseware support.',
+  },
+  {
+    step: '04',
+    icon: Handshake,
+    title: 'Ongoing',
+    body: 'Daily sales support, ERP & LMS, recruitment help and annual partner meets.',
+  },
+] as const;
+
+const MARKET_STATS = [
+  {
+    value: '3.5M',
+    label: 'Cloud & cyber talent shortage projected globally',
+  },
+  {
+    value: '59%',
+    label: 'Organisations at risk from cybersecurity staff gaps',
+  },
+  {
+    value: '80%',
+    label: 'Of Indian graduates struggle to become job-ready',
+  },
+  {
+    value: '70%',
+    label: 'Of students say vocational training helps get jobs',
+  },
+] as const;
+
+const COURSES = [
+  {
+    icon: Shield,
+    title: 'Career Courses',
+    body: 'Diplomas in Cloud Computing, Cyber Security and Metaverse Design.',
+  },
+  {
+    icon: Award,
+    title: 'Graduation Programmes',
+    body: 'BCA pathways in Cloud, Cyber Security and Blockchain.',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Certifications',
+    body: 'Ethical Hacking, CCNA, Linux and other in-demand credentials.',
+  },
+] as const;
+
+export function FranchiseLandingLight({
+  testimonials,
+  faqs,
+}: {
+  testimonials?: Testimonial[];
+  faqs?: Faq[];
+}) {
+  const phone = siteConfig.phone || '8422055373';
+  const telPhone = phone.startsWith('+') ? phone : `+91${phone}`;
+
+  return (
+    <div className="student-page relative flex flex-col overflow-hidden">
+      {/* ── Hero (student orbit pattern) ───────────────────────────────── */}
+      <section className="shell relative pt-8 pb-6 xs:pt-10 sm:pt-12 lg:pt-14 lg:pb-8">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-[-60px] right-[8%] h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgb(232_36_43/0.22),transparent_68%)]"
+        />
+
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-6 xl:gap-10">
+          <div>
+            <p className="inline-flex items-center gap-1.5 rounded-full border border-[var(--stu-hairline)] bg-[var(--stu-accent-tint)] px-3.5 py-1.5 text-[13px] font-bold text-[var(--stu-accent-soft)]">
+              Become A Franchise Partner
+            </p>
+
+            <h1 className="mt-5 font-display text-[36px] leading-[1.08] font-extrabold tracking-[-0.035em] text-[var(--stu-ink)] xs:text-[42px] sm:mt-6 sm:text-[48px] md:text-[52px] lg:text-[50px] xl:text-[58px]">
+              Transform youth with a Jetking Franchise in your{' '}
+              <span className="text-[var(--stu-accent-soft)]">City</span>
+            </h1>
+
+            <p className="mt-5 max-w-[44ch] text-[15px] leading-[1.65] text-[var(--stu-ink-secondary)] xs:text-[16px] sm:mt-6">
+              Join India&rsquo;s trusted IT training network. Proven model, end-to-end
+              support, and a path to build lasting local impact — and wealth.
+            </p>
+
+            <div className="mt-7 flex flex-col items-start gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <Link
+                href="#enquire"
+                className="group/cta inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.4)] transition-colors hover:bg-jk-700"
+              >
+                Enquire Now
+                <span
+                  aria-hidden="true"
+                  className="grid h-9 w-9 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/cta:translate-x-0.5"
+                >
+                  <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+                </span>
+              </Link>
+
+              <Link
+                href="#enquire"
+                className="group/path inline-flex min-h-12 items-center gap-2.5 rounded-full border-2 border-[var(--stu-accent)] bg-transparent px-5 py-3 text-[15px] font-bold text-[var(--stu-accent-soft)] transition-colors hover:bg-[var(--stu-accent-tint)]"
+              >
+                <Download className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+                Download Brochure
+              </Link>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2.5 sm:mt-10">
+              <div className="flex items-center gap-3">
+                <span aria-hidden="true" className="flex -space-x-2.5">
+                  {PARTNER_AVATARS.map((src) => (
+                    <span
+                      key={src}
+                      className="relative h-9 w-9 overflow-hidden rounded-full border-[2.5px] border-[var(--stu-card)] shadow-sm"
+                    >
+                      <Image src={src} alt="" fill sizes="36px" className="object-cover" />
+                    </span>
+                  ))}
+                </span>
+                <span className="whitespace-nowrap text-[13.5px] font-semibold text-[var(--stu-ink-secondary)]">
+                  100+ partners across India
+                </span>
+              </div>
+              <span
+                className="hidden h-4 w-px shrink-0 bg-[var(--stu-hairline)] min-[720px]:block"
+                aria-hidden="true"
+              />
+              <span className="inline-flex items-center gap-2 whitespace-nowrap text-[13.5px] font-semibold text-[var(--stu-ink-secondary)]">
+                <ShieldCheck
+                  className="h-4 w-4 shrink-0 text-[var(--stu-accent-soft)]"
+                  strokeWidth={2.25}
+                  aria-hidden="true"
+                />
+                Capacity from ₹50L
+              </span>
+            </div>
+
+            <a
+              href={`tel:${telPhone.replace(/\s/g, '')}`}
+              className="mt-5 inline-flex items-center gap-2 text-[14px] font-semibold text-[var(--stu-ink-muted)] transition-colors hover:text-[var(--stu-accent-soft)]"
+            >
+              <Headphones className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+              Prefer to talk? Call franchise manager
+            </a>
+          </div>
+
+          <div className="stu-hero-glow relative mx-auto w-full max-w-[540px] lg:max-w-none">
+            <div className="relative mx-auto aspect-square w-[min(100%,440px)] lg:w-full lg:max-w-[500px]">
+              <div
+                aria-hidden="true"
+                className="stu-orbit-ring absolute inset-[10%] rounded-full"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-[16%] rounded-full border border-dashed border-[rgb(232_36_43/0.28)]"
+              />
+
+              <div className="absolute inset-[20%] overflow-hidden rounded-full bg-[linear-gradient(160deg,var(--card),var(--surface-sunken),var(--card))] shadow-[0_28px_70px_rgb(0_0_0/0.55)]">
+                <Image
+                  src="/franchise/hero-building.png"
+                  alt="Modern Jetking franchise training centre building"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 380px, 75vw"
+                  className="object-cover object-center"
+                />
+              </div>
+
+              {ORBIT.map((item) => (
+                <div
+                  key={item.label}
+                  className={`stu-float absolute z-10 flex max-w-[158px] items-start gap-2.5 rounded-2xl p-3 sm:max-w-[172px] sm:p-3.5 ${item.className}`}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--stu-accent-tint)] text-[var(--stu-accent-soft)]"
+                  >
+                    <item.icon className="h-4 w-4" strokeWidth={1.75} />
+                  </span>
+                  <span className="min-w-0 pt-0.5">
+                    <span className="block text-[13px] font-extrabold text-[var(--stu-ink)]">
+                      {item.label}
+                    </span>
+                    <span className="mt-0.5 block text-[12px] leading-snug text-[var(--stu-ink-secondary)]">
+                      {item.detail}
+                    </span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Why Franchise (student Why panel) ──────────────────────────── */}
+      <section
+        className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14"
+        aria-labelledby="fra-why"
+      >
+        <div className="shell">
+          <div className="stu-why overflow-hidden rounded-[28px] px-6 py-10 text-white xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+            <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-12">
+              <div>
+                <h2
+                  id="fra-why"
+                  className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
+                >
+                  Why Partners Choose{' '}
+                  <span className="text-[var(--stu-accent-soft)]">{siteConfig.name}</span>
+                </h2>
+
+                <dl className="mt-8 grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-3">
+                  {WHY_STATS.map((stat) => (
+                    <div key={stat.label} className="text-center sm:text-left lg:text-center">
+                      <stat.icon
+                        className="mx-auto h-6 w-6 text-[var(--stu-accent-soft)] sm:mx-0 lg:mx-auto"
+                        strokeWidth={1.75}
+                        aria-hidden="true"
+                      />
+                      <dt className="sr-only">{stat.label}</dt>
+                      <dd>
+                        <span className="mt-2.5 block font-display text-[20px] leading-none font-extrabold sm:text-[22px]">
+                          {stat.value}
+                        </span>
+                        <span className="mt-1.5 block text-[12.5px] leading-snug text-foreground-secondary">
+                          {stat.label}
+                        </span>
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <FranchiseTestimonialSliderLight testimonials={testimonials} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Partner benefits (student Benefits pattern) ────────────────── */}
+      <section
+        className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20"
+        aria-labelledby="fra-benefits"
+      >
+        <div className="shell">
+          <div className="grid gap-6 xs:gap-7 sm:gap-8 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-6 xl:gap-x-10">
+            <div className="max-w-xl lg:col-span-7 xl:col-span-8">
+              <h2
+                id="fra-benefits"
+                className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] xs:text-[26px] sm:text-[28px] lg:text-[30px]"
+              >
+                Jump-start your centre
+              </h2>
+              <p className="mt-2 text-[14px] leading-relaxed text-[var(--stu-ink-muted)] sm:text-[15px]">
+                What you get when you partner with Jetking.
+              </p>
+            </div>
+
+            <ul className="grid grid-cols-1 gap-3 xs:gap-3.5 sm:grid-cols-2 sm:gap-4 lg:col-span-7 lg:row-start-2 xl:col-span-8">
+              {JUMP_START.map((item) => (
+                <li key={item.title} className="min-w-0">
+                  <article className="stu-card flex h-full gap-3.5 rounded-[18px] p-4 xs:gap-4 xs:rounded-[20px] xs:p-5 sm:flex-col sm:gap-0">
+                    <span
+                      aria-hidden="true"
+                      className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-[var(--stu-accent-soft)]/40 bg-[var(--stu-accent-tint)] text-[var(--stu-accent-soft)] xs:h-11 xs:w-11 sm:h-12 sm:w-12"
+                    >
+                      <item.icon className="h-5 w-5" strokeWidth={1.75} />
+                    </span>
+                    <div className="min-w-0 sm:mt-4">
+                      <h3 className="text-[15px] font-extrabold text-[var(--stu-ink)] xs:text-[16px]">
+                        {item.title}
+                      </h3>
+                      <p className="mt-1 text-[13px] leading-snug text-[var(--stu-ink-muted)] xs:mt-1.5 xs:text-[13.5px] sm:leading-relaxed">
+                        {item.detail}
+                      </p>
+                    </div>
+                  </article>
+                </li>
+              ))}
+            </ul>
+
+            <aside className="min-w-0 lg:col-span-5 lg:row-start-2 lg:self-stretch xl:col-span-4">
+              <div className="relative flex h-full flex-col justify-center overflow-hidden rounded-[22px] border border-[var(--stu-hairline)] bg-[var(--stu-card)] p-6 xs:rounded-[24px] xs:p-7 sm:rounded-[28px] sm:p-8 lg:p-7 xl:p-8">
+                <span
+                  aria-hidden="true"
+                  className="relative grid h-11 w-11 place-items-center rounded-2xl bg-[var(--stu-accent-tint)] text-[var(--stu-accent-soft)] shadow-[0_8px_20px_rgb(196_30_36/0.2)] xs:h-12 xs:w-12"
+                >
+                  <CheckCircle2 className="h-5 w-5" strokeWidth={1.75} />
+                </span>
+
+                <h2 className="relative mt-4 font-display text-[22px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] xs:mt-5 xs:text-[24px] sm:text-[26px]">
+                  Ready to partner?
+                </h2>
+                <p className="relative mt-2.5 text-[14px] leading-relaxed text-[var(--stu-ink-secondary)] xs:mt-3 xs:text-[15px]">
+                  Tell us your preferred city and investment capacity — our franchise team
+                  replies within 24 hours.
+                </p>
+
+                <a
+                  href="#enquire"
+                  className="group/book relative mt-6 inline-flex w-full min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--stu-navy)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.35)] transition-colors hover:bg-jk-700 xs:mt-7 xs:text-[15px]"
+                >
+                  <span>Start franchise enquiry</span>
+                  <span
+                    aria-hidden="true"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/book:translate-x-0.5"
+                  >
+                    <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+                  </span>
+                </a>
+
+                <p className="relative mt-4 text-[12.5px] text-[var(--stu-ink-muted)]">
+                  Capacity bands: UPTO 50 L · UPTO 1 CR · UPTO 3 CR
+                </p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Launch plan ─────────────────────────────────────────────────── */}
+      <section id="journey" className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20">
+        <div className="shell">
+          <div className="max-w-xl">
+            <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] sm:text-[28px] lg:text-[30px]">
+              Launch Plan
+            </h2>
+            <p className="mt-2 text-[14px] leading-relaxed text-[var(--stu-ink-muted)] sm:text-[15px]">
+              A clear path from territory selection to day-to-day operations.
+            </p>
+          </div>
+
+          <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
+            {LAUNCH_STEPS.map((step) => (
+              <li key={step.step}>
+                <article className="stu-card flex h-full flex-col rounded-[20px] p-5 sm:p-6">
+                  <div className="flex items-center justify-between gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="grid h-11 w-11 place-items-center rounded-xl border border-[var(--stu-accent-soft)]/40 bg-[var(--stu-accent-tint)] text-[var(--stu-accent-soft)]"
+                    >
+                      <step.icon className="h-5 w-5" strokeWidth={1.75} />
+                    </span>
+                    <span className="font-display text-[22px] font-extrabold text-[var(--stu-accent-soft)]/70">
+                      {step.step}
+                    </span>
+                  </div>
+                  <h3 className="mt-4 text-[16px] font-extrabold text-[var(--stu-ink)]">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--stu-ink-muted)]">
+                    {step.body}
+                  </p>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* ── Market opportunity + image ─────────────────────────────────── */}
+      <section id="opportunity" className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20">
+        <div className="shell">
+          <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
+            <div className="relative overflow-hidden rounded-[24px] border border-[var(--stu-hairline)] lg:col-span-5">
+              <Image
+                src="/franchise/centre-interior.png"
+                alt="Students learning in a modern Jetking-style IT training classroom"
+                width={1200}
+                height={900}
+                className="aspect-[4/3] w-full object-cover"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[rgb(7_7_12/0.55)] via-transparent to-transparent"
+              />
+            </div>
+
+            <div className="lg:col-span-7">
+              <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] sm:text-[28px] lg:text-[30px]">
+                The opportunity is real
+              </h2>
+              <p className="mt-2 max-w-[54ch] text-[14px] leading-relaxed text-[var(--stu-ink-muted)] sm:text-[15px]">
+                Skill gaps in cloud, cyber and emerging tech create lasting demand for
+                job-ready training centres in every city.
+              </p>
+
+              <ul className="mt-7 grid gap-3 sm:grid-cols-2">
+                {MARKET_STATS.map((stat) => (
+                  <li key={stat.label} className="stu-card rounded-[18px] p-4 sm:p-5">
+                    <p className="font-display text-[26px] font-extrabold leading-none text-[var(--stu-accent-soft)]">
+                      {stat.value}
+                    </p>
+                    <p className="mt-2 text-[13px] leading-snug text-[var(--stu-ink-secondary)]">
+                      {stat.label}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Courses ────────────────────────────────────────────────────── */}
+      <section id="courses" className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20">
+        <div className="shell">
+          <div className="max-w-xl">
+            <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] sm:text-[28px] lg:text-[30px]">
+              Courses your centre will deliver
+            </h2>
+            <p className="mt-2 text-[14px] leading-relaxed text-[var(--stu-ink-muted)] sm:text-[15px]">
+              Proven programmes parents trust and employers recognise.
+            </p>
+          </div>
+
+          <ul className="mt-8 grid gap-3 sm:grid-cols-3 sm:gap-4">
+            {COURSES.map((course) => (
+              <li key={course.title}>
+                <article className="stu-card flex h-full flex-col rounded-[20px] p-5 sm:p-6">
+                  <span
+                    aria-hidden="true"
+                    className="grid h-11 w-11 place-items-center rounded-xl border border-[var(--stu-accent-soft)]/40 bg-[var(--stu-accent-tint)] text-[var(--stu-accent-soft)]"
+                  >
+                    <course.icon className="h-5 w-5" strokeWidth={1.75} />
+                  </span>
+                  <h3 className="mt-4 text-[16px] font-extrabold text-[var(--stu-ink)]">
+                    {course.title}
+                  </h3>
+                  <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--stu-ink-muted)]">
+                    {course.body}
+                  </p>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── FAQs ───────────────────────────────────────────────────────── */}
+      {faqs?.length ? (
+        <section id="faqs" className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20">
+          <div className="shell">
+            <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] sm:text-[28px] lg:text-[30px]">
+              Frequently Asked Questions
+            </h2>
+            <div className="fra-faq mt-8 space-y-3">
+              {faqs.map((faq) => (
+                <Disclosure key={faq.id} summary={faq.question}>
+                  <p className="text-[14.5px] leading-relaxed text-[var(--stu-ink-secondary)]">
+                    {faq.answer}
+                  </p>
+                </Disclosure>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* ── Enquire ────────────────────────────────────────────────────── */}
+      <section id="enquire" className="bg-[var(--stu-surface)] pb-16 sm:pb-20 lg:pb-24">
+        <div className="shell">
+          <div className="stu-card overflow-hidden rounded-[28px]">
+            <div className="grid lg:grid-cols-2">
+              <div className="relative min-h-[220px] overflow-hidden lg:min-h-full">
+                <Image
+                  src="/franchise/hero-building.png"
+                  alt="Modern Jetking franchise centre exterior"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[rgb(7_7_12/0.88)] via-[rgb(7_7_12/0.35)] to-transparent lg:bg-gradient-to-r" />
+                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
+                  <p className="font-display text-[22px] font-extrabold leading-snug tracking-[-0.02em] text-white sm:text-[26px]">
+                    Be your own boss. Build lasting wealth with a trusted brand.
+                  </p>
+                  <p className="mt-3 text-[14px] text-foreground-secondary">
+                    Our franchise team gets back within 24 hours.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-6 sm:p-8 lg:p-10">
+                <FranchiseEnquiryFormLight />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Contact bar ────────────────────────────────────────────────── */}
+      <footer className="border-t border-[var(--stu-hairline)] bg-[var(--stu-surface)] py-5">
+        <div className="shell">
+          <div className="flex flex-col items-center justify-center gap-4 text-center sm:flex-row sm:flex-wrap sm:gap-8">
+            <a
+              href={`tel:${telPhone.replace(/\s/g, '')}`}
+              className="inline-flex items-center gap-2 text-[14px] font-semibold text-[var(--stu-ink-secondary)] transition-colors hover:text-[var(--stu-accent-soft)]"
+            >
+              <Headphones
+                className="h-4 w-4 text-[var(--stu-accent-soft)]"
+                strokeWidth={2}
+                aria-hidden="true"
+              />
+              Speak to Franchise Manager: +91 {phone}
+            </a>
+            <a
+              href="mailto:franchise@jetking.com"
+              className="inline-flex items-center gap-2 text-[14px] font-semibold text-[var(--stu-ink-secondary)] transition-colors hover:text-[var(--stu-accent-soft)]"
+            >
+              <Mail
+                className="h-4 w-4 text-[var(--stu-accent-soft)]"
+                strokeWidth={2}
+                aria-hidden="true"
+              />
+              franchise@jetking.com
+            </a>
+            <Link
+              href="/franchise"
+              className="inline-flex items-center gap-2 text-[14px] font-semibold text-[var(--stu-ink-secondary)] transition-colors hover:text-[var(--stu-accent-soft)]"
+            >
+              <Download
+                className="h-4 w-4 text-[var(--stu-accent-soft)]"
+                strokeWidth={2}
+                aria-hidden="true"
+              />
+              www.jetking.com/franchise
+            </Link>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

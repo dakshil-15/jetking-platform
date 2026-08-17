@@ -1,0 +1,93 @@
+import type { Metadata, Viewport } from 'next';
+import { Bricolage_Grotesque, Plus_Jakarta_Sans } from 'next/font/google';
+import Script from 'next/script';
+import { PersonaProvider } from '@/persona/PersonaProvider';
+import { SilentPersonaInfer } from '@/persona/SilentPersonaInfer';
+import { SiteChrome } from '@/components/SiteShell';
+import { SiteHeader } from '@/components/SiteHeader';
+import { SiteFooter } from '@/components/SiteFooter';
+import { PersonaInspector } from '@/components/PersonaInspector';
+import { Guide } from '@/components/Guide';
+import { JsonLd } from '@/components/ui';
+import { AppProviders } from '@/components/providers/app-providers';
+import { themeScript } from '@/components/providers/theme-script';
+import { organizationSchema } from '@/lib/seo';
+import { siteConfig } from '@/lib/site';
+import '@/styles/globals.css';
+
+const display = Bricolage_Grotesque({
+  subsets: ['latin'],
+  variable: '--font-display-src',
+  display: 'swap',
+});
+
+const body = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-body-src',
+  display: 'swap',
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} — ${siteConfig.tagline}`,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  formatDetection: { telephone: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#FFFFFF' },
+    { media: '(prefers-color-scheme: dark)', color: '#0B111E' },
+  ],
+  width: 'device-width',
+  initialScale: 1,
+  colorScheme: 'light dark',
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Demo/debug only — never ship to visitors unless explicitly opted in on staging.
+  const showInspector = process.env.NEXT_PUBLIC_SHOW_INSPECTOR === 'true';
+
+  return (
+    <html
+      lang="en-IN"
+      className={`${display.variable} ${body.variable}`}
+      suppressHydrationWarning
+    >
+      <body>
+        <Script
+          id="jetking-theme"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeScript }}
+        />
+        <AppProviders>
+          <JsonLd data={organizationSchema()} />
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-lg focus:bg-jk-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+          >
+            Skip to content
+          </a>
+
+          <PersonaProvider>
+            <SilentPersonaInfer />
+            <SiteChrome>
+              <SiteHeader />
+            </SiteChrome>
+            <main id="main">{children}</main>
+            <SiteChrome slot="footer">
+              <SiteFooter />
+            </SiteChrome>
+            <SiteChrome>
+              <Guide />
+              {showInspector ? <PersonaInspector /> : null}
+            </SiteChrome>
+          </PersonaProvider>
+        </AppProviders>
+      </body>
+    </html>
+  );
+}

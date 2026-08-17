@@ -1,0 +1,37 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   PARENT LANDING — scoped under `.student-page` on /parent
+   Reuses the student persona palette (`--stu-*` in student.css).
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.par-journey-line {
+  background: repeating-linear-gradient(
+    90deg,
+    rgb(255 107 112 / 0.45) 0,
+    rgb(255 107 112 / 0.45) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  height: 2px;
+}
+
+.par-trust-card {
+  background: color-mix(in srgb, var(--stu-card) 92%, transparent);
+  border: 1px solid var(--stu-hairline);
+  box-shadow:
+    0 12px 36px rgb(0 0 0 / 0.5),
+    0 0 24px rgb(232 36 43 / 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.par-help-row {
+  border-color: var(--stu-hairline);
+  transition:
+    background 0.15s var(--ease-out-soft),
+    border-color 0.15s var(--ease-out-soft);
+}
+
+.par-help-row:hover {
+  background: var(--stu-accent-tint);
+  border-color: rgb(255 107 112 / 0.55);
+}

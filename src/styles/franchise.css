@@ -1,0 +1,105 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   FRANCHISE LANDING — scoped under `.student-page` on /franchise
+   Reuses the student persona palette (`--stu-*` in student.css).
+   Only franchise-specific layout primitives live here.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.fra-timeline-line {
+  background: repeating-linear-gradient(
+    90deg,
+    rgb(255 107 112 / 0.45) 0,
+    rgb(255 107 112 / 0.45) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  height: 2px;
+}
+
+.fra-step-circle {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--stu-card);
+  border: 2px solid var(--stu-accent-soft);
+  color: var(--stu-accent-soft);
+  font-weight: 800;
+  font-size: 18px;
+  box-shadow: 0 0 16px rgb(232 36 43 / 0.2);
+}
+
+.fra-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.fra-check-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--stu-accent);
+  color: #fff;
+  box-shadow: 0 0 12px rgb(196 30 36 / 0.45);
+}
+
+/* Enquiry form on dark surfaces */
+.student-page #enquire label {
+  color: var(--stu-ink);
+}
+
+.student-page #enquire .text-foreground-muted {
+  color: var(--stu-ink-muted);
+}
+
+.student-page #enquire input,
+.student-page #enquire select {
+  background-color: var(--stu-surface) !important;
+  color: var(--stu-ink) !important;
+  border-color: var(--stu-hairline) !important;
+}
+
+.student-page #enquire select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: none !important;
+}
+
+.student-page #enquire input::placeholder {
+  color: var(--stu-ink-muted);
+}
+
+.student-page #enquire select option {
+  background-color: var(--stu-card);
+  color: var(--stu-ink);
+}
+
+/* FAQ disclosures on dark student surface */
+.student-page .fra-faq .group\/disclosure {
+  border-color: var(--stu-hairline);
+  background: var(--stu-card);
+}
+
+.student-page .fra-faq .group\/disclosure[data-open='true'] {
+  background: var(--stu-card);
+}
+
+.student-page .fra-faq .group\/disclosure > button {
+  color: var(--stu-ink);
+}
+
+.student-page .fra-faq .group\/disclosure > button:hover {
+  color: var(--stu-accent-soft);
+}
+
+.student-page .fra-faq .group\/disclosure [aria-hidden='true'].rounded-full {
+  border-color: var(--stu-hairline);
+}
+
+.student-page .fra-faq .group\/disclosure [aria-hidden='true'].rounded-full span {
+  background: var(--stu-accent-soft);
+}

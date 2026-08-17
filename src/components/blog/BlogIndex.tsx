@@ -1,0 +1,372 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
+import type { Post } from '@/lib/content/types';
+import { track } from '@/lib/analytics';
+import { usePersona } from '@/persona/PersonaProvider';
+import { AdaptiveList } from '@/persona/AdaptiveSlot';
+import { BLOG_PAGE_SIZE, PostCard, blogIndexHref, categoryHref } from './BlogCards';
+import { subscribeBlogSearch } from './BlogHeroSearch';
+
+function matchesQuery(post: Post, needle: string): boolean {
+  if (!needle) return true;
+  const haystack = [
+    post.title,
+    post.excerpt,
+    post.category,
+    post.author,
+    ...(post.tags ?? []),
+  ]
+    .join(' ')
+    .toLowerCase();
+  return haystack.includes(needle);
+}
+
+function buildPageItems(current: number, total: number): Array<number | 'gap'> {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+
+  const items: Array<number | 'gap'> = [1];
+  const start = Math.max(2, current - 1);
+  const end = Math.min(total - 1, current + 1);
+
+  if (start > 2) items.push('gap');
+  for (let page = start; page <= end; page += 1) items.push(page);
+  if (end < total - 1) items.push('gap');
+  items.push(total);
+  return items;
+}
+
+/**
+ * Blog index — category chips + search + AdaptiveList + pagination.
+ *
+ * Search filters the in-memory category list, then pagination shows
+ * {@link BLOG_PAGE_SIZE} cards per page. Query / page sync to the URL via
+ * replaceState without a full navigation.
+ */
+export function BlogIndex({
+  posts,
+  categories,
+  activeCategory,
+  latestSlug,
+  initialQuery = '',
+  initialPage = 1,
+}: {
+  posts: Post[];
+  categories: string[];
+  activeCategory: string | null;
+  latestSlug: string | null;
+  initialQuery?: string;
+  initialPage?: number;
+}) {
+  const inputId = useId();
+  const { classification, hydrated } = usePersona();
+  const [query, setQuery] = useState(initialQuery);
+  const [page, setPage] = useState(initialPage);
+  const trackedRef = useRef('');
+
+  const needle = query.trim().toLowerCase();
+  const matchedPosts = useMemo(
+    () => posts.filter((p) => matchesQuery(p, needle)),
+    [posts, needle],
+  );
+  const totalPages = Math.max(1, Math.ceil(matchedPosts.length / BLOG_PAGE_SIZE));
+  const currentPage = Math.min(Math.max(1, page), totalPages);
+  const pageStart = (currentPage - 1) * BLOG_PAGE_SIZE;
+  const pagePosts = matchedPosts.slice(pageStart, pageStart + BLOG_PAGE_SIZE);
+  const visibleCount = matchedPosts.length;
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const params = new URLSearchParams(window.location.search);
+    const trimmed = query.trim();
+    if (trimmed) params.set('q', trimmed);
+    else params.delete('q');
+    if (activeCategory) params.set('category', activeCategory);
+    else params.delete('category');
+    if (currentPage > 1) params.set('page', String(currentPage));
+    else params.delete('page');
+    const qs = params.toString();
+    const hash = window.location.hash;
+    const next = qs
+      ? `${window.location.pathname}?${qs}${hash}`
+      : `${window.location.pathname}${hash}`;
+    window.history.replaceState(null, '', next);
+  }, [query, activeCategory, currentPage, hydrated]);
+
+  useEffect(() => {
+    return subscribeBlogSearch((next) => {
+      setQuery(next);
+      setPage(1);
+    });
+  }, []);
+
+  function onSearchChange(value: string) {
+    setQuery(value);
+    setPage(1);
+    const trimmed = value.trim();
+    if (trimmed.length >= 2 && trimmed !== trackedRef.current) {
+      trackedRef.current = trimmed;
+      track('blog_searched', {
+        query: trimmed,
+        persona: classification.persona,
+        category: activeCategory ?? undefined,
+      });
+    }
+  }
+
+  function goToPage(nextPage: number) {
+    const clamped = Math.min(Math.max(1, nextPage), totalPages);
+    setPage(clamped);
+    document.getElementById('blog-index')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  const rangeFrom = visibleCount === 0 ? 0 : pageStart + 1;
+  const rangeTo = Math.min(pageStart + BLOG_PAGE_SIZE, visibleCount);
+  const pageItems = buildPageItems(currentPage, totalPages);
+
+  return (
+    <section
+      id="blog-index"
+      className="shell scroll-mt-24 pt-4 pb-14 sm:pt-6 sm:pb-16 lg:pt-8 lg:pb-20"
+      aria-labelledby="blog-index-heading"
+    >
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+        <div>
+          <p className="text-[12px] font-bold tracking-[0.14em] text-[var(--blog-ink-muted)] uppercase">
+            Index
+          </p>
+          <h2
+            id="blog-index-heading"
+            className="mt-2 font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--blog-ink)] xs:text-[26px] sm:text-[28px] lg:text-[30px]"
+          >
+            {activeCategory ?? 'All writing'}
+          </h2>
+        </div>
+        <p
+          aria-live="polite"
+          className="numeral text-[12px] font-bold tracking-[0.1em] text-[var(--blog-ink-muted)] uppercase"
+        >
+          {needle
+            ? `${visibleCount} of ${posts.length} ${posts.length === 1 ? 'article' : 'articles'}`
+            : totalPages > 1
+              ? `${rangeFrom}–${rangeTo} of ${posts.length}`
+              : `${posts.length} ${posts.length === 1 ? 'article' : 'articles'}`}
+        </p>
+      </div>
+
+      <div className="mt-7 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+        <label htmlFor={inputId} className="relative block w-full max-w-md">
+          <span className="sr-only">Search articles</span>
+          <Search
+            className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-[var(--blog-ink-muted)]"
+            strokeWidth={2}
+            aria-hidden="true"
+          />
+          <input
+            id={inputId}
+            type="search"
+            value={query}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search titles, topics, keywords…"
+            autoComplete="off"
+            className="blog-search-input w-full rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] py-3 pr-11 pl-11 text-[14.5px] text-[var(--blog-ink)] placeholder:text-[var(--blog-ink-muted)] transition-[border-color,box-shadow] duration-200 outline-none hover:border-[var(--blog-accent-soft)]/50 focus:border-[var(--blog-accent-soft)] focus:shadow-[0_0_0_3px_rgb(255_107_112/0.18)]"
+          />
+          {query ? (
+            <button
+              type="button"
+              onClick={() => onSearchChange('')}
+              aria-label="Clear search"
+              className="absolute top-1/2 right-3 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full text-[var(--blog-ink-muted)] transition-colors hover:bg-[var(--blog-accent-tint)] hover:text-[var(--blog-accent-soft)]"
+            >
+              <X className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+            </button>
+          ) : null}
+        </label>
+
+        {categories.length > 1 ? (
+          <nav aria-label="Filter by topic" className="min-w-0 flex-1">
+            <ul className="flex flex-wrap gap-2 lg:justify-end">
+              <li>
+                <Link
+                  href={categoryHref(null, query)}
+                  className={
+                    activeCategory === null
+                      ? 'inline-flex min-h-10 items-center rounded-full bg-[var(--blog-accent)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-white uppercase shadow-[0_0_18px_rgb(196_30_36/0.35)]'
+                      : 'inline-flex min-h-10 items-center rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-[var(--blog-ink-muted)] uppercase transition-colors hover:border-[var(--blog-accent-soft)]/50 hover:text-[var(--blog-ink)]'
+                  }
+                  aria-current={activeCategory === null ? 'page' : undefined}
+                >
+                  All
+                </Link>
+              </li>
+              {categories.map((category) => {
+                const selected = activeCategory === category;
+                return (
+                  <li key={category}>
+                    <Link
+                      href={categoryHref(category, query)}
+                      className={
+                        selected
+                          ? 'inline-flex min-h-10 items-center rounded-full bg-[var(--blog-accent)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-white uppercase shadow-[0_0_18px_rgb(196_30_36/0.35)]'
+                          : 'inline-flex min-h-10 items-center rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-[var(--blog-ink-muted)] uppercase transition-colors hover:border-[var(--blog-accent-soft)]/50 hover:text-[var(--blog-ink)]'
+                      }
+                      aria-current={selected ? 'page' : undefined}
+                    >
+                      {category}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        ) : null}
+      </div>
+
+      {posts.length === 0 ? (
+        <p className="mt-10 text-[15px] text-[var(--blog-ink-secondary)]">
+          No articles in this topic yet.{' '}
+          <Link
+            href="/blog"
+            className="font-semibold text-[var(--blog-accent-soft)] underline-offset-2 hover:underline"
+          >
+            View all writing
+          </Link>
+          .
+        </p>
+      ) : (
+        <>
+          {needle && visibleCount === 0 ? (
+            <p className="mt-10 text-[15px] text-[var(--blog-ink-secondary)]">
+              No articles match &ldquo;{query.trim()}&rdquo;.{' '}
+              <button
+                type="button"
+                onClick={() => onSearchChange('')}
+                className="font-semibold text-[var(--blog-accent-soft)] underline-offset-2 hover:underline"
+              >
+                Clear search
+              </button>
+            </p>
+          ) : null}
+
+          {pagePosts.length > 0 ? (
+            <AdaptiveList
+              id="blog-list"
+              as="ul"
+              className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6"
+              items={pagePosts.map((post) => ({
+                key: post.slug,
+                relevance: post.personaRelevance,
+                node: (
+                  <PostCard
+                    post={post}
+                    badge={post.slug === latestSlug ? 'latest' : undefined}
+                  />
+                ),
+              }))}
+            />
+          ) : null}
+
+          {totalPages > 1 ? (
+            <nav
+              aria-label="Blog pages"
+              className="mt-10 flex flex-col items-center gap-4 sm:mt-12 sm:flex-row sm:justify-between"
+            >
+              <p className="numeral text-[12.5px] font-semibold text-[var(--blog-ink-muted)]">
+                Page {currentPage} of {totalPages}
+              </p>
+
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {currentPage > 1 ? (
+                  <Link
+                    href={blogIndexHref({
+                      category: activeCategory,
+                      searchQuery: query,
+                      page: currentPage - 1,
+                    })}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      goToPage(currentPage - 1);
+                    }}
+                    className="inline-flex min-h-10 items-center gap-1 rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] px-3.5 py-2 text-[12.5px] font-bold text-[var(--blog-ink)] transition-colors hover:border-[var(--blog-accent-soft)]/50 hover:text-[var(--blog-accent-soft)]"
+                  >
+                    <ChevronLeft className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
+                    Prev
+                  </Link>
+                ) : (
+                  <span className="inline-flex min-h-10 cursor-not-allowed items-center gap-1 rounded-full border border-[var(--blog-hairline)]/40 px-3.5 py-2 text-[12.5px] font-bold text-[var(--blog-ink-muted)]/50">
+                    <ChevronLeft className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
+                    Prev
+                  </span>
+                )}
+
+                <ul className="flex flex-wrap items-center gap-1.5">
+                  {pageItems.map((item, index) =>
+                    item === 'gap' ? (
+                      <li
+                        key={`gap-${index}`}
+                        aria-hidden="true"
+                        className="px-1 text-[12px] font-bold text-[var(--blog-ink-muted)]"
+                      >
+                        …
+                      </li>
+                    ) : (
+                      <li key={item}>
+                        <Link
+                          href={blogIndexHref({
+                            category: activeCategory,
+                            searchQuery: query,
+                            page: item,
+                          })}
+                          aria-label={`Page ${item}`}
+                          aria-current={item === currentPage ? 'page' : undefined}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            goToPage(item);
+                          }}
+                          className={
+                            item === currentPage
+                              ? 'grid h-10 min-w-10 place-items-center rounded-full bg-[var(--blog-accent)] px-3 text-[12.5px] font-bold text-white shadow-[0_0_18px_rgb(196_30_36/0.35)]'
+                              : 'grid h-10 min-w-10 place-items-center rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] px-3 text-[12.5px] font-bold text-[var(--blog-ink-muted)] transition-colors hover:border-[var(--blog-accent-soft)]/50 hover:text-[var(--blog-ink)]'
+                          }
+                        >
+                          {item}
+                        </Link>
+                      </li>
+                    ),
+                  )}
+                </ul>
+
+                {currentPage < totalPages ? (
+                  <Link
+                    href={blogIndexHref({
+                      category: activeCategory,
+                      searchQuery: query,
+                      page: currentPage + 1,
+                    })}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      goToPage(currentPage + 1);
+                    }}
+                    className="inline-flex min-h-10 items-center gap-1 rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] px-3.5 py-2 text-[12.5px] font-bold text-[var(--blog-ink)] transition-colors hover:border-[var(--blog-accent-soft)]/50 hover:text-[var(--blog-accent-soft)]"
+                  >
+                    Next
+                    <ChevronRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
+                  </Link>
+                ) : (
+                  <span className="inline-flex min-h-10 cursor-not-allowed items-center gap-1 rounded-full border border-[var(--blog-hairline)]/40 px-3.5 py-2 text-[12.5px] font-bold text-[var(--blog-ink-muted)]/50">
+                    Next
+                    <ChevronRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
+                  </span>
+                )}
+              </div>
+            </nav>
+          ) : null}
+        </>
+      )}
+    </section>
+  );
+}
