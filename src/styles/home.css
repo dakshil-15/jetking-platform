@@ -91,7 +91,7 @@
 }
 
 .v1-float {
-  background: #fff;
+  background: var(--v1-card);
   box-shadow: var(--v1-shadow-float);
 }
 
@@ -445,7 +445,7 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
 }
 
 .v2-cta-glow:hover {
-  background: #ff2f36;
+  background: var(--v2-accent);
   animation: none;
   box-shadow:
     0 0 24px rgb(255 60 70 / 0.85),

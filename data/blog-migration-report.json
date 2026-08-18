@@ -1,0 +1,244 @@
+{
+  "base": "https://www.jetking.com",
+  "dryRun": false,
+  "ok": 44,
+  "failed": 15,
+  "report": [
+    {
+      "path": "/blog/skill-gap-wake-call",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/secure-digital-age",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/iot-trends-job-opportunities",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/skilling-ethical-hacking-course-mumbai",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/cloud-computing-course-mumbai",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/cloud-computing-courses-delhi",
+      "slug": "cloud-computing-courses-delhi"
+    },
+    {
+      "path": "/blog/cloud-computing-courses-pune",
+      "slug": "cloud-computing-courses-pune"
+    },
+    {
+      "path": "/blog/cloud-computing-courses-bangalore",
+      "slug": "cloud-computing-courses-bangalore"
+    },
+    {
+      "path": "/blog/cloud-computing-courses-hyderabad",
+      "slug": "cloud-computing-courses-hyderabad"
+    },
+    {
+      "path": "/blog/cloud-computing-courses-chandigarh",
+      "slug": "cloud-computing-courses-chandigarh"
+    },
+    {
+      "path": "/blog/cloud-computing-courses-kolkata",
+      "slug": "cloud-computing-courses-kolkata"
+    },
+    {
+      "path": "/blog/cyber-security-ethical-hacking-courses-mumbai",
+      "slug": "cyber-security-ethical-hacking-courses-mumbai"
+    },
+    {
+      "path": "/blog/cyber-security-ethical-hacking-courses-delhi",
+      "slug": "cyber-security-ethical-hacking-courses-delhi"
+    },
+    {
+      "path": "/blog/cyber-security-ethical-hacking-courses-pune",
+      "slug": "cyber-security-ethical-hacking-courses-pune"
+    },
+    {
+      "path": "/blog/cyber-security-ethical-hacking-courses-bangalore",
+      "slug": "cyber-security-ethical-hacking-courses-bangalore"
+    },
+    {
+      "path": "/blog/cyber-security-and-ethical-hacking-courses-hyderabad",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/cyber-security-courses-ethical-hacking-chandigarh",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/cyber-security-ethical-hacking-courses-kolkata",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/why-cloud-computing-cyber-security-courses",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/global-it-certification",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/edge-computing-pioneering-the-networking-future",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/future-it-networking-cloud-computing-career",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/make-career-in-cloud-computing",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/role-of-ai-network-management",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/successful-career-in-cloud-computing-cyber-security",
+      "error": "HTTP 429"
+    },
+    {
+      "path": "/blog/devops-power-of-automation-and-tools",
+      "slug": "devops-power-of-automation-and-tools"
+    },
+    {
+      "path": "/blog/what-is-ethical-hacking-explore-its-types",
+      "slug": "what-is-ethical-hacking-explore-its-types"
+    },
+    {
+      "path": "/blog/cloud-computing-trends-to-watch-in-2023",
+      "slug": "cloud-computing-trends-to-watch-in-2023"
+    },
+    {
+      "path": "/blog/understanding-the-role-of-linux-in-cloud-computing",
+      "slug": "understanding-the-role-of-linux-in-cloud-computing"
+    },
+    {
+      "path": "/blog/cloud-hacking-and-its-methods",
+      "slug": "cloud-hacking-and-its-methods"
+    },
+    {
+      "path": "/blog/semiconductor-chip-design-envisioning-future-trends-and-predictions",
+      "slug": "semiconductor-chip-design-envisioning-future-trends-and-predictions"
+    },
+    {
+      "path": "/blog/chip-design-building-tomorrows-technology",
+      "slug": "chip-design-building-tomorrows-technology"
+    },
+    {
+      "path": "/blog/chip-design-building-the-technology-of-the-future",
+      "slug": "chip-design-building-the-technology-of-the-future"
+    },
+    {
+      "path": "/blog/semiconductor-chip-design-visualizing-future-trends-and-predictions",
+      "slug": "semiconductor-chip-design-visualizing-future-trends-and-predictions"
+    },
+    {
+      "path": "/blog/jetking-infotrain-and-fpt-education-launch-diploma-course-in-chip-design",
+      "slug": "jetking-infotrain-and-fpt-education-launch-diploma-course-in-chip-design"
+    },
+    {
+      "path": "/blog/key-benefits-of-using-python-programming",
+      "slug": "key-benefits-of-using-python-programming"
+    },
+    {
+      "path": "/blog/mastering-memory-management-in-python-programming",
+      "slug": "mastering-memory-management-in-python-programming"
+    },
+    {
+      "path": "/blog/mastering-the-ccna-exam-expert-tips-and-strategies",
+      "slug": "mastering-the-ccna-exam-expert-tips-and-strategies"
+    },
+    {
+      "path": "/blog/ultimate-guide-to-penetration-testing-with-kali-linux",
+      "slug": "ultimate-guide-to-penetration-testing-with-kali-linux"
+    },
+    {
+      "path": "/blog/safeguarding-your-identity-5-essentials-to-protect-your-personal-information-online",
+      "slug": "safeguarding-your-identity-5-essentials-to-protect-your-personal-information-onl"
+    },
+    {
+      "path": "/blog/what-is-difference-between-windows10-11-12",
+      "slug": "what-is-difference-between-windows10-11-12"
+    },
+    {
+      "path": "/blog/navigating-the-impact-of-artificial-intelligence-in-everyday-life",
+      "slug": "navigating-the-impact-of-artificial-intelligence-in-everyday-life"
+    },
+    {
+      "path": "/blog/how-to-become-a-bug-bounty-hunter-simplifying-the-journey",
+      "slug": "how-to-become-a-bug-bounty-hunter-simplifying-the-journey"
+    },
+    {
+      "path": "/blog/why-is-cybersecurity-important-in-2024",
+      "slug": "why-is-cybersecurity-important-in-2024"
+    },
+    {
+      "path": "/blog/what-are-top-five-major-skills-and-jobs-demand-in-5g-industry",
+      "slug": "what-are-top-five-major-skills-and-jobs-demand-in-5g-industry"
+    },
+    {
+      "path": "/blog/beat-ransomware-virus-with-the-help-of-cyber-security",
+      "slug": "beat-ransomware-virus-with-the-help-of-cyber-security"
+    },
+    {
+      "path": "/blog/data-privacy-in-cloud-era-strategies-best-practices",
+      "slug": "data-privacy-in-cloud-era-strategies-best-practices"
+    },
+    {
+      "path": "/blog/ethical-hacking-understanding-the-principles-and-techniques",
+      "slug": "ethical-hacking-understanding-the-principles-and-techniques"
+    },
+    {
+      "path": "/blog/cloud-computing-and-cybersecurity-career-course",
+      "slug": "cloud-computing-and-cybersecurity-career-course"
+    },
+    {
+      "path": "/blog/what-is-phishing-and-how-to-save-your-data",
+      "slug": "what-is-phishing-and-how-to-save-your-data"
+    },
+    {
+      "path": "/blog/cbse-result-2024",
+      "slug": "cbse-result-2024"
+    },
+    {
+      "path": "/blog/10-best-it-career-courses-options-after-12th",
+      "slug": "10-best-it-career-courses-options-after-12th"
+    },
+    {
+      "path": "/blog/top-emerging-technologies-and-trends-in-it-sector",
+      "slug": "top-emerging-technologies-and-trends-in-it-sector"
+    },
+    {
+      "path": "/blog/transforms-non-tech-students-into-tech-genius",
+      "slug": "transforms-non-tech-students-into-tech-genius"
+    },
+    {
+      "path": "/blog/leads-you-towards-a-better-life",
+      "slug": "leads-you-towards-a-better-life"
+    },
+    {
+      "path": "/blog/top-careers-in-cloud-computing",
+      "slug": "top-careers-in-cloud-computing"
+    },
+    {
+      "path": "/blog/how-to-protect-your-business-from-cyber-threats",
+      "slug": "how-to-protect-your-business-from-cyber-threats"
+    },
+    {
+      "path": "/blog/quick-cybersecurity-habits-you-need",
+      "slug": "quick-cybersecurity-habits-you-need"
+    },
+    {
+      "path": "/blog/become-a-cloud-computing-pro-essential-tips",
+      "slug": "become-a-cloud-computing-pro-essential-tips"
+    }
+  ]
+}

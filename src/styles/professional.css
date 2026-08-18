@@ -4,51 +4,42 @@
    ══════════════════════════════════════════════════════════════════════════ */
 
 .professional-page {
-  --v2-canvas: #07070c;
-  --v2-card: #14141c;
-  --v2-hairline: rgb(255 80 90 / 0.18);
-  --v2-ink: #f4f4f8;
-  --v2-ink-secondary: #c4c4d0;
-  --v2-ink-muted: #9a9aa8;
-  --v2-accent: #e8242b;
-  --v2-accent-soft: #ff4d54;
-  --v2-eyebrow: #ff8a90;
-  --v2-ink-bar: #101018;
-  --v2-shadow-card:
-    0 8px 28px rgb(0 0 0 / 0.45),
-    0 0 20px rgb(232 36 43 / 0.08);
-  --v2-shadow-card-hover:
-    0 0 0 1px rgb(255 107 112 / 0.75),
-    0 0 36px rgb(232 36 43 / 0.35),
-    0 16px 40px rgb(0 0 0 / 0.55);
+  /* Use global theme colors */
+  --v2-canvas: var(--theme-canvas);
+  --v2-card: var(--theme-card);
+  --v2-hairline: var(--theme-hairline);
+  --v2-ink: var(--theme-ink);
+  --v2-ink-secondary: var(--theme-ink-secondary);
+  --v2-ink-muted: var(--theme-ink-muted);
+  --v2-accent: var(--theme-accent);
+  --v2-accent-soft: var(--theme-accent-soft);
+  --v2-eyebrow: var(--theme-eyebrow);
+  --v2-ink-bar: var(--theme-canvas);
+  --v2-shadow-card: var(--theme-shadow);
+  --v2-shadow-card-hover: var(--theme-shadow-hover);
 
-  --pro-ink: #f4f4f8;
-  --pro-ink-secondary: #d0d0da;
-  --pro-ink-muted: #b4b4c0;
-  --pro-accent: #c41e24;
-  --pro-accent-soft: #ff6b70;
-  --pro-accent-tint: #3a181c;
-  --pro-canvas: #07070c;
-  --pro-surface: #0c0c12;
-  --pro-card: #14141c;
-  --pro-navy: #c41e24;
-  --pro-hairline: rgb(255 100 105 / 0.65);
-  --pro-shadow:
-    0 8px 28px rgb(0 0 0 / 0.45),
-    0 0 20px rgb(232 36 43 / 0.08);
-  --pro-shadow-hover:
-    0 0 0 1px rgb(255 107 112 / 0.75),
-    0 0 36px rgb(232 36 43 / 0.35),
-    0 16px 40px rgb(0 0 0 / 0.55);
+  --pro-ink: var(--theme-ink);
+  --pro-ink-secondary: var(--theme-ink-secondary);
+  --pro-ink-muted: var(--theme-ink-muted);
+  --pro-accent: var(--theme-accent);
+  --pro-accent-soft: var(--theme-accent-soft);
+  --pro-accent-tint: var(--theme-accent-tint);
+  --pro-canvas: var(--theme-canvas);
+  --pro-surface: var(--theme-surface);
+  --pro-card: var(--theme-card);
+  --pro-navy: var(--theme-accent);
+  --pro-hairline: var(--theme-hairline-strong);
+  --pro-shadow: var(--theme-shadow);
+  --pro-shadow-hover: var(--theme-shadow-hover);
 
-  --pro-cyber: #d2c0ff;
-  --pro-cloud: #a8c8ff;
-  --pro-network: #8eecc0;
-  --pro-ai: #ffc49a;
-  --pro-cyber-tint: #2a2240;
-  --pro-cloud-tint: #1a2438;
-  --pro-network-tint: #1a2e22;
-  --pro-ai-tint: #2e1c14;
+  --pro-cyber: var(--theme-cyber-ink);
+  --pro-cloud: var(--theme-cloud-ink);
+  --pro-network: var(--theme-network-ink);
+  --pro-ai: var(--theme-ai-ink);
+  --pro-cyber-tint: var(--theme-cyber-tint);
+  --pro-cloud-tint: var(--theme-cloud-tint);
+  --pro-network-tint: var(--theme-network-tint);
+  --pro-ai-tint: var(--theme-ai-tint);
 
   background: var(--pro-canvas);
   color: var(--pro-ink);
@@ -216,7 +207,7 @@
   gap: 0.3rem;
   padding: 0.45rem 0.85rem 0.45rem 0.7rem;
   background: linear-gradient(135deg, #ff4d55 0%, #c41e24 52%, #a81820 100%);
-  color: #fff;
+  color: var(--pro-ink);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.07em;

@@ -1,0 +1,17 @@
+[
+  {
+    "source": "/blog/cloud-computing-career-after-12th.html",
+    "destination": "/blog/cloud-computing-career-after-12th",
+    "permanent": true
+  },
+  {
+    "source": "/courses/bca-cloud-cyber",
+    "destination": "/courses/bca-cloud-cyber-security",
+    "permanent": true
+  },
+  {
+    "source": "/centre/:city",
+    "destination": "/centres/:city",
+    "permanent": true
+  }
+]

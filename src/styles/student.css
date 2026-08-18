@@ -5,40 +5,30 @@
    ══════════════════════════════════════════════════════════════════════════ */
 
 .student-page {
-  /*
-   * WCAG AA targets (4.5:1 text, 3:1 UI):
-   *   · --stu-accent      fills behind white label text
-   *   · --stu-accent-soft text / icons / links on dark surfaces
-   *   · --stu-ink*       body copy on canvas / card / surface
-   */
-  --stu-ink: #f4f4f8;
-  --stu-ink-secondary: #d0d0da;
-  --stu-ink-muted: #b4b4c0;
-  --stu-accent: #c41e24;
-  --stu-accent-soft: #ff6b70;
-  --stu-accent-tint: #3a181c;
-  --stu-canvas: #07070c;
-  --stu-surface: #0c0c12;
-  --stu-card: #14141c;
-  --stu-navy: #c41e24;
-  --stu-hairline: rgb(255 100 105 / 0.65);
-  --stu-shadow:
-    0 8px 28px rgb(0 0 0 / 0.45),
-    0 0 20px rgb(232 36 43 / 0.08);
-  --stu-shadow-hover:
-    0 0 0 1px rgb(255 107 112 / 0.75),
-    0 0 36px rgb(232 36 43 / 0.35),
-    0 16px 40px rgb(0 0 0 / 0.55);
+  /* Use global theme colors */
+  --stu-ink: var(--theme-ink);
+  --stu-ink-secondary: var(--theme-ink-secondary);
+  --stu-ink-muted: var(--theme-ink-muted);
+  --stu-accent: var(--theme-accent);
+  --stu-accent-soft: var(--theme-accent-soft);
+  --stu-accent-tint: var(--theme-accent-tint);
+  --stu-canvas: var(--theme-canvas);
+  --stu-surface: var(--theme-surface);
+  --stu-card: var(--theme-card);
+  --stu-navy: var(--theme-accent);
+  --stu-hairline: var(--theme-hairline-strong);
+  --stu-shadow: var(--theme-shadow);
+  --stu-shadow-hover: var(--theme-shadow-hover);
 
-  /* Brighter track hues for dark card fills (AA on --stu-card). */
-  --stu-cyber: #d2c0ff;
-  --stu-cloud: #a8c8ff;
-  --stu-network: #8eecc0;
-  --stu-ai: #ffc49a;
-  --stu-cyber-tint: #2a2240;
-  --stu-cloud-tint: #1a2438;
-  --stu-network-tint: #1a2e22;
-  --stu-ai-tint: #2e1c14;
+  /* Track hues use global persona colors */
+  --stu-cyber: var(--theme-cyber-ink);
+  --stu-cloud: var(--theme-cloud-ink);
+  --stu-network: var(--theme-network-ink);
+  --stu-ai: var(--theme-ai-ink);
+  --stu-cyber-tint: var(--theme-cyber-tint);
+  --stu-cloud-tint: var(--theme-cloud-tint);
+  --stu-network-tint: var(--theme-network-tint);
+  --stu-ai-tint: var(--theme-ai-tint);
 
   background: var(--stu-canvas);
   color: var(--stu-ink);
@@ -171,7 +161,7 @@
   top: 14px;
   right: -2px;
   background: var(--stu-accent);
-  color: #fff;
+  color: var(--stu-ink);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -192,7 +182,7 @@
   gap: 0.3rem;
   padding: 0.45rem 0.85rem 0.45rem 0.7rem;
   background: linear-gradient(135deg, #ff4d55 0%, #c41e24 52%, #a81820 100%);
-  color: #fff;
+  color: var(--stu-ink);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.07em;

@@ -4,33 +4,29 @@
    ══════════════════════════════════════════════════════════════════════════ */
 
 .centres-page {
-  --centres-ink: #f4f4f8;
-  --centres-ink-secondary: #d0d0da;
-  --centres-ink-muted: #b4b4c0;
-  --centres-accent: #c41e24;
-  --centres-accent-soft: #ff6b70;
-  --centres-accent-tint: #3a181c;
-  --centres-canvas: #07070c;
-  --centres-surface: #0c0c12;
-  --centres-card: #14141c;
-  --centres-hairline: rgb(255 100 105 / 0.65);
-  --centres-shadow:
-    0 8px 28px rgb(0 0 0 / 0.45),
-    0 0 20px rgb(232 36 43 / 0.08);
-  --centres-shadow-hover:
-    0 0 0 1px rgb(255 107 112 / 0.75),
-    0 0 36px rgb(232 36 43 / 0.35),
-    0 16px 40px rgb(0 0 0 / 0.55);
+  /* Use global theme colors */
+  --centres-ink: var(--theme-ink);
+  --centres-ink-secondary: var(--theme-ink-secondary);
+  --centres-ink-muted: var(--theme-ink-muted);
+  --centres-accent: var(--theme-accent);
+  --centres-accent-soft: var(--theme-accent-soft);
+  --centres-accent-tint: var(--theme-accent-tint);
+  --centres-canvas: var(--theme-canvas);
+  --centres-surface: var(--theme-surface);
+  --centres-card: var(--theme-card);
+  --centres-hairline: var(--theme-hairline-strong);
+  --centres-shadow: var(--theme-shadow);
+  --centres-shadow-hover: var(--theme-shadow-hover);
 
-  /* Track accents — same language as student recommended cards */
-  --centres-cyber: #d2c0ff;
-  --centres-cloud: #a8c8ff;
-  --centres-network: #8eecc0;
-  --centres-ai: #ffc49a;
-  --centres-cyber-tint: #2a2240;
-  --centres-cloud-tint: #1a2438;
-  --centres-network-tint: #1a2e22;
-  --centres-ai-tint: #2e1c14;
+  /* Track accents use global persona colors */
+  --centres-cyber: var(--theme-cyber-ink);
+  --centres-cloud: var(--theme-cloud-ink);
+  --centres-network: var(--theme-network-ink);
+  --centres-ai: var(--theme-ai-ink);
+  --centres-cyber-tint: var(--theme-cyber-tint);
+  --centres-cloud-tint: var(--theme-cloud-tint);
+  --centres-network-tint: var(--theme-network-tint);
+  --centres-ai-tint: var(--theme-ai-tint);
 
   /* Chamfered placement cards — matches blog card clip language */
   --centres-card-cut: 18px;
@@ -195,7 +191,7 @@
 .centres-detail-hero {
   border: 1px solid var(--centres-hairline);
   box-shadow: var(--centres-shadow);
-  background: #07070c;
+  background: var(--centres-canvas);
 }
 
 .centres-detail-wash {
@@ -238,7 +234,7 @@
   gap: 0.3rem;
   padding: 0.45rem 0.85rem 0.45rem 0.7rem;
   background: linear-gradient(135deg, #ff4d55 0%, #c41e24 52%, #a81820 100%);
-  color: #fff;
+  color: var(--centres-ink);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.07em;
@@ -335,7 +331,7 @@
 .centres-hero-banner {
   border: 1px solid var(--centres-hairline);
   box-shadow: var(--centres-shadow);
-  background: #07070c;
+  background: var(--centres-canvas);
 }
 
 .centres-hero-wash {
@@ -405,4 +401,43 @@
     transition: none;
     transform: none;
   }
+}
+
+/* Light mode overrides — when HTML element doesn't have .dark class */
+html:not(.dark) .centres-page {
+  --centres-ink: #14141f;
+  --centres-ink-secondary: #464657;
+  --centres-ink-muted: #666679;
+  --centres-accent: #d81f26;
+  --centres-accent-soft: #f97066;
+  --centres-accent-tint: #fef3f2;
+  --centres-canvas: radial-gradient(120% 100% at 88% 4%, #fff1f2 0%, #faf8fb 42%, #f1edf5 100%);
+  --centres-surface: #f8f9fb;
+  --centres-card: #ffffff;
+  --centres-hairline: rgb(20 20 31 / 0.12);
+  --centres-shadow:
+    0 6px 20px rgb(60 50 90 / 0.08),
+    0 0 12px rgb(234 28 36 / 0.04);
+  --centres-shadow-hover:
+    0 0 0 1px rgb(249 112 102 / 0.5),
+    0 8px 28px rgb(234 28 36 / 0.12),
+    0 12px 36px rgb(60 50 90 / 0.12);
+
+  /* Light mode track accents */
+  --centres-cyber: #5f3aa8;
+  --centres-cloud: #2454a6;
+  --centres-network: #17683b;
+  --centres-ai: #b34c11;
+  --centres-cyber-tint: #eee8ff;
+  --centres-cloud-tint: #dde7fb;
+  --centres-network-tint: #e8f7ed;
+  --centres-ai-tint: #fde7d4;
+}
+
+html:not(.dark) .centres-page::before {
+  background: radial-gradient(circle, rgb(234 28 36 / 0.12) 0%, transparent 68%);
+}
+
+html:not(.dark) .centres-page::after {
+  background: radial-gradient(circle, rgb(234 28 36 / 0.08) 0%, transparent 70%);
 }

@@ -43,7 +43,7 @@
   height: 22px;
   border-radius: 50%;
   background: var(--stu-accent);
-  color: #fff;
+  color: var(--stu-ink);
   box-shadow: 0 0 12px rgb(196 30 36 / 0.45);
 }
 
@@ -102,4 +102,23 @@
 
 .student-page .fra-faq .group\/disclosure [aria-hidden='true'].rounded-full span {
   background: var(--stu-accent-soft);
+}
+
+/* Light mode overrides — franchise elements with hardcoded colors */
+html:not(.dark) .fra-timeline-line {
+  background: repeating-linear-gradient(
+    90deg,
+    rgb(234 28 36 / 0.25) 0,
+    rgb(234 28 36 / 0.25) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+html:not(.dark) .fra-step-circle {
+  box-shadow: 0 0 12px rgb(234 28 36 / 0.12);
+}
+
+html:not(.dark) .fra-check-icon {
+  box-shadow: 0 0 8px rgb(234 28 36 / 0.2);
 }

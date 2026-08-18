@@ -35,3 +35,24 @@
   background: var(--stu-accent-tint);
   border-color: rgb(255 107 112 / 0.55);
 }
+
+/* Light mode overrides — parent elements with hardcoded colors */
+html:not(.dark) .par-journey-line {
+  background: repeating-linear-gradient(
+    90deg,
+    rgb(234 28 36 / 0.25) 0,
+    rgb(234 28 36 / 0.25) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+html:not(.dark) .par-trust-card {
+  box-shadow:
+    0 6px 18px rgb(60 50 90 / 0.08),
+    0 0 12px rgb(234 28 36 / 0.04);
+}
+
+html:not(.dark) .par-help-row:hover {
+  border-color: rgb(234 28 36 / 0.3);
+}

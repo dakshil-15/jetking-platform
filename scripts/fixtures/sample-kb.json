@@ -1,0 +1,337 @@
+{
+  "crawledAt": "2026-08-07T10:00:00.000Z",
+  "_comment": "Regression fixture for the retrieval pipeline. Content is a trimmed subset captured from jetking.com; the live knowledge base is produced by `npm run sync:content` and written to src/content/jetking-kb.json. Do not ship this file as the knowledge base.",
+  "pages": [
+    {
+      "id": "p0",
+      "path": "/",
+      "title": "Jetking: India's foremost IT training institute",
+      "description": "Build a powerful career with India's most trusted digital skills institute.",
+      "section": "home"
+    },
+    {
+      "id": "p1",
+      "path": "/courses",
+      "title": "IT Career Courses | Cloud Computing & Ethical Hacking Course",
+      "description": "Career courses in cloud computing, cyber security, data analytics and gaming.",
+      "section": "courses"
+    },
+    {
+      "id": "p2",
+      "path": "/about-us",
+      "title": "About Jetking",
+      "description": "A 79-year-old legacy moulding the innovators of the future.",
+      "section": "about"
+    },
+    {
+      "id": "p3",
+      "path": "/faqs",
+      "title": "Jetking FAQs",
+      "description": "Answers to common questions about Jetking courses and placement.",
+      "section": "faq"
+    },
+    {
+      "id": "p4",
+      "path": "/contact-us",
+      "title": "Contact Jetking",
+      "description": "Get in touch with Jetking.",
+      "section": "contact"
+    }
+  ],
+  "chunks": [
+    {
+      "id": "p0c0",
+      "pageId": "p0",
+      "heading": "A 79-Year-Old Legacy Moulding",
+      "text": "India's foremost computer networking institute committed to creating a better life for students, franchisees and employees through quality IT education.",
+      "kind": "paragraph"
+    },
+    {
+      "id": "p0c1",
+      "pageId": "p0",
+      "heading": "Our Purpose & Values",
+      "text": "To Provide Economic Independence To 10 Million People In India And Overseas.",
+      "kind": "paragraph"
+    },
+    {
+      "id": "p0c2",
+      "pageId": "p0",
+      "heading": "Our Purpose & Values",
+      "text": "To Become A World-class Engine For Employment Generation Through An Efficient Partnership Network.",
+      "kind": "paragraph"
+    },
+    {
+      "id": "p0c3",
+      "pageId": "p0",
+      "heading": "Placements",
+      "text": "Jetking holds a Limca Book of Records entry for 11,451 students placed in a single year, supported by 12,000+ recruitment partners across the country.",
+      "kind": "paragraph"
+    },
+    {
+      "id": "p2c0",
+      "pageId": "p2",
+      "heading": "History",
+      "text": "Jetking Electronics was established by the late Shri Gordhandas P Bharwani for trading in electronic goods across India, and was the first to introduce do-it-yourself electronic kits in the country.",
+      "kind": "paragraph"
+    },
+    {
+      "id": "p2c1",
+      "pageId": "p2",
+      "heading": "Leadership",
+      "text": "Mr. Harsh Bharwani is Managing Director and CEO, with more than 20 years of experience and over a million students trained in employability and personal development.",
+      "kind": "paragraph"
+    },
+    {
+      "id": "p2c2",
+      "pageId": "p2",
+      "heading": "Recognition",
+      "text": "Jetking Infotrain has been recognised as the largest Red Hat training partner in India and is Great Place to Work certified.",
+      "kind": "paragraph"
+    },
+    {
+      "id": "p1c0",
+      "pageId": "p1",
+      "heading": "Cyber security",
+      "text": "Cyber security programmes cover penetration testing, vulnerability assessment and security frameworks, and are delivered in offline and hybrid modes across 100+ centres.",
+      "kind": "paragraph"
+    },
+    {
+      "id": "p4c0",
+      "pageId": "p4",
+      "heading": "Reach us",
+      "text": "Jetking centres operate in more than 30 Indian cities, with international centres in Vietnam, Nepal and Ghana. Call the helpline or email to find the nearest centre.",
+      "kind": "paragraph"
+    }
+  ],
+  "courses": [
+    {
+      "id": "c0",
+      "name": "BCA In Cloud Computing & Cyber Security",
+      "category": "degree",
+      "durationMonths": 36,
+      "durationLabel": "36 months",
+      "summary": "A UGC-approved three-year graduation degree combining cloud computing and cyber security with hands-on labs.",
+      "topics": [
+        "Programming in C",
+        "Network Essentials & Operating Systems",
+        "Deploying Windows and Linux Environments",
+        "Cloud Infrastructure",
+        "Cyber Security Fundamentals"
+      ],
+      "path": "/courses/bca-cloud-computing-cyber-security",
+      "eligibility": "Pass in 10+2 from any recognised board (State / CBSE / ICSE).",
+      "fees": "Confirmed by a counsellor",
+      "payment": "EMI options available",
+      "highlights": ["100% job guarantee", "Industry-crafted projects"],
+      "outcomes": [
+        "Enter roles such as Cloud Administrator, SOC Analyst or Network Security Specialist"
+      ],
+      "certifications": ["AWS", "Red Hat"]
+    },
+    {
+      "id": "c1",
+      "name": "Jetking Certified Cloud Computing & Cyber Security Engineer",
+      "category": "career",
+      "durationMonths": 18,
+      "durationLabel": "18 months",
+      "summary": "An 18-month engineer track covering cloud infrastructure and security operations end to end.",
+      "topics": [
+        "Cloud infrastructure",
+        "Security operations",
+        "Network defence",
+        "Incident response"
+      ],
+      "path": "/courses/diploma-cloud-computing-cyber-security",
+      "eligibility": "Any graduate or 10+2 student aiming for a cloud and security support career.",
+      "fees": "Confirmed by a counsellor",
+      "payment": "EMI options available",
+      "highlights": ["100% job guarantee", "Industry-crafted projects"],
+      "outcomes": ["Operate as a Cloud Support, Network Support or Security Support Engineer"],
+      "certifications": ["CCNA", "Azure"]
+    },
+    {
+      "id": "c2",
+      "name": "Ethical Hacking Specialist (CEH)",
+      "category": "short",
+      "durationMonths": 2,
+      "durationLabel": "2 months",
+      "summary": "Penetration testing and vulnerability assessment, aligned to the Certified Ethical Hacker credential.",
+      "topics": [
+        "Penetration testing",
+        "Vulnerability assessment",
+        "Footprinting",
+        "System hacking"
+      ],
+      "path": "/courses/ethical-hacking-specialist",
+      "eligibility": "Any graduate or 10+2 student interested in cyber security with hardware, networking and OS knowledge.",
+      "fees": "Confirmed by a counsellor",
+      "payment": "EMI options available",
+      "highlights": ["100% job guarantee", "Industry-crafted projects"],
+      "outcomes": ["Enter entry-level cyber security and security analyst roles"],
+      "certifications": ["CEH v12"]
+    },
+    {
+      "id": "c3",
+      "name": "Master In Gaming & Metaverse Design",
+      "category": "career",
+      "durationMonths": 24,
+      "durationLabel": "24 months",
+      "summary": "A two-year programme in game development, 3D design and metaverse experience building.",
+      "topics": ["Game development", "3D modelling", "Metaverse design", "Unreal Engine"],
+      "path": "/courses/masters-in-gaming-metaverse",
+      "eligibility": "Open to 10+2 students and graduates with a creative interest in gaming and design.",
+      "fees": "Confirmed by a counsellor",
+      "payment": "EMI options available",
+      "highlights": ["100% job guarantee", "Industry-crafted projects"],
+      "outcomes": ["Enter roles such as Metaverse Unity Developer, Game Asset Creator or Animator"],
+      "certifications": ["Unity", "Unreal Engine"]
+    },
+    {
+      "id": "c4",
+      "name": "AWS Solution Architect Associate",
+      "category": "short",
+      "durationMonths": 2,
+      "durationLabel": "2 months",
+      "summary": "AWS services and cloud architecture, aligned to the Solutions Architect Associate certification.",
+      "topics": [
+        "AWS core services",
+        "Cloud architecture",
+        "High availability",
+        "Cost optimisation"
+      ],
+      "path": "/courses/aws-solution-specialist",
+      "eligibility": "Any graduate or 10+2 student interested in a cloud career.",
+      "fees": "Confirmed by a counsellor",
+      "payment": "EMI options available",
+      "highlights": ["100% job guarantee", "Industry-crafted projects"],
+      "outcomes": ["Enter roles such as Cloud Associate (L1) or AWS Cloud NOC Support"],
+      "certifications": ["AWS Solutions Architect Associate"]
+    },
+    {
+      "id": "c5",
+      "name": "Data Analytics",
+      "category": "certification",
+      "durationMonths": 4,
+      "durationLabel": "4 months",
+      "summary": "Data analysis methodologies and analytics tooling for entry-level analyst roles.",
+      "topics": ["Excel and SQL", "Power BI", "Python for analysis", "Statistics"],
+      "path": "/courses/best-data-analytics-course",
+      "eligibility": "Any graduate or 10+2 student interested in data and analytics.",
+      "fees": "Confirmed by a counsellor",
+      "payment": "EMI options available",
+      "highlights": ["100% job guarantee", "Industry-crafted projects"],
+      "outcomes": ["Enter entry-level data analyst roles"],
+      "certifications": ["Power BI"]
+    },
+    {
+      "id": "c6",
+      "name": "MCA In Cloud Computing & Cyber Security",
+      "category": "degree",
+      "durationMonths": 24,
+      "durationLabel": "24 months",
+      "summary": "A UGC-approved master's degree in cloud computing and cyber security.",
+      "topics": ["Advanced cloud", "Security architecture", "Research project"],
+      "path": "/mca-in-cloud-computing-cyber-security-master-degree",
+      "eligibility": "BCA, B.Sc. (Computer Science) or any graduation with Mathematics, minimum 50%.",
+      "fees": "Confirmed by a counsellor",
+      "payment": "EMI options available",
+      "highlights": ["100% job guarantee", "Industry-crafted projects"],
+      "outcomes": ["Move into Cloud Support Engineer, SOC Analyst or Cybersecurity Analyst roles"],
+      "certifications": ["UGC recognised"]
+    }
+  ],
+  "faqs": [
+    {
+      "id": "f0",
+      "question": "Will I get a job after completing the course?",
+      "answer": "Yes, we provide 100% Job Guarantee upon successful completion of the career course with 80% attendance. The institute includes 120+ hours of soft skills training and holds a Limca Book of Records entry for 11,451 placements.",
+      "path": "/faqs",
+      "scope": null
+    },
+    {
+      "id": "f1",
+      "question": "Are the courses job oriented and as per recruiter requirement?",
+      "answer": "The course curriculum in Jetking is tailored and designed according to the recommendation and feedback of the recruiters across various industries, making Jetking a preferred recruitment partner.",
+      "path": "/faqs",
+      "scope": null
+    },
+    {
+      "id": "f2",
+      "question": "Is it necessary to complete all modules?",
+      "answer": "All our career programs are divided into modules. It is necessary to complete all modules to get certified, which helps secure placement in reputed companies across sectors.",
+      "path": "/faqs",
+      "scope": null
+    },
+    {
+      "id": "f3",
+      "question": "Are all the Jetking faculties trained and certified?",
+      "answer": "All instructors must pass the Faculty Assessment and Certification tests conducted by headquarters. Training of faculties is held every six months in order to upgrade any new technologies.",
+      "path": "/faqs",
+      "scope": null
+    },
+    {
+      "id": "f4",
+      "question": "What are the teaching aids used in Smart Lab Plus?",
+      "answer": "The methodology uses 80% exposure to practicals, 20% theory and 100% digitized content. Teaching tools include Mindmap, Window Panes, Simulations and Quiz features.",
+      "path": "/faqs",
+      "scope": null
+    }
+  ],
+  "stats": [
+    {
+      "id": "s0",
+      "value": "12,00,000+",
+      "label": "students trained"
+    },
+    {
+      "id": "s1",
+      "value": "100+",
+      "label": "training centres"
+    },
+    {
+      "id": "s2",
+      "value": "79",
+      "label": "years of legacy"
+    },
+    {
+      "id": "s3",
+      "value": "12,000+",
+      "label": "recruitment partners"
+    }
+  ],
+  "contact": {
+    "phone": "07666830000",
+    "email": "info@jetking.com",
+    "address": "5th Floor, Amore Building, Junction of 2nd & 4th Road, Khar, Mumbai - 400052, India",
+    "enquiryPath": "/enquiry"
+  },
+  "crawledFrom": "https://www.jetking.com",
+  "centres": [
+    {
+      "id": "ct0",
+      "city": "Kolkata",
+      "path": "/centres/kolkata",
+      "summary": "Jetking centres in Kolkata offering BCA, cyber security, cloud and networking courses with placement support.",
+      "locations": [
+        {
+          "name": "Jetking Bhawanipore",
+          "locality": "Bhawanipore · 700020"
+        }
+      ],
+      "programmes": ["BCA — Cloud & Cyber", "Cloud Engineer with AI", "Routing & Switching"]
+    },
+    {
+      "id": "ct1",
+      "city": "Mumbai",
+      "path": "/centres/mumbai",
+      "summary": "Jetking centres in Mumbai offering cloud, cyber security and networking programmes with placement support.",
+      "locations": [
+        {
+          "name": "Jetking Borivali",
+          "locality": "Borivali West · 400092"
+        }
+      ],
+      "programmes": ["Ethical Hacking Specialist", "AWS Solution Specialist"]
+    }
+  ]
+}

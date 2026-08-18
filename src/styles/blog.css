@@ -6,23 +6,19 @@
    ══════════════════════════════════════════════════════════════════════════ */
 
 .blog-page {
-  --blog-ink: #f4f4f8;
-  --blog-ink-secondary: #d0d0da;
-  --blog-ink-muted: #b4b4c0;
-  --blog-accent: #c41e24;
-  --blog-accent-soft: #ff6b70;
-  --blog-accent-tint: #3a181c;
-  --blog-canvas: #07070c;
-  --blog-surface: #0c0c12;
-  --blog-card: #14141c;
-  --blog-hairline: rgb(255 100 105 / 0.65);
-  --blog-shadow:
-    0 8px 28px rgb(0 0 0 / 0.45),
-    0 0 20px rgb(232 36 43 / 0.08);
-  --blog-shadow-hover:
-    0 0 0 1px rgb(255 107 112 / 0.75),
-    0 0 36px rgb(232 36 43 / 0.35),
-    0 16px 40px rgb(0 0 0 / 0.55);
+  /* Use global theme colors */
+  --blog-ink: var(--theme-ink);
+  --blog-ink-secondary: var(--theme-ink-secondary);
+  --blog-ink-muted: var(--theme-ink-muted);
+  --blog-accent: var(--theme-accent);
+  --blog-accent-soft: var(--theme-accent-soft);
+  --blog-accent-tint: var(--theme-accent-tint);
+  --blog-canvas: var(--theme-canvas);
+  --blog-surface: var(--theme-surface);
+  --blog-card: var(--theme-card);
+  --blog-hairline: var(--theme-hairline-strong);
+  --blog-shadow: var(--theme-shadow);
+  --blog-shadow-hover: var(--theme-shadow-hover);
   --blog-card-cut: 18px;
   --blog-card-cut-inner: 16px;
 
@@ -152,7 +148,7 @@
 .blog-hero-banner {
   border: 1px solid var(--blog-hairline);
   box-shadow: var(--blog-shadow);
-  background: #07070c;
+  background: var(--blog-canvas);
 }
 
 .blog-hero-wash {
@@ -196,7 +192,7 @@
   gap: 0.3rem;
   padding: 0.45rem 0.85rem 0.45rem 0.7rem;
   background: linear-gradient(135deg, #ff4d55 0%, #c41e24 52%, #a81820 100%);
-  color: #fff;
+  color: var(--blog-ink);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.07em;
@@ -322,4 +318,33 @@
   .blog-page::after {
     animation: none;
   }
+}
+
+/* Light mode overrides — when HTML element doesn't have .dark class */
+html:not(.dark) .blog-page {
+  --blog-ink: #14141f;
+  --blog-ink-secondary: #464657;
+  --blog-ink-muted: #666679;
+  --blog-accent: #d81f26;
+  --blog-accent-soft: #f97066;
+  --blog-accent-tint: #fef3f2;
+  --blog-canvas: radial-gradient(120% 100% at 88% 4%, #fff1f2 0%, #faf8fb 42%, #f1edf5 100%);
+  --blog-surface: #f8f9fb;
+  --blog-card: #ffffff;
+  --blog-hairline: rgb(20 20 31 / 0.12);
+  --blog-shadow:
+    0 6px 20px rgb(60 50 90 / 0.08),
+    0 0 12px rgb(234 28 36 / 0.04);
+  --blog-shadow-hover:
+    0 0 0 1px rgb(249 112 102 / 0.5),
+    0 8px 28px rgb(234 28 36 / 0.12),
+    0 12px 36px rgb(60 50 90 / 0.12);
+}
+
+html:not(.dark) .blog-page::before {
+  background: radial-gradient(circle, rgb(234 28 36 / 0.12) 0%, transparent 68%);
+}
+
+html:not(.dark) .blog-page::after {
+  background: radial-gradient(circle, rgb(234 28 36 / 0.08) 0%, transparent 70%);
 }
