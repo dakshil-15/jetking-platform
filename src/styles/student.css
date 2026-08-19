@@ -182,7 +182,10 @@
   gap: 0.3rem;
   padding: 0.45rem 0.85rem 0.45rem 0.7rem;
   background: linear-gradient(135deg, #ff4d55 0%, #c41e24 52%, #a81820 100%);
-  color: var(--stu-ink);
+  /* Fixed white, not var(--stu-ink): the gradient never flips with the
+     theme, but --stu-ink does (near-black in light mode), which produced
+     low-contrast dark text on this red badge in light mode. */
+  color: #fff;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.07em;
@@ -200,10 +203,14 @@
   opacity: 0.95;
 }
 
-/* Recommended course track — scroll on small screens only */
+/* Recommended course track — scroll on small screens only.
+   scroll-padding-inline must match the track's own padding-inline (px-12 =
+   3rem, added so the card shadow isn't clipped by overflow-x): otherwise
+   snap-start aligns the first/last card to the un-padded scrollport edge,
+   scrolling straight past the padding and cropping the card. */
 .stu-course-track {
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: 0;
+  scroll-padding-inline: 3rem;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }

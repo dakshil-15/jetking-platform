@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './dark-canvas.css';
+@import './about.css';
 /* Scoped skin for the homepage lead. Every rule in it is namespaced
    under `.home-lead` and cannot affect the system defined below. */
 @import './home.css';
@@ -236,6 +237,10 @@
   --glass-bg: rgb(255 255 255 / 0.82);
   --glass-blur: 14px;
 
+  /* Crest stroke — the shield-mark logo's outline/fill. Recurs verbatim across
+     every header that draws the crest inline (SiteHeader, FranchiseHeader). */
+  --color-brand-crest: #d81f26;
+
   /* ── Scrollbars (slim + editorial) ────────────────────────────────────── */
   --scrollbar-size: 8px;
   --scrollbar-radius: 999px;
@@ -354,6 +359,7 @@
 
   --focus-ring: var(--color-jk-400);
   --glass-bg: rgb(11 17 30 / 0.78);
+  --color-brand-crest: #ff6b70;
 
   /* ── Global Theme Colors (Dark Mode) ───────────────────────────────────── */
   /* Canvas & Surfaces */

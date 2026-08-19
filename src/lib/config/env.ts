@@ -44,9 +44,17 @@ const whatsappMessage = envText(
   'Hi Jetking, I have a question about your courses',
 );
 
+const siteUrl = stripTrailingSlash(
+  envText(process.env.NEXT_PUBLIC_SITE_URL, 'https://www.jetking.com'),
+);
+
 export const publicEnv = {
   whatsappNumber,
   whatsappMessage,
   /** Ready-to-use click-to-chat link. */
   whatsappUrl: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
+  /** Origin of the Jetking website that answers link out to. Client-safe. */
+  siteUrl,
+  /** Host only, for display: "jetking.com". */
+  siteHost: siteUrl.replace(/^https?:\/\/(www\.)?/, ''),
 } as const;

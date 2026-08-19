@@ -15,20 +15,16 @@ export function ProfessionalBottomCta() {
             >
               Ready to take the next step in your career?
             </h2>
-            <p className="mt-3 text-[14px] leading-relaxed text-[var(--pro-ink-secondary)] sm:text-[15px]">
+            <p className="mt-3 text-[14px] leading-relaxed text-white/75 sm:text-[15px]">
               Book a free career upgrade session with our experts.
             </p>
             <ul className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-3">
               {BOTTOM_CTA_FEATURES.map((item) => (
                 <li
                   key={item.label}
-                  className="flex items-center gap-2 text-[13px] font-semibold text-[var(--pro-ink-secondary)]"
+                  className="flex items-center gap-2 text-[13px] font-semibold text-white/85"
                 >
-                  <item.icon
-                    className="h-4 w-4 text-[var(--pro-accent-soft)]"
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
+                  <item.icon className="h-4 w-4 text-jk-400" strokeWidth={2} aria-hidden="true" />
                   {item.label}
                 </li>
               ))}
@@ -42,7 +38,7 @@ export function ProfessionalBottomCta() {
             Book My Session Now
             <span
               aria-hidden="true"
-              className="grid h-10 w-10 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/cta:translate-x-0.5"
+              className="grid h-10 w-10 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/cta:translate-x-0.5"
             >
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
             </span>

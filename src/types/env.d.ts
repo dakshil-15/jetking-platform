@@ -17,8 +17,54 @@ declare namespace NodeJS {
     NEXT_PUBLIC_WHATSAPP_NUMBER?: string;
     /** Pre-filled WhatsApp message. */
     NEXT_PUBLIC_WHATSAPP_MESSAGE?: string;
+    /** National enquiry line, E.164. */
+    NEXT_PUBLIC_PHONE?: string;
+    /** Public Supabase project URL, used by the browser Supabase client. */
+    NEXT_PUBLIC_SUPABASE_URL?: string;
+    /** Shows the debug/dev inspector UI when set. */
+    NEXT_PUBLIC_SHOW_INSPECTOR?: string;
+    /** Allows search-engine indexing when set (off by default on non-prod deploys). */
+    NEXT_PUBLIC_ALLOW_INDEXING?: string;
 
     /* ---- Server only ------------------------------------------------------ */
+
+    /** Private origin fallback some server code still reads directly; prefer
+     *  NEXT_PUBLIC_SITE_URL for anything reachable from client components. */
+    SITE_URL?: string;
+    /** 'local' (repo fixtures) | 'admin' (data/cms/store.json / Supabase). */
+    CONTENT_SOURCE?: string;
+    /** HMAC signing key for the persona cookie — required in production. */
+    PERSONA_COOKIE_SECRET?: string;
+    /** Model used for silent LLM-assisted persona inference. */
+    PERSONA_INFER_MODEL?: string;
+    /** Staff/admin CMS login password — required in production. */
+    ADMIN_PASSWORD?: string;
+    /** Bearer token required by /api/ingest and /api/revalidate in production. */
+    REVALIDATE_SECRET?: string;
+    /** Supabase service-role key — full-privilege, server-only. */
+    SUPABASE_SERVICE_ROLE_KEY?: string;
+    /** OpenAI key shared by the Guide, persona inference, and /api/chat's general fallback. */
+    OPENAI_API_KEY?: string;
+    /** Chat model the AI Guide writes answers with. */
+    GUIDE_MODEL?: string;
+    /** Disables the Guide's model-generated replies when set to 'false'. */
+    GUIDE_ENABLED?: string;
+    /** Retriever backend the Guide uses. */
+    GUIDE_RETRIEVER?: string;
+    /** Embedding model used to build/query the Guide's knowledge base. */
+    GUIDE_EMBEDDING_MODEL?: string;
+    /** CRM webhook that enquiry/journey submissions are forwarded to. */
+    CRM_ENDPOINT?: string;
+    /** Bearer token for the CRM webhook. */
+    CRM_API_KEY?: string;
+    /** 'memory' (default) | a shared store name — see lib/rate-limit.ts. */
+    RATE_LIMIT_STORE?: string;
+    /** Explicitly accepts in-memory (per-instance) rate limiting in production. */
+    RATE_LIMIT_ALLOW_MEMORY?: string;
+    /** Shared rate-limit store connection string, once wired. */
+    REDIS_URL?: string;
+    /** Emits a standalone Next.js build output when set to 'true'. */
+    BUILD_STANDALONE?: string;
 
     /** Base URL of the local Ollama server. */
     OLLAMA_BASE_URL?: string;
@@ -48,17 +94,11 @@ declare namespace NodeJS {
     /** Abort the local LLM call after this many milliseconds. */
     OLLAMA_TIMEOUT_MS?: string;
 
-    /* ---- Build scripts ---------------------------------------------------- */
+    /* ---- Build scripts (scripts/*.mjs) ------------------------------------- */
 
-    /** Origin the crawler reads from. */
-    JK_ORIGIN?: string;
-    JK_CONCURRENCY?: string;
-    JK_DELAY_MS?: string;
-    JK_TIMEOUT_MS?: string;
-    JK_MAX_ATTEMPTS?: string;
-    JK_CACHE_TTL_MS?: string;
-    JK_REGRESSION_TOLERANCE?: string;
+    /** Embedding vector dimension the build scripts expect. */
     JK_EMBED_DIM?: string;
+    /** Batch size for embedding requests during corpus builds. */
     JK_EMBED_BATCH?: string;
   }
 }

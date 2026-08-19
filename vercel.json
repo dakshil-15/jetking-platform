@@ -2,14 +2,6 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "env": {
-    "SITE_URL": "@site_url",
-    "PERSONA_COOKIE_SECRET": "@persona_cookie_secret",
-    "CONTENT_SOURCE": "local",
-    "GUIDE_ENABLED": "true",
-    "GUIDE_MODEL": "gpt-4o",
-    "GUIDE_EMBEDDING_MODEL": "text-embedding-3-small"
-  },
   "functions": {
     "src/app/**/*.{js,ts}": {
       "maxDuration": 60

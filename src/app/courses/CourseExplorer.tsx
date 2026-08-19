@@ -202,7 +202,7 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
               <button
                 type="button"
                 onClick={clearFilters}
-                className="cursor-pointer text-[12px] font-bold text-[var(--dc-accent-soft)] transition-colors hover:text-[var(--dc-ink)]"
+                className="-my-2 inline-block cursor-pointer py-2 text-[12px] font-bold text-[var(--dc-accent-soft)] transition-colors hover:text-[var(--dc-ink)]"
               >
                 Clear all
               </button>
@@ -375,7 +375,7 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
             <button
               type="button"
               onClick={clearFilters}
-              className="mt-5 cursor-pointer text-[14px] font-bold text-[var(--dc-accent-soft)] transition-colors hover:text-[var(--dc-ink)]"
+              className="-my-2 mt-5 inline-block cursor-pointer py-2 text-[14px] font-bold text-[var(--dc-accent-soft)] transition-colors hover:text-[var(--dc-ink)]"
             >
               Clear all filters
             </button>

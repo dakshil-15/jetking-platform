@@ -90,6 +90,7 @@ export async function inferPersonaWithModel(payload: InferPayload): Promise<Infe
           { role: 'user', content: buildInferPrompt(payload) },
         ],
       }),
+      signal: AbortSignal.timeout(8_000),
     });
 
     if (!response.ok) return heuristicInfer(payload);

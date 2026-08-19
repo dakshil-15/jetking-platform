@@ -1,5 +1,7 @@
+import { z } from 'zod';
 import { semanticSearch } from '@/features/knowledge/lib/embeddings';
 import { serverEnv } from '@/lib/config/env.server';
+import { clientKey, createRateLimiter } from '@/lib/rate-limit';
 import { formatPassagesAnswer } from '@/features/jetking-ai/format-passage';
 import { unsupportedSensitiveClaims } from '@/features/jetking-ai/grounding';
 import {
@@ -13,6 +15,17 @@ import {
   extractCityHint,
   resolveCentreAnswer,
 } from '@/features/jetking-ai/resolve-centre-answer';
+import {
+  detectAnsweredFacet,
+  detectSubject,
+  detectWants,
+  isFollowUpMessage,
+  isLocationMessage,
+} from '@/features/jetking-ai/intent';
+import { needsPlanner, runPlanner, type PlannerOutput } from '@/features/jetking-ai/planner';
+import { passagesMax, rankHits } from '@/features/jetking-ai/rank-hits';
+import { buildRetrievalQuery } from '@/features/jetking-ai/retrieval-query';
+import { EMPTY_SESSION, updateSession, type CounsellingSession } from '@/features/jetking-ai/session';
 import { structureAnswerText } from '@/features/jetking-ai/structure-answer';
 
 /**
@@ -33,31 +46,132 @@ interface ApiMessage {
   content: string;
 }
 
+/** Client-carried, round-tripped each turn — see features/jetking-ai/session.ts. */
+const SessionSchema = z.object({
+  version: z.literal(2),
+  persona: z.enum(['student', 'parent', 'professional', 'franchise', 'unknown']),
+  interests: z.array(z.string().max(60)).max(8),
+  lastSubject: z.string().max(60).optional(),
+  lastCity: z.string().max(60).optional(),
+  lastFacet: z.string().max(30).optional(),
+  turnCount: z.number().int().min(0).max(1000),
+  educationLevel: z.string().max(60).optional(),
+  stream: z.string().max(60).optional(),
+  careerGoal: z.string().max(120).optional(),
+  concerns: z.array(z.string().max(60)).max(5).optional(),
+  preferredCourseType: z.enum(['degree', 'career', 'short-course']).optional(),
+});
+
+/**
+ * Bounded and role-restricted: an unvalidated `role` here would let a caller inject
+ * a `system` message right after the real one in the Ollama payload, and an
+ * unbounded array/string length would let one request balloon the local model's
+ * context (and, per-request, its cost) arbitrarily.
+ */
+const ChatRequestSchema = z.object({
+  messages: z
+    .array(
+      z.object({
+        role: z.enum(['user', 'assistant']),
+        content: z.string().max(4000),
+      }),
+    )
+    .max(40)
+    .optional(),
+  session: SessionSchema.optional(),
+});
+
+/** Real cost per request (embeddings + a local/OpenAI generation) — must be capped. */
+const limiter = createRateLimiter({ windowMs: 60_000, max: 20 });
+
 const GATE_TEXT =
   "I don't have verified information about that in my Jetking knowledge base. I can help with Jetking courses, fees, placements, eligibility, or finding a centre near you — just ask.";
 
-function systemPrompt(context: string, persona: PersonaId): string {
+/** Natural-language framing for planner.ts's coarse nextBestQuestion key — the model phrases it, the planner only picks the topic. */
+const NEXT_QUESTION_HINT: Record<string, string> = {
+  course_type: 'whether they want a full degree or a shorter, job-focused course',
+  education_level: 'what they last studied (10th / 12th / graduate)',
+  career_goal: 'what kind of role or outcome they are aiming for',
+  timeline: 'how soon they want to start',
+  city: 'which city or centre works for them',
+};
+
+/** Turns the same key into an actual clickable chip — phrased as the visitor's own next question. */
+const NEXT_QUESTION_CHIP: Record<string, { label: string; query: string }> = {
+  course_type: {
+    label: '🎓 Degree or short course?',
+    query: 'Should I go for a full degree or a shorter, job-focused course?',
+  },
+  education_level: {
+    label: '📚 What did you last study?',
+    query: 'Does it matter what I studied last for this course?',
+  },
+  career_goal: {
+    label: '🎯 What role are you aiming for?',
+    query: 'What kind of job can this lead to?',
+  },
+  timeline: { label: '⏱️ How soon to start?', query: 'How soon can I start this course?' },
+  city: { label: '📍 Which city?', query: 'Which Jetking centres are near me?' },
+};
+
+function systemPrompt(
+  context: string,
+  persona: PersonaId,
+  session?: CounsellingSession,
+  nextBestQuestion?: string,
+): string {
   const framing =
     persona !== 'unknown'
       ? `\nWHO THIS QUESTION SOUNDS LIKE\n${PERSONA_FRAMING[persona]}\n`
       : `\n${QUESTION_ADAPTATION_RULES}\n`;
 
+  const sessionFacts = [
+    session?.lastSubject ? `Subject discussed so far: ${session.lastSubject}.` : '',
+    session?.lastCity ? `City mentioned: ${session.lastCity}.` : '',
+    session?.lastFacet ? `Last thing answered: ${session.lastFacet}.` : '',
+    session?.educationLevel ? `Education: ${session.educationLevel}.` : '',
+    session?.stream ? `Stream: ${session.stream}.` : '',
+    session?.careerGoal ? `Career goal: ${session.careerGoal}.` : '',
+    session?.concerns?.length ? `Concerns raised: ${session.concerns.join(', ')}.` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+  const sessionBlock = sessionFacts
+    ? `\nSESSION (already established earlier in this conversation — do not re-ask for it)\n${sessionFacts}\n`
+    : '';
+
+  const questionHint = nextBestQuestion ? NEXT_QUESTION_HINT[nextBestQuestion] : undefined;
+  const nextQuestionBlock = questionHint
+    ? `\nIf it flows naturally, your next question could touch on: ${questionHint}.\n`
+    : '';
+
   return `You are Jetking's AI career assistant — a warm, human career counsellor for Jetking Institute (IT training: hardware & networking, cloud, cyber security, AI & data science).
-${framing}
-RULES
-- Answer using ONLY the CONTEXT below. Do NOT use outside knowledge to state Jetking facts.
-- Never invent fees, course names, durations, eligibility, centre addresses, phone numbers, placement figures, salaries, or guarantees. If the CONTEXT lacks it, say you don't have that verified yet and suggest confirming with a Jetking counsellor.
-- Answer ONLY the specific thing asked. If they ask about centres, talk only about centres; placements → only placements; fees → only fees. Don't volunteer other topics.
-- Adapt tone and emphasis to cues in the question (parent vs student vs working professional vs franchise) — without asking them to pick a path or showing a menu of roles.
-- Talk naturally, like a counsellor. Understand Hinglish, typos, and short questions; you may reply in Hinglish if they do. Be concise — lead with the answer, ask a follow-up only if truly needed. Not salesy.
-- Format EVERY reply as structured markdown the UI turns into HTML:
-  - Start with a ## heading naming the topic (course / fees / placements / centre).
-  - Use - bullet lists for modules, benefits, or steps.
-  - Use **Label:** value lines for fee, duration, eligibility, payment.
-  - Use short paragraphs (2–3 sentences max each). Never one long run-on block.
-  - Optional closing note in _italics_ for counsellor handoff.
-- When they are ready to act, you may mention talking to a Jetking counsellor — do not push a branded persona CTA label.
-- Reply with your final answer only. No internal reasoning or tags.
+${framing}${sessionBlock}${nextQuestionBlock}
+ROLE
+You are a career counsellor having a conversation, not a search engine returning a document. Understand → clarify if genuinely needed → recommend → explain why → check for concerns → continue. Never jump straight to "here's the course, register now."
+
+KNOWLEDGE
+Jetking-specific facts may ONLY come from the CONTEXT below. Never invent fees, course names, durations, eligibility, centre addresses, phone numbers, placement figures, salaries, or guarantees. If the CONTEXT lacks it, say so naturally and suggest confirming with a Jetking counsellor — that is a normal, honest answer, not a failure.
+
+CONVERSATION
+- Talk naturally, like a person, not a brochure. Understand Hinglish, typos, and short questions; reply in Hinglish if they do.
+- Ask at most ONE question at a time, and only when it would genuinely change your answer — never interrogate with a checklist.
+- Don't repeat a question about something already in SESSION above.
+- Answer ONLY the specific thing asked — centres → only centres, placements → only placements, fees → only fees. Don't volunteer unrelated topics.
+
+RECOMMENDATIONS
+- Recommend only courses that appear in the CONTEXT, and say briefly why it fits what they described — not just its name.
+- When someone is torn between two paths (e.g. cloud vs cyber security), don't just pick one. Name what's actually different about the day-to-day work, then ask which sounds more like them. Example: "They lead to different types of work — cloud is building and improving systems, security is investigating what's wrong. Which sounds more like you?"
+- Never fabricate eligibility to make a recommendation fit.
+
+FEES
+Never state a specific fee figure unless the CONTEXT explicitly gives one. "Confirmed by a counsellor" in the CONTEXT means exactly that — hand off, don't estimate.
+
+HUMAN HANDOFF
+Suggest talking to a Jetking counsellor (without a branded CTA label) when: exact fees are needed, they're ready to take an admission action, they explicitly ask for a human, or the CONTEXT genuinely doesn't cover what they're asking.
+
+FORMAT
+Structured markdown the UI turns into HTML: start with a ## heading naming the topic, - bullets for modules/benefits/steps, **Label:** value lines for fee/duration/eligibility/payment, short paragraphs (2–3 sentences max), optional closing _italics_ line for a handoff nudge. Reply with your final answer only — no internal reasoning or tags.
 
 CONTEXT (retrieved from the local Jetking knowledge base):
 ${context || 'No context available.'}`;
@@ -121,14 +235,27 @@ async function askOllama(
 }
 
 export async function POST(req: Request): Promise<Response> {
-  let body: { messages?: ApiMessage[] };
+  const limit = await limiter.check(clientKey(req));
+  if (!limit.allowed) {
+    return Response.json(
+      { ok: false, reason: 'rate-limited' },
+      { status: 429, headers: { 'retry-after': String(limit.retryAfter || 60) } },
+    );
+  }
+
+  let rawBody: unknown;
   try {
-    body = (await req.json()) as { messages?: ApiMessage[] };
+    rawBody = await req.json();
   } catch {
     return Response.json({ ok: false, reason: 'bad-request' }, { status: 400 });
   }
 
-  const messages = (body.messages ?? []).filter((m) => m?.content?.trim());
+  const parsed = ChatRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return Response.json({ ok: false, reason: 'bad-request' }, { status: 400 });
+  }
+
+  const messages: ApiMessage[] = (parsed.data.messages ?? []).filter((m) => m.content.trim());
   while (messages.length && messages[0]?.role !== 'user') messages.shift();
 
   const userMsgs = messages.filter((m) => m.role === 'user');
@@ -145,37 +272,20 @@ export async function POST(req: Request): Promise<Response> {
     franchise: 'a franchise enquiry',
   };
 
-  const REFERENTIAL_RE =
-    /\b(it|its|it's|that|this|these|those|they|them|their|there|same|also|too|another|what about|how about|and|aur|iska|uska|isme|usme|kitni|kitna)\b/i;
-  const SUBJECT_RE =
-    /\b(cyber|security|cloud|network|networking|hacking|ethical|blockchain|animation|gaming|metaverse|hardware|software|bca|mca|linux|red ?hat|rhcsa|aws|azure|data science|\bai\b|course|courses|diploma|masters|certification|centre|center|placement|blog)\b/i;
-  const isFollowUp =
-    !!prevUser && (REFERENTIAL_RE.test(lastUser.content) || !SUBJECT_RE.test(lastUser.content));
-  const retrievalText = isFollowUp ? `${prevUser.content} ${lastUser.content}` : lastUser.content;
+  const isFollowUp = isFollowUpMessage(lastUser.content, !!prevUser);
+  const incomingSession: CounsellingSession = parsed.data.session ?? EMPTY_SESSION;
+  const retrievalText = buildRetrievalQuery({
+    message: lastUser.content,
+    isFollowUp,
+    prevUserMessage: prevUser?.content,
+    session: incomingSession,
+  });
 
   const q = lastUser.content;
-  const LOCATION_RE =
-    /\b(cent(re|er)s?|near(est)?|location|address|branch|directions?|visit|where)\b/i;
-  const isLocation = LOCATION_RE.test(q) || Boolean(extractCityHint(q));
-  const wantFees =
-    /\b(fee|fees|cost|price|emi|installment|scholarship|payment|charges?|kitni|kitna)\b/i.test(q);
-  const wantEligibility =
-    /\b(eligib|entry requirement|who can|who should|qualification|documents?|after (10th|12th|graduation)|10\+2)/i.test(
-      q,
-    );
-  const wantCurriculum =
-    /\b(curriculum|syllabus|module|topics?|what.{0,15}(learn|study|cover)|program structure)\b/i.test(
-      q,
-    );
-  const wantPlacement =
-    /\b(placement|placed|jobs?|salary|package|recruit|hiring|compan(y|ies)|career|scope)\b/i.test(
-      q,
-    );
-  const wantDuration = /\b(duration|how long|months?|years?|kitne (mahine|saal))\b/i.test(q);
-  const wantCourse =
-    /\b(course|courses|diploma|masters|learn|training|program|certification|specialization)\b/i.test(
-      q,
-    );
+  const cityHint = extractCityHint(q);
+  const isLocation = isLocationMessage(q, Boolean(cityHint));
+  const wants = detectWants(q);
+  const { wantFees, wantEligibility, wantCurriculum, wantPlacement, wantDuration, wantCourse } = wants;
 
   const intentLabel = isLocation
     ? 'a Jetking centre / location'
@@ -211,35 +321,40 @@ export async function POST(req: Request): Promise<Response> {
       ? `Read the question — sounds like ${personaLabel[persona]}.`
       : 'Read and understood the question.';
 
-  const SUBJECT_LABELS: [RegExp, string][] = [
-    [/ethical|hacking/, 'Ethical Hacking'],
-    [/cyber|security/, 'Cyber Security'],
-    [/cloud/, 'Cloud Computing'],
-    [/blockchain/, 'Blockchain'],
-    [/animation|gaming|metaverse|vfx/, 'Animation & Gaming'],
-    [/data science|machine learning|\bai\b/, 'AI & Data Science'],
-    [/network/, 'Networking'],
-    [/hardware/, 'Hardware & Networking'],
-    [/\bbca\b/, 'BCA'],
-    [/\bmca\b/, 'MCA'],
-  ];
-  const subject = SUBJECT_LABELS.find(([re]) => re.test(retrievalText.toLowerCase()))?.[1] ?? null;
-  const answeredFacet = wantFees
-    ? 'fees'
-    : wantEligibility
-      ? 'eligibility'
-      : wantCurriculum
-        ? 'curriculum'
-        : wantDuration
-          ? 'duration'
-          : wantPlacement
-            ? 'placement'
-            : isLocation
-              ? 'centre'
-              : 'course';
+  const subject = detectSubject(retrievalText);
+  const answeredFacet = detectAnsweredFacet(wants, isLocation);
+
+  // The deterministic layer found nothing to go on (no subject, no explicit
+  // facet, not a location) — fall through to the structured LLM planner
+  // rather than guessing. Never runs on the common case, and never invents a
+  // Jetking fact itself: see planner.ts's own doc comment for why that's
+  // structural rather than just prompted.
+  let plannerResult: PlannerOutput | null = null;
+  if (needsPlanner({ subject, wants, isLocation, message: q })) {
+    plannerResult = await runPlanner({
+      message: q,
+      session: incomingSession,
+      prevUserMessage: prevUser?.content,
+    });
+  }
+
+  const nextSession: CounsellingSession = updateSession(incomingSession, {
+    persona,
+    subject,
+    cityHint,
+    answeredFacet,
+    plannerUpdates: plannerResult?.profileUpdates,
+  });
+
+  const searchQuery = plannerResult?.retrievalNeeds?.length
+    ? [retrievalText, ...plannerResult.retrievalNeeds].join(' ')
+    : retrievalText;
+  const plannerStep = plannerResult
+    ? ['The question was too ambiguous for keyword matching — used the planner to read intent from the profile instead.']
+    : [];
 
   /** Topic follow-ups only — no persona CTA chips. */
-  const buildFollowUps = (gated: boolean): { label: string; query: string }[] => {
+  const baseFollowUps = (gated: boolean): { label: string; query: string }[] => {
     if (gated || (!subject && !isLocation)) {
       return [
         { label: '🎓 Explore courses', query: 'What courses does Jetking offer?' },
@@ -283,6 +398,16 @@ export async function POST(req: Request): Promise<Response> {
     return picks;
   };
 
+  /** The planner's suggested next question, as an actual clickable chip — leads when present, since it's the most contextually relevant thing to ask right now. */
+  const buildFollowUps = (gated: boolean): { label: string; query: string }[] => {
+    const base = baseFollowUps(gated);
+    const plannerChip = plannerResult?.nextBestQuestion
+      ? NEXT_QUESTION_CHIP[plannerResult.nextBestQuestion]
+      : undefined;
+    if (!plannerChip) return base;
+    return [plannerChip, ...base.filter((f) => f.label !== plannerChip.label)].slice(0, 4);
+  };
+
   // Location questions: always answer from structured centre records.
   // Never fall through to SEO embedding blobs (those mash into "Centre…" mush).
   if (isLocation) {
@@ -300,6 +425,7 @@ export async function POST(req: Request): Promise<Response> {
             'Listed verified branches and programmes — nothing invented.',
           ],
           followUps: buildFollowUps(false),
+          session: nextSession,
         });
       }
     } catch {
@@ -316,6 +442,7 @@ export async function POST(req: Request): Promise<Response> {
         'No verified centre match — asked for a clearer city rather than guessing.',
       ],
       followUps: buildFollowUps(true),
+      session: nextSession,
     });
   }
 
@@ -323,7 +450,7 @@ export async function POST(req: Request): Promise<Response> {
   let size = 0;
   let topScore = 0;
   try {
-    const result = await semanticSearch(retrievalText, 12);
+    const result = await semanticSearch(searchQuery, 12);
     size = result.size;
     topScore = result.topScore;
     if (result.topScore < GATE) {
@@ -342,6 +469,7 @@ export async function POST(req: Request): Promise<Response> {
               'Answered with the local general model without treating the reply as a verified Jetking fact.',
             ],
             followUps: [],
+            session: nextSession,
           });
         }
       }
@@ -351,33 +479,18 @@ export async function POST(req: Request): Promise<Response> {
         text: GATE_TEXT,
         reasoning: [
           step1,
+          ...plannerStep,
           `Looked for ${intentLabel}.`,
           `Searched ${size.toLocaleString()} items in the local Jetking knowledge base.`,
           `Best match was only ${Math.round(topScore * 100)}% relevant — below my confidence bar.`,
           'Decided not to answer rather than guess.',
         ],
         followUps: buildFollowUps(true),
+        session: nextSession,
       });
     }
     // Never lead non-location answers with centre SEO pages.
-    const nonCentre = result.hits.filter((h) => h.type !== 'centre');
-    const pool = nonCentre.length === 0 ? result.hits : nonCentre;
-    const weight = (t: string) => {
-      if (t === 'centre') return 0;
-      if (t === 'home') return -0.1;
-      let w = 0;
-      if (wantFees) w += t === 'fees' ? 0.14 : t === 'overview' || t === 'course' ? 0.05 : 0;
-      if (wantEligibility) w += t === 'eligibility' ? 0.14 : 0;
-      if (wantCurriculum) w += t === 'curriculum' ? 0.13 : t === 'course' ? 0.05 : 0;
-      if (wantPlacement) w += t === 'placement' ? 0.13 : t === 'info' || t === 'blog' ? 0.05 : 0;
-      if (wantDuration) w += t === 'duration' ? 0.14 : 0;
-      if (wantCourse) w += t === 'course' || t === 'overview' || t === 'curriculum' ? 0.05 : 0;
-      return w;
-    };
-    hits = pool
-      .map((h) => ({ h, adj: h.score + weight(h.type) }))
-      .sort((a, b) => b.adj - a.adj)
-      .map(({ h }) => ({ type: h.type, text: h.text }));
+    hits = rankHits(result.hits, wants);
   } catch {
     return Response.json({ ok: false, reason: 'no-embeddings' });
   }
@@ -399,6 +512,7 @@ export async function POST(req: Request): Promise<Response> {
     const bucket = BUCKET[hits[0]?.type ?? ''] ?? 'knowledge base';
     const steps = [
       step1,
+      ...plannerStep,
       `Recognised it as about ${intentLabel}.`,
       `Searched ${size.toLocaleString()} items in the local Jetking knowledge base.`,
       `Best match is ${Math.round(topScore * 100)}% relevant, from the ${bucket} content.`,
@@ -411,8 +525,7 @@ export async function POST(req: Request): Promise<Response> {
   };
 
   const passagesAnswer = (validationNote?: string) => {
-    const preciseFacet = wantFees || wantEligibility || wantDuration || wantCurriculum;
-    const structured = structureAnswerText(formatPassagesAnswer(hits, preciseFacet ? 1 : 2));
+    const structured = structureAnswerText(formatPassagesAnswer(hits, passagesMax(wants)));
     const top = present(hits[0]);
     const text = structured || structureAnswerText(top.body, top.title) || GATE_TEXT;
     const title = text.startsWith('##') ? undefined : top.title || undefined;
@@ -425,10 +538,15 @@ export async function POST(req: Request): Promise<Response> {
         ? [...answerReasoning('kb'), validationNote]
         : answerReasoning('kb'),
       followUps: buildFollowUps(false),
+      session: nextSession,
     });
   };
 
-  const reply = await askOllama(systemPrompt(context, persona), messages, 0.3);
+  const reply = await askOllama(
+    systemPrompt(context, persona, nextSession, plannerResult?.nextBestQuestion),
+    messages,
+    0.3,
+  );
   if (!reply) return passagesAnswer();
 
   const unsupported = unsupportedSensitiveClaims(reply.text, context);
@@ -445,5 +563,6 @@ export async function POST(req: Request): Promise<Response> {
     text: structureAnswerText(reply.text),
     reasoning: answerReasoning('llm', reply.thinking ? reply.thinking.slice(0, 600) : undefined),
     followUps: buildFollowUps(false),
+    session: nextSession,
   });
 }

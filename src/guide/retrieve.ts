@@ -1,3 +1,4 @@
+import 'server-only';
 import type { Retriever } from './types';
 import { invalidateLexicalIndex, lexicalRetriever } from './retrieve-lexical';
 import { hybridRetriever } from './vector';

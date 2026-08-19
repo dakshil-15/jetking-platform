@@ -75,11 +75,11 @@ export const INTEREST_OPTIONS: Array<{ id: StudentInterest; label: string; inten
 ];
 
 const INTEREST_SLUGS: Record<StudentInterest, string[]> = {
-  cyber: ['cyber-security-specialist', 'bca-cloud-cyber-security', 'network-infrastructure-engineer'],
-  cloud: ['cloud-devops-engineer', 'ai-cloud-track', 'network-infrastructure-engineer'],
-  ai: ['ai-cloud-track', 'cloud-devops-engineer', 'cyber-security-specialist'],
-  network: ['network-infrastructure-engineer', 'cloud-devops-engineer', 'cyber-security-specialist'],
-  unsure: ['it-foundation-programme', 'cloud-devops-engineer', 'cyber-security-specialist'],
+  cyber: ['ethical-hacking-specialist', 'bca-cloud-cyber-security', 'routing-switching-administrator'],
+  cloud: ['cloud-computing-engineer-ai', 'cloud-computing-professional-ai', 'routing-switching-administrator'],
+  ai: ['cloud-computing-professional-ai', 'cloud-computing-engineer-ai', 'ethical-hacking-specialist'],
+  network: ['routing-switching-administrator', 'cloud-computing-engineer-ai', 'ethical-hacking-specialist'],
+  unsure: ['pc-hardware-support', 'cloud-computing-engineer-ai', 'ethical-hacking-specialist'],
 };
 
 const LEVELS_BY_EDUCATION: Record<StudentEducation, CourseLevel[]> = {

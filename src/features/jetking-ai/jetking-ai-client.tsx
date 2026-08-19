@@ -50,6 +50,7 @@ import { cn } from '@/lib/utils';
 import { STARTERS, WHATSAPP_URL, type Chip, type IntentKey } from './conversation';
 import { AnswerBody } from './answer-html';
 import { JetkingLoader } from './jetking-loader';
+import type { CounsellingSession } from './session';
 import { smallTalk } from './small-talk';
 
 /* ------------------------------------------------------------------ */
@@ -150,22 +151,14 @@ function toApiMessages(
 
 function BrandLockup() {
   return (
-    <div className="flex min-w-0 flex-1 items-center gap-1 min-[360px]:gap-1.5 sm:gap-2.5">
-      <span className="block h-6 shrink-0 drop-shadow-[0_0_12px_#ea1c2444] min-[360px]:h-7 sm:h-9">
-        <JetkingShield id="jk-nav" />
-      </span>
-      <span className="min-w-0 leading-none">
-        {/* eslint-disable-next-line @next/next/no-img-element -- brand asset; sized by caller */}
-        <img
-          src="/brand/jetking-wordmark.png"
-          alt="Jetking"
-          draggable={false}
-          className="block h-4 max-w-full min-w-0 shrink select-none object-contain object-left min-[360px]:h-5 sm:h-6"
-        />
-        <span className="mt-0.5 block text-[8px] font-semibold tracking-normal whitespace-nowrap text-jk-500 min-[360px]:text-[9px] sm:mt-1 sm:text-[11px] sm:tracking-wide">
-          Better Life
-        </span>
-      </span>
+    <div className="flex min-w-0 flex-1 items-center">
+      {/* eslint-disable-next-line @next/next/no-img-element -- brand asset; sized by caller */}
+      <img
+        src="/brand/jetking-wordmark.png"
+        alt="Jetking"
+        draggable={false}
+        className="block h-6 max-w-full min-w-0 shrink select-none object-contain object-left drop-shadow-[0_0_12px_#ea1c2444] min-[360px]:h-7 sm:h-9"
+      />
     </div>
   );
 }
@@ -752,6 +745,9 @@ export function JetkingAiClient() {
   const nextId = () => `m${idRef.current++}`;
   const bottomRef = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<Message[]>([]);
+  /** Round-tripped with /api/chat each turn — not persisted across a reload,
+   *  same as the message transcript itself. */
+  const sessionRef = useRef<CounsellingSession | undefined>(undefined);
 
   const [messages, setMessages] = useState<Message[]>(() => [
     {
@@ -793,7 +789,10 @@ export function JetkingAiClient() {
     fetch('/api/chat', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ messages: toApiMessages(prior, query) }),
+      body: JSON.stringify({
+        messages: toApiMessages(prior, query),
+        session: sessionRef.current,
+      }),
     })
       .then((r) => r.json())
       .then(
@@ -803,7 +802,9 @@ export function JetkingAiClient() {
           source?: 'kb' | 'llm';
           reasoning?: string[];
           followUps?: { label: string; query: string }[];
-        }) =>
+          session?: CounsellingSession;
+        }) => {
+          if (data?.session) sessionRef.current = data.session;
           setMessages((m) =>
             m.map((msg) =>
               msg.id === thinkingId
@@ -819,7 +820,8 @@ export function JetkingAiClient() {
                   }
                 : msg,
             ),
-          ),
+          );
+        },
       )
       .catch(() =>
         replaceWithText("I couldn't reach the Jetking assistant just now. Please try again."),

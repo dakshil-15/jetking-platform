@@ -237,8 +237,8 @@ function ProgrammeCardShell({
       >
         <div className="centres-clip-card relative flex h-full min-h-[340px] flex-col overflow-hidden p-5 text-left sm:min-h-[360px] sm:p-6 lg:min-h-0">
           {featured && badgeLabel ? (
-            <span className="centres-course-badge" aria-hidden="true">
-              <Sparkles className="h-3 w-3" strokeWidth={2.25} />
+            <span className="centres-course-badge">
+              <Sparkles className="h-3 w-3" strokeWidth={2.25} aria-hidden="true" />
               {badgeLabel}
             </span>
           ) : null}
@@ -301,7 +301,7 @@ function ProgrammeCardShell({
             <span style={{ color: theme.ink }}>{ctaLabel}</span>
             <span
               aria-hidden="true"
-              className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-foreground transition-transform duration-200 group-hover/course:translate-x-0.5"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-white transition-transform duration-200 group-hover/course:translate-x-0.5"
               style={{ background: theme.ink }}
             >
               <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />

@@ -9,18 +9,22 @@
  * (fees, eligibility, curriculum, duration, placement, overview, …). Those
  * weights were dead code: the facets they boost barely existed in the index.
  *
- * Three sources are merged:
+ * Four sources are merged:
  *   1. Every facet of every structured record in jetking-kb.json
  *   2. Page prose, grouped by heading so a passage is a coherent answer
  *      rather than an isolated list fragment
  *   3. Real content already embedded from the jetking.com scrape, whose
  *      source file is not on this machine — vectors are reused so nothing
  *      is lost, minus the blog listing pages (see KEEP_BLOG below)
+ *   4. Manually provided knowledge — text/FAQs, documents, and fetched URLs
+ *      collected by scripts/ingest-manual-knowledge.mts from data/manual-
+ *      knowledge/ into src/content/manual-knowledge.json
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const KB = new URL('../src/content/jetking-kb.json', import.meta.url);
 const WEBSITE = new URL('../src/content/website-corpus.json', import.meta.url);
+const MANUAL = new URL('../src/content/manual-knowledge.json', import.meta.url);
 const OUT = new URL('../src/content/jetking-embeddings.json', import.meta.url);
 const MODEL = process.env.JK_EMBED_MODEL ?? 'Xenova/paraphrase-multilingual-MiniLM-L12-v2';
 const DIM = Number(process.env.JK_EMBED_DIM ?? 384);
@@ -205,7 +209,21 @@ try {
   console.warn('(website corpus missing — run npm run export:chatbot-content)');
 }
 
-/* --- 4. Reuse what was embedded from the jetking.com scrape --------------- */
+/* --- 4. Manually provided knowledge (text/FAQs, documents, URLs) ---------- */
+
+let manualCount = 0;
+try {
+  const manual = JSON.parse(readFileSync(MANUAL, 'utf8'));
+  for (const item of manual.items ?? []) {
+    const before = items.length;
+    push('manual', `${item.title}\n${item.text}`, { title: item.title, source: item.source });
+    if (items.length > before) manualCount++;
+  }
+} catch {
+  console.warn('(no manual knowledge — run npm run ingest:manual-knowledge if you have any)');
+}
+
+/* --- 5. Reuse what was embedded from the jetking.com scrape --------------- */
 
 /**
  * Blog rows are listing-page navigation: a run of article *titles* with no
@@ -245,6 +263,7 @@ try {
 let droppedBlog = 0;
 let droppedLegal = 0;
 let droppedWebsite = 0;
+let droppedManual = 0;
 const priorVectorByText = new Map();
 
 prior.items.forEach((it, i) => {
@@ -253,6 +272,14 @@ prior.items.forEach((it, i) => {
   }
   if (it.source === 'website-content-source') {
     droppedWebsite++;
+    return;
+  }
+  // Manual knowledge is re-pushed fresh from src/content/manual-knowledge.json
+  // every run (section 4) — reusing the *prior* snapshot here too would let a
+  // removed/edited entry linger forever, the same staleness website-content-
+  // source rows are already excluded above to avoid.
+  if (it.type === 'manual') {
+    droppedManual++;
     return;
   }
   if (it.type === 'blog' && !KEEP_BLOG(it.text)) {
@@ -273,14 +300,50 @@ prior.items.forEach((it, i) => {
 /* Report                                                                      */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Source-authority per row type. Read at query time (embeddings.ts) as an
+ * additive rank boost, never as a change to the raw cosine score — see that
+ * file's AUTHORITY_WEIGHT comment. Blog/post rows are deliberately low: at
+ * 127 posts against ~a few dozen structured records, unweighted volume alone
+ * would otherwise let blog prose outrank the course/policy row that actually
+ * answers the question.
+ */
+const AUTHORITY_BY_TYPE = {
+  manual: 1.0,
+  policy: 1.0,
+  course: 0.95,
+  centre: 0.95,
+  fees: 0.95,
+  eligibility: 0.95,
+  duration: 0.95,
+  curriculum: 0.95,
+  placement: 0.95,
+  faq: 0.9,
+  overview: 0.9,
+  city: 0.8,
+  info: 0.8,
+  home: 0.8,
+  blog: 0.6,
+  post: 0.6,
+  news: 0.6,
+  page: 0.65,
+};
+const DEFAULT_AUTHORITY = 0.7;
+
+for (const it of items) {
+  it.authority = AUTHORITY_BY_TYPE[it.type] ?? DEFAULT_AUTHORITY;
+}
+
 const dist = {};
 for (const it of items) dist[it.type] = (dist[it.type] || 0) + 1;
 
 console.log(`from knowledge base : ${kbCount} items`);
 console.log(`from current website: ${websiteCount} items`);
+console.log(`from manual knowledge: ${manualCount} items`);
 console.log(
-  `reused from scrape  : ${items.length - kbCount - websiteCount} items ` +
-    `(dropped ${droppedWebsite} replaced website rows, ${droppedBlog} blog listing rows, ${droppedLegal} legal/policy rows)`,
+  `reused from scrape  : ${items.length - kbCount - websiteCount - manualCount} items ` +
+    `(dropped ${droppedWebsite} replaced website rows, ${droppedManual} replaced manual rows, ` +
+    `${droppedBlog} blog listing rows, ${droppedLegal} legal/policy rows)`,
 );
 console.log(`total               : ${items.length} items`);
 console.log(`by type             : ${JSON.stringify(dist)}`);

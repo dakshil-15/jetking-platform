@@ -30,14 +30,16 @@ export default async function CoursesPage() {
       <JsonLd data={breadcrumbSchema(trail)} />
 
       {/*
-        The Future-Ready dark skin. `.dark-canvas` supplies the #07070c canvas
-        and the `--dc-*` accent tokens; `.surface-inverse` flips the semantic
-        `--color-*` tokens so the reused paper components (breadcrumbs, the nudge,
-        the explorer's inherited utilities) read correctly on dark. `.dc-flow`
-        drops the theme's `overflow: hidden` clip so the explorer's sticky filter
-        sidebar can pin, and the orbs move onto a self-clipping `.dc-orbs` child.
+        The Future-Ready dark skin. `.dark-canvas` supplies the canvas and the
+        `--dc-*` accent tokens, both already wired to the site's global light/dark
+        toggle. `.surface-inverse` is NOT used here — it forces the semantic
+        `--color-*` tokens permanently dark regardless of the toggle, which broke
+        theme switching on this page (and on /about-us and /courses/[slug], fixed
+        alongside this). `.dc-flow` drops the theme's `overflow: hidden` clip so
+        the explorer's sticky filter sidebar can pin, and the orbs move onto a
+        self-clipping `.dc-orbs` child.
       */}
-      <div className="dark-canvas surface-inverse no-orbs dc-flow pt-6 pb-16 sm:pt-8 lg:pb-20">
+      <div className="dark-canvas no-orbs dc-flow pt-6 pb-16 sm:pt-8 lg:pb-20">
         <span className="dc-orbs" aria-hidden="true" />
 
         <div className="shell">

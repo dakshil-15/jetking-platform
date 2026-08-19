@@ -93,9 +93,9 @@ export function SiteHeader() {
                 onClick={close}
                 aria-label="Close menu"
                 className={cx(
-                  'grid h-10 w-10 cursor-pointer place-items-center rounded-full transition-colors duration-200 sm:h-11 sm:w-11',
+                  'grid h-11 w-11 cursor-pointer place-items-center rounded-full transition-colors duration-200 sm:h-12 sm:w-12',
                   onDarkLead
-                    ? 'bg-white text-foreground hover:bg-surface'
+                    ? 'bg-white text-ink-900 hover:bg-surface'
                     : 'bg-foreground text-background hover:bg-foreground-secondary',
                 )}
               >
@@ -113,12 +113,15 @@ export function SiteHeader() {
                     aria-current={active ? 'page' : undefined}
                     onClick={close}
                     className={cx(
-                      'border-b border-border py-4 text-[16px] font-bold tracking-[-0.01em] transition-colors last:border-0 sm:text-[17px]',
+                      'flex items-center gap-2 border-b border-border py-4 text-[16px] font-bold tracking-[-0.01em] transition-colors last:border-0 sm:text-[17px]',
                       active
                         ? 'text-[var(--accent-ink)]'
                         : 'text-foreground hover:text-[var(--accent-ink)]',
                     )}
                   >
+                    {active ? (
+                      <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-ink)]" />
+                    ) : null}
                     {item.label}
                   </Link>
                 );
@@ -153,37 +156,19 @@ export function SiteHeader() {
             ? 'bg-background/92 shadow-[0_8px_24px_rgb(0_0_0/0.45)] backdrop-blur-md'
             : 'bg-background'
           : scrolled
-            ? 'bg-white/92 shadow-[0_6px_20px_rgb(60_50_90/0.08)] backdrop-blur-md'
+            ? 'bg-background/92 shadow-[0_6px_20px_rgb(60_50_90/0.08)] backdrop-blur-md'
             : 'bg-transparent',
       )}
     >
       <div className="shell flex h-[72px] items-center justify-between gap-4 xs:h-[80px] sm:h-[88px] 2xl:h-[96px]">
-        <Link
-          href="/"
-          className="group flex items-center gap-2.5 xs:gap-3"
-          aria-label={`${siteConfig.name} home`}
-        >
-          <JetkingCrest
-            className="h-[38px] w-[32px] xs:h-[44px] xs:w-[38px] sm:h-[52px] sm:w-[44px]"
-            bright={onDarkLead}
+        <Link href="/" className="group flex items-center" aria-label={`${siteConfig.name} home`}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- brand asset; sized by caller */}
+          <img
+            src="/brand/jetking-wordmark.png"
+            alt={siteConfig.name}
+            draggable={false}
+            className="block h-[28px] max-w-full select-none object-contain object-left xs:h-[32px] sm:h-[38px] 2xl:h-[42px]"
           />
-          <span className="flex flex-col">
-            <span
-              className={cx(
-                'font-display text-[22px] leading-none font-extrabold tracking-[-0.02em] xs:text-[26px] sm:text-[30px] 2xl:text-[34px] text-jk-500',
-              )}
-            >
-              {siteConfig.name}
-              <sup className="ml-0.5 text-[9px] font-bold xs:text-[11px] sm:text-[13px]">®</sup>
-            </span>
-            <span
-              className={cx(
-                'mt-0.5 text-[10px] font-semibold tracking-[0.06em] xs:mt-1 xs:text-[11px] sm:text-[12px] text-jk-500',
-              )}
-            >
-              Better Life
-            </span>
-          </span>
         </Link>
 
         <div className="flex items-center gap-3 xs:gap-4 sm:gap-5 2xl:gap-[22px]">
@@ -231,7 +216,7 @@ export function SiteHeader() {
             className={cx(
               'group relative grid h-12 w-12 cursor-pointer place-items-center rounded-full transition-[background-color,transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:scale-[1.04] active:scale-[0.94] motion-reduce:transition-colors motion-reduce:hover:scale-100 motion-reduce:active:scale-100 xs:h-[52px] xs:w-[52px] sm:h-[62px] sm:w-[62px]',
               onDarkLead
-                ? 'bg-white text-foreground shadow-[0_4px_14px_rgb(0_0_0/0.35)] ring-2 ring-jk-500 ring-offset-2 ring-offset-background hover:bg-surface hover:shadow-[0_6px_20px_rgb(216_31_38/0.35)]'
+                ? 'bg-white text-ink-900 shadow-[0_4px_14px_rgb(0_0_0/0.35)] ring-2 ring-jk-500 ring-offset-2 ring-offset-background hover:bg-surface hover:shadow-[0_6px_20px_rgb(216_31_38/0.35)]'
                 : 'bg-foreground text-background ring-2 ring-jk-500 ring-offset-2 ring-offset-background hover:bg-foreground-secondary hover:shadow-[0_6px_20px_rgb(216_31_38/0.28)]',
             )}
           >
@@ -259,7 +244,7 @@ export function SiteHeader() {
                   open
                     ? 'translate-y-[6px] rotate-45 bg-jk-500 sm:translate-y-[7.75px]'
                     : onDarkLead
-                      ? 'bg-foreground group-hover:-translate-y-0.5 group-hover:bg-jk-500'
+                      ? 'bg-ink-900 group-hover:-translate-y-0.5 group-hover:bg-jk-500'
                       : 'bg-white group-hover:-translate-y-0.5 group-hover:bg-jk-500',
                 )}
               />
@@ -277,7 +262,7 @@ export function SiteHeader() {
                   open
                     ? 'w-full -translate-y-[6px] -rotate-45 bg-jk-500 delay-100 sm:-translate-y-[7.75px]'
                     : onDarkLead
-                      ? 'bg-foreground group-hover:w-full group-hover:translate-y-0.5 group-hover:bg-jk-500'
+                      ? 'bg-ink-900 group-hover:w-full group-hover:translate-y-0.5 group-hover:bg-jk-500'
                       : 'bg-white group-hover:w-full group-hover:translate-y-0.5 group-hover:bg-jk-500',
                 )}
               />
@@ -288,32 +273,5 @@ export function SiteHeader() {
 
       {drawer}
     </header>
-  );
-}
-
-/** Shield crest from the Landing Replica mock. */
-function JetkingCrest({ className, bright = false }: { className?: string; bright?: boolean }) {
-  const stroke = bright ? '#ff6b70' : '#d81f26';
-  return (
-    <span
-      aria-hidden="true"
-      className={cx(
-        'relative grid shrink-0 place-items-center overflow-hidden border-[2.5px] sm:border-[3.5px]',
-        className,
-      )}
-      style={{
-        borderRadius: '7px 7px 46% 46% / 7px 7px 56% 56%',
-        borderColor: stroke,
-      }}
-    >
-      <span
-        className="mt-[-2px] h-[58%] w-[38%]"
-        style={{
-          background: bright
-            ? 'repeating-linear-gradient(-48deg,#ff6b70 0 2px,transparent 2px 5.5px)'
-            : 'repeating-linear-gradient(-48deg,#d81f26 0 2px,transparent 2px 5.5px)',
-        }}
-      />
-    </span>
   );
 }

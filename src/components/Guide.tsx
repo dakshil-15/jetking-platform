@@ -359,8 +359,8 @@ export function Guide() {
                       <div className="mt-3 border-t border-border pt-2.5">
                         <p className="label-mono mb-1.5">Sources</p>
                         <ul className="space-y-0.5">
-                          {turn.citations.map((citation) => (
-                            <li key={citation.url}>
+                          {turn.citations.map((citation, citationIndex) => (
+                            <li key={`${citation.url}-${citationIndex}`}>
                               {citation.url.startsWith('/') ? (
                                 <Link
                                   href={citation.url as Route}

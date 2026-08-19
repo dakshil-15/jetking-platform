@@ -20,12 +20,16 @@ export default async function AdminLoginPage({
       </span>
 
       <h1 className="mt-6 text-2xl">Staff login</h1>
-      <p className="mt-2 text-sm text-foreground-secondary">
-        Use <code className="text-foreground">ADMIN_PASSWORD</code> from env (default{' '}
-        <code className="text-foreground">changeme</code>).
-      </p>
+      <p className="mt-2 text-sm text-foreground-secondary">Enter the staff password to continue.</p>
 
-      {params.error ? (
+      {params.error === 'rate_limited' ? (
+        <p
+          role="alert"
+          className="mt-5 rounded-[var(--radius-input)] border border-jk-500/30 bg-jk-500/10 px-4 py-3 text-sm font-medium text-jk-400"
+        >
+          Too many attempts. Please wait a few minutes and try again.
+        </p>
+      ) : params.error ? (
         <p
           role="alert"
           className="mt-5 rounded-[var(--radius-input)] border border-jk-500/30 bg-jk-500/10 px-4 py-3 text-sm font-medium text-jk-400"

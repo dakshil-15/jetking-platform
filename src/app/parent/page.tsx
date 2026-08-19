@@ -21,11 +21,11 @@ export default async function ParentPage() {
 
   const preferred = [
     'bca-cloud-cyber-security',
-    'cyber-security-specialist',
-    'cloud-devops-engineer',
-    'network-infrastructure-engineer',
-    'ai-cloud-track',
-    'it-foundation-programme',
+    'ethical-hacking-specialist',
+    'cloud-computing-engineer-ai',
+    'routing-switching-administrator',
+    'cloud-computing-professional-ai',
+    'pc-hardware-support',
   ];
 
   const parentCourses = [...courses]

@@ -69,7 +69,20 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             </form>
           </aside>
 
-          <main className="flex-1 overflow-auto p-8 lg:p-12">{children}</main>
+          <main className="flex-1 overflow-auto p-8 lg:p-12">
+            {process.env.CONTENT_SOURCE !== 'admin' ? (
+              <div
+                role="alert"
+                className="mb-6 rounded-[var(--radius-input)] border border-jk-500/30 bg-jk-500/10 px-4 py-3 text-sm font-medium text-jk-400"
+              >
+                Changes here do not affect the live site. The deployed site is reading content from
+                repo fixtures (<code>CONTENT_SOURCE={process.env.CONTENT_SOURCE ?? 'local'}</code>
+                ), not this CMS store — saves below will succeed but won&apos;t go live until
+                CONTENT_SOURCE is set to <code>admin</code> and the site is redeployed.
+              </div>
+            ) : null}
+            {children}
+          </main>
         </div>
       ) : (
         <main className="flex min-h-screen items-center justify-center p-8">{children}</main>

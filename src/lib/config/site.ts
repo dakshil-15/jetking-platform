@@ -6,7 +6,7 @@
  * public origin is joined on at render time, so the same committed data works
  * in dev, in staging, and embedded in the live site.
  */
-import { serverEnv } from '@/lib/config/env.server';
+import { publicEnv } from '@/lib/config/env';
 
 /** Static product metadata. Single source of truth for naming and copy. */
 export const SITE = {
@@ -16,8 +16,8 @@ export const SITE = {
     'Ask anything about Jetking courses, placements, fees, eligibility and training centres — answered from jetking.com.',
   organisation: 'Jetking Infotrain Limited',
   /** The site every answer is grounded in. */
-  sourceSite: serverEnv.siteUrl,
-  sourceLabel: serverEnv.siteHost,
+  sourceSite: publicEnv.siteUrl,
+  sourceLabel: publicEnv.siteHost,
 } as const;
 
 /**

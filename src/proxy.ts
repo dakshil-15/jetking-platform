@@ -8,7 +8,7 @@ import {
   payloadToSignals,
 } from '@/persona/cookie';
 import { VISITOR_COOKIE, VISITOR_MAX_AGE, resolveVisitorId } from '@/persona/visitor';
-import type { FirstTouchInput } from '@/persona/types';
+import { RULES_VERSION, type FirstTouchInput } from '@/persona/types';
 
 /**
  * ══════════════════════════════════════════════════════════════════════════════
@@ -109,7 +109,12 @@ export async function proxy(req: NextRequest) {
     hourIst: istHour(now),
   };
 
-  const existing = await decodePersonaCookie(req.cookies.get(PERSONA_COOKIE)?.value);
+  const decoded = await decodePersonaCookie(req.cookies.get(PERSONA_COOKIE)?.value);
+  // A rules deploy bumps RULES_VERSION; a cookie signed under an older version
+  // carries signal weights/logic that no longer match `rules.ts` and must not be
+  // reused as-is, or a returning visitor keeps stale classification for up to 30
+  // days regardless of how the rules changed.
+  const existing = decoded && decoded.v === RULES_VERSION ? decoded : null;
   const priorSignals = existing ? payloadToSignals(existing) : [];
 
   // Re-classify when there is new attribution (UTM, gclid, or external referrer).

@@ -1,0 +1,2223 @@
+[
+  {
+    "id": "followup-shorter-cyber",
+    "category": "follow-up-pronoun",
+    "turns": [
+      "cybersecurity karna hai after 12th commerce",
+      "are you looking for a degree or a shorter course",
+      "shorter"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "student",
+        "turnCount": 3,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "course",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "followup-fees-after-course",
+    "category": "follow-up-pronoun",
+    "turns": [
+      "tell me about the cloud computing course",
+      "what about fees"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cloud Computing",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cloud Computing",
+        "lastFacet": "fees",
+        "interests": [
+          "Cloud Computing"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "followup-eligibility-pronoun",
+    "category": "follow-up-pronoun",
+    "turns": [
+      "I'm interested in cyber security",
+      "am I eligible for it"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "eligibility",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "eligibility",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "followup-duration-pronoun",
+    "category": "follow-up-pronoun",
+    "turns": [
+      "tell me about ethical hacking",
+      "how long is that"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Ethical Hacking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "duration",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Ethical Hacking",
+        "lastFacet": "duration",
+        "interests": [
+          "Ethical Hacking"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "followup-placement-pronoun",
+    "category": "follow-up-pronoun",
+    "turns": [
+      "what is the networking course about",
+      "will I get placed after this"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Networking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "placement",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Networking",
+        "lastFacet": "placement",
+        "interests": [
+          "Networking"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "city-switch-mumbai-pune",
+    "category": "location-change",
+    "turns": [
+      "jetking centre in mumbai",
+      "what about pune"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": null,
+      "cityHint": "pune",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastCity": "pune",
+        "lastFacet": "centre",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "city-switch-delhi-bangalore",
+    "category": "location-change",
+    "turns": [
+      "jetking centre in delhi",
+      "and in bangalore"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": null,
+      "cityHint": "bangalore",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastCity": "bangalore",
+        "lastFacet": "centre",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "city-switch-hyderabad-chennai",
+    "category": "location-change",
+    "turns": [
+      "is there a centre in hyderabad",
+      "what about chennai"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": null,
+      "cityHint": "chennai",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastCity": "chennai",
+        "lastFacet": "centre",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "city-then-course-then-city-again",
+    "category": "location-change",
+    "turns": [
+      "jetking centre in kolkata",
+      "which courses do they offer",
+      "what about ahmedabad"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": null,
+      "cityHint": "ahmedabad",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 3,
+        "lastCity": "ahmedabad",
+        "lastFacet": "centre",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "subject-switch-cloud-to-cyber",
+    "category": "subject-switching",
+    "turns": [
+      "tell me about cloud computing",
+      "what are the fees",
+      "actually I want to know about cyber security instead",
+      "and its fees"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 4,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "fees",
+        "interests": [
+          "Cloud Computing",
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "subject-switch-hardware-to-ai",
+    "category": "subject-switching",
+    "turns": [
+      "hardware and networking course details",
+      "now tell me about ai and data science",
+      "duration of that"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "AI & Data Science",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "duration",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 3,
+        "lastSubject": "AI & Data Science",
+        "lastFacet": "duration",
+        "interests": [
+          "Networking",
+          "AI & Data Science"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "one-word-eligibility",
+    "category": "one-word-followup",
+    "turns": [
+      "cyber security course",
+      "eligibility?"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "eligibility",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "eligibility",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "one-word-duration",
+    "category": "one-word-followup",
+    "turns": [
+      "cloud computing course",
+      "duration?"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cloud Computing",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "duration",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cloud Computing",
+        "lastFacet": "duration",
+        "interests": [
+          "Cloud Computing"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "one-word-fees",
+    "category": "one-word-followup",
+    "turns": [
+      "ethical hacking course",
+      "fees?"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Ethical Hacking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Ethical Hacking",
+        "lastFacet": "fees",
+        "interests": [
+          "Ethical Hacking"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "one-word-yes-continue",
+    "category": "one-word-followup",
+    "turns": [
+      "tell me about blockchain course",
+      "do you want to know the curriculum too",
+      "yes"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Blockchain",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 3,
+        "lastSubject": "Blockchain",
+        "lastFacet": "course",
+        "interests": [
+          "Blockchain"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "hinglish-after-12th-cyber",
+    "category": "hinglish",
+    "turns": [
+      "12th ke baad cyber security kar sakta hu",
+      "iska duration kitna hai"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "duration",
+      "session": {
+        "persona": "student",
+        "turnCount": 2,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "duration",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "hinglish-fees-query",
+    "category": "hinglish",
+    "turns": [
+      "cloud computing course ke baare mein batao",
+      "iski fees kitni hai"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cloud Computing",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cloud Computing",
+        "lastFacet": "fees",
+        "interests": [
+          "Cloud Computing"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "hinglish-eligibility",
+    "category": "hinglish",
+    "turns": [
+      "networking course",
+      "isme eligibility kya hai"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Networking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "eligibility",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Networking",
+        "lastFacet": "eligibility",
+        "interests": [
+          "Networking"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "hinglish-no-coding",
+    "category": "hinglish",
+    "turns": [
+      "cyber security karna hai",
+      "mujhe coding nahi aata"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "course",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "hinglish-centre-nearby",
+    "category": "hinglish",
+    "turns": [
+      "mera nearest centre kaunsa hai",
+      "mumbai mein hu"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": null,
+      "cityHint": "mumbai",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastCity": "mumbai",
+        "lastFacet": "centre",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "fees-after-course-established-1",
+    "category": "fee-question",
+    "turns": [
+      "what courses do you have for ai and data science",
+      "what is the course fee"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "AI & Data Science",
+        "lastFacet": "fees",
+        "interests": [
+          "AI & Data Science"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "fees-after-course-established-2",
+    "category": "fee-question",
+    "turns": [
+      "tell me about the mca programme",
+      "how much does it cost"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "MCA",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "MCA",
+        "lastFacet": "fees",
+        "interests": [
+          "MCA"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "fees-after-course-established-3",
+    "category": "fee-question",
+    "turns": [
+      "bca course details",
+      "emi options available"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "BCA",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "BCA",
+        "lastFacet": "fees",
+        "interests": [
+          "BCA"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "referential-that-one",
+    "category": "pronoun-reference",
+    "turns": [
+      "animation and gaming course",
+      "what will I learn in that one"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Animation & Gaming",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "curriculum",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Animation & Gaming",
+        "lastFacet": "curriculum",
+        "interests": [
+          "Animation & Gaming"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "referential-same-course",
+    "category": "pronoun-reference",
+    "turns": [
+      "cyber security course modules",
+      "does the same course have certifications"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "course",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "curriculum-then-placement",
+    "category": "facet-followup",
+    "turns": [
+      "what will I study in the cloud computing course",
+      "what about placements after"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cloud Computing",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cloud Computing",
+        "lastFacet": "course",
+        "interests": [
+          "Cloud Computing"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "short-followup-after-city",
+    "category": "short-followup",
+    "turns": [
+      "jetking centre in noida",
+      "address"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastCity": "noida",
+        "lastFacet": "centre",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "short-followup-course-list",
+    "category": "short-followup",
+    "turns": [
+      "which courses can I do after 12th",
+      "and after graduation"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "eligibility",
+      "session": {
+        "persona": "student",
+        "turnCount": 2,
+        "lastFacet": "eligibility",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "professional-context-cloud",
+    "category": "persona-professional",
+    "turns": [
+      "I have 3 years of experience, want to do a cloud computing certification",
+      "is there a weekend batch"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cloud Computing",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "professional",
+        "turnCount": 2,
+        "lastSubject": "Cloud Computing",
+        "lastFacet": "course",
+        "interests": [
+          "Cloud Computing"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "parent-context-son-cyber",
+    "category": "persona-parent",
+    "turns": [
+      "my son wants to do cyber security, is it good for him",
+      "what is the eligibility"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "eligibility",
+      "session": {
+        "persona": "parent",
+        "turnCount": 2,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "eligibility",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "franchise-context",
+    "category": "persona-franchise",
+    "turns": [
+      "I want to open a jetking franchise",
+      "what is the process"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "franchise",
+        "turnCount": 2,
+        "lastFacet": "course",
+        "interests": []
+      },
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "subject-first-mention-blockchain",
+    "category": "direct-query",
+    "turns": [
+      "blockchain course details"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Blockchain",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "lastSubject": "Blockchain",
+        "lastFacet": "course",
+        "interests": [
+          "Blockchain"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "subject-first-mention-mca",
+    "category": "direct-query",
+    "turns": [
+      "MCA programme details"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "MCA",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "lastSubject": "MCA",
+        "lastFacet": "course",
+        "interests": [
+          "MCA"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "subject-first-mention-bca",
+    "category": "direct-query",
+    "turns": [
+      "BCA course eligibility"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "BCA",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "eligibility",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "lastSubject": "BCA",
+        "lastFacet": "eligibility",
+        "interests": [
+          "BCA"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "city-alias-bengaluru",
+    "category": "location-change",
+    "turns": [
+      "jetking centre in bengaluru"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": "bengaluru",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "lastCity": "bengaluru",
+        "lastFacet": "centre",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "city-alias-gurugram",
+    "category": "location-change",
+    "turns": [
+      "centre in gurugram"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": "gurugram",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "lastCity": "gurugram",
+        "lastFacet": "centre",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "multi-turn-full-journey",
+    "category": "multi-turn-journey",
+    "turns": [
+      "12th commerce complete, cyber security me interest hai",
+      "shorter job-focused course chahiye",
+      "iski fees kya hai",
+      "aur pune mein centre hai kya"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": "pune",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 4,
+        "lastSubject": "Cyber Security",
+        "lastCity": "pune",
+        "lastFacet": "centre",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "duration-then-curriculum",
+    "category": "facet-followup",
+    "turns": [
+      "how long is the hardware and networking course",
+      "what topics does it cover"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Networking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "curriculum",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Networking",
+        "lastFacet": "curriculum",
+        "interests": [
+          "Networking"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "eligibility-then-duration",
+    "category": "facet-followup",
+    "turns": [
+      "who is eligible for the ethical hacking course",
+      "and how long does it take"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Ethical Hacking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "duration",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Ethical Hacking",
+        "lastFacet": "duration",
+        "interests": [
+          "Ethical Hacking"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "placement-then-fees",
+    "category": "facet-followup",
+    "turns": [
+      "which companies recruit from jetking for cyber security",
+      "what are the fees for that course"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "fees",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "vague-then-clarify",
+    "category": "ambiguous-profile",
+    "turns": [
+      "I don't know what to choose",
+      "cloud or cyber security, which is better"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "course",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "repeat-question",
+    "category": "repeat-question",
+    "turns": [
+      "cyber security course fees",
+      "sorry what was the fee again"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "fees",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "city-then-subject-then-city",
+    "category": "location-change",
+    "turns": [
+      "centre in thane",
+      "cyber security course",
+      "same course in vasai"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Cyber Security",
+      "cityHint": "vasai",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 3,
+        "lastSubject": "Cyber Security",
+        "lastCity": "vasai",
+        "lastFacet": "centre",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "hinglish-centre-kaha-hai",
+    "category": "hinglish",
+    "turns": [
+      "jetking centre kaha hai mumbai mein",
+      "aur andheri mein bhi hai kya"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": null,
+      "cityHint": "andheri",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastCity": "andheri",
+        "lastFacet": "centre",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "single-turn-fees-no-context",
+    "category": "direct-query",
+    "turns": [
+      "what are the fees"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "lastFacet": "fees",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "single-turn-eligibility-no-context",
+    "category": "direct-query",
+    "turns": [
+      "am I eligible"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "eligibility",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "lastFacet": "eligibility",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "single-turn-duration-no-context",
+    "category": "direct-query",
+    "turns": [
+      "how long is the course"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "duration",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "lastFacet": "duration",
+        "interests": []
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "networking-then-hardware-pronoun",
+    "category": "pronoun-reference",
+    "turns": [
+      "networking course details",
+      "is hardware and networking the same as this"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "Networking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Networking",
+        "lastFacet": "course",
+        "interests": [
+          "Networking"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "ai-data-science-fees-hinglish",
+    "category": "hinglish",
+    "turns": [
+      "AI aur data science course ke baare mein batao",
+      "iski fees aur duration kya hai"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "subject": "AI & Data Science",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "AI & Data Science",
+        "lastFacet": "fees",
+        "interests": [
+          "AI & Data Science"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "certification-question",
+    "category": "direct-query",
+    "turns": [
+      "what certifications does jetking offer",
+      "for the cyber security course specifically"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 2,
+        "lastSubject": "Cyber Security",
+        "lastFacet": "course",
+        "interests": [
+          "Cyber Security"
+        ]
+      },
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "unsupported-cyber-guarantee",
+    "category": "unsupported-claims",
+    "turns": [
+      "does jetking guarantee a job after the cyber security course"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "placement",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Cyber Security"
+        ],
+        "lastSubject": "Cyber Security",
+        "lastFacet": "placement"
+      },
+      "shouldGround": true,
+      "unsupportedClaimProbe": "Jetking guarantees a 100% job placement with a ₹10 lakh package after the Cyber Security course.",
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "unsupported-cloud-salary",
+    "category": "unsupported-claims",
+    "turns": [
+      "will I definitely get placed after cloud computing, what salary"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cloud Computing",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "placement",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Cloud Computing"
+        ],
+        "lastSubject": "Cloud Computing",
+        "lastFacet": "placement"
+      },
+      "shouldGround": true,
+      "unsupportedClaimProbe": "You will definitely get placed after Cloud Computing with a guaranteed starting salary of ₹8 lakh per annum.",
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "unsupported-placement-count",
+    "category": "unsupported-claims",
+    "turns": [
+      "how many students get placed every year"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "duration",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "duration"
+      },
+      "shouldGround": true,
+      "unsupportedClaimProbe": "5000+ students get placed every year with a 100% placement guarantee.",
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "unsupported-ethical-hacking-salary",
+    "category": "unsupported-claims",
+    "turns": [
+      "what salary can I expect after ethical hacking course"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Ethical Hacking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "placement",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Ethical Hacking"
+        ],
+        "lastSubject": "Ethical Hacking",
+        "lastFacet": "placement"
+      },
+      "shouldGround": true,
+      "unsupportedClaimProbe": "Ethical Hacking graduates get a guaranteed ₹12 lakh salary package in their first job.",
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "unsupported-100-percent-placement",
+    "category": "unsupported-claims",
+    "turns": [
+      "is placement 100% guaranteed at jetking"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "placement",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "placement"
+      },
+      "shouldGround": true,
+      "unsupportedClaimProbe": "Yes, Jetking guarantees 100% placement for all students within 3 months of course completion.",
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "fee-refusal-exact-bca",
+    "category": "fee-refusal",
+    "turns": [
+      "exact fee for bca in rupees please"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "BCA",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "BCA"
+        ],
+        "lastSubject": "BCA",
+        "lastFacet": "fees"
+      },
+      "shouldGround": true,
+      "kbAnswerContains": [
+        "Confirmed by a counsellor"
+      ],
+      "kbAnswerNotContains": [
+        "₹99,999",
+        "Rs.99,999"
+      ],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "fee-refusal-exact-cyber",
+    "category": "fee-refusal",
+    "turns": [
+      "what is the exact course fee for cyber security"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Cyber Security"
+        ],
+        "lastSubject": "Cyber Security",
+        "lastFacet": "fees"
+      },
+      "shouldGround": true,
+      "kbAnswerContains": [
+        "Confirmed by a counsellor"
+      ],
+      "kbAnswerNotContains": [
+        "₹99,999",
+        "Rs.99,999"
+      ],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "fee-refusal-total-with-hostel",
+    "category": "fee-refusal",
+    "turns": [
+      "total fee including hostel for cloud computing"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cloud Computing",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Cloud Computing"
+        ],
+        "lastSubject": "Cloud Computing",
+        "lastFacet": "fees"
+      },
+      "shouldGround": true,
+      "kbAnswerContains": [
+        "Confirmed by a counsellor"
+      ],
+      "kbAnswerNotContains": [
+        "₹99,999",
+        "Rs.99,999"
+      ],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "fee-refusal-give-numbers",
+    "category": "fee-refusal",
+    "turns": [
+      "give me the fee in numbers for mca"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "MCA",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "MCA"
+        ],
+        "lastSubject": "MCA",
+        "lastFacet": "fees"
+      },
+      "shouldGround": true,
+      "kbAnswerContains": [
+        "Confirmed by a counsellor"
+      ],
+      "kbAnswerNotContains": [
+        "₹99,999",
+        "Rs.99,999"
+      ],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "fee-refusal-rupees-ethical-hacking",
+    "category": "fee-refusal",
+    "turns": [
+      "how much rupees for ethical hacking course"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Ethical Hacking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Ethical Hacking"
+        ],
+        "lastSubject": "Ethical Hacking",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "kbAnswerContains": [
+        "Confirmed by a counsellor"
+      ],
+      "kbAnswerNotContains": [
+        "₹99,999",
+        "Rs.99,999"
+      ],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "competitor-niit",
+    "category": "competitor-questions",
+    "turns": [
+      "jetking vs niit which is better"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "kbAnswerNotContains": [
+        "niit"
+      ],
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "competitor-arena",
+    "category": "competitor-questions",
+    "turns": [
+      "is arena animation better than jetking"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Animation & Gaming",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Animation & Gaming"
+        ],
+        "lastSubject": "Animation & Gaming",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "kbAnswerNotContains": [
+        "arena"
+      ],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "competitor-nrusoft",
+    "category": "competitor-questions",
+    "turns": [
+      "compare jetking and nrusoft"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "kbAnswerNotContains": [
+        "nrusoft"
+      ],
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "competitor-udemy",
+    "category": "competitor-questions",
+    "turns": [
+      "how does jetking compare to udemy"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "kbAnswerNotContains": [
+        "udemy"
+      ],
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "competitor-polytechnic",
+    "category": "competitor-questions",
+    "turns": [
+      "is jetking better than a government polytechnic"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "kbAnswerNotContains": [
+        "polytechnic"
+      ],
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "spelling-cyber-secuirty",
+    "category": "spelling-mistakes",
+    "turns": [
+      "cyber secuirty corse fees"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "fees",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Cyber Security"
+        ],
+        "lastSubject": "Cyber Security",
+        "lastFacet": "fees"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "spelling-eligiblity-clould",
+    "category": "spelling-mistakes",
+    "turns": [
+      "wat is the eligiblity for clould computing"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "eligibility",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "eligibility"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "spelling-hw-long-corse",
+    "category": "spelling-mistakes",
+    "turns": [
+      "hw long is the networking corse"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Networking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Networking"
+        ],
+        "lastSubject": "Networking",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "spelling-jetkin-mumbai",
+    "category": "spelling-mistakes",
+    "turns": [
+      "jetkin centre in mumbai"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": "mumbai",
+      "isLocation": true,
+      "facet": "centre",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastCity": "mumbai",
+        "lastFacet": "centre"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "spelling-athical-hacking",
+    "category": "spelling-mistakes",
+    "turns": [
+      "athical hacking course details"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Ethical Hacking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Ethical Hacking"
+        ],
+        "lastSubject": "Ethical Hacking",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "compare-cloud-vs-cyber",
+    "category": "course-comparisons",
+    "turns": [
+      "cloud computing vs cyber security which is better"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Cyber Security"
+        ],
+        "lastSubject": "Cyber Security",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "compare-bca-vs-mca",
+    "category": "course-comparisons",
+    "turns": [
+      "difference between bca and mca"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "BCA",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "BCA"
+        ],
+        "lastSubject": "BCA",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "compare-hardware-vs-cloud",
+    "category": "course-comparisons",
+    "turns": [
+      "hardware networking or cloud computing for beginners"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cloud Computing",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Cloud Computing"
+        ],
+        "lastSubject": "Cloud Computing",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "compare-ethical-vs-cyber",
+    "category": "course-comparisons",
+    "turns": [
+      "which is better ethical hacking or cyber security"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Ethical Hacking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "Ethical Hacking"
+        ],
+        "lastSubject": "Ethical Hacking",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "compare-network-vs-ai",
+    "category": "course-comparisons",
+    "turns": [
+      "networking vs ai and data science, which has more scope"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "AI & Data Science",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "placement",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [
+          "AI & Data Science"
+        ],
+        "lastSubject": "AI & Data Science",
+        "lastFacet": "placement"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "offtopic-cake",
+    "category": "off-topic",
+    "turns": [
+      "how do I bake a chocolate cake"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": false,
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "offtopic-capital",
+    "category": "off-topic",
+    "turns": [
+      "what is the capital of france"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": false,
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "offtopic-joke",
+    "category": "off-topic",
+    "turns": [
+      "tell me a joke"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": false,
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "offtopic-cricket",
+    "category": "off-topic",
+    "turns": [
+      "who won the cricket world cup"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": false,
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "offtopic-weather",
+    "category": "off-topic",
+    "turns": [
+      "what's the weather today"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": false,
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "parent-bca-mca-confused",
+    "category": "persona-parent",
+    "turns": [
+      "my daughter is confused between bca and mca, what do you suggest"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "BCA",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "parent",
+        "turnCount": 1,
+        "interests": [
+          "BCA"
+        ],
+        "lastSubject": "BCA",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "parent-safety-quality",
+    "category": "persona-parent",
+    "turns": [
+      "is jetking safe and good quality education for my child"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "parent",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "parent-placement-support",
+    "category": "persona-parent",
+    "turns": [
+      "as a parent I want to know about placement support"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "placement",
+      "session": {
+        "persona": "parent",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "placement"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "professional-weekend-cloud",
+    "category": "persona-professional",
+    "turns": [
+      "I am a working professional, can I do cloud computing on weekends"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cloud Computing",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "professional",
+        "turnCount": 1,
+        "interests": [
+          "Cloud Computing"
+        ],
+        "lastSubject": "Cloud Computing",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "professional-career-switch-sales",
+    "category": "persona-professional",
+    "turns": [
+      "I want to switch career to cyber security, i have 5 years experience in sales"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cyber Security",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "duration",
+      "session": {
+        "persona": "professional",
+        "turnCount": 1,
+        "interests": [
+          "Cyber Security"
+        ],
+        "lastSubject": "Cyber Security",
+        "lastFacet": "duration"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "professional-fulltime-ethical",
+    "category": "persona-professional",
+    "turns": [
+      "while working full time can I study ethical hacking"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Ethical Hacking",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "professional",
+        "turnCount": 1,
+        "interests": [
+          "Ethical Hacking"
+        ],
+        "lastSubject": "Ethical Hacking",
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "ambiguous-commerce-no-coding",
+    "category": "ambiguous-profile",
+    "turns": [
+      "12th commerce kiya hai but coding nahi aata and job jaldi chahiye"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "placement",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "placement"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "ambiguous-graduate-career-change",
+    "category": "ambiguous-profile",
+    "turns": [
+      "graduate hoon, career change karna hai, kya karu"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "placement",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "placement"
+      },
+      "shouldGround": true,
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "ambiguous-not-sure-what",
+    "category": "ambiguous-profile",
+    "turns": [
+      "I want to learn something new but not sure what"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "course",
+      "session": {
+        "persona": "unknown",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "course"
+      },
+      "shouldGround": true,
+      "needsPlanner": true
+    }
+  },
+  {
+    "id": "ambiguous-confused-after-10th",
+    "category": "ambiguous-profile",
+    "turns": [
+      "confused about which stream to pick after 10th"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "eligibility",
+      "session": {
+        "persona": "student",
+        "turnCount": 1,
+        "interests": [],
+        "lastFacet": "eligibility"
+      },
+      "shouldGround": false,
+      "needsPlanner": false
+    }
+  }
+]

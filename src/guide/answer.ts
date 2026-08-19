@@ -1,4 +1,5 @@
 import { content } from '@/lib/content';
+import { serverEnv } from '@/lib/config/env.server';
 import type { PersonaId } from '@/persona/types';
 import { HANDOFF_COPY, answerFeeQuestion, postCheck, preCheck } from './guardrails';
 import { buildSystemPrompt, buildUserTurn } from './prompt';
@@ -8,7 +9,14 @@ import type { GuideOutcome } from './types';
 /**
  * Guide orchestration — the full pipeline in one readable function.
  *
- *   preCheck → [fee path] → retrieve → confidence gate → GPT-4o → postCheck → answer
+ *   preCheck → [fee path] → retrieve → confidence gate → generate → postCheck → answer
+ *
+ * Generation prefers OpenAI (GUIDE_MODEL) when OPENAI_API_KEY is configured, and
+ * otherwise falls back to the same local Ollama model the main /chatbot uses
+ * (OLLAMA_MODEL, see src/app/api/chat/route.ts) — so this widget answers with a
+ * real generated reply instead of degrading to "here's the most relevant page"
+ * just because no OpenAI key is set. Retrieval already had this fallback
+ * (getRetriever() in ./retrieve); generation did not, until now.
  *
  * On ungrounded-number / unknown-entity, regenerate once with a violation hint
  * (DEVELOPMENT-PLAN §5.2), then hand off if still unsafe.
@@ -81,8 +89,7 @@ export async function answerQuestion(req: AnswerRequest): Promise<AnswerResult> 
     };
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey || process.env.GUIDE_ENABLED === 'false') {
+  if (process.env.GUIDE_ENABLED === 'false') {
     const top = retrieved[0];
     if (!top) {
       return {
@@ -100,22 +107,42 @@ export async function answerQuestion(req: AnswerRequest): Promise<AnswerResult> 
     };
   }
 
-  const model = process.env.GUIDE_MODEL ?? 'gpt-4o';
+  const apiKey = process.env.OPENAI_API_KEY;
+  const model = apiKey ? (process.env.GUIDE_MODEL ?? 'gpt-4o') : serverEnv.ollamaModel;
   const courses = await content.listCourses();
   const knownTitles = courses.map((c) => c.title);
 
   let generated: string;
   try {
-    generated = await callOpenAI({
+    generated = await generateReply({
       apiKey,
       model,
       system: buildSystemPrompt(persona),
       user: buildUserTurn(question, retrieved),
     });
   } catch {
+    const top = retrieved[0];
+    if (!top) {
+      return {
+        outcome: { kind: 'handoff', reason: 'unavailable', text: HANDOFF_COPY.unavailable },
+        diagnostics: { retrievedCount: retrieved.length, topScore, guardrail: 'model:error', model },
+      };
+    }
+    // Both the configured model and (if applicable) the local Ollama fallback
+    // are unavailable — degrade to the same retrieval-only answer used when
+    // generation is disabled outright, rather than a bare handoff.
     return {
-      outcome: { kind: 'handoff', reason: 'unavailable', text: HANDOFF_COPY.unavailable },
-      diagnostics: { retrievedCount: retrieved.length, topScore, guardrail: 'model:error', model },
+      outcome: {
+        kind: 'answer',
+        text: `Here is the most relevant page I have on that: **${top.title}**. ${truncate(top.text, 260)}`,
+        citations: [{ title: top.title, url: top.url }],
+      },
+      diagnostics: {
+        retrievedCount: retrieved.length,
+        topScore,
+        guardrail: 'model:degraded-retrieval-only',
+        model,
+      },
     };
   }
 
@@ -128,7 +155,7 @@ export async function answerQuestion(req: AnswerRequest): Promise<AnswerResult> 
   ) {
     regenerated = true;
     try {
-      generated = await callOpenAI({
+      generated = await generateReply({
         apiKey,
         model,
         system: buildSystemPrompt(persona),
@@ -170,7 +197,17 @@ export async function answerQuestion(req: AnswerRequest): Promise<AnswerResult> 
     };
   }
 
-  const citations = retrieved.slice(0, 3).map((c) => ({ title: c.title, url: c.url }));
+  // A long article can retrieve several chunks (one per heading) that all
+  // cite the same URL — de-dupe by URL first, or the widget lists (and reacts
+  // to) the same link two or three times.
+  const seenUrls = new Set<string>();
+  const citations: Array<{ title: string; url: string }> = [];
+  for (const c of retrieved) {
+    if (seenUrls.has(c.url)) continue;
+    seenUrls.add(c.url);
+    citations.push({ title: c.title, url: c.url });
+    if (citations.length === 3) break;
+  }
   if (citations.length === 0) {
     return {
       outcome: { kind: 'handoff', reason: 'no-grounding', text: HANDOFF_COPY['no-grounding'] },
@@ -234,6 +271,59 @@ async function callOpenAI(opts: {
     return text;
   } finally {
     clearTimeout(timeout);
+  }
+}
+
+/**
+ * OpenAI when `apiKey` is set (the widget's original path); otherwise the same
+ * local Ollama model the main /chatbot uses. Throws if the chosen backend
+ * fails — callers already handle that by degrading to a retrieval-only answer.
+ */
+async function generateReply(opts: {
+  apiKey: string | undefined;
+  model: string;
+  system: string;
+  user: string;
+}): Promise<string> {
+  if (opts.apiKey) {
+    return callOpenAI({ apiKey: opts.apiKey, model: opts.model, system: opts.system, user: opts.user });
+  }
+  const text = await callOllama({ model: opts.model, system: opts.system, user: opts.user });
+  if (!text) throw new Error('Ollama generation failed');
+  return text;
+}
+
+async function callOllama(opts: {
+  model: string;
+  system: string;
+  user: string;
+}): Promise<string | null> {
+  try {
+    const response = await fetch(serverEnv.ollamaChatUrl, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      signal: AbortSignal.timeout(serverEnv.ollamaTimeoutMs),
+      body: JSON.stringify({
+        model: opts.model,
+        stream: false,
+        options: { temperature: 0.2 },
+        messages: [
+          { role: 'system', content: opts.system },
+          { role: 'user', content: opts.user },
+        ],
+      }),
+    });
+    if (!response.ok) return null;
+
+    const data = (await response.json()) as { message?: { content?: string } };
+    let text = data.message?.content?.trim() ?? '';
+    // Some local models emit a <think> block ahead of the reply — strip it,
+    // matching src/app/api/chat/route.ts's askOllama().
+    const thinkTag = text.match(/<think>([\s\S]*?)<\/think>/i);
+    if (thinkTag) text = text.replace(thinkTag[0], '').trim();
+    return text || null;
+  } catch {
+    return null;
   }
 }
 

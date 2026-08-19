@@ -24,7 +24,7 @@ const ENQUIRY_PHONE = {
 
 function CentresBottomCta() {
   return (
-    <section className="bg-[var(--centres-surface)] pb-14 sm:pb-16 lg:pb-20" aria-labelledby="centres-cta">
+    <section className="bg-[var(--centres-surface)] py-14 sm:py-16 lg:py-20" aria-labelledby="centres-cta">
       <div className="shell">
         <div className="centres-cta-band overflow-hidden rounded-[28px] px-6 py-10 xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-12">
@@ -38,7 +38,7 @@ function CentresBottomCta() {
               >
                 Talk to a counsellor about your nearest centre
               </h2>
-              <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-foreground-secondary sm:text-[15.5px]">
+              <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-white/75 sm:text-[15.5px]">
                 A short conversation about your goals, background and nearest {siteConfig.name} centre
                 — no obligation, no scripted pitch.
               </p>
@@ -46,7 +46,7 @@ function CentresBottomCta() {
                 <li>
                   <a
                     href={ENQUIRY_PHONE.tel}
-                    className="flex items-center gap-2 text-[13px] font-semibold text-foreground-secondary transition-colors hover:text-white"
+                    className="flex items-center gap-2 text-[13px] font-semibold text-white/75 transition-colors hover:text-white"
                   >
                     <Phone
                       className="h-4 w-4 text-[var(--centres-accent-soft)]"
@@ -56,7 +56,7 @@ function CentresBottomCta() {
                     {ENQUIRY_PHONE.display}
                   </a>
                 </li>
-                <li className="flex items-center gap-2 text-[13px] font-semibold text-foreground-secondary">
+                <li className="flex items-center gap-2 text-[13px] font-semibold text-white/75">
                   <MessageCircle
                     className="h-4 w-4 text-[var(--centres-accent-soft)]"
                     strokeWidth={2}
@@ -64,7 +64,7 @@ function CentresBottomCta() {
                   />
                   Free career counselling
                 </li>
-                <li className="flex items-center gap-2 text-[13px] font-semibold text-foreground-secondary">
+                <li className="flex items-center gap-2 text-[13px] font-semibold text-white/75">
                   <Building2
                     className="h-4 w-4 text-[var(--centres-accent-soft)]"
                     strokeWidth={2}
@@ -83,7 +83,7 @@ function CentresBottomCta() {
                 <span>Enquire now</span>
                 <span
                   aria-hidden="true"
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/enq:translate-x-0.5"
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/enq:translate-x-0.5"
                 >
                   <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
                 </span>

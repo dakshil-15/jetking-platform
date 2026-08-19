@@ -7,8 +7,14 @@ export const siteConfig = {
   description:
     'Jetking offers degree, diploma and certification programmes in cloud computing, cyber security and IT infrastructure, with centres across India and placement support.',
   locale: 'en_IN',
-  /** Must be an absolute origin in production — canonical URLs and OG tags depend on it. */
-  url: (process.env.SITE_URL ?? 'http://localhost:3000').replace(/\/$/, ''),
+  /**
+   * Must be an absolute origin in production — canonical URLs and OG tags depend on
+   * it. Reads the `NEXT_PUBLIC_` variant deliberately: this file is imported by
+   * several 'use client' components (SiteHeader, EnquiryForm, …), and the private
+   * `SITE_URL` read directly here once already caused a production outage when a
+   * sibling file did the same thing across the server/client boundary.
+   */
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/$/, ''),
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '',
   /**
    * National enquiry line, E.164. Optional: when it is unset, "call us" affordances

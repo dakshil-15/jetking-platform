@@ -92,7 +92,7 @@ function ProgramCard({
         <span
           aria-hidden="true"
           className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-white transition-transform duration-200 group-hover/course:translate-x-0.5"
-          style={{ background: visual.accent }}
+          style={{ background: visual.accentSolid ?? visual.accent }}
         >
           <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
         </span>

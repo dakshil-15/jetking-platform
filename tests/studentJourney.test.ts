@@ -26,12 +26,12 @@ const mockCourse = (slug: string, level: Course['level'] = 'certification'): Cou
 });
 
 const allCourses: Course[] = [
-  mockCourse('cyber-security-specialist'),
-  mockCourse('cloud-devops-engineer'),
-  mockCourse('network-infrastructure-engineer'),
-  mockCourse('ai-cloud-track'),
+  mockCourse('ethical-hacking-specialist'),
+  mockCourse('cloud-computing-engineer-ai'),
+  mockCourse('routing-switching-administrator'),
+  mockCourse('cloud-computing-professional-ai'),
   mockCourse('bca-cloud-cyber-security', 'degree'),
-  mockCourse('it-foundation-programme', 'short'),
+  mockCourse('pc-hardware-support', 'short'),
 ];
 
 describe('student journey', () => {
@@ -43,11 +43,11 @@ describe('student journey', () => {
   it('ranks cyber interest highly for cyber courses', () => {
     const discovery: StudentDiscovery = { education: '12th', interest: 'cyber' };
     const recs = recommendCourses(allCourses, discovery, 3);
-    expect(recs[0]?.slug).toBe('cyber-security-specialist');
+    expect(recs[0]?.slug).toBe('ethical-hacking-specialist');
   });
 
   it('builds a four-phase roadmap', () => {
-    const course = mockCourse('cloud-devops-engineer');
+    const course = mockCourse('cloud-computing-engineer-ai');
     const phases = buildCareerRoadmap(course, { education: '12th', interest: 'cloud' });
     expect(phases).toHaveLength(4);
     expect(phases[0]?.title).toBe('Foundation');

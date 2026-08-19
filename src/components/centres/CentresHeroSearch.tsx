@@ -75,12 +75,12 @@ export function CentresHeroSearch({ initialQuery = '' }: { initialQuery?: string
         onChange={(e) => setValue(e.target.value)}
         placeholder="Search cities, states, localities..."
         autoComplete="off"
-        className="centres-hero-search-input w-full rounded-full border border-white/12 bg-[rgb(12_12_18/0.72)] py-3.5 pr-12 pl-5 text-[14.5px] text-[var(--centres-ink)] shadow-[inset_3px_0_0_0_var(--centres-accent)] backdrop-blur-md placeholder:text-[var(--centres-ink-muted)] transition-[border-color,box-shadow] duration-200 outline-none hover:border-[var(--centres-accent-soft)]/45 focus:border-[var(--centres-accent-soft)]/70 focus:shadow-[inset_3px_0_0_0_var(--centres-accent),0_0_0_3px_rgb(255_107_112/0.16)]"
+        className="centres-hero-search-input w-full rounded-full border border-white/12 bg-[rgb(12_12_18/0.72)] py-3.5 pr-12 pl-5 text-[14.5px] text-white shadow-[inset_3px_0_0_0_var(--centres-accent)] backdrop-blur-md placeholder:text-white/50 transition-[border-color,box-shadow] duration-200 outline-none hover:border-[var(--centres-accent-soft)]/45 focus:border-[var(--centres-accent-soft)]/70 focus:shadow-[inset_3px_0_0_0_var(--centres-accent),0_0_0_3px_rgb(255_107_112/0.16)]"
       />
       <button
         type="submit"
         aria-label="Search centres"
-        className="absolute top-1/2 right-2.5 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full text-[var(--centres-ink)] transition-colors hover:bg-[var(--centres-accent-tint)] hover:text-[var(--centres-accent-soft)]"
+        className="absolute top-1/2 right-2.5 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full text-white transition-colors hover:bg-[var(--centres-accent-tint)] hover:text-[var(--centres-accent-soft)]"
       >
         <Search className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
       </button>

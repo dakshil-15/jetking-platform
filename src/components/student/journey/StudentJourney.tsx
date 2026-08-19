@@ -231,7 +231,11 @@ export function StudentJourney({
               wrapping the whole step would read the entire panel a second time on
               top of the focus announcement.
             */}
-            <div ref={stepRef} tabIndex={-1} className="mt-8 focus:outline-none sm:mt-10">
+            <div
+              ref={stepRef}
+              tabIndex={-1}
+              className="mt-8 rounded-2xl focus:outline-2 focus:outline-[var(--focus-ring)] focus:outline-offset-4 sm:mt-10"
+            >
               {journey.step === 'discover' ? (
                 <DiscoveryStep initial={journey.discovery} onComplete={onDiscoveryComplete} />
               ) : null}
@@ -294,7 +298,7 @@ export function StudentJourney({
                         selectedCourseSlug: undefined,
                       })
                     }
-                    className="cursor-pointer text-[14px] font-bold text-[var(--stu-accent-soft)] underline-offset-2 hover:underline"
+                    className="-my-2 inline-block cursor-pointer py-2 text-[14px] font-bold text-[var(--stu-accent-soft)] underline-offset-2 hover:underline"
                   >
                     Start a new journey
                   </button>

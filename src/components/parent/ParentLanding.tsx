@@ -81,9 +81,21 @@ export function ParentLanding({
   testimonials?: Testimonial[];
 }) {
   return (
-    <div className="student-page relative flex flex-col overflow-hidden">
+    <div
+      className={[
+        'student-page relative flex flex-col overflow-hidden',
+        /* Bleed the page's own gradient background up behind the sticky,
+           transparent header instead of stopping in a hard line at its
+           bottom edge — see the matching fix in home/v2/HomeV2.tsx. Offsets
+           must match SiteHeader's height breakpoints (72/80/88/96). */
+        '-mt-[72px] pt-[72px]',
+        'xs:-mt-[80px] xs:pt-[80px]',
+        'sm:-mt-[88px] sm:pt-[88px]',
+        '2xl:-mt-[96px] 2xl:pt-[96px]',
+      ].join(' ')}
+    >
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="shell relative pt-8 pb-8 xs:pt-10 sm:pt-12 lg:pt-14 lg:pb-10">
+      <section className="shell relative pt-8 pb-10 xs:pt-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute top-[-60px] right-[8%] h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgb(232_36_43/0.22),transparent_68%)]"
@@ -132,7 +144,7 @@ export function ParentLanding({
                 Explore Courses for Your Child
                 <span
                   aria-hidden="true"
-                  className="grid h-9 w-9 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/cta:translate-x-0.5"
+                  className="grid h-9 w-9 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/cta:translate-x-0.5"
                 >
                   <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
                 </span>
@@ -165,7 +177,22 @@ export function ParentLanding({
                 />
               </div>
 
-              <aside className="par-trust-card absolute inset-x-3 bottom-0 z-10 rounded-[20px] p-4 sm:inset-x-auto sm:right-0 sm:bottom-2 sm:w-[min(92%,268px)] sm:rounded-[22px] sm:p-5 lg:right-0 lg:bottom-0 xl:-right-3">
+              <aside
+                className={[
+                  'par-trust-card static mt-4 rounded-[20px] p-4',
+                  /*
+                   * The card's content (heading + 4 stat rows) is taller than
+                   * the small bottom margin reserved on the photo wrapper —
+                   * absolutely overlaying it on mobile made it overflow
+                   * upward past the photo and overlap whatever came before
+                   * this block. Flowing normally below the photo avoids that
+                   * unconditionally; the "hanging off the photo" overlay look
+                   * only turns on from sm: up, where there's enough room.
+                   */
+                  'sm:absolute sm:inset-x-auto sm:right-0 sm:bottom-2 sm:z-10 sm:mt-0 sm:w-[min(92%,268px)] sm:rounded-[22px] sm:p-5',
+                  'lg:right-0 lg:bottom-0 xl:-right-3',
+                ].join(' ')}
+              >
                 <h2 className="font-display text-[15px] font-extrabold text-[var(--stu-ink)] sm:text-[16px]">
                   Why Parents Trust {siteConfig.name}
                 </h2>
@@ -196,7 +223,7 @@ export function ParentLanding({
       </section>
 
       {/* ── Journey steps ────────────────────────────────────────────────── */}
-      <section className="bg-[var(--stu-surface)] pb-10 sm:pb-12" aria-labelledby="par-journey">
+      <section className="bg-[var(--stu-surface)] pt-10 pb-10 sm:pt-12 sm:pb-12" aria-labelledby="par-journey">
         <div className="shell">
           <div className="overflow-hidden rounded-[24px] border border-[var(--stu-hairline)] bg-[var(--stu-card)] px-5 py-7 sm:rounded-[28px] sm:px-8 sm:py-8 lg:px-10">
             <div className="flex flex-wrap items-center gap-3">
@@ -214,13 +241,22 @@ export function ParentLanding({
               </h2>
             </div>
 
-            <ol className="relative mt-8 grid gap-6 sm:grid-cols-3 lg:grid-cols-5 lg:gap-3">
+            <ol className="relative mt-8 grid grid-cols-2 gap-x-4 gap-y-7 xs:gap-6 sm:grid-cols-3 lg:grid-cols-5 lg:gap-3">
               <div
                 aria-hidden="true"
                 className="par-journey-line absolute top-[22px] right-[10%] left-[10%] hidden lg:block"
               />
-              {JOURNEY_STEPS.map((step) => (
-                <li key={step.title} className="relative z-10 flex flex-col items-center text-center">
+              {JOURNEY_STEPS.map((step, index) => (
+                <li
+                  key={step.title}
+                  className={[
+                    'relative z-10 flex flex-col items-center text-center',
+                    // On the 2-col mobile grid, 5 items leave a lone last item in
+                    // its own row — span both columns so it centers instead of
+                    // sitting left-aligned. Not needed at sm:/lg: (3/5 columns).
+                    index === JOURNEY_STEPS.length - 1 ? 'col-span-2 sm:col-span-1' : '',
+                  ].join(' ')}
+                >
                   <span
                     aria-hidden="true"
                     className="grid h-11 w-11 place-items-center rounded-full border-2 border-[var(--stu-accent-soft)] bg-[var(--stu-card)] text-[var(--stu-accent-soft)]"
@@ -253,12 +289,12 @@ export function ParentLanding({
         <div className="shell">
           <div className="grid gap-4 lg:grid-cols-12 lg:gap-6">
             <div className="rounded-[22px] border border-[var(--stu-hairline)] bg-[var(--stu-card)] p-5 sm:p-6 lg:col-span-8">
-              <h3
+              <h2
                 id="par-help"
                 className="font-display text-[18px] font-extrabold text-[var(--stu-ink)] sm:text-[20px]"
               >
                 Let Us Help You
-              </h3>
+              </h2>
               <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
                 {HELP_LINKS.map((item) => (
                   <li key={item.label}>
@@ -325,15 +361,15 @@ export function ParentLanding({
                   className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
                 >
                   Real Success Stories.{' '}
-                  <span className="text-[var(--stu-accent-soft)]">Real Parents.</span> Real Results.
+                  <span className="text-jk-400">Real Parents.</span> Real Results.
                 </h2>
 
                 <div className="mt-8 flex flex-wrap items-end gap-8">
                   <div>
-                    <p className="font-display text-[48px] leading-none font-extrabold text-[var(--stu-accent-soft)] sm:text-[56px]">
+                    <p className="font-display text-[48px] leading-none font-extrabold text-jk-400 sm:text-[56px]">
                       90%
                     </p>
-                    <p className="mt-2 text-[13.5px] font-semibold text-foreground-secondary">
+                    <p className="mt-2 text-[13.5px] font-semibold text-white/70">
                       Placement assistance
                     </p>
                   </div>
@@ -341,7 +377,7 @@ export function ParentLanding({
                     <p className="font-display text-[32px] leading-none font-extrabold text-white sm:text-[36px]">
                       75,000+
                     </p>
-                    <p className="mt-2 text-[13.5px] font-semibold text-foreground-secondary">Happy students</p>
+                    <p className="mt-2 text-[13.5px] font-semibold text-white/70">Happy students</p>
                   </div>
                 </div>
 
@@ -350,13 +386,13 @@ export function ParentLanding({
                     {STORY_AVATARS.map((src) => (
                       <span
                         key={src}
-                        className="relative h-9 w-9 overflow-hidden rounded-full border-[2.5px] border-border"
+                        className="relative h-9 w-9 overflow-hidden rounded-full border-[2.5px] border-white/40"
                       >
                         <Image src={src} alt="" fill sizes="36px" className="object-cover" />
                       </span>
                     ))}
                   </span>
-                  <span className="text-[13px] font-semibold text-foreground-secondary">
+                  <span className="text-[13px] font-semibold text-white/70">
                     Parents &amp; learners across India
                   </span>
                 </div>
@@ -402,7 +438,7 @@ export function ParentLanding({
       </section>
 
       {/* ── Bottom CTA ───────────────────────────────────────────────────── */}
-      <section className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20" aria-labelledby="par-cta">
+      <section className="bg-[var(--stu-surface)] py-14 sm:py-16 lg:py-20" aria-labelledby="par-cta">
         <div className="shell">
           <div className="rounded-[28px] border border-[var(--stu-hairline)] bg-[var(--stu-card)] xs:rounded-[32px]">
             <div className="grid items-center gap-8 p-7 sm:gap-10 sm:p-9 lg:grid-cols-12 lg:gap-8 lg:p-10 xl:gap-12">
@@ -425,7 +461,7 @@ export function ParentLanding({
                   Book Free Career Counselling
                   <span
                     aria-hidden="true"
-                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/book:translate-x-0.5"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/book:translate-x-0.5"
                   >
                     <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
                   </span>

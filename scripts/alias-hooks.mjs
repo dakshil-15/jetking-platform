@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve as resolvePath } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -39,4 +39,18 @@ export async function resolve(specifier, context, nextResolve) {
   }
 
   return nextResolve(specifier, context);
+}
+
+/**
+ * App source imports JSON without a `with { type: 'json' }` attribute — fine
+ * for Next's bundler, but plain Node's ESM loader rejects that as
+ * ERR_IMPORT_ATTRIBUTE_MISSING. Read and parse it ourselves instead of
+ * deferring to the default loader's assertion check.
+ */
+export async function load(url, context, nextLoad) {
+  if (url.endsWith('.json')) {
+    const source = readFileSync(fileURLToPath(url), 'utf8');
+    return { format: 'json', source, shortCircuit: true };
+  }
+  return nextLoad(url, context);
 }

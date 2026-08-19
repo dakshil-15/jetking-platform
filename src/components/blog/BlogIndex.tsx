@@ -189,8 +189,8 @@ export function BlogIndex({
 
         {categories.length > 1 ? (
           <nav aria-label="Filter by topic" className="min-w-0 flex-1">
-            <ul className="flex flex-wrap gap-2 lg:justify-end">
-              <li>
+            <ul className="flex flex-nowrap gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <li className="shrink-0">
                 <Link
                   href={categoryHref(null, query)}
                   className={
@@ -206,7 +206,7 @@ export function BlogIndex({
               {categories.map((category) => {
                 const selected = activeCategory === category;
                 return (
-                  <li key={category}>
+                  <li key={category} className="shrink-0">
                     <Link
                       href={categoryHref(category, query)}
                       className={

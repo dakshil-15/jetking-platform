@@ -178,7 +178,7 @@ export function CentresIndex({
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="text-[12px] font-bold text-[var(--centres-accent-soft)] transition-colors hover:text-[var(--centres-ink)]"
+                  className="-my-2 inline-block cursor-pointer py-2 text-[12px] font-bold text-[var(--centres-accent-soft)] transition-colors hover:text-[var(--centres-ink)]"
                 >
                   Clear all
                 </button>
@@ -199,7 +199,7 @@ export function CentresIndex({
                 onChange={(e) => onSearchChange(e.target.value)}
                 placeholder="Search cities, states..."
                 autoComplete="off"
-                className="w-full rounded-full border border-[rgb(255_100_105/0.25)] bg-[rgb(7_7_12/0.85)] py-2.5 pr-10 pl-10 text-[13.5px] text-[var(--centres-ink)] shadow-[0_0_0_1px_rgb(7_7_12/0.4)] placeholder:text-[var(--centres-ink-muted)] transition-[border-color] duration-200 outline-none focus:border-[var(--centres-accent-soft)]/70"
+                className="w-full rounded-full border border-[var(--centres-hairline)] bg-[var(--centres-surface)] py-2.5 pr-10 pl-10 text-[13.5px] text-[var(--centres-ink)] placeholder:text-[var(--centres-ink-muted)] transition-[border-color,box-shadow] duration-200 outline-none focus:border-[var(--centres-accent-soft)]/70 focus:shadow-[0_0_0_3px_rgb(255_107_112/0.16)]"
               />
               {query ? (
                 <button
@@ -451,7 +451,7 @@ export function CentresIndex({
               <button
                 type="button"
                 onClick={clearFilters}
-                className="mt-5 text-[14px] font-bold text-[var(--centres-accent-soft)] transition-colors hover:text-[var(--centres-ink)]"
+                className="-my-2 mt-5 inline-block cursor-pointer py-2 text-[14px] font-bold text-[var(--centres-accent-soft)] transition-colors hover:text-[var(--centres-ink)]"
               >
                 Clear all filters
               </button>

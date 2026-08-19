@@ -1,10 +1,10 @@
 import { formatCentreRecords } from '@/features/jetking-ai/format-passage';
+import { extractCityHint } from '@/features/jetking-ai/city';
 import { loadIndex } from '@/features/knowledge/lib/engine';
 import type { CentreRecord } from '@/features/knowledge/types';
 import websiteCorpus from '@/content/website-corpus.json';
 
-const CITY_RE =
-  /\b(mumbai|delhi|pune|bangalore|bengaluru|hyderabad|chennai|kolkata|ahmedabad|nagpur|thane|noida|gurgaon|gurugram|lucknow|kanpur|indore|bhopal|chandigarh|jammu|kochi|varanasi|prayagraj|vasai|borivali|dadar|vashi|shivajinagar|hinjewadi|ameerpet|andheri|koramangala|laxmi nagar|maninagar|khar)\b/gi;
+export { extractCityHint };
 
 const CITY_ALIASES: Record<string, string[]> = {
   bangalore: ['bangalore', 'bengaluru'],
@@ -17,12 +17,6 @@ const CITY_ALIASES: Record<string, string[]> = {
 
 function norm(s: string): string {
   return s.toLowerCase().replace(/\s+/g, ' ').trim();
-}
-
-/** Prefer the last city named in the question (follow-ups like "… Borivali … Mumbai"). */
-export function extractCityHint(query: string): string | null {
-  const matches = [...query.matchAll(CITY_RE)].map((m) => m[1]!.toLowerCase());
-  return matches.length ? matches[matches.length - 1]! : null;
 }
 
 function cityMatches(centreCity: string, hint: string): boolean {

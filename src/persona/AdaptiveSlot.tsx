@@ -190,8 +190,8 @@ const NUDGE_SKINS: Record<
     aside:
       'nudge-enter flex flex-col gap-4 rounded-[var(--radius-card)] border border-jk-200 bg-jk-50 p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6',
     eyebrow: 'label-mono text-jk-700',
-    headline: 'mt-1.5 font-semibold text-foreground',
-    body: 'mt-1 text-sm text-foreground-secondary',
+    headline: 'mt-1.5 font-semibold text-ink-900',
+    body: 'mt-1 text-sm text-ink-600',
     cta: 'inline-flex h-11 shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-jk-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-jk-500',
   },
   blog: {

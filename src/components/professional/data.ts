@@ -142,17 +142,26 @@ export interface ProgramMeta {
   salaryHint: string;
   durationLabel: string;
   accent: string;
+  /**
+   * Non-flipping counterpart of `accent`, for spots (like the solid
+   * "Explore Course" arrow circle) that pair a fixed white icon with the
+   * background — `accent` itself is an ink token that goes pastel-light in
+   * dark mode, which would wash the white icon out. Falls back to `accent`
+   * when not set.
+   */
+  accentSolid?: string;
   accentTint: string;
   bullets: Array<{ label: string; icon: LucideIcon }>;
 }
 
 /** Illustrative salary bands for program cards — not authoritative fee data. */
 export const PROGRAM_META: Record<string, ProgramMeta> = {
-  'cloud-devops-engineer': {
+  'cloud-computing-engineer-ai': {
     icon: Cloud,
     salaryHint: '₹12 LPA',
     durationLabel: '3 – 6 Months',
     accent: 'var(--pro-cloud)',
+    accentSolid: '#2454a6',
     accentTint: 'var(--pro-cloud-tint)',
     bullets: [
       { label: 'AWS / Azure Cloud Labs', icon: Cloud },
@@ -160,11 +169,12 @@ export const PROGRAM_META: Record<string, ProgramMeta> = {
       { label: 'CI/CD Pipeline Practice', icon: GitBranch },
     ],
   },
-  'cyber-security-specialist': {
+  'ethical-hacking-specialist': {
     icon: Shield,
     salaryHint: '₹10 LPA',
     durationLabel: '4 – 8 Months',
     accent: 'var(--pro-cyber)',
+    accentSolid: '#5f3aa8',
     accentTint: 'var(--pro-cyber-tint)',
     bullets: [
       { label: 'Ethical Hacking & Pen Testing', icon: Fingerprint },
@@ -172,11 +182,12 @@ export const PROGRAM_META: Record<string, ProgramMeta> = {
       { label: 'SOC Operations & SIEM', icon: Radar },
     ],
   },
-  'ai-cloud-track': {
+  'cloud-computing-professional-ai': {
     icon: Cpu,
     salaryHint: '₹15 LPA',
     durationLabel: '4 – 6 Months',
     accent: 'var(--pro-ai)',
+    accentSolid: '#b34c11',
     accentTint: 'var(--pro-ai-tint)',
     bullets: [
       { label: 'Cloud AI Service Landscape', icon: Bot },
@@ -184,11 +195,12 @@ export const PROGRAM_META: Record<string, ProgramMeta> = {
       { label: 'Deploy & Monitor Workloads', icon: CircleGauge },
     ],
   },
-  'network-infrastructure-engineer': {
+  'routing-switching-administrator': {
     icon: Wifi,
     salaryHint: '₹8 LPA',
     durationLabel: '3 – 6 Months',
     accent: 'var(--pro-network)',
+    accentSolid: '#17683b',
     accentTint: 'var(--pro-network-tint)',
     bullets: [
       { label: 'Routing & Switching', icon: RouteIcon },
@@ -201,6 +213,7 @@ export const PROGRAM_META: Record<string, ProgramMeta> = {
     salaryHint: '₹6 LPA',
     durationLabel: '6 – 12 Months',
     accent: 'var(--pro-cyber)',
+    accentSolid: '#5f3aa8',
     accentTint: 'var(--pro-cyber-tint)',
     bullets: [
       { label: 'Cloud Infrastructure Basics', icon: Cloud },

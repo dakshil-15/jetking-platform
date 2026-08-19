@@ -157,7 +157,19 @@ export function FranchiseLanding({
   const telPhone = phone.startsWith('+') ? phone : `+91${phone}`;
 
   return (
-    <div className="home-v2 surface-inverse franchise-page relative flex flex-col overflow-hidden">
+    <div
+      className={[
+        'home-v2 surface-inverse franchise-page relative flex flex-col overflow-hidden',
+        /* Bleed the page's own gradient background up behind the sticky,
+           transparent header instead of stopping in a hard line at its
+           bottom edge — see the matching fix in home/v2/HomeV2.tsx. Offsets
+           must match SiteHeader's height breakpoints (72/80/88/96). */
+        '-mt-[72px] pt-[72px]',
+        'xs:-mt-[80px] xs:pt-[80px]',
+        'sm:-mt-[88px] sm:pt-[88px]',
+        '2xl:-mt-[96px] 2xl:pt-[96px]',
+      ].join(' ')}
+    >
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="relative py-12 sm:py-16 lg:py-20">
         <div className="shell">
@@ -203,7 +215,7 @@ export function FranchiseLanding({
                   Enquire Now
                   <span
                     aria-hidden="true"
-                    className="grid h-9 w-9 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/cta:translate-x-0.5"
+                    className="grid h-9 w-9 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/cta:translate-x-0.5"
                   >
                     <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
                   </span>

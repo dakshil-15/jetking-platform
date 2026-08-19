@@ -38,3 +38,6 @@ yarn-error.log*
 /data/legacy-crawl/
 /data/cms/embeddings.json
 /data/cms/store.json
+
+.vercel
+.env*

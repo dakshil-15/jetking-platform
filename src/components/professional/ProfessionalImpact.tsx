@@ -10,7 +10,7 @@ export function ProfessionalImpact() {
       <div className="shell">
         <div className="pro-why overflow-hidden rounded-[28px] px-6 py-10 text-white xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
           <div className="max-w-3xl">
-            <p className="text-[13px] font-bold tracking-[0.06em] text-[var(--pro-accent-soft)] uppercase">
+            <p className="text-[13px] font-bold tracking-[0.06em] text-jk-400 uppercase">
               Career outcomes
             </p>
             <h2
@@ -18,9 +18,9 @@ export function ProfessionalImpact() {
               className="mt-2 font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
             >
               The Impact You Can Expect from{' '}
-              <span className="text-[var(--pro-accent-soft)]">{siteConfig.name}</span>
+              <span className="text-jk-400">{siteConfig.name}</span>
             </h2>
-            <p className="mt-3 max-w-[58ch] text-[14px] leading-relaxed text-[var(--pro-ink-secondary)] sm:text-[15px]">
+            <p className="mt-3 max-w-[58ch] text-[14px] leading-relaxed text-white/75 sm:text-[15px]">
               Measurable career growth for working professionals who upskill without leaving their
               current role.
             </p>
@@ -40,7 +40,7 @@ export function ProfessionalImpact() {
                 </span>
                 <dt className="sr-only">{stat.label}</dt>
                 <dd>
-                  <span className="mt-3.5 block font-display text-[22px] leading-none font-extrabold text-white sm:text-[24px]">
+                  <span className="mt-3.5 block font-display text-[22px] leading-none font-extrabold text-[var(--pro-ink)] sm:text-[24px]">
                     {stat.value}
                   </span>
                   <span className="mt-2 block text-[12.5px] leading-snug text-[var(--pro-ink-secondary)] sm:text-[13px]">
@@ -60,7 +60,7 @@ export function ProfessionalImpact() {
                 >
                   Flexible Learning That Fits Your Life
                 </h3>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--pro-ink-secondary)] sm:text-[14px]">
+                <p className="mt-1.5 text-[13px] leading-relaxed text-white/75 sm:text-[14px]">
                   Choose a schedule that works around your job — not the other way around.
                 </p>
               </div>
@@ -79,7 +79,7 @@ export function ProfessionalImpact() {
                     >
                       <option.icon className="h-5 w-5" strokeWidth={1.75} />
                     </span>
-                    <p className="text-[13px] font-bold leading-snug text-white sm:text-[13.5px]">
+                    <p className="text-[13px] font-bold leading-snug text-[var(--pro-ink)] sm:text-[13.5px]">
                       {option.label}
                     </p>
                   </div>
@@ -152,7 +152,7 @@ export function ProfessionalImpact() {
                 <span>Book My Session Now</span>
                 <span
                   aria-hidden="true"
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/book:translate-x-0.5"
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/book:translate-x-0.5"
                 >
                   <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
                 </span>

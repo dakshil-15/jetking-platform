@@ -53,6 +53,15 @@ const LEXICAL_SATURATION = serverEnv.lexicalSaturation;
 /** Floor applied to a row whose city the question names, in lexical mode. */
 const CITY_MATCH_FLOOR = serverEnv.cityMatchFloor;
 
+/**
+ * How much a row's source-authority (course/policy vs. blog) can move ranking.
+ *
+ * Additive on `boost`, same as the lexical/city/title boosts below — never on
+ * `dense`/`topScore`, so the confidence gate's calibration is untouched by a
+ * change that is about re-ranking, not about whether to answer at all.
+ */
+const AUTHORITY_WEIGHT = serverEnv.authorityWeight;
+
 let extractorPromise: Promise<FeatureExtractionPipeline | null> | null = null;
 
 /**
@@ -136,6 +145,12 @@ export interface IndexItem {
   title?: string;
   /** Set on centre rows; the entity key for city-aware boosting. */
   city?: string;
+  /**
+   * Source-authority weight, assigned per type at index-build time (see
+   * scripts/build-index.mjs). 1 = neutral; absent on older index files, which
+   * is treated the same as 1 so this is backward compatible without a rebuild.
+   */
+  authority?: number;
 }
 
 interface Store {
@@ -304,6 +319,9 @@ export async function semanticSearch(query: string, k = 6): Promise<SemanticResu
   for (const row of cityHits) boost.set(row, (boost.get(row) ?? 0) + CITY_BOOST);
 
   items.forEach((item, row) => {
+    if (item.authority !== undefined && item.authority !== 1) {
+      boost.set(row, (boost.get(row) ?? 0) + (item.authority - 1) * AUTHORITY_WEIGHT);
+    }
     if (item.type === 'centre') return;
     const coverage = titleCoverage(query, item.title);
     if (coverage >= 0.5) {

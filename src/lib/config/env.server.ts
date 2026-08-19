@@ -34,8 +34,13 @@ export const serverEnv = {
   // Reproducible Jetking profile created from models/jetking-assistant.Modelfile.
   // Facts still come from RAG; the profile controls grounded answer behaviour.
   ollamaModel: envText(process.env.OLLAMA_MODEL, 'jetking-assistant'),
-  /** Let the local model answer non-Jetking questions when retrieval has no match. */
-  allowGeneralAnswers: envBoolean(process.env.JK_ALLOW_GENERAL_ANSWERS, true),
+  /**
+   * Let the local model answer non-Jetking questions from its own general
+   * knowledge when retrieval has no match. Off by default — the assistant is
+   * meant to answer only from the local Jetking knowledge base; an ungrounded
+   * question gets the refusal/handoff text instead of a model-generated guess.
+   */
+  allowGeneralAnswers: envBoolean(process.env.JK_ALLOW_GENERAL_ANSWERS, false),
 
   /** Below this cosine similarity the assistant refuses rather than guesses. */
   answerGate: envNumber(process.env.JK_ANSWER_GATE, 0.42),
@@ -45,6 +50,8 @@ export const serverEnv = {
   lexicalWeight: envNumber(process.env.JK_LEXICAL_WEIGHT, 0.08),
   lexicalDepth: envNumber(process.env.JK_LEXICAL_DEPTH, 25),
   cityBoost: envNumber(process.env.JK_CITY_BOOST, 0.2),
+  /** How much an index row's source-authority (course/policy vs. blog) can move ranking. */
+  authorityWeight: envNumber(process.env.JK_AUTHORITY_WEIGHT, 0.15),
 
   /**
    * 'auto' (default) uses the embedding model when it loads and silently

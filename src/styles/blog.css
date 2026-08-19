@@ -172,6 +172,34 @@
   }
 }
 
+/*
+ * Light mode: the hero photo needs a light wash under dark ink, not the dark
+ * wash above. Must stay AFTER `.blog-hero-wash` — `:where()` carries zero
+ * specificity, so this ties with the unconditional rule above and a tie is
+ * broken by source order; placed earlier, it would be silently overridden
+ * exactly like `.dc-banner-wash` was (see the note in dark-canvas.css).
+ */
+:where(html:not(.dark)) .blog-hero-wash {
+  background:
+    linear-gradient(
+      105deg,
+      rgb(255 255 255 / 0.96) 0%,
+      rgb(255 255 255 / 0.88) 38%,
+      rgb(255 255 255 / 0.45) 58%,
+      rgb(255 255 255 / 0.12) 78%,
+      transparent 100%
+    ),
+    linear-gradient(to top, rgb(255 255 255 / 0.55) 0%, transparent 42%);
+}
+
+@media (max-width: 639px) {
+  :where(html:not(.dark)) .blog-hero-wash {
+    background:
+      linear-gradient(to top, rgb(255 255 255 / 0.94) 0%, rgb(255 255 255 / 0.72) 42%, rgb(255 255 255 / 0.35) 100%),
+      linear-gradient(105deg, rgb(255 255 255 / 0.55) 0%, transparent 70%);
+  }
+}
+
 .blog-hero-search-input::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
@@ -326,7 +354,9 @@ html:not(.dark) .blog-page {
   --blog-ink-secondary: #464657;
   --blog-ink-muted: #666679;
   --blog-accent: #d81f26;
-  --blog-accent-soft: #f97066;
+  /* #f97066 is tuned for the dark canvas; on this light card it fails AA
+     text contrast (~2.5:1) — same fix as --stu-accent-soft/--dc-accent-soft. */
+  --blog-accent-soft: #a50d13;
   --blog-accent-tint: #fef3f2;
   --blog-canvas: radial-gradient(120% 100% at 88% 4%, #fff1f2 0%, #faf8fb 42%, #f1edf5 100%);
   --blog-surface: #f8f9fb;

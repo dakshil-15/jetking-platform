@@ -13,6 +13,7 @@ import type {
   TrustSignal,
 } from '../types';
 import { courses } from '../fixtures/courses';
+import { withCourseSections } from '../fixtures/courses-sections';
 import { centres, cities } from '../fixtures/locations';
 import { posts } from '../fixtures/posts';
 import { faqs } from '../fixtures/faqs';
@@ -26,11 +27,12 @@ export const localSource: ContentSource = {
   name: 'local',
 
   async listCourses() {
-    return [...courses];
+    return withCourseSections(courses);
   },
 
   async getCourse(slug: string): Promise<Course | null> {
-    return courses.find((c) => c.slug === slug) ?? null;
+    const course = courses.find((c) => c.slug === slug);
+    return course ? withCourseSections([course])[0]! : null;
   },
 
   async listCities() {

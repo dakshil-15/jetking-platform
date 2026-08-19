@@ -2,6 +2,8 @@
  * OpenAI embeddings helper (text-embedding-3-small, 1536-dim).
  */
 
+import 'server-only';
+
 const EMBEDDING_URL = 'https://api.openai.com/v1/embeddings';
 
 export async function embedTexts(texts: string[]): Promise<number[][]> {

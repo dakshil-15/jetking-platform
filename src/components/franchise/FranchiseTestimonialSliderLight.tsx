@@ -53,7 +53,7 @@ export function FranchiseTestimonialSliderLight({
       classNames={{ viewport: 'rounded-[24px]' }}
     >
       {(item, i) => (
-        <blockquote className="stu-quote p-6 sm:p-7">
+        <blockquote className="stu-quote p-6 text-white sm:p-7">
           <span
             aria-hidden="true"
             className="font-display text-[56px] leading-none font-extrabold text-white/30"

@@ -5,6 +5,7 @@
  * (`src/lib/cms/store.ts`) so local development does not require a live project.
  */
 
+import 'server-only';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 let cached: SupabaseClient | null = null;

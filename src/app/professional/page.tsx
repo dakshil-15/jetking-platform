@@ -20,10 +20,10 @@ export default async function ProfessionalPage() {
   const [courses, home] = await Promise.all([content.listCourses(), loadHomeData()]);
 
   const preferred = [
-    'cloud-devops-engineer',
-    'cyber-security-specialist',
-    'ai-cloud-track',
-    'network-infrastructure-engineer',
+    'cloud-computing-engineer-ai',
+    'ethical-hacking-specialist',
+    'cloud-computing-professional-ai',
+    'routing-switching-administrator',
     'bca-cloud-cyber-security',
   ];
 

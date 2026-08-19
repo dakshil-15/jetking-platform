@@ -24,7 +24,7 @@ import { cx } from '@/components/ui';
  */
 
 const RAIL_CLASS =
-  'grid h-[54px] w-[54px] place-items-center rounded-full bg-white text-foreground shadow-[0_0_18px_rgb(232_36_43/0.28),0_8px_24px_rgb(0_0_0/0.25)] transition-[transform,box-shadow] duration-200 ease-[var(--ease-out-soft)] group-hover/rail:-translate-y-0.5 group-hover/rail:shadow-[0_0_28px_rgb(232_36_43/0.55),0_0_48px_rgb(232_36_43/0.25)]';
+  'grid h-[54px] w-[54px] place-items-center rounded-full bg-white text-ink-900 shadow-[0_0_18px_rgb(232_36_43/0.28),0_8px_24px_rgb(0_0_0/0.25)] transition-[transform,box-shadow] duration-200 ease-[var(--ease-out-soft)] group-hover/rail:-translate-y-0.5 group-hover/rail:shadow-[0_0_28px_rgb(232_36_43/0.55),0_0_48px_rgb(232_36_43/0.25)]';
 
 function Item({
   icon,

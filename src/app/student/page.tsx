@@ -20,12 +20,12 @@ export default async function StudentPage() {
   const [courses, home] = await Promise.all([content.listCourses(), loadHomeData()]);
 
   const preferred = [
-    'cyber-security-specialist',
-    'cloud-devops-engineer',
-    'network-infrastructure-engineer',
-    'ai-cloud-track',
+    'ethical-hacking-specialist',
+    'cloud-computing-engineer-ai',
+    'routing-switching-administrator',
+    'cloud-computing-professional-ai',
     'bca-cloud-cyber-security',
-    'it-foundation-programme',
+    'pc-hardware-support',
   ];
   const studentCourses = [...courses].sort((a, b) => {
     const ia = preferred.indexOf(a.slug);

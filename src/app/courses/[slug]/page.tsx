@@ -100,14 +100,15 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
       <CourseViewTracker slug={course.slug} level={course.level} title={course.title} />
 
       {/*
-        Future-Ready dark skin, matching the /courses index and centres pages.
-        `.dark-canvas` supplies the #07070c canvas and `--dc-*` accent tokens;
-        `.surface-inverse` flips the semantic `--color-*` tokens so the reused
-        paper components (breadcrumbs, the nudge, the module disclosures) read on
-        dark. `.dc-flow` keeps the sticky sidebar working; the glow moves onto a
-        self-clipping `.dc-orbs` child.
+        Future-Ready dark skin, matching the /courses index. `.dark-canvas`
+        supplies the canvas and `--dc-*` accent tokens, both already wired to the
+        site's global light/dark toggle. `.surface-inverse` is NOT used here — it
+        forces the semantic `--color-*` tokens permanently dark regardless of the
+        toggle, which broke theme switching on this page (and on /about-us and
+        /courses, fixed alongside this). `.dc-flow` keeps the sticky sidebar
+        working; the glow moves onto a self-clipping `.dc-orbs` child.
       */}
-      <div className="dark-canvas surface-inverse no-orbs dc-flow pt-6 pb-16 sm:pt-8 lg:pb-20">
+      <div className="dark-canvas no-orbs dc-flow pt-6 pb-16 sm:pt-8 lg:pb-20">
         <span className="dc-orbs" aria-hidden="true" />
 
         <div className="shell">
@@ -144,7 +145,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
               <div className="dc-banner relative aspect-[4/3] overflow-hidden rounded-[20px] lg:aspect-[5/6]">
                 <Image
                   src={course.heroImage.url}
-                  alt=""
+                  alt={course.heroImage.alt}
                   fill
                   priority
                   sizes="(min-width: 1024px) 22rem, 100vw"
@@ -655,7 +656,7 @@ function BrandTile({ name }: { name: string }) {
             }
           />
         ) : (
-          <span className="font-display text-[15px] font-extrabold tracking-tight text-[var(--dc-ink-muted)]">
+          <span className="font-display text-[15px] font-extrabold tracking-tight text-ink-500">
             {initials || '·'}
           </span>
         )}

@@ -105,7 +105,7 @@ export function WatchVideo({
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close video"
-              className="absolute top-3 right-3 z-10 grid h-10 w-10 cursor-pointer place-items-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/80"
+              className="absolute top-3 right-3 z-10 grid h-11 w-11 cursor-pointer place-items-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/80"
             >
               <X className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
             </button>

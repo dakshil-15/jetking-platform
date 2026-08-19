@@ -87,7 +87,7 @@ export function WelcomeBack({ className = '' }: { className?: string }) {
             });
             dismiss();
           }}
-          className="inline-flex min-h-10 items-center gap-2 rounded-full bg-[var(--v2-accent)] px-4 py-2 text-[13px] font-bold text-white transition-opacity hover:opacity-90 sm:text-[14px]"
+          className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--v2-accent)] px-4 py-2 text-[13px] font-bold text-white transition-opacity hover:opacity-90 sm:text-[14px]"
         >
           Continue
           <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
@@ -95,7 +95,7 @@ export function WelcomeBack({ className = '' }: { className?: string }) {
         <button
           type="button"
           onClick={dismiss}
-          className="grid h-10 w-10 cursor-pointer place-items-center rounded-full text-[var(--v2-ink-muted)] transition-colors hover:bg-white/10 hover:text-[var(--v2-ink)]"
+          className="grid h-11 w-11 cursor-pointer place-items-center rounded-full text-[var(--v2-ink-muted)] transition-colors hover:bg-white/10 hover:text-[var(--v2-ink)]"
           aria-label="Dismiss welcome back"
         >
           <X className="h-4 w-4" strokeWidth={2} aria-hidden="true" />

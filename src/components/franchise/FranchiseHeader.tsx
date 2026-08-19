@@ -27,13 +27,14 @@ function JetkingCrest({ className }: { className?: string }) {
       )}
       style={{
         borderRadius: '7px 7px 46% 46% / 7px 7px 56% 56%',
-        borderColor: '#d81f26',
+        borderColor: 'var(--color-brand-crest)',
       }}
     >
       <span
         className="mt-[-2px] h-[58%] w-[38%]"
         style={{
-          background: 'repeating-linear-gradient(-48deg,#d81f26 0 2px,transparent 2px 5.5px)',
+          background:
+            'repeating-linear-gradient(-48deg,var(--color-brand-crest) 0 2px,transparent 2px 5.5px)',
         }}
       />
     </span>
@@ -157,7 +158,7 @@ export function FranchiseHeader() {
             aria-expanded={menuOpen}
             aria-controls="franchise-menu"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            className="grid h-11 w-11 cursor-pointer place-items-center rounded-full bg-foreground text-white transition-colors hover:bg-foreground-secondary sm:h-12 sm:w-12 lg:hidden"
+            className="grid h-11 w-11 cursor-pointer place-items-center rounded-full bg-ink-900 text-white transition-colors hover:bg-ink-800 sm:h-12 sm:w-12 lg:hidden"
           >
             {menuOpen ? (
               <X className="h-5 w-5" strokeWidth={2} aria-hidden="true" />

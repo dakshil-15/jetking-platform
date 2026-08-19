@@ -59,8 +59,8 @@ export function ImpactPanel({ figures }: { figures: Figure[] }) {
 function ImpactCopy({ figures, headingId }: { figures: Figure[]; headingId: string }) {
   return (
     <>
-      <p className="text-[13px] font-bold tracking-[0.04em] text-[var(--v1-ink-secondary)] sm:text-sm">
-        Our <span className="text-[var(--v1-accent)]">Impact</span>
+      <p className="text-[13px] font-bold tracking-[0.04em] text-white/70 sm:text-sm">
+        Our <span className="text-jk-400">Impact</span>
       </p>
       <h2
         id={headingId}
@@ -72,14 +72,14 @@ function ImpactCopy({ figures, headingId }: { figures: Figure[]; headingId: stri
       </h2>
       <span
         aria-hidden="true"
-        className="mx-auto mt-3.5 block h-[3px] w-[30px] rounded-full bg-[var(--v1-accent)] sm:mt-4 2xl:mt-[18px]"
+        className="mx-auto mt-3.5 block h-[3px] w-[30px] rounded-full bg-jk-400 sm:mt-4 2xl:mt-[18px]"
       />
 
       <dl className="mx-auto mt-5 grid max-w-[640px] grid-cols-2 gap-x-5 gap-y-6 text-left xs:mt-6 xs:gap-x-6 xs:gap-y-7 sm:mt-[18px] lg:mt-[18px] lg:flex lg:max-w-none lg:justify-center lg:gap-6 xl:gap-7 2xl:gap-[34px]">
         {figures.map((figure) => (
           <div key={figure.label} className="flex items-start gap-2.5 xs:gap-3">
             <figure.icon
-              className="mt-1 h-6 w-6 shrink-0 text-[var(--v1-ink)] xs:h-7 xs:w-7 lg:mt-1 lg:h-8 lg:w-8"
+              className="mt-1 h-6 w-6 shrink-0 text-white/90 xs:h-7 xs:w-7 lg:mt-1 lg:h-8 lg:w-8"
               strokeWidth={1.75}
               aria-hidden="true"
             />
@@ -89,7 +89,7 @@ function ImpactCopy({ figures, headingId }: { figures: Figure[]; headingId: stri
                 <span className="numeral block font-display text-[20px] leading-none font-extrabold text-white xs:text-[22px] sm:text-[26px] 3xl:text-[28px]">
                   {figure.value}
                 </span>
-                <span className="mt-1.5 block whitespace-pre-line text-[12px] leading-[1.35] text-[var(--v1-ink-muted)] xs:text-[12.5px]">
+                <span className="mt-1.5 block whitespace-pre-line text-[12px] leading-[1.35] text-white/60 xs:text-[12.5px]">
                   {figure.label}
                 </span>
               </dd>

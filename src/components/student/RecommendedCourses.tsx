@@ -43,15 +43,21 @@ type CourseVisual = {
   bullets: Bullet[];
 };
 
-const ACCENT: Record<Accent, { ink: string; tint: string }> = {
-  cyber: { ink: 'var(--stu-cyber)', tint: 'var(--stu-cyber-tint)' },
-  cloud: { ink: 'var(--stu-cloud)', tint: 'var(--stu-cloud-tint)' },
-  network: { ink: 'var(--stu-network)', tint: 'var(--stu-network-tint)' },
-  ai: { ink: 'var(--stu-ai)', tint: 'var(--stu-ai-tint)' },
+const ACCENT: Record<Accent, { ink: string; tint: string; chip: string }> = {
+  // `chip` is a fixed (non-flipping) colour used only where the accent sits
+  // behind a hardcoded `text-white` icon (see the "Explore Course" arrow
+  // below). Unlike `ink` — which intentionally flips to a light tone in dark
+  // mode for use as text-on-card — this solid circle needs to stay a dark,
+  // saturated tone in both themes so the white arrow stays legible. Values
+  // match each accent's light-mode `ink` colour from student.css.
+  cyber: { ink: 'var(--stu-cyber)', tint: 'var(--stu-cyber-tint)', chip: '#5f3aa8' },
+  cloud: { ink: 'var(--stu-cloud)', tint: 'var(--stu-cloud-tint)', chip: '#2454a6' },
+  network: { ink: 'var(--stu-network)', tint: 'var(--stu-network-tint)', chip: '#17683b' },
+  ai: { ink: 'var(--stu-ai)', tint: 'var(--stu-ai-tint)', chip: '#9a4312' },
 };
 
 const COURSE_VISUALS: Record<string, CourseVisual> = {
-  'cyber-security-specialist': {
+  'ethical-hacking-specialist': {
     accent: 'cyber',
     icon: ShieldCheck,
     bullets: [
@@ -69,7 +75,7 @@ const COURSE_VISUALS: Record<string, CourseVisual> = {
       { label: 'Industry Capstone Project', icon: Workflow },
     ],
   },
-  'cloud-devops-engineer': {
+  'cloud-computing-engineer-ai': {
     accent: 'cloud',
     icon: CloudCog,
     bullets: [
@@ -78,7 +84,7 @@ const COURSE_VISUALS: Record<string, CourseVisual> = {
       { label: 'CI/CD Pipeline Practice', icon: GitBranch },
     ],
   },
-  'network-infrastructure-engineer': {
+  'routing-switching-administrator': {
     accent: 'network',
     icon: Network,
     bullets: [
@@ -87,7 +93,7 @@ const COURSE_VISUALS: Record<string, CourseVisual> = {
       { label: 'Hybrid Cloud Connectivity', icon: Cable },
     ],
   },
-  'ai-cloud-track': {
+  'cloud-computing-professional-ai': {
     accent: 'ai',
     icon: BrainCircuit,
     bullets: [
@@ -96,7 +102,7 @@ const COURSE_VISUALS: Record<string, CourseVisual> = {
       { label: 'Deploy & Monitor Workloads', icon: CircleGauge },
     ],
   },
-  'it-foundation-programme': {
+  'pc-hardware-support': {
     accent: 'ai',
     icon: Code2,
     bullets: [
@@ -222,7 +228,7 @@ function CourseCard({
         <span
           aria-hidden="true"
           className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-white transition-transform duration-200 group-hover/course:translate-x-0.5"
-          style={{ background: theme.ink }}
+          style={{ background: theme.chip }}
         >
           <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
         </span>
@@ -303,10 +309,15 @@ export function RecommendedCourses({
         </div>
       </div>
 
-      {/* Mobile / tablet: horizontal snap scroll with fixed card width */}
+      {/* Mobile / tablet: horizontal snap scroll with fixed card width.
+          `overflow-x-auto` forces overflow-y to `auto` too (browsers don't
+          allow one axis `visible` and the other not), which clips each
+          card's box-shadow. Padding gives the shadow room inside the clip
+          box; matching negative margins keep the cards' visible position
+          unchanged. */}
       <ul
         ref={scroller}
-        className="stu-course-track mt-8 flex gap-4 overflow-x-auto overscroll-x-contain pb-2 lg:hidden"
+        className="stu-course-track -mx-12 mt-1 flex gap-4 overflow-x-auto overscroll-x-contain px-12 pt-7 -mb-14 pb-16 lg:hidden"
       >
         {items.map((course, i) => {
           const visual = visualFor(course);

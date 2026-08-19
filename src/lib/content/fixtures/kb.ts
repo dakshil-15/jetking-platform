@@ -160,7 +160,7 @@ export const homepageVariants: HomepageVariant[] = [
       lede: 'BCA and diploma programmes built around industry certifications — no entrance-test gatekeeping.',
     },
     cta: { label: 'Find a course after 12th', href: '/courses' },
-    courseBoost: ['bca-cloud-cyber-security', 'it-foundation-programme'],
+    courseBoost: ['bca-cloud-cyber-security', 'pc-hardware-support'],
     testimonials: [
       {
         id: 't-stu-1',
@@ -203,7 +203,7 @@ export const homepageVariants: HomepageVariant[] = [
       lede: 'Short and professional programmes with evening and weekend options at many centres.',
     },
     cta: { label: 'Compare upskilling tracks', href: '/professional' },
-    courseBoost: ['cloud-devops-engineer', 'cyber-security-specialist'],
+    courseBoost: ['cloud-computing-engineer-ai', 'ethical-hacking-specialist'],
     testimonials: [
       {
         id: 't-pro-1',

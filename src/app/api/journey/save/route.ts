@@ -80,6 +80,7 @@ export async function POST(request: Request) {
         ...(process.env.CRM_API_KEY ? { authorization: `Bearer ${process.env.CRM_API_KEY}` } : {}),
       },
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(8_000),
     });
     if (!response.ok) throw new Error(`CRM returned ${response.status}`);
     return NextResponse.json({ ok: true, routed: true });

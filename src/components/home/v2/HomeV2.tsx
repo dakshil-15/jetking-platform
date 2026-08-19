@@ -24,11 +24,19 @@ export function HomeV2({ data }: { data: HomeData }) {
     <section
       className={[
         'home-v2 home-v2-themeable relative flex flex-col overflow-hidden',
-        /* Fill the viewport below the sticky header (72 → 80 → 88 → 96). */
-        'min-h-[calc(100dvh-72px)]',
-        'xs:min-h-[calc(100dvh-80px)]',
-        'sm:min-h-[calc(100dvh-88px)]',
-        '2xl:min-h-[calc(100dvh-96px)]',
+        'min-h-dvh',
+        /*
+         * The header is sticky and transparent until scrolled, so pulling this
+         * section's box up behind it (negative margin) and padding the same
+         * amount back in keeps every bit of visible content exactly where it
+         * was — only the gradient background now extends up behind the header
+         * instead of stopping in a hard line at the header's bottom edge.
+         * Offsets must match SiteHeader's own height breakpoints (72/80/88/96).
+         */
+        '-mt-[72px] pt-[72px]',
+        'xs:-mt-[80px] xs:pt-[80px]',
+        'sm:-mt-[88px] sm:pt-[88px]',
+        '2xl:-mt-[96px] 2xl:pt-[96px]',
       ].join(' ')}
     >
       <div className="shell relative flex flex-1 flex-col py-8 xs:py-10 sm:py-12 md:py-14 lg:py-12 xl:py-10 2xl:py-8 3xl:py-10">

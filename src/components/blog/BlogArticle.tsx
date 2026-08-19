@@ -229,7 +229,7 @@ export function BlogArticle({
       ) : null}
 
       <section
-        className="bg-[var(--blog-surface)] pb-14 sm:pb-16 lg:pb-20"
+        className="bg-[var(--blog-surface)] py-14 sm:py-16 lg:py-20"
         aria-labelledby="blog-article-cta"
       >
         <div className="shell">
@@ -245,7 +245,7 @@ export function BlogArticle({
                 >
                   Talk it through with a counsellor
                 </h2>
-                <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-[var(--blog-ink-secondary)] sm:text-[15.5px]">
+                <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-white/75 sm:text-[15.5px]">
                   A short conversation about your goals, background and nearest centre — no
                   obligation, no scripted pitch.
                 </p>
@@ -259,7 +259,7 @@ export function BlogArticle({
                   <span>Enquire now</span>
                   <span
                     aria-hidden="true"
-                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[var(--blog-canvas)] transition-transform duration-200 group-hover/book:translate-x-0.5"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/book:translate-x-0.5"
                   >
                     <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
                   </span>

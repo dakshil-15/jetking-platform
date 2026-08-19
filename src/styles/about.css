@@ -1,0 +1,191 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   ABOUT — legacy timeline
+   Alternating curved-branch design: a central spine with ring nodes (year
+   inside), each dropping a rounded branch out to a glowing dot with the
+   milestone beside it, sides alternating. Scoped under `.about-tl`; reads the
+   shared `--dc-*` tokens from the enclosing `.dark-canvas`.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.about-tl {
+  position: relative;
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+/* the spine */
+.about-tl::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  margin-left: -1px;
+  background: linear-gradient(var(--dc-accent-soft), rgb(232 36 43 / 0.14));
+}
+
+.about-tl ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* bright fill drawn over the faint spine, scrubbed to scroll by GSAP */
+.about-tl-progress {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 2px;
+  margin-left: -1px;
+  height: calc(100% - 16px);
+  transform: scaleY(0);
+  transform-origin: top center;
+  background: linear-gradient(var(--dc-accent-soft), var(--dc-accent));
+  box-shadow: 0 0 12px rgb(232 36 43 / 0.6);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* start / end cap dots */
+.about-tl-cap {
+  position: absolute;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
+  border-radius: 50%;
+  background: var(--dc-accent);
+  box-shadow: 0 0 10px rgb(232 36 43 / 0.7);
+}
+.about-tl-cap.is-top { top: 3px; }
+.about-tl-cap.is-bot { bottom: 3px; }
+
+.about-tl-item {
+  position: relative;
+  min-height: 150px;
+}
+
+/* the ring node, with the year inside */
+.about-tl-node {
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: 2px solid var(--dc-accent);
+  background: var(--dc-canvas);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 8px var(--dc-canvas), 0 0 22px rgb(232 36 43 / 0.4);
+}
+.about-tl-node b {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  color: var(--dc-accent-soft);
+}
+
+/* the node lights up as the scroll progress reaches it */
+.about-tl-node {
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.about-tl-item.is-active .about-tl-node {
+  border-color: var(--dc-accent-soft);
+  box-shadow: 0 0 0 8px var(--dc-canvas), 0 0 30px rgb(232 36 43 / 0.7);
+}
+
+/* the curved branch: drops from the node, rounds a corner, ends in a dot */
+.about-tl-elbow {
+  position: absolute;
+  top: 70px;
+  height: 24px;
+  z-index: 1;
+}
+.about-tl-item.is-r .about-tl-elbow {
+  left: 50%;
+  width: 13%;
+  border-left: 2px solid var(--dc-hairline-strong);
+  border-bottom: 2px solid var(--dc-hairline-strong);
+  border-bottom-left-radius: 18px;
+}
+.about-tl-item.is-l .about-tl-elbow {
+  right: 50%;
+  width: 13%;
+  border-right: 2px solid var(--dc-hairline-strong);
+  border-bottom: 2px solid var(--dc-hairline-strong);
+  border-bottom-right-radius: 18px;
+}
+.about-tl-elbow::after {
+  content: '';
+  position: absolute;
+  bottom: -5.5px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--dc-accent);
+  box-shadow: 0 0 11px rgb(232 36 43 / 0.75);
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+.about-tl-item.is-active .about-tl-elbow::after {
+  box-shadow: 0 0 18px rgb(232 36 43 / 0.95);
+  transform: scale(1.15);
+}
+.about-tl-item.is-r .about-tl-elbow::after { right: -5.5px; }
+.about-tl-item.is-l .about-tl-elbow::after { left: -5.5px; }
+
+/* milestone text, beside the dot */
+.about-tl-card {
+  position: absolute;
+  top: 46px;
+  width: 33%;
+}
+.about-tl-item.is-r .about-tl-card { left: 65%; }
+.about-tl-item.is-l .about-tl-card { right: 65%; text-align: right; }
+.about-tl-card h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--dc-ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.about-tl-card p {
+  margin-top: 7px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--dc-ink-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Phones: collapse to a left spine with milestones stacked to the right. */
+@media (max-width: 720px) {
+  .about-tl::before { left: 28px; }
+  .about-tl-progress { left: 28px; }
+  .about-tl-cap { left: 28px; }
+  .about-tl-node { left: 28px; top: 6px; width: 54px; height: 54px; }
+  .about-tl-node b { font-size: 13px; }
+  .about-tl-item { min-height: auto; padding: 4px 0 18px; }
+  .about-tl-elbow { display: none; }
+  .about-tl-card {
+    position: static;
+    width: auto;
+    margin-left: 74px;
+    text-align: left !important;
+  }
+  .about-tl-card p { -webkit-line-clamp: unset; }
+}

@@ -108,6 +108,9 @@ export async function POST(request: Request) {
         ...(process.env.CRM_API_KEY ? { authorization: `Bearer ${process.env.CRM_API_KEY}` } : {}),
       },
       body: JSON.stringify(enquiry),
+      // A hung CRM must still hit the catch below and log — that's the durable
+      // record this comment block calls the one thing that must never be lost.
+      signal: AbortSignal.timeout(8_000),
     });
 
     if (!response.ok) throw new Error(`CRM returned ${response.status}`);

@@ -49,16 +49,16 @@ export const faqs: Faq[] = [
       'Several centres run evening and weekend batches specifically for working professionals. Availability varies by centre, so it is worth checking with the centre nearest you.',
     topic: 'courses',
     personaRelevance: { professional: 1 },
-    relatedCourseSlugs: ['cloud-devops-engineer', 'cyber-security-specialist', 'ai-cloud-track'],
+    relatedCourseSlugs: ['cloud-computing-engineer-ai', 'ethical-hacking-specialist', 'cloud-computing-professional-ai'],
   },
   {
     id: 'faq-no-background',
     question: 'Can I join without any technical background?',
     answer:
-      'Yes. The IT Foundation Programme is designed for learners with no prior technical experience, and it leads into the longer diploma and degree tracks.',
+      'Yes. PC Hardware Support is designed for learners with no prior technical experience, and it leads into the longer diploma and degree tracks.',
     topic: 'courses',
     personaRelevance: { student: 0.9, parent: 0.8, professional: 0.6 },
-    relatedCourseSlugs: ['it-foundation-programme'],
+    relatedCourseSlugs: ['pc-hardware-support'],
   },
   {
     id: 'faq-placement-support',
@@ -171,6 +171,6 @@ export const faqs: Faq[] = [
       'Cloud programmes focus on building and operating infrastructure, while cyber security programmes focus on defending it — detecting threats and responding to incidents. Both share networking and operating system fundamentals, and a counsellor can help you decide which suits your goals.',
     topic: 'courses',
     personaRelevance: { student: 0.9, professional: 0.9 },
-    relatedCourseSlugs: ['cloud-devops-engineer', 'cyber-security-specialist'],
+    relatedCourseSlugs: ['cloud-computing-engineer-ai', 'ethical-hacking-specialist'],
   },
 ];

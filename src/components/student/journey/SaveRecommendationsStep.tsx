@@ -144,7 +144,7 @@ export function SaveRecommendationsStep({
           track('journey_soft_save_skipped', { intent });
           onSkip();
         }}
-        className="cursor-pointer text-[14px] font-semibold text-[var(--stu-ink-muted)] underline-offset-2 hover:text-[var(--stu-ink-secondary)] hover:underline"
+        className="-my-2 inline-block cursor-pointer py-2 text-[14px] font-semibold text-[var(--stu-ink-muted)] underline-offset-2 hover:text-[var(--stu-ink-secondary)] hover:underline"
       >
         Skip for now — show my roadmap
       </button>

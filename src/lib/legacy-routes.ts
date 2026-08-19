@@ -31,7 +31,7 @@ export const legacyNavRedirects: LegacyRedirect[] = [
 export const legacyCourseLandings: LegacyRedirect[] = [
   {
     source: '/diploma-in-cloud-computing-and-cyber-security',
-    destination: '/courses/cyber-security-specialist',
+    destination: '/courses/cloud-cyber-security-professional',
     permanent: true,
   },
   {
@@ -46,27 +46,28 @@ export const legacyCourseLandings: LegacyRedirect[] = [
   },
   {
     source: '/courses/diploma-cloud-computing-cyber-security',
-    destination: '/courses/cyber-security-specialist',
+    destination: '/courses/cloud-cyber-security-professional',
     permanent: true,
   },
-  {
-    source: '/courses/aws-solution-specialist',
-    destination: '/courses/cloud-devops-engineer',
-    permanent: true,
-  },
+  /*
+   * `/courses/aws-solution-specialist` used to redirect to a placeholder course
+   * slug. The real catalogue now has an actual `aws-solution-specialist`
+   * course, so the legacy URL and the live route are the same string — no
+   * redirect needed; removing the entry lets the real page serve directly.
+   */
   {
     source: '/courses/red-hat-certification-rhcsa',
-    destination: '/courses/network-infrastructure-engineer',
+    destination: '/courses/red-hat-professional',
     permanent: true,
   },
   {
     source: '/courses/microsoft-server-technology-specialist-mcts',
-    destination: '/courses/network-infrastructure-engineer',
+    destination: '/courses/microsoft-server-specialist',
     permanent: true,
   },
   {
     source: '/courses/mcts-windows-10',
-    destination: '/courses/it-foundation-programme',
+    destination: '/courses/windows-10-specialist',
     permanent: true,
   },
   {

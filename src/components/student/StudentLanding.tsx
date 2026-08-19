@@ -66,7 +66,19 @@ export function StudentLanding({
   const whyStats = buildWhyStats(counts);
 
   return (
-    <div className="student-page relative overflow-hidden">
+    <div
+      className={[
+        'student-page relative overflow-hidden',
+        /* Bleed the page's own gradient background up behind the sticky,
+           transparent header instead of stopping in a hard line at its
+           bottom edge — see the matching fix in home/v2/HomeV2.tsx. Offsets
+           must match SiteHeader's height breakpoints (72/80/88/96). */
+        '-mt-[72px] pt-[72px]',
+        'xs:-mt-[80px] xs:pt-[80px]',
+        'sm:-mt-[88px] sm:pt-[88px]',
+        '2xl:-mt-[96px] 2xl:pt-[96px]',
+      ].join(' ')}
+    >
       <div id="student-journey">
         <StudentJourney courses={courses} counts={counts} />
       </div>
@@ -82,14 +94,14 @@ export function StudentLanding({
                   className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
                 >
                   Why Students Choose{' '}
-                  <span className="text-[var(--stu-accent-soft)]">{siteConfig.name}</span>
+                  <span className="text-jk-400">{siteConfig.name}</span>
                 </h2>
 
                 <dl className="mt-8 grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-3">
                   {whyStats.map((stat) => (
                     <div key={stat.label} className="text-center sm:text-left lg:text-center">
                       <stat.icon
-                        className="mx-auto h-6 w-6 text-[var(--stu-accent-soft)] sm:mx-0 lg:mx-auto"
+                        className="mx-auto h-6 w-6 text-jk-400 sm:mx-0 lg:mx-auto"
                         strokeWidth={1.75}
                         aria-hidden="true"
                       />
@@ -98,7 +110,7 @@ export function StudentLanding({
                         <span className="mt-2.5 block font-display text-[20px] leading-none font-extrabold sm:text-[22px]">
                           {stat.value}
                         </span>
-                        <span className="mt-1.5 block text-[12.5px] leading-snug text-foreground-secondary">
+                        <span className="mt-1.5 block text-[12.5px] leading-snug text-white/70">
                           {stat.label}
                         </span>
                       </dd>
@@ -179,7 +191,7 @@ export function StudentLanding({
                   <span>Start your career journey</span>
                   <span
                     aria-hidden="true"
-                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/book:translate-x-0.5"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/book:translate-x-0.5"
                   >
                     <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
                   </span>

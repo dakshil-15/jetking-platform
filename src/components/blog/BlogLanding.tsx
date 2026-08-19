@@ -49,7 +49,7 @@ export function BlogLanding({
         initialPage={initialPage}
       />
 
-      <section className="bg-[var(--blog-surface)] pb-14 sm:pb-16 lg:pb-20" aria-labelledby="blog-cta">
+      <section className="bg-[var(--blog-surface)] py-14 sm:py-16 lg:py-20" aria-labelledby="blog-cta">
         <div className="shell">
           <div className="blog-cta-band overflow-hidden rounded-[28px] px-6 py-10 xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-12">
@@ -63,7 +63,7 @@ export function BlogLanding({
                 >
                   Talk it through with a counsellor
                 </h2>
-                <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-[var(--blog-ink-secondary)] sm:text-[15.5px]">
+                <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-white/75 sm:text-[15.5px]">
                   A short conversation about your goals, background and nearest centre — no
                   obligation, no scripted pitch.
                 </p>
@@ -77,7 +77,7 @@ export function BlogLanding({
                   <span>Enquire now</span>
                   <span
                     aria-hidden="true"
-                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[var(--blog-canvas)] transition-transform duration-200 group-hover/book:translate-x-0.5"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/book:translate-x-0.5"
                   >
                     <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
                   </span>

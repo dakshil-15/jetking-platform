@@ -47,7 +47,7 @@ export function ParentTestimonialSlider({ testimonials }: { testimonials?: Testi
       classNames={{ viewport: 'rounded-[24px]' }}
     >
       {(item, i) => (
-        <blockquote className="stu-quote flex h-full min-h-[220px] flex-col p-6 sm:min-h-[240px] sm:p-7">
+        <blockquote className="stu-quote flex h-full min-h-[220px] flex-col p-6 text-white sm:min-h-[240px] sm:p-7">
           <span
             aria-hidden="true"
             className="font-display text-[56px] leading-none font-extrabold text-white/30"

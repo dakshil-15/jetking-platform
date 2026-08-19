@@ -64,14 +64,22 @@ export function track(event: EventName, props: EventProps = {}): void {
 
   const payload = { ...props, ts: Date.now() };
 
-  // GA4 / GTM — the existing Jetking analytics stack.
-  window.dataLayer?.push({ event, ...payload });
+  // A broken vendor stub (ad-blocker leftovers, a half-loaded GTM script) throwing
+  // here must not propagate: several call sites (e.g. Guide.tsx's ask()) call
+  // track() before their own try/finally, so an uncaught throw here would skip
+  // that finally and leave UI state — the chat's `pending` flag — stuck forever.
+  try {
+    // GA4 / GTM — the existing Jetking analytics stack.
+    window.dataLayer?.push({ event, ...payload });
 
-  // PostHog — cohorts, funnels, experimentation.
-  window.posthog?.capture(event, payload);
+    // PostHog — cohorts, funnels, experimentation.
+    window.posthog?.capture(event, payload);
 
-  if (isDev) {
-    console.debug(`[event] ${event}`, payload);
+    if (isDev) {
+      console.debug(`[event] ${event}`, payload);
+    }
+  } catch (err) {
+    if (isDev) console.warn('[track] failed', event, err);
   }
 }
 

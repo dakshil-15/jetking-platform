@@ -90,7 +90,7 @@ export function StudentExploreHero({
               Explore Courses
               <span
                 aria-hidden="true"
-                className="grid h-9 w-9 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/cta:translate-x-0.5"
+                className="grid h-9 w-9 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/cta:translate-x-0.5"
               >
                 <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
               </span>

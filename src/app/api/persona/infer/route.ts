@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { inferPersonaWithModel } from '@/persona/infer';
 import { PERSONA_IDS } from '@/persona/types';
+import { clientKey, createRateLimiter } from '@/lib/rate-limit';
 
 const BodySchema = z.object({
   signals: z
@@ -30,10 +31,21 @@ const BodySchema = z.object({
   path: z.string().max(200).optional(),
 });
 
+/** Calls OpenAI when configured — unbounded requests translate directly into unbounded billing. */
+const limiter = createRateLimiter({ windowMs: 60_000, max: 20 });
+
 /**
  * Silent persona inference — no PII. Called from the client after browsing signals accumulate.
  */
 export async function POST(req: Request) {
+  const limit = await limiter.check(clientKey(req));
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      { status: 429, headers: { 'retry-after': String(limit.retryAfter || 60) } },
+    );
+  }
+
   let json: unknown;
   try {
     json = await req.json();

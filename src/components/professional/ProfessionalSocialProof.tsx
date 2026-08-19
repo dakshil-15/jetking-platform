@@ -11,7 +11,7 @@ export function ProfessionalSocialProof() {
         <div className="pro-why overflow-hidden rounded-[28px] px-6 py-10 xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
             <div>
-              <p className="text-[13px] font-bold tracking-[0.06em] text-[var(--pro-accent-soft)] uppercase">
+              <p className="text-[13px] font-bold tracking-[0.06em] text-jk-400 uppercase">
                 Success stories
               </p>
               <h2
@@ -20,7 +20,7 @@ export function ProfessionalSocialProof() {
               >
                 Real career transitions
               </h2>
-              <p className="mt-2 text-[14px] text-[var(--pro-ink-secondary)] sm:text-[15px]">
+              <p className="mt-2 text-[14px] text-white/75 sm:text-[15px]">
                 Working professionals like you who upskilled without quitting their day job.
               </p>
 
@@ -32,10 +32,10 @@ export function ProfessionalSocialProof() {
                 itemLabel={(story) => `${story.name}, ${story.from} to ${story.to}`}
                 classNames={{
                   viewport: 'rounded-[24px]',
-                  dotActive: 'bg-[var(--pro-accent-soft)]',
+                  dotActive: 'bg-jk-400',
                   dotIdle: 'bg-white/25',
                   button:
-                    'border-white/20 bg-white/10 text-white transition-colors hover:border-[var(--pro-accent-soft)] hover:text-[var(--pro-accent-soft)]',
+                    'border-white/20 bg-white/10 text-white transition-colors hover:border-jk-400 hover:text-jk-400',
                 }}
               >
                 {(story) => (
@@ -83,7 +83,7 @@ export function ProfessionalSocialProof() {
               <h3 className="font-display text-[20px] font-extrabold tracking-[-0.02em] text-white sm:text-[22px]">
                 Our Hiring Partners
               </h3>
-              <p className="mt-2 text-[14px] text-[var(--pro-ink-secondary)]">
+              <p className="mt-2 text-[14px] text-white/75">
                 Illustrative partners — introductions vary by centre and programme.
               </p>
               <ul className="mt-6 grid grid-cols-2 gap-3 xs:grid-cols-3 sm:gap-4">

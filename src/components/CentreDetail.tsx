@@ -173,7 +173,7 @@ export function CentreDetail({
                 Enquire at this centre
                 <span
                   aria-hidden="true"
-                  className="grid h-9 w-9 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/cta:translate-x-0.5"
+                  className="grid h-9 w-9 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/cta:translate-x-0.5"
                 >
                   <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
                 </span>
@@ -220,7 +220,7 @@ export function CentreDetail({
                 <p className="text-[12px] font-bold tracking-[0.16em] text-[var(--centres-accent-soft)] uppercase">
                   Why Jetking
                 </p>
-                <h2 className="mt-2 font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[28px]">
+                <h2 className="mt-2 font-display text-[24px] font-extrabold tracking-[-0.02em] text-white sm:text-[28px]">
                   Learn where industry{' '}
                   <span className="text-[var(--centres-accent-soft)]">actually trains</span>
                 </h2>
@@ -235,10 +235,10 @@ export function CentreDetail({
                     />
                     <dt className="sr-only">{stat.label}</dt>
                     <dd>
-                      <span className="numeral mt-2 block font-display text-[22px] leading-none font-extrabold sm:text-[26px]">
+                      <span className="numeral mt-2 block font-display text-[22px] leading-none font-extrabold text-white sm:text-[26px]">
                         {stat.value}
                       </span>
-                      <span className="mt-1.5 block text-[12px] leading-snug text-[var(--centres-ink-muted)]">
+                      <span className="mt-1.5 block text-[12px] leading-snug text-white/65">
                         {stat.label}
                       </span>
                     </dd>
@@ -380,7 +380,7 @@ export function CentreDetail({
                                   {member.photoUrl ? (
                                     <Image
                                       src={member.photoUrl}
-                                      alt=""
+                                      alt={member.name}
                                       fill
                                       sizes="128px"
                                       className="object-cover object-top transition-transform duration-300 ease-[var(--ease-out-soft)] group-hover/fac:scale-[1.03]"
@@ -456,7 +456,7 @@ export function CentreDetail({
                                 {p.photoUrl ? (
                                   <Image
                                     src={p.photoUrl}
-                                    alt=""
+                                    alt={p.name}
                                     fill
                                     sizes="112px"
                                     className="object-cover object-top transition-transform duration-300 ease-[var(--ease-out-soft)] group-hover/place:scale-[1.03]"
@@ -712,7 +712,7 @@ export function CentreDetail({
                 <span>Enquire about this centre</span>
                 <span
                   aria-hidden="true"
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/enq:translate-x-0.5"
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/enq:translate-x-0.5"
                 >
                   <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
                 </span>
@@ -720,7 +720,7 @@ export function CentreDetail({
 
               <Link
                 href={'/centres' as Route}
-                className="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-full border border-white/20 px-5 py-2.5 text-[14px] font-bold text-[var(--centres-ink)] transition-colors hover:border-white/40 hover:bg-white/5"
+                className="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-full border border-[var(--centres-hairline)] px-5 py-2.5 text-[14px] font-bold text-[var(--centres-ink)] transition-colors hover:border-[var(--centres-accent-soft)]/70 hover:bg-[var(--centres-accent-tint)]"
               >
                 Back to all centres
               </Link>
@@ -730,7 +730,7 @@ export function CentreDetail({
       </section>
 
       {/* Bottom CTA band */}
-      <section className="shell pb-16 sm:pb-20 lg:pb-24">
+      <section className="shell py-16 sm:py-20 lg:py-24">
         <div className="centres-cta-band relative overflow-hidden rounded-[24px] px-6 py-10 xs:rounded-[28px] sm:px-10 sm:py-12 lg:px-12">
           <span
             aria-hidden="true"
@@ -739,11 +739,11 @@ export function CentreDetail({
             <Sparkles className="h-3.5 w-3.5" strokeWidth={2} />
             Placement support
           </span>
-          <h2 className="max-w-[20ch] font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[32px]">
+          <h2 className="max-w-[20ch] font-display text-[26px] font-extrabold tracking-[-0.02em] text-white sm:text-[32px]">
             Ready to visit{' '}
             <span className="text-[var(--centres-accent-soft)]">{centre.locality}</span>?
           </h2>
-          <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-[var(--centres-ink-secondary)]">
+          <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-white/75">
             Talk to a counsellor about batches, fees and the right programme for your goals at this
             centre.
           </p>
@@ -755,7 +755,7 @@ export function CentreDetail({
               Book a counselling call
               <span
                 aria-hidden="true"
-                className="grid h-9 w-9 place-items-center rounded-full bg-white text-foreground transition-transform duration-200 group-hover/cta:translate-x-0.5"
+                className="grid h-9 w-9 place-items-center rounded-full bg-white text-ink-900 transition-transform duration-200 group-hover/cta:translate-x-0.5"
               >
                 <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
               </span>
@@ -765,7 +765,7 @@ export function CentreDetail({
                 href={phoneHref}
                 event="phone_clicked"
                 props={{ centre_slug: centre.slug, type: 'footer' }}
-                className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-[14.5px] font-bold text-[var(--centres-ink)] transition-colors hover:border-white/40 hover:bg-white/5"
+                className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-[14.5px] font-bold text-white transition-colors hover:border-white/40 hover:bg-white/5"
               >
                 <Phone className="h-4 w-4 text-[var(--centres-accent-soft)]" strokeWidth={2} aria-hidden="true" />
                 {centre.phone}

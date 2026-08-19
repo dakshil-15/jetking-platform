@@ -109,6 +109,13 @@ export async function decodePersonaCookie(value: string | undefined): Promise<Pe
     const payload = decoded as PersonaCookiePayload;
     if (typeof payload.p !== 'string' || typeof payload.c !== 'number') return null;
     if (!Array.isArray(payload.s)) return null;
+
+    // The signature alone never expires — Max-Age is a browser-honored hint, not
+    // something a replayed cookie value is bound by. Enforce it server-side too.
+    const classifiedAt = Date.parse(payload.t);
+    if (!Number.isFinite(classifiedAt)) return null;
+    if (Date.now() - classifiedAt > COOKIE_MAX_AGE * 1000) return null;
+
     return payload;
   } catch {
     return null;

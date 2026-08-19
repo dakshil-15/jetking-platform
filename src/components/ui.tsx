@@ -134,7 +134,7 @@ export const buttonTones: Record<ButtonTone, string> = {
 };
 
 export const buttonSizes: Record<ButtonSize, string> = {
-  sm: 'h-10 px-4 text-sm',
+  sm: 'h-11 px-4 text-sm',
   md: 'h-12 px-6 text-sm',
   lg: 'h-14 px-7 text-base',
 };
