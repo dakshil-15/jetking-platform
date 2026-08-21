@@ -24,6 +24,7 @@ export function SiteHeader() {
   const mounted = useHydrated();
   const drawerRef = useRef<HTMLElement>(null);
 
+  const isHome = pathname === '/';
   const [menu, setMenu] = useState({ open: false, path: pathname });
   const open = menu.open && menu.path === pathname;
   const setOpen = useCallback(
@@ -207,71 +208,73 @@ export function SiteHeader() {
               <Moon className="h-5 w-5 transition-transform duration-300 group-hover:-rotate-12" aria-hidden="true" />
             )}
           </button>
-          <button
-            type="button"
-            onClick={() => setOpen(!open)}
-            aria-expanded={open}
-            aria-controls="site-menu"
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            className={cx(
-              'group relative grid h-12 w-12 cursor-pointer place-items-center rounded-full transition-[background-color,transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:scale-[1.04] active:scale-[0.94] motion-reduce:transition-colors motion-reduce:hover:scale-100 motion-reduce:active:scale-100 xs:h-[52px] xs:w-[52px] sm:h-[62px] sm:w-[62px]',
-              onDarkLead
-                ? 'bg-white text-ink-900 shadow-[0_4px_14px_rgb(0_0_0/0.35)] ring-2 ring-jk-500 ring-offset-2 ring-offset-background hover:bg-surface hover:shadow-[0_6px_20px_rgb(216_31_38/0.35)]'
-                : 'bg-foreground text-background ring-2 ring-jk-500 ring-offset-2 ring-offset-background hover:bg-foreground-secondary hover:shadow-[0_6px_20px_rgb(216_31_38/0.28)]',
-            )}
-          >
-            {/* Brand accent — small red tick on the button edge */}
-            <span
-              aria-hidden="true"
+          {isHome ? null : (
+            <button
+              type="button"
+              onClick={() => setOpen(!open)}
+              aria-expanded={open}
+              aria-controls="site-menu"
+              aria-label={open ? 'Close menu' : 'Open menu'}
               className={cx(
-                'pointer-events-none absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-jk-500 transition-transform duration-300 group-hover:scale-110 sm:h-3 sm:w-3',
+                'group relative grid h-12 w-12 cursor-pointer place-items-center rounded-full transition-[background-color,transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:scale-[1.04] active:scale-[0.94] motion-reduce:transition-colors motion-reduce:hover:scale-100 motion-reduce:active:scale-100 xs:h-[52px] xs:w-[52px] sm:h-[62px] sm:w-[62px]',
                 onDarkLead
-                  ? 'shadow-[0_0_0_2px_var(--color-background)]'
-                  : 'shadow-[0_0_0_2px_var(--color-background)]',
+                  ? 'bg-white text-ink-900 shadow-[0_4px_14px_rgb(0_0_0/0.35)] ring-2 ring-jk-500 ring-offset-2 ring-offset-background hover:bg-surface hover:shadow-[0_6px_20px_rgb(216_31_38/0.35)]'
+                  : 'bg-foreground text-background ring-2 ring-jk-500 ring-offset-2 ring-offset-background hover:bg-foreground-secondary hover:shadow-[0_6px_20px_rgb(216_31_38/0.28)]',
               )}
-            />
-            {/*
-              Three bars stay mounted so open/close can morph via transform
-              instead of hard-swapping to the Lucide X. Hover also nudges each line.
-            */}
-            <span
-              aria-hidden="true"
-              className="relative block h-[14px] w-[18px] sm:h-[18px] sm:w-6"
             >
+              {/* Brand accent — small red tick on the button edge */}
               <span
+                aria-hidden="true"
                 className={cx(
-                  'absolute left-0 top-0 block h-[2px] w-full origin-center rounded-full transition-[transform,opacity,width,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none sm:h-[2.5px]',
-                  open
-                    ? 'translate-y-[6px] rotate-45 bg-jk-500 sm:translate-y-[7.75px]'
-                    : onDarkLead
-                      ? 'bg-ink-900 group-hover:-translate-y-0.5 group-hover:bg-jk-500'
-                      : 'bg-white group-hover:-translate-y-0.5 group-hover:bg-jk-500',
+                  'pointer-events-none absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-jk-500 transition-transform duration-300 group-hover:scale-110 sm:h-3 sm:w-3',
+                  onDarkLead
+                    ? 'shadow-[0_0_0_2px_var(--color-background)]'
+                    : 'shadow-[0_0_0_2px_var(--color-background)]',
                 )}
               />
+              {/*
+                Three bars stay mounted so open/close can morph via transform
+                instead of hard-swapping to the Lucide X. Hover also nudges each line.
+              */}
               <span
-                className={cx(
-                  'absolute left-0 top-1/2 block h-[2px] w-full -translate-y-1/2 origin-center rounded-full bg-jk-500 transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none sm:h-[2.5px]',
-                  open
-                    ? 'scale-x-0 opacity-0 delay-75'
-                    : 'group-hover:scale-x-[0.72] group-hover:delay-75',
-                )}
-              />
-              <span
-                className={cx(
-                  'absolute bottom-0 left-0 block h-[2px] w-3 origin-center rounded-full transition-[transform,opacity,width,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none sm:h-[2.5px] sm:w-4',
-                  open
-                    ? 'w-full -translate-y-[6px] -rotate-45 bg-jk-500 delay-100 sm:-translate-y-[7.75px]'
-                    : onDarkLead
-                      ? 'bg-ink-900 group-hover:w-full group-hover:translate-y-0.5 group-hover:bg-jk-500'
-                      : 'bg-white group-hover:w-full group-hover:translate-y-0.5 group-hover:bg-jk-500',
-                )}
-              />
-            </span>
-          </button>
+                aria-hidden="true"
+                className="relative block h-[14px] w-[18px] sm:h-[18px] sm:w-6"
+              >
+                <span
+                  className={cx(
+                    'absolute left-0 top-0 block h-[2px] w-full origin-center rounded-full transition-[transform,opacity,width,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none sm:h-[2.5px]',
+                    open
+                      ? 'translate-y-[6px] rotate-45 bg-jk-500 sm:translate-y-[7.75px]'
+                      : onDarkLead
+                        ? 'bg-ink-900 group-hover:-translate-y-0.5 group-hover:bg-jk-500'
+                        : 'bg-white group-hover:-translate-y-0.5 group-hover:bg-jk-500',
+                  )}
+                />
+                <span
+                  className={cx(
+                    'absolute left-0 top-1/2 block h-[2px] w-full -translate-y-1/2 origin-center rounded-full bg-jk-500 transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none sm:h-[2.5px]',
+                    open
+                      ? 'scale-x-0 opacity-0 delay-75'
+                      : 'group-hover:scale-x-[0.72] group-hover:delay-75',
+                  )}
+                />
+                <span
+                  className={cx(
+                    'absolute bottom-0 left-0 block h-[2px] w-3 origin-center rounded-full transition-[transform,opacity,width,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none sm:h-[2.5px] sm:w-4',
+                    open
+                      ? 'w-full -translate-y-[6px] -rotate-45 bg-jk-500 delay-100 sm:-translate-y-[7.75px]'
+                      : onDarkLead
+                        ? 'bg-ink-900 group-hover:w-full group-hover:translate-y-0.5 group-hover:bg-jk-500'
+                        : 'bg-white group-hover:w-full group-hover:translate-y-0.5 group-hover:bg-jk-500',
+                  )}
+                />
+              </span>
+            </button>
+          )}
         </div>
       </div>
 
-      {drawer}
+      {isHome ? null : drawer}
     </header>
   );
 }

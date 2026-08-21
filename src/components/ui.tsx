@@ -383,7 +383,12 @@ export function Notice({
 }) {
   const tones = {
     neutral: 'border-border bg-surface',
-    accent: 'border-jk-200 bg-jk-50',
+    // `--accent-border`/`--accent-soft` (globals.css), not the raw jk-200/jk-50
+    // primitives: those stay the same pale pink in dark mode, which measured
+    // ~1.5:1 against the light `text-foreground-secondary` body text placed on
+    // it here — a WCAG 1.4.3 failure. The semantic tokens already redefine for
+    // `.dark` (a translucent red), which is what a dark surface needs.
+    accent: 'border-[var(--accent-border)] bg-[var(--accent-soft)]',
     success: 'border-growth-600/25 bg-growth-50',
   } as const;
 

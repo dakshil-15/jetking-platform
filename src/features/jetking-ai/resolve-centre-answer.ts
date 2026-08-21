@@ -13,6 +13,84 @@ const CITY_ALIASES: Record<string, string[]> = {
   gurugram: ['gurgaon', 'gurugram'],
   delhi: ['delhi', 'noida', 'gurgaon', 'gurugram', 'azadpur'],
   mumbai: ['mumbai', 'borivali', 'dadar', 'khar', 'thane', 'vasai', 'vashi'],
+  // IT-hub neighbourhoods `extractCityHint` recognises (see CITY_RE in
+  // city.ts) that have no Jetking branch of their own — route them to the
+  // nearest city hub instead of falling through to the generic "name your
+  // city" reply, which was surfacing an unrelated city (Ahmedabad) as the
+  // example. Hinjewadi sits right beside the Wakad/Chinchwad branch.
+  hinjewadi: ['pune'],
+  andheri: ['mumbai'],
+  koramangala: ['bangalore', 'bengaluru'],
+
+  // Same idea, extended to every other city Jetking has a centre in —
+  // matched against real, well-known localities only (never a guess at
+  // which city an ambiguous name belongs to).
+  bandra: ['mumbai'],
+  powai: ['mumbai'],
+  malad: ['mumbai'],
+  kandivali: ['mumbai'],
+  goregaon: ['mumbai'],
+  juhu: ['mumbai'],
+  colaba: ['mumbai'],
+  worli: ['mumbai'],
+  chembur: ['mumbai'],
+  ghatkopar: ['mumbai'],
+  mulund: ['mumbai'],
+
+  dwarka: ['delhi'],
+  rohini: ['delhi'],
+  'karol bagh': ['delhi'],
+  'connaught place': ['delhi'],
+  pitampura: ['delhi'],
+  janakpuri: ['delhi'],
+  saket: ['delhi'],
+  'nehru place': ['delhi'],
+
+  whitefield: ['bangalore', 'bengaluru'],
+  'electronic city': ['bangalore', 'bengaluru'],
+  indiranagar: ['bangalore', 'bengaluru'],
+  marathahalli: ['bangalore', 'bengaluru'],
+  'hsr layout': ['bangalore', 'bengaluru'],
+  jayanagar: ['bangalore', 'bengaluru'],
+  'btm layout': ['bangalore', 'bengaluru'],
+  'jp nagar': ['bangalore', 'bengaluru'],
+  malleshwaram: ['bangalore', 'bengaluru'],
+
+  'hitech city': ['hyderabad'],
+  gachibowli: ['hyderabad'],
+  madhapur: ['hyderabad'],
+  secunderabad: ['hyderabad'],
+  begumpet: ['hyderabad'],
+  dilsukhnagar: ['hyderabad'],
+
+  wakad: ['pune'],
+  kothrud: ['pune'],
+  baner: ['pune'],
+  'viman nagar': ['pune'],
+  hadapsar: ['pune'],
+  aundh: ['pune'],
+  kharadi: ['pune'],
+
+  'salt lake': ['kolkata'],
+  'park street': ['kolkata'],
+  howrah: ['kolkata'],
+  rajarhat: ['kolkata'],
+  behala: ['kolkata'],
+  garia: ['kolkata'],
+
+  satellite: ['ahmedabad'],
+  navrangpura: ['ahmedabad'],
+  bopal: ['ahmedabad'],
+  vastrapur: ['ahmedabad'],
+
+  'gomti nagar': ['lucknow'],
+  hazratganj: ['lucknow'],
+
+  sitabuldi: ['nagpur'],
+  dharampeth: ['nagpur'],
+
+  'cyber city': ['gurgaon', 'gurugram'],
+  'dlf phase': ['gurgaon', 'gurugram'],
 };
 
 function norm(s: string): string {

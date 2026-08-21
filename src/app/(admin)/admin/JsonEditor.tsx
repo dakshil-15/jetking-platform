@@ -15,8 +15,20 @@ export function JsonEditor({
   initial: unknown[];
   title: string;
 }) {
+  const firstId = (initial[0] as Record<string, unknown> | undefined)?.[idKey];
   const [items, setItems] = useState(initial);
   const [draft, setDraft] = useState(JSON.stringify(initial[0] ?? {}, null, 2));
+  /**
+   * The id the currently-loaded draft was opened under. Passed back on save so
+   * changing the id field in the textarea renames that row instead of forking a
+   * duplicate — `undefined` means "this is a new record", set explicitly via
+   * "+ New record" rather than inferred, since inferring it from whether the id
+   * changed would make the existing "clone by editing the id" workflow silently
+   * rename the record you copied from instead of creating a new one.
+   */
+  const [originalId, setOriginalId] = useState<string | undefined>(
+    firstId !== undefined ? String(firstId) : undefined,
+  );
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
@@ -52,6 +64,7 @@ export function JsonEditor({
                     className="min-w-0 flex-1 cursor-pointer py-3 text-left transition-colors hover:text-jk-400"
                     onClick={() => {
                       setDraft(JSON.stringify(item, null, 2));
+                      setOriginalId(id);
                       setMessage(null);
                       setError(null);
                     }}
@@ -92,6 +105,7 @@ export function JsonEditor({
                         setItems((prev) =>
                           prev.filter((p) => (p as Record<string, unknown>)[idKey] !== id),
                         );
+                        setOriginalId((prev) => (prev === id ? undefined : prev));
                         setMessage(`Deleted ${id}.`);
                       });
                     }}
@@ -128,15 +142,32 @@ export function JsonEditor({
                   setMessage(null);
                   setError(null);
 
-                  const result = await saveCollectionItem(collection, idKey, draft);
+                  let parsed: Record<string, unknown>;
+                  try {
+                    parsed = JSON.parse(draft) as Record<string, unknown>;
+                  } catch {
+                    setError('Invalid JSON.');
+                    return;
+                  }
+
+                  const result = await saveCollectionItem(collection, idKey, draft, originalId);
                   if (!result.ok) {
                     setError(result.error);
                     return;
                   }
 
-                  const parsed = JSON.parse(draft) as Record<string, unknown>;
                   setItems((prev) => {
                     const next = [...prev];
+                    const renamedFromIdx =
+                      originalId !== undefined
+                        ? next.findIndex(
+                            (p) => (p as Record<string, unknown>)[idKey] === originalId,
+                          )
+                        : -1;
+                    if (renamedFromIdx >= 0) {
+                      next[renamedFromIdx] = parsed;
+                      return next;
+                    }
                     const idx = next.findIndex(
                       (p) => (p as Record<string, unknown>)[idKey] === parsed[idKey],
                     );
@@ -144,11 +175,26 @@ export function JsonEditor({
                     else next.push(parsed);
                     return next;
                   });
+                  setOriginalId(String(parsed[idKey]));
                   setMessage('Saved. Revalidation and Guide re-ingest hooks fired.');
                 })
               }
             >
               {pending ? 'Saving…' : 'Save'}
+            </button>
+
+            <button
+              type="button"
+              disabled={pending}
+              className="inline-flex h-12 cursor-pointer items-center rounded-full border border-border px-6 text-sm font-semibold text-foreground-secondary transition-colors hover:border-border-strong hover:text-foreground disabled:opacity-45"
+              onClick={() => {
+                setDraft(JSON.stringify({ status: 'draft' }, null, 2));
+                setOriginalId(undefined);
+                setMessage(null);
+                setError(null);
+              }}
+            >
+              + New record
             </button>
 
             {error ? (

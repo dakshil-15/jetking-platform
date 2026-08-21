@@ -63,7 +63,7 @@ export const JOURNEYS: Journey[] = [
     id: 'exploring',
     title: "I'm Just Exploring",
     detail: 'Browse around and learn more',
-    href: '/courses',
+    href: '/explore',
     image: '/home/journey-explore-v2.jpg',
     hue: 'explore',
   },

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { serverEnv } from '@/lib/config/env.server';
 
-import type { WantFlags } from './intent';
+import { needsGuidance, type WantFlags } from './intent';
 import type { CounsellingSession } from './session';
 
 /**
@@ -25,13 +25,16 @@ export function needsPlanner(input: {
   isLocation: boolean;
   message: string;
 }): boolean {
+  if (input.isLocation || input.message.trim().length === 0) return false;
+  if (needsGuidance(input.message)) return true;
+
   const explicitFacet =
     input.wants.wantFees ||
     input.wants.wantEligibility ||
     input.wants.wantCurriculum ||
     input.wants.wantDuration ||
     input.wants.wantPlacement;
-  return !input.subject && !explicitFacet && !input.isLocation && input.message.trim().length > 0;
+  return !input.subject && !explicitFacet;
 }
 
 const INTENTS = [

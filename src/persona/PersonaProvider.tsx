@@ -12,7 +12,7 @@ import {
 } from 'react';
 import { classify } from './classify';
 import { markVisit, readBehaviour, recordBehaviour, type BehaviourEvent } from './behaviour';
-import { PERSONA_COOKIE, decodePersonaCookie, payloadToSignals } from './cookie';
+import { PERSONA_COOKIE, decodePersonaCookieUnverified, payloadToSignals } from './cookie';
 import type { AcquisitionChannel } from './channel';
 import {
   UNKNOWN_CLASSIFICATION,
@@ -156,7 +156,7 @@ export function PersonaProvider({ children }: { children: ReactNode }) {
         minted: visitorProfile.minted,
       });
 
-      const payload = await decodePersonaCookie(readCookieValue(PERSONA_COOKIE));
+      const payload = decodePersonaCookieUnverified(readCookieValue(PERSONA_COOKIE));
       if (cancelled) return;
 
       priorSignalsRef.current = payload ? payloadToSignals(payload) : [];

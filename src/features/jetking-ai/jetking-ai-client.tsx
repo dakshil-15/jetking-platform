@@ -166,8 +166,14 @@ function BrandLockup() {
 function ReactorMark() {
   return (
     <div className="grid place-items-center py-1">
-      <span className="block drop-shadow-[0_0_18px_#ea1c2466]" style={{ height: 72 }}>
-        <JetkingShield variant="mark" className="h-full w-auto" />
+      <span className="block drop-shadow-[0_0_18px_#ea1c2466]" style={{ height: 40 }}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- brand asset; sized by caller */}
+        <img
+          src="/brand/jetking-wordmark.png"
+          alt="Jetking"
+          draggable={false}
+          className="h-full w-auto select-none object-contain"
+        />
       </span>
     </div>
   );
@@ -748,6 +754,18 @@ export function JetkingAiClient() {
   /** Round-tripped with /api/chat each turn — not persisted across a reload,
    *  same as the message transcript itself. */
   const sessionRef = useRef<CounsellingSession | undefined>(undefined);
+  /**
+   * The `locations` starter's own city chips already frame their query as
+   * "Jetking centre in {city}" before calling `ask()` — that's what makes
+   * the server reliably recognise it as a location question. Free-typing a
+   * city instead of tapping a chip skipped that framing entirely: the raw
+   * text (e.g. "vapi") went to /api/chat with no location signal and no
+   * prior session (this starter never calls the API itself), so the server
+   * fell through to general answer composition and invented a "Vapi Centre"
+   * with a literal "[insert address]" placeholder. Tracking that we're
+   * waiting on a free-typed city lets `onSubmit` apply the same framing.
+   */
+  const awaitingCityRef = useRef(false);
 
   const [messages, setMessages] = useState<Message[]>(() => [
     {
@@ -830,6 +848,7 @@ export function JetkingAiClient() {
   }, []);
 
   const startIntent = useCallback((key: IntentKey) => {
+    awaitingCityRef.current = key === 'locations';
     const starter = STARTERS[key];
     setMessages((m) => [
       ...m,
@@ -845,6 +864,7 @@ export function JetkingAiClient() {
 
   const ask = useCallback(
     (query: string, label?: string) => {
+      awaitingCityRef.current = false;
       const prior = messagesRef.current;
       setMessages((m) => [...m, { id: nextId(), role: 'user', text: label ?? query }]);
       const talk = smallTalk(query);
@@ -866,6 +886,7 @@ export function JetkingAiClient() {
       setDrawerOpen(false);
       setInfoOpen(false);
       if (key === 'welcome') {
+        awaitingCityRef.current = false;
         setMessages([
           {
             id: nextId(),
@@ -910,6 +931,13 @@ export function JetkingAiClient() {
     const q = draft.trim();
     if (!q || busy) return;
     setDraft('');
+    // Free-typing a reply to "Which city are you in?" instead of tapping one
+    // of its chips — frame it the same way those chips do, so the server
+    // reliably reads it as a location question. See awaitingCityRef above.
+    if (awaitingCityRef.current) {
+      ask(`Jetking centre in ${q}`, q);
+      return;
+    }
     ask(q);
   };
 

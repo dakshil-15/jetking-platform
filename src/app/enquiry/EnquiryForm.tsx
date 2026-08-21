@@ -28,6 +28,23 @@ interface Option {
 
 type Status = 'idle' | 'submitting' | 'done' | 'error';
 
+/**
+ * Matches the field styling used across the student/parent/professional/
+ * franchise pages. Background/text are plain Tailwind utilities (those
+ * don't collide with anything); border/focus are the `.stu-field` class in
+ * student.css instead of more Tailwind classes, because the shared
+ * `fieldControl` base (src/components/form.tsx) already sets its own
+ * border/focus-ring via Tailwind classes, and `cx()` is a plain string join
+ * with no Tailwind-merge dedup — an *additional* utility class doesn't
+ * reliably win the cascade there, only real CSS specificity does. Measured
+ * live: `fieldControl`'s own focus ring never painted at all (computed
+ * `box-shadow: none` while focused — no visible indicator at all, WCAG
+ * 2.4.7), and its resting border measured ~1.2:1 against the card, under
+ * the 3:1 WCAG 1.4.11 needs for a field boundary.
+ */
+const fieldClass =
+  'stu-field bg-[var(--stu-card)] text-[var(--stu-ink)] placeholder:text-[var(--stu-ink-muted)]';
+
 const INTRO: Record<string, string> = {
   student: 'Tell us where you are in your studies and we will point you to the right track.',
   professional: 'Tell us your current role and what you want to move into.',
@@ -36,36 +53,58 @@ const INTRO: Record<string, string> = {
   unknown: 'Tell us what you are looking for.',
 };
 
+/**
+ * Deliberately never reads `readHandoff()` (localStorage) — this must return
+ * the same thing on the server and on the client's first render, or React
+ * flags a hydration mismatch (confirmed live: it did, every time a stored
+ * Guide handoff existed). The localStorage-derived half is applied
+ * separately, after mount — see `useGuidePrefill` below.
+ */
 function resolveGuidePrefill(searchParams: URLSearchParams): {
-  handoff: GuideHandoffPayload | null;
   course: string;
   city: string;
   message: string;
 } {
-  const stored = typeof window !== 'undefined' ? readHandoff() : null;
-  if (stored) {
-    return {
-      handoff: stored,
-      course: stored.courseSlug ?? '',
-      city: stored.citySlug ?? '',
-      message: `I was chatting with the Jetking Guide and would like a counsellor to follow up.\n\n${
-        stored.lastQuestion
-          ? `Last question: ${stored.lastQuestion}`
-          : stored.summary.slice(0, 500)
-      }`,
-    };
-  }
-
   if (searchParams.get('from') === 'guide') {
     return {
-      handoff: null,
       course: searchParams.get('course') ?? '',
       city: searchParams.get('city') ?? '',
       message: '',
     };
   }
 
-  return { handoff: null, course: '', city: '', message: '' };
+  return { course: '', city: '', message: '' };
+}
+
+/**
+ * Layers the sessionStorage-only Guide handoff on top of the SSR-safe,
+ * URL-derived prefill from `resolveGuidePrefill` — `handoff` starts `null`
+ * (matching the server) and is populated in an effect, which only ever runs
+ * client-side, after hydration has already reconciled against the server's
+ * markup. A genuine external-source sync, not derived state: sessionStorage
+ * does not exist during SSR, so reading it in a lazy initialiser would
+ * reintroduce the same hydration mismatch this exists to avoid.
+ */
+function useGuidePrefill(searchParams: URLSearchParams) {
+  const base = useMemo(() => resolveGuidePrefill(searchParams), [searchParams]);
+  const [handoff, setHandoff] = useState<GuideHandoffPayload | null>(null);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setHandoff(readHandoff());
+  }, []);
+
+  return useMemo(() => {
+    if (!handoff) return { handoff: null, ...base };
+    return {
+      handoff,
+      course: handoff.courseSlug ?? '',
+      city: handoff.citySlug ?? '',
+      message: `I was chatting with the Jetking Guide and would like a counsellor to follow up.\n\n${
+        handoff.lastQuestion ? `Last question: ${handoff.lastQuestion}` : handoff.summary.slice(0, 500)
+      }`,
+    };
+  }, [handoff, base]);
 }
 
 export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Option[] }) {
@@ -77,7 +116,7 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
   const successRef = useRef<HTMLDivElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
 
-  const prefill = useMemo(() => resolveGuidePrefill(searchParams), [searchParams]);
+  const prefill = useGuidePrefill(searchParams);
 
   // Move the reading position onto whichever outcome panel just appeared.
   useEffect(() => {
@@ -210,7 +249,7 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
      * -aware errors for free (WCAG 3.3.1, 3.3.3).
      */
     <form onSubmit={handleSubmit} className="space-y-7">
-      <p className="text-base text-foreground-secondary">
+      <p className="text-base text-[var(--stu-ink-secondary)]">
         {INTRO[classification.persona] ?? INTRO.unknown}
       </p>
 
@@ -221,7 +260,15 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
       ) : null}
 
       <Field label="Your name" htmlFor="name" required>
-        <Input id="name" name="name" required minLength={2} maxLength={120} autoComplete="name" />
+        <Input
+          id="name"
+          name="name"
+          required
+          minLength={2}
+          maxLength={120}
+          autoComplete="name"
+          className={fieldClass}
+        />
       </Field>
 
       <Field
@@ -238,16 +285,24 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
           inputMode="tel"
           autoComplete="tel"
           pattern="[\d\s+()-]{10,20}"
+          className={fieldClass}
         />
       </Field>
 
       <Field label="Email" htmlFor="email" hint="Optional.">
-        <Input id="email" name="email" type="email" maxLength={200} autoComplete="email" />
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          maxLength={200}
+          autoComplete="email"
+          className={fieldClass}
+        />
       </Field>
 
       <div className="grid gap-7 sm:grid-cols-2">
         <Field label="Nearest city" htmlFor="city">
-          <Select id="city" name="city" defaultValue={prefill.city}>
+          <Select id="city" name="city" defaultValue={prefill.city} className={fieldClass}>
             <option value="">Select a city</option>
             {cities.map((city) => (
               <option key={city.slug} value={city.slug}>
@@ -258,7 +313,12 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
         </Field>
 
         <Field label="Programme of interest" htmlFor="courseSlug">
-          <Select id="courseSlug" name="courseSlug" defaultValue={prefill.course}>
+          <Select
+            id="courseSlug"
+            name="courseSlug"
+            defaultValue={prefill.course}
+            className={fieldClass}
+          >
             <option value="">Not sure yet</option>
             {courses.map((course) => (
               <option key={course.slug} value={course.slug}>
@@ -277,6 +337,7 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
           maxLength={2000}
           defaultValue={prefill.message}
           key={prefill.message ? 'with-guide' : 'blank'}
+          className={fieldClass}
         />
       </Field>
 
@@ -291,11 +352,16 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
         </p>
       ) : null}
 
-      <Button type="submit" size="lg" disabled={status === 'submitting'} className="w-full">
+      <Button
+        type="submit"
+        size="lg"
+        disabled={status === 'submitting'}
+        className="w-full bg-[var(--stu-accent)] hover:bg-jk-700"
+      >
         {status === 'submitting' ? 'Sending…' : 'Send enquiry'}
       </Button>
 
-      <p className="text-sm text-foreground-muted">
+      <p className="text-sm text-[var(--stu-ink-muted)]">
         We use your details only to respond to this enquiry.
       </p>
     </form>

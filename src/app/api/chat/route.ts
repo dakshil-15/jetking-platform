@@ -20,6 +20,7 @@ import {
   detectSubject,
   detectWants,
   isFollowUpMessage,
+  isLocationFollowUp,
   isLocationMessage,
 } from '@/features/jetking-ai/intent';
 import { needsPlanner, runPlanner, type PlannerOutput } from '@/features/jetking-ai/planner';
@@ -39,6 +40,21 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 const GATE = serverEnv.answerGate;
+/**
+ * A second, higher bar for letting the LLM compose a free-form answer at
+ * all, as opposed to the deterministic passages formatter.
+ *
+ * Below this — but still above GATE — the match is typically a spurious
+ * keyword collision (e.g. "capital of India" scoring 0.47 against Jetking's
+ * own "centres across India" pages, just for sharing the word "India") not a
+ * real topical match. A prompt instruction alone doesn't reliably stop a
+ * small local model from answering a general-knowledge question out of its
+ * own training data when it sees *some* context sitting in front of it —
+ * confirmed live, repeatedly, even with an explicit "don't do this"
+ * instruction in the prompt. `passagesAnswer()` can't leak outside
+ * knowledge the same way: it only ever echoes real retrieved KB text.
+ */
+const LLM_CONFIDENT_GATE = 0.55;
 const OLLAMA_URL = serverEnv.ollamaChatUrl;
 
 interface ApiMessage {
@@ -152,6 +168,7 @@ You are a career counsellor having a conversation, not a search engine returning
 
 KNOWLEDGE
 Jetking-specific facts may ONLY come from the CONTEXT below. Never invent fees, course names, durations, eligibility, centre addresses, phone numbers, placement figures, salaries, or guarantees. If the CONTEXT lacks it, say so naturally and suggest confirming with a Jetking counsellor — that is a normal, honest answer, not a failure.
+This applies to general knowledge too, not just Jetking facts. The CONTEXT below is retrieved by similarity search and can surface passages that share a word with the question without actually answering it — e.g. a question about India's capital pulling up Jetking's centres across India. If the question is not about Jetking, its courses, admissions, fees, centres, placements, or choosing a career path, do not answer it from your own general knowledge just because some CONTEXT happens to be present. Say you're focused on Jetking career guidance and can't help with that, then offer to help with something you can.
 
 CONVERSATION
 - Talk naturally, like a person, not a brochure. Understand Hinglish, typos, and short questions; reply in Hinglish if they do.
@@ -283,9 +300,30 @@ export async function POST(req: Request): Promise<Response> {
 
   const q = lastUser.content;
   const cityHint = extractCityHint(q);
-  const isLocation = isLocationMessage(q, Boolean(cityHint));
   const wants = detectWants(q);
-  const { wantFees, wantEligibility, wantCurriculum, wantPlacement, wantDuration, wantCourse } = wants;
+  const { wantFees, wantEligibility, wantCurriculum, wantPlacement, wantDuration, wantCourse, wantAbout } =
+    wants;
+  const anyExplicitFacet =
+    wantFees || wantEligibility || wantCurriculum || wantPlacement || wantDuration || wantCourse || wantAbout;
+  /**
+   * The assistant's own immediately-prior message text, checked in addition
+   * to `session.lastFacet` inside `isLocationFollowUp` — the client's
+   * scripted starter prompts ("locations", "counselor", "enquire") never
+   * call /api/chat until the user actually answers, so no session exists
+   * yet to carry `lastFacet` when the user replies to one of those.
+   */
+  const lastAssistantMessage = [...messages].reverse().find((m) => m.role === 'assistant');
+  const lastAssistantAskedCity =
+    lastAssistantMessage !== undefined &&
+    /\b(which city|your city|share your city)\b/i.test(lastAssistantMessage.content);
+  const isLocation =
+    isLocationMessage(q, Boolean(cityHint)) ||
+    isLocationFollowUp({
+      isFollowUp,
+      lastFacet: lastAssistantAskedCity ? 'centre' : incomingSession.lastFacet,
+      message: q,
+      hasExplicitFacet: anyExplicitFacet,
+    });
 
   const intentLabel = isLocation
     ? 'a Jetking centre / location'
@@ -299,9 +337,11 @@ export async function POST(req: Request): Promise<Response> {
             ? 'placements'
             : wantDuration
               ? 'course duration'
-              : wantCourse
-                ? 'course details'
-                : 'general information';
+              : wantAbout
+                ? "Jetking's company background"
+                : wantCourse
+                  ? 'course details'
+                  : 'general information';
   const BUCKET: Record<string, string> = {
     eligibility: 'eligibility',
     fees: 'fees',
@@ -314,6 +354,7 @@ export async function POST(req: Request): Promise<Response> {
     blog: 'article',
     faq: 'FAQ',
     info: 'about Jetking',
+    about: "Jetking's history & leadership",
   };
   const step1 = isFollowUp
     ? 'Read it as a follow-up and kept the current topic.'
@@ -541,6 +582,12 @@ export async function POST(req: Request): Promise<Response> {
       session: nextSession,
     });
   };
+
+  if (topScore < LLM_CONFIDENT_GATE) {
+    return passagesAnswer(
+      `Match was only ${Math.round(topScore * 100)}% relevant — too weak to trust a free-form answer, so composed one from verified passages only.`,
+    );
+  }
 
   const reply = await askOllama(
     systemPrompt(context, persona, nextSession, plannerResult?.nextBestQuestion),

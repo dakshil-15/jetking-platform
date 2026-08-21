@@ -35,6 +35,7 @@ export function rankHits(searchHits: SearchHit[], wants: WantFlags): RankedHit[]
     if (wants.wantPlacement) w += t === 'placement' ? 0.13 : t === 'info' || t === 'blog' ? 0.05 : 0;
     if (wants.wantDuration) w += t === 'duration' ? 0.14 : 0;
     if (wants.wantCourse) w += t === 'course' || t === 'overview' || t === 'curriculum' ? 0.05 : 0;
+    if (wants.wantAbout) w += t === 'about' ? 0.14 : 0;
     return w;
   };
   return pool
@@ -45,10 +46,15 @@ export function rankHits(searchHits: SearchHit[], wants: WantFlags): RankedHit[]
 
 /**
  * formatPassagesAnswer's `max` param: a precise facet (fees/eligibility/
- * duration/curriculum) leads with one focused hit; a broader ask composes two.
+ * duration/curriculum/about) leads with one focused hit; a broader ask
+ * composes two.
  */
 export function passagesMax(wants: WantFlags): number {
-  return wants.wantFees || wants.wantEligibility || wants.wantDuration || wants.wantCurriculum
+  return wants.wantFees ||
+    wants.wantEligibility ||
+    wants.wantDuration ||
+    wants.wantCurriculum ||
+    wants.wantAbout
     ? 1
     : 2;
 }

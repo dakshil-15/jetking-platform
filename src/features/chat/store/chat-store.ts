@@ -79,6 +79,47 @@ function promote(conversationIds: readonly string[], conversationId: string): st
   return [conversationId, ...conversationIds.filter((id) => id !== conversationId)];
 }
 
+/**
+ * Unbounded conversation history has two failure modes: `debounced-storage`
+ * silently drops the write once localStorage's quota is hit (no user-facing
+ * signal — new conversations would just stop persisting), and every write
+ * before that point re-serializes the whole growing history. Evicts the
+ * oldest *unstarred* conversations past the cap; a user's starred history is
+ * never auto-deleted.
+ */
+const MAX_CONVERSATIONS = 200;
+
+function evictOldest(state: ChatState): Partial<ChatState> {
+  if (state.conversationIds.length <= MAX_CONVERSATIONS) return {};
+
+  const evictable = state.conversationIds.filter(
+    (id) => !state.conversations[id]?.starred,
+  );
+  const overflow = state.conversationIds.length - MAX_CONVERSATIONS;
+  if (overflow <= 0 || evictable.length === 0) return {};
+
+  const toEvict = new Set(evictable.slice(-Math.min(overflow, evictable.length)));
+  if (toEvict.size === 0) return {};
+
+  const conversations = { ...state.conversations };
+  const messages = { ...state.messages };
+  const drafts = { ...state.drafts };
+
+  for (const id of toEvict) {
+    const conversation = conversations[id];
+    if (conversation) for (const messageId of conversation.messageIds) delete messages[messageId];
+    delete conversations[id];
+    delete drafts[id];
+  }
+
+  return {
+    conversations,
+    messages,
+    drafts,
+    conversationIds: state.conversationIds.filter((id) => !toEvict.has(id)),
+  };
+}
+
 export const useChatStore = create<ChatStore>()(
   persist(
     (set, get) => ({
@@ -87,11 +128,18 @@ export const useChatStore = create<ChatStore>()(
       createConversation: () => {
         const conversation = createConversation();
 
-        set((state) => ({
-          conversations: { ...state.conversations, [conversation.id]: conversation },
-          conversationIds: [conversation.id, ...state.conversationIds],
-          activeConversationId: conversation.id,
-        }));
+        set((state) => {
+          const withNew: ChatState = {
+            ...state,
+            conversations: { ...state.conversations, [conversation.id]: conversation },
+            conversationIds: [conversation.id, ...state.conversationIds],
+          };
+          return {
+            ...withNew,
+            ...evictOldest(withNew),
+            activeConversationId: conversation.id,
+          };
+        });
 
         return conversation.id;
       },

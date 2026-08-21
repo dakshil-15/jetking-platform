@@ -26,6 +26,7 @@ import {
   detectSubject,
   detectWants,
   isFollowUpMessage,
+  isLocationFollowUp,
   isLocationMessage,
   type WantFlags,
 } from '@/features/jetking-ai/intent';
@@ -113,8 +114,25 @@ async function runCase(kase: ConversationCase): Promise<CaseActual> {
     const retrievalQuery = buildRetrievalQuery({ message, isFollowUp, prevUserMessage, session: incoming });
 
     const cityHint = extractCityHint(message);
-    const isLocation = isLocationMessage(message, Boolean(cityHint));
     const wants = detectWants(message);
+    const hasExplicitFacet =
+      wants.wantFees ||
+      wants.wantEligibility ||
+      wants.wantCurriculum ||
+      wants.wantPlacement ||
+      wants.wantDuration ||
+      wants.wantCourse ||
+      wants.wantAbout;
+    // Mirrors route.ts's isLocation computation — see isLocationFollowUp's
+    // own doc comment for why a session-only continuation check exists.
+    const isLocation =
+      isLocationMessage(message, Boolean(cityHint)) ||
+      isLocationFollowUp({
+        isFollowUp,
+        lastFacet: incoming.lastFacet,
+        message,
+        hasExplicitFacet,
+      });
     const subject = detectSubject(retrievalQuery);
     const answeredFacet = detectAnsweredFacet(wants, isLocation);
     const persona = inferPersonaFromQuestion(message, prevUserMessage)?.persona ?? 'unknown';

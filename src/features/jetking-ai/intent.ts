@@ -15,6 +15,22 @@ export function isFollowUpMessage(message: string, hasPrevUser: boolean): boolea
   return hasPrevUser && (REFERENTIAL_RE.test(message) || !SUBJECT_RE.test(message));
 }
 
+/**
+ * Explicit "I need guidance, not a fact" language — "not sure what to do",
+ * "coding nahi aata", "confused which course". A message can carry this
+ * AND still trip a facet/subject keyword ("job jaldi chahiye" matches
+ * wantPlacement's "jobs?"; "finished my BCA" matches the BCA subject regex),
+ * which used to make needsPlanner() treat it as already understood and skip
+ * straight to a keyword-matched deterministic answer — exactly the garbled,
+ * off-topic reply the planner exists to prevent. This overrides that.
+ */
+const NEEDS_GUIDANCE_RE =
+  /\b(not sure|don'?t know|no idea|confused|which (course|one) (is )?(right|best|suitable)|not good at|nahi aata|kya karu|kaunsa|samajh nahi|pata nahi|weak in)\b/i;
+
+export function needsGuidance(message: string): boolean {
+  return NEEDS_GUIDANCE_RE.test(message);
+}
+
 const SUBJECT_LABELS: [RegExp, string][] = [
   [/ethical|hacking/, 'Ethical Hacking'],
   [/cyber|security/, 'Cyber Security'],
@@ -39,12 +55,45 @@ export interface WantFlags {
   wantPlacement: boolean;
   wantDuration: boolean;
   wantCourse: boolean;
+  wantAbout: boolean;
 }
 
-const LOCATION_RE = /\b(cent(re|er)s?|near(est)?|location|address|branch|directions?|visit|where)\b/i;
+// Deliberately "centre(s)" only, not the American "center(s)" spelling: this
+// site and its Indian visitors consistently write "centre" for a physical
+// branch, and "center" alone is common as an ordinary English verb/adjective
+// ("center a div", "center-aligned") — matching it misclassified CSS/design
+// questions as "where is the nearest Jetking centre" location queries.
+const LOCATION_RE = /\b(centres?|near(est)?|location|address|branch|directions?|visit|where)\b/i;
 
 export function isLocationMessage(message: string, hasCityHint: boolean): boolean {
   return LOCATION_RE.test(message) || hasCityHint;
+}
+
+/**
+ * A follow-up that continues a centre lookup already in progress — e.g.
+ * "vapi" alone, replying to "Which city are you in?", isn't a place
+ * `extractCityHint` recognises (that list can't cover every Indian town) or
+ * a sentence `isLocationMessage`'s keyword regex matches ("centre", "near"
+ * ...). Without this, it fell through to general semantic search, scored
+ * just high enough to reach the LLM, which invented a plausible-looking but
+ * fake centre address. `session.lastFacet === 'centre'` is set once a real
+ * /api/chat centre turn has happened; the route additionally checks the
+ * assistant's own immediately-prior message text for its client-scripted
+ * starter prompts ("locations", "counselor", "enquire"), which never call
+ * /api/chat until the user answers, so no session exists yet to carry this.
+ */
+export function isLocationFollowUp(input: {
+  isFollowUp: boolean;
+  lastFacet?: string;
+  message: string;
+  hasExplicitFacet: boolean;
+}): boolean {
+  return (
+    input.isFollowUp &&
+    input.lastFacet === 'centre' &&
+    !detectSubject(input.message) &&
+    !input.hasExplicitFacet
+  );
 }
 
 export function detectWants(message: string): WantFlags {
@@ -75,6 +124,15 @@ export function detectWants(message: string): WantFlags {
       /\b(course|courses|diploma|masters|learn|training|program|certification|specialization)\b/i.test(
         message,
       ),
+    // Company-identity questions (founder, leadership, history, awards) —
+    // distinct from course facets above. Added when the About page's
+    // leadership bios, timeline and achievements were wired into the
+    // knowledge base, so those passages actually lead the ranking instead of
+    // relying on the LLM to fish the right fact out of the broader context.
+    wantAbout:
+      /\b(founder|founded|company history|jetking'?s? history|legacy|\bceo\b|chairman|managing director|leadership|awards?|achievements?|about jetking)\b/i.test(
+        message,
+      ),
   };
 }
 
@@ -84,6 +142,7 @@ export function detectAnsweredFacet(wants: WantFlags, isLocation: boolean): stri
   if (wants.wantCurriculum) return 'curriculum';
   if (wants.wantDuration) return 'duration';
   if (wants.wantPlacement) return 'placement';
+  if (wants.wantAbout) return 'about';
   if (isLocation) return 'centre';
   return 'course';
 }

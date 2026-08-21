@@ -46,4 +46,28 @@ describe('heuristicInfer — silent classification', () => {
     });
     expect(result.persona).toBe('student');
   });
+
+  it('does not classify a visitor as student from topic interest alone', () => {
+    // Cloud/cyber/AI subjects span both degree and short/certification
+    // programmes, so browsing them says nothing about student vs.
+    // professional on its own — a working professional researching the same
+    // subjects should not be nudged toward "student" by topic tags alone.
+    const result = heuristicInfer({
+      signals: [],
+      behaviour: { ...emptyBehaviour, interests: ['cloud', 'cyber', 'ai', 'cloud', 'cyber'] },
+    });
+    expect(result.persona).not.toBe('student');
+  });
+
+  it('infers professional from short/certification views regardless of topic tags', () => {
+    const result = heuristicInfer({
+      signals: [],
+      behaviour: {
+        ...emptyBehaviour,
+        levelViews: ['certification', 'certification'],
+        interests: ['cloud', 'cyber'],
+      },
+    });
+    expect(result.persona).toBe('professional');
+  });
 });

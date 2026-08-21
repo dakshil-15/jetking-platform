@@ -4,6 +4,7 @@ import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import type { Route } from 'next';
 import {
+  DuplicateIdError,
   deleteRecord,
   listCollection,
   resetCmsStoreFromFixtures,
@@ -12,6 +13,15 @@ import {
 } from '@/lib/cms/store';
 import { publishContent } from '@/lib/cms/publish';
 import { createRateLimiter } from '@/lib/rate-limit';
+import { CMS_COLLECTIONS, validateCmsRecord } from '@/lib/cms/schemas';
+
+/** `CmsCollection` is compile-time only — a raw call to this action (bypassing the
+ *  generated client stub) could otherwise pass any string through to the store. */
+function assertKnownCollection(collection: CmsCollection): void {
+  if (!CMS_COLLECTIONS.includes(collection)) {
+    throw new Error(`Unknown collection "${collection}".`);
+  }
+}
 
 const ADMIN_COOKIE = 'jk_admin_session';
 /** Matches the cookie's own maxAge below — both must agree or a still-fresh cookie
@@ -136,17 +146,31 @@ export async function saveCollectionItem(
   collection: CmsCollection,
   idKey: string,
   json: string,
+  /** The id this record was loaded under — pass when editing an existing row so
+   *  changing the id field renames it instead of forking a duplicate. Omit for
+   *  a genuinely new record. */
+  previousId?: string,
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   await requireAdmin();
+  assertKnownCollection(collection);
   try {
     const record = JSON.parse(json) as Record<string, unknown>;
     if (!record[idKey]) return { ok: false, error: `Missing ${idKey}` };
     if (!record.status) record.status = 'published';
-    await upsertRecord(collection, record, idKey);
+
+    // Validated for pass/fail only — the schema isn't a perfectly exhaustive
+    // mirror of every field content/types.ts allows, and zod's default `strip`
+    // mode would silently drop anything it doesn't recognize. The *original*
+    // record is what gets saved.
+    const validated = validateCmsRecord(collection, record);
+    if (!validated.ok) return { ok: false, error: validated.error };
+
+    await upsertRecord(collection, record, idKey, previousId);
     await publishContent();
     void triggerIngest();
     return { ok: true };
   } catch (e) {
+    if (e instanceof DuplicateIdError) return { ok: false, error: e.message };
     return { ok: false, error: e instanceof Error ? e.message : 'Save failed' };
   }
 }
@@ -157,6 +181,7 @@ export async function removeCollectionItem(
   id: string,
 ): Promise<void> {
   await requireAdmin();
+  assertKnownCollection(collection);
   await deleteRecord(collection, idKey, id);
   await publishContent();
   void triggerIngest();
@@ -170,6 +195,7 @@ export async function seedCmsFromFixtures(): Promise<void> {
 
 export async function getAdminCollection(collection: CmsCollection) {
   await requireAdmin();
+  assertKnownCollection(collection);
   return listCollection(collection);
 }
 

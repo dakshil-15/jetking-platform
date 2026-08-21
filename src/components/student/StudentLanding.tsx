@@ -127,7 +127,7 @@ export function StudentLanding({
 
       {/* ── Benefits ────────────────────────────────────────────────────────── */}
       <section
-        className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20"
+        className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20"
         aria-labelledby="stu-benefits"
       >
         <div className="shell">

@@ -465,28 +465,6 @@ export function Guide() {
           </form>
         </div>
       ) : null}
-
-      <button
-        type="button"
-        onClick={() => {
-          setOpen(true);
-          track('guide_opened', { persona: classification.persona });
-        }}
-        className={cx(
-          'group/guide fixed right-4 bottom-6 z-40 flex cursor-pointer flex-col items-center gap-2 text-center',
-          open && 'hidden',
-        )}
-        aria-label="Ask Jetking AI Guide"
-        aria-haspopup="dialog"
-        aria-expanded={open}
-      >
-        <span className="v1-pulse grid h-14 w-14 place-items-center rounded-full bg-jk-600 text-white shadow-[0_0_24px_rgb(232_36_43/0.55),0_0_48px_rgb(232_36_43/0.3)] transition-transform duration-200 ease-[var(--ease-out-soft)] group-hover/guide:-translate-y-0.5">
-          <Bot className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
-        </span>
-        <span className="rounded-full bg-card/95 px-2.5 py-0.5 text-[12.5px] font-semibold text-foreground shadow-[0_4px_14px_rgb(0_0_0/0.28)]">
-          Ask Jetking
-        </span>
-      </button>
     </>
   );
 }

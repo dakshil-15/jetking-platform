@@ -29,7 +29,7 @@ export const courseSections: Record<string, CourseSections> = {
       'UGC-approved 3-year degree, no coding background required',
       'Curriculum mapped to global certifications (Microsoft, AWS, Red Hat)',
       '60-70% practical hands-on SmartLab learning',
-      '100% job guarantee with 360-degree career support',
+      '360-degree placement support: resume building, mock interviews and recruiter partner introductions',
       '5000+ recruiter partners and top Indian & global faculty',
     ],
     tools: [
@@ -130,7 +130,7 @@ export const courseSections: Record<string, CourseSections> = {
       { question: 'What is the eligibility criteria for the Jetking BCA degree program?', answer: 'Candidates must have completed 10+2 from a recognized board. Mathematics or Computer Science is preferred, but the curriculum builds foundations from scratch, making it accessible to students from various streams.' },
       { question: 'Can I pursue a BCA if I didn\'t have Mathematics in my 12th grade?', answer: 'Yes. Many specialization tracks include Fundamentals of Mathematics in the early semesters to ensure all students reach the required proficiency.' },
       { question: 'How does Jetking\'s BCA differ from a traditional BCA?', answer: 'Jetking integrates curriculum mapped with global certifications (Microsoft, AWS, Red Hat), and its SmartLab approach emphasizes 60-70% practical hands-on learning versus purely academic programs.' },
-      { question: 'Does Jetking provide placement guarantee for BCA students?', answer: 'Yes. Jetking provides 100% placement guarantee including 360-degree support: resume building, mock interviews with industry experts, and access to placement partners.' },
+      { question: 'Does Jetking provide placement guarantee for BCA students?', answer: 'No — Jetking does not guarantee placement. It provides comprehensive placement support: resume building, mock interviews with industry experts, and introductions to hiring partners. Outcomes depend on the programme, centre, market and the individual student.' },
       { question: 'What is the duration and format of the course?', answer: 'The BCA is a 3-year, 6-semester full-time degree program, UGC-approved, delivered through offline or hybrid mode.' },
       { question: 'Are there flexible payment options for the course fees?', answer: 'Yes. Jetking offers flexible fee structures including one-time payments and easy installment modes.' },
     ],
@@ -139,7 +139,7 @@ export const courseSections: Record<string, CourseSections> = {
   'mca-cloud-cyber-security': {
     highlights: [
       'UGC-recognized Master\'s degree, 24-month program',
-      '100% placement assurance with 5000+ hiring partners',
+      'Placement support via 5000+ hiring partners',
       'Earn while you learn via paid internships after Semester 2',
       'Curriculum aligned with AWS, Azure, CISSP, CEH',
       'Real-world project-based learning',
@@ -239,7 +239,7 @@ export const courseSections: Record<string, CourseSections> = {
       'UGC-approved 3-year university degree program',
       'Masterclasses by SMEs and domain experts',
       'Specialization in 3D animation, graphic design, and gaming design',
-      '100% placement per Jetking placement policy',
+      'Placement support per Jetking placement policy',
       '360-degree career support with mock interviews and resume building',
       '5000+ hiring partner network',
     ],
@@ -343,7 +343,7 @@ export const courseSections: Record<string, CourseSections> = {
   },
   'cloud-computing-engineer-ai': {
     highlights: [
-      '12-month program with 100% job placement',
+      '12-month program with dedicated placement support',
       'Learn from industry experts with hands-on real-world projects',
       'Job-ready skills and industry-recognized certification',
       'NSDC certification included',
@@ -451,7 +451,7 @@ export const courseSections: Record<string, CourseSections> = {
   },
   'cloud-cyber-security-engineer': {
     highlights: [
-      '100% job placement guarantee with leading IT companies',
+      'Placement support with leading IT companies',
       '14 global certifications included',
       'Hands-on training with practical real-world experience',
       'Access to SmartLabPlus facility',
@@ -560,12 +560,12 @@ export const courseSections: Record<string, CourseSections> = {
   },
   'cloud-computing-professional-ai': {
     highlights: [
-      '100% job placement in leading IT companies',
+      'Placement support with leading IT companies',
       'NSDC / Skill India certification with global recognition',
       'Top Indian & global faculty',
       'Access to smartlabplus labs and LMS',
       'Career services with resume building and interview prep',
-      'Placement guarantee with 5000+ recruiter partners',
+      'Placement support via 5000+ recruiter partners',
     ],
     tools: [
       'AWS',
@@ -638,7 +638,7 @@ export const courseSections: Record<string, CourseSections> = {
   },
   'cloud-cyber-security-professional': {
     highlights: [
-      '100% job placement with 5000+ recruiter partners',
+      'Placement support via 5000+ recruiter partners',
       'Top Indian and global faculty with industry experience',
       'Multiple learning formats: books, audiobooks, videos, live classes',
       'Career services including resume building and interview prep',
@@ -1100,7 +1100,7 @@ export const courseSections: Record<string, CourseSections> = {
     ],
     faqs: [
       { question: 'What will I learn?', answer: 'All the hacking skills to become a complete ethical hacking professional, including footprinting, session hacking, web server and application hacking, mobile security, cloud threat mitigation, and cryptography basics.' },
-      { question: 'What is ethical hacker salary?', answer: 'The typical monthly salary for an Ethical Hacker in India is around Rs.218,000, with additional cash compensation averaging Rs.168,000, ranging from Rs.24,167 to Rs.435,000.' },
+      { question: 'What is ethical hacker salary?', answer: 'The typical annual salary for an Ethical Hacker in India is around Rs.218,000, with additional cash compensation averaging Rs.168,000, ranging from Rs.24,167 to Rs.435,000 per year.' },
       { question: 'How will this course enhance my career prospects?', answer: 'With high demand for cybersecurity professionals, this course serves as an entry point enabling progression to advanced skills and becoming a competent cybersecurity professional.' },
       { question: 'What are the entry requirements?', answer: 'Any graduate or 10+2 student interested in cybersecurity with knowledge of hardware, networking and operating systems. Those lacking foundations can take a Hacking Bridge Course first.' },
       { question: 'Is Ethical Hacking legal?', answer: 'Yes, Ethical Hacking is legal when conducted with proper authorization. Ethical hackers must obtain permission from the system owner before any security testing or assessment.' },

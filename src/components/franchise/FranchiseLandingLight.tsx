@@ -25,6 +25,16 @@ import { siteConfig } from '@/lib/site';
 import { FranchiseTestimonialSliderLight } from './FranchiseTestimonialSliderLight';
 import { FranchiseEnquiryFormLight } from './FranchiseEnquiryFormLight';
 import { Disclosure } from '@/components/Disclosure';
+import { COURSES, JUMP_START, LAUNCH_STEPS, MARKET_STATS, WHY_STATS } from './data';
+
+// Icons paired with ./data's arrays by index — kept here, not in the shared
+// data file, since lucide-react's icon components use React context
+// internals unavailable when scripts/export-site-corpus.mts imports that
+// data file under Node's `--conditions=react-server`.
+const WHY_STATS_ICONS = [Users, UsersRound, Building2, Award, ShieldCheck];
+const JUMP_START_ICONS = [Users, Settings2, Megaphone, Rocket];
+const LAUNCH_STEPS_ICONS = [FileText, Rocket, Users, Handshake];
+const COURSES_ICONS = [Shield, Award, TrendingUp];
 
 const PARTNER_AVATARS = [
   '/franchise/partner-avatar-1.png',
@@ -57,105 +67,6 @@ const ORBIT = [
     detail: 'Attractive ROI path',
     icon: LineChart,
     className: 'bottom-[8%] right-0 sm:right-[-2%] lg:right-[-8%]',
-  },
-] as const;
-
-const WHY_STATS = [
-  { icon: Users, value: '100+', label: 'Successful Entrepreneurs' },
-  { icon: UsersRound, value: '11+ Lakh', label: 'Students Trained' },
-  { icon: Building2, value: 'Pan-India', label: 'Centre Network' },
-  { icon: Award, value: '78+', label: 'Years of Brand Legacy' },
-  { icon: ShieldCheck, value: 'Awarded', label: 'Franchise Support' },
-] as const;
-
-const JUMP_START = [
-  {
-    icon: Users,
-    title: 'Manpower Support',
-    detail:
-      'Regular training programmes keep your team engaged and ready to perform every day.',
-  },
-  {
-    icon: Settings2,
-    title: 'Hassle-Free Operations',
-    detail:
-      'Online systems cover A–Z of centre management so you always know what needs attention.',
-  },
-  {
-    icon: Megaphone,
-    title: 'Advertising & Marketing',
-    detail:
-      'Local marketing, PR and digital campaigns build strong awareness in your territory.',
-  },
-  {
-    icon: Rocket,
-    title: 'Start-Up Launch',
-    detail:
-      'Location, design, construction, hiring and training — we help you open at peak readiness.',
-  },
-] as const;
-
-const LAUNCH_STEPS = [
-  {
-    step: '01',
-    icon: FileText,
-    title: 'Pre-launch',
-    body: 'Location, interiors, recruitment, branding and technical setup before you open doors.',
-  },
-  {
-    step: '02',
-    icon: Rocket,
-    title: 'Launch',
-    body: 'Kick-starter plan, staff training, launch promotions and media coverage.',
-  },
-  {
-    step: '03',
-    icon: Users,
-    title: 'Training',
-    body: 'Tech training, quality management, online programmes and courseware support.',
-  },
-  {
-    step: '04',
-    icon: Handshake,
-    title: 'Ongoing',
-    body: 'Daily sales support, ERP & LMS, recruitment help and annual partner meets.',
-  },
-] as const;
-
-const MARKET_STATS = [
-  {
-    value: '3.5M',
-    label: 'Cloud & cyber talent shortage projected globally',
-  },
-  {
-    value: '59%',
-    label: 'Organisations at risk from cybersecurity staff gaps',
-  },
-  {
-    value: '80%',
-    label: 'Of Indian graduates struggle to become job-ready',
-  },
-  {
-    value: '70%',
-    label: 'Of students say vocational training helps get jobs',
-  },
-] as const;
-
-const COURSES = [
-  {
-    icon: Shield,
-    title: 'Career Courses',
-    body: 'Diplomas in Cloud Computing, Cyber Security and Metaverse Design.',
-  },
-  {
-    icon: Award,
-    title: 'Graduation Programmes',
-    body: 'BCA pathways in Cloud, Cyber Security and Blockchain.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Certifications',
-    body: 'Ethical Hacking, CCNA, Linux and other in-demand credentials.',
   },
 ] as const;
 
@@ -334,9 +245,11 @@ export function FranchiseLandingLight({
                 </h2>
 
                 <dl className="mt-8 grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-3">
-                  {WHY_STATS.map((stat) => (
+                  {WHY_STATS.map((stat, i) => {
+                    const Icon = WHY_STATS_ICONS[i]!;
+                    return (
                     <div key={stat.label} className="text-center sm:text-left lg:text-center">
-                      <stat.icon
+                      <Icon
                         className="mx-auto h-6 w-6 text-jk-400 sm:mx-0 lg:mx-auto"
                         strokeWidth={1.75}
                         aria-hidden="true"
@@ -351,7 +264,8 @@ export function FranchiseLandingLight({
                         </span>
                       </dd>
                     </div>
-                  ))}
+                    );
+                  })}
                 </dl>
               </div>
 
@@ -363,7 +277,7 @@ export function FranchiseLandingLight({
 
       {/* ── Partner benefits (student Benefits pattern) ────────────────── */}
       <section
-        className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20"
+        className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20"
         aria-labelledby="fra-benefits"
       >
         <div className="shell">
@@ -381,14 +295,16 @@ export function FranchiseLandingLight({
             </div>
 
             <ul className="grid grid-cols-1 gap-3 xs:gap-3.5 sm:grid-cols-2 sm:gap-4 lg:col-span-7 lg:row-start-2 xl:col-span-8">
-              {JUMP_START.map((item) => (
+              {JUMP_START.map((item, i) => {
+                const Icon = JUMP_START_ICONS[i]!;
+                return (
                 <li key={item.title} className="min-w-0">
                   <article className="stu-card flex h-full gap-3.5 rounded-[18px] p-4 xs:gap-4 xs:rounded-[20px] xs:p-5 sm:flex-col sm:gap-0">
                     <span
                       aria-hidden="true"
                       className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-[var(--stu-accent-soft)]/40 bg-[var(--stu-accent-tint)] text-[var(--stu-accent-soft)] xs:h-11 xs:w-11 sm:h-12 sm:w-12"
                     >
-                      <item.icon className="h-5 w-5" strokeWidth={1.75} />
+                      <Icon className="h-5 w-5" strokeWidth={1.75} />
                     </span>
                     <div className="min-w-0 sm:mt-4">
                       <h3 className="text-[15px] font-extrabold text-[var(--stu-ink)] xs:text-[16px]">
@@ -400,7 +316,8 @@ export function FranchiseLandingLight({
                     </div>
                   </article>
                 </li>
-              ))}
+                );
+              })}
             </ul>
 
             <aside className="min-w-0 lg:col-span-5 lg:row-start-2 lg:self-stretch xl:col-span-4">
@@ -443,7 +360,7 @@ export function FranchiseLandingLight({
       </section>
 
       {/* ── Launch plan ─────────────────────────────────────────────────── */}
-      <section id="journey" className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20">
+      <section id="journey" className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20">
         <div className="shell">
           <div className="max-w-xl">
             <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] sm:text-[28px] lg:text-[30px]">
@@ -455,7 +372,9 @@ export function FranchiseLandingLight({
           </div>
 
           <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
-            {LAUNCH_STEPS.map((step) => (
+            {LAUNCH_STEPS.map((step, i) => {
+              const Icon = LAUNCH_STEPS_ICONS[i]!;
+              return (
               <li key={step.step}>
                 <article className="stu-card flex h-full flex-col rounded-[20px] p-5 sm:p-6">
                   <div className="flex items-center justify-between gap-3">
@@ -463,7 +382,7 @@ export function FranchiseLandingLight({
                       aria-hidden="true"
                       className="grid h-11 w-11 place-items-center rounded-xl border border-[var(--stu-accent-soft)]/40 bg-[var(--stu-accent-tint)] text-[var(--stu-accent-soft)]"
                     >
-                      <step.icon className="h-5 w-5" strokeWidth={1.75} />
+                      <Icon className="h-5 w-5" strokeWidth={1.75} />
                     </span>
                     <span className="font-display text-[22px] font-extrabold text-[var(--stu-accent-soft)]/70">
                       {step.step}
@@ -477,13 +396,14 @@ export function FranchiseLandingLight({
                   </p>
                 </article>
               </li>
-            ))}
+              );
+            })}
           </ol>
         </div>
       </section>
 
       {/* ── Market opportunity + image ─────────────────────────────────── */}
-      <section id="opportunity" className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20">
+      <section id="opportunity" className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20">
         <div className="shell">
           <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
             <div className="relative overflow-hidden rounded-[24px] border border-[var(--stu-hairline)] lg:col-span-5">
@@ -527,7 +447,7 @@ export function FranchiseLandingLight({
       </section>
 
       {/* ── Courses ────────────────────────────────────────────────────── */}
-      <section id="courses" className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20">
+      <section id="courses" className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20">
         <div className="shell">
           <div className="max-w-xl">
             <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] sm:text-[28px] lg:text-[30px]">
@@ -539,14 +459,16 @@ export function FranchiseLandingLight({
           </div>
 
           <ul className="mt-8 grid gap-3 sm:grid-cols-3 sm:gap-4">
-            {COURSES.map((course) => (
+            {COURSES.map((course, i) => {
+              const Icon = COURSES_ICONS[i]!;
+              return (
               <li key={course.title}>
                 <article className="stu-card flex h-full flex-col rounded-[20px] p-5 sm:p-6">
                   <span
                     aria-hidden="true"
                     className="grid h-11 w-11 place-items-center rounded-xl border border-[var(--stu-accent-soft)]/40 bg-[var(--stu-accent-tint)] text-[var(--stu-accent-soft)]"
                   >
-                    <course.icon className="h-5 w-5" strokeWidth={1.75} />
+                    <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </span>
                   <h3 className="mt-4 text-[16px] font-extrabold text-[var(--stu-ink)]">
                     {course.title}
@@ -556,14 +478,15 @@ export function FranchiseLandingLight({
                   </p>
                 </article>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
       </section>
 
       {/* ── FAQs ───────────────────────────────────────────────────────── */}
       {faqs?.length ? (
-        <section id="faqs" className="bg-[var(--stu-surface)] pb-14 sm:pb-16 lg:pb-20">
+        <section id="faqs" className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20">
           <div className="shell">
             <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] sm:text-[28px] lg:text-[30px]">
               Frequently Asked Questions

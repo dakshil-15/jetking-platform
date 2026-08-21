@@ -219,6 +219,149 @@
     }
   },
   {
+    "id": "neighbourhood-alias-hinjewadi",
+    "category": "centre-neighbourhood-alias",
+    "turns": [
+      "is there a jetking centre in hinjewadi?"
+    ],
+    "expect": {
+      "cityHint": "hinjewadi",
+      "isLocation": true,
+      "facet": "centre",
+      "shouldGround": true,
+      "kbAnswerContains": [
+        "Pune",
+        "Swargate",
+        "Wakad"
+      ],
+      "kbAnswerNotContains": [
+        "Ahmedabad"
+      ],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "neighbourhood-alias-andheri",
+    "category": "centre-neighbourhood-alias",
+    "turns": [
+      "is there a jetking centre in andheri?"
+    ],
+    "expect": {
+      "cityHint": "andheri",
+      "isLocation": true,
+      "facet": "centre",
+      "shouldGround": true,
+      "kbAnswerContains": [
+        "Mumbai"
+      ],
+      "kbAnswerNotContains": [
+        "Ahmedabad"
+      ],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "neighbourhood-alias-koramangala",
+    "category": "centre-neighbourhood-alias",
+    "turns": [
+      "is there a jetking centre in koramangala?"
+    ],
+    "expect": {
+      "cityHint": "koramangala",
+      "isLocation": true,
+      "facet": "centre",
+      "shouldGround": true,
+      "kbAnswerContains": [
+        "Bengaluru",
+        "Rajajinagar"
+      ],
+      "kbAnswerNotContains": [
+        "Ahmedabad"
+      ],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "neighbourhood-alias-whitefield",
+    "category": "centre-neighbourhood-alias",
+    "turns": [
+      "is there a jetking centre in whitefield?"
+    ],
+    "expect": {
+      "cityHint": "whitefield",
+      "isLocation": true,
+      "facet": "centre",
+      "shouldGround": true,
+      "kbAnswerContains": ["Bengaluru"],
+      "kbAnswerNotContains": ["Ahmedabad"],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "neighbourhood-alias-dwarka",
+    "category": "centre-neighbourhood-alias",
+    "turns": [
+      "centre near dwarka"
+    ],
+    "expect": {
+      "cityHint": "dwarka",
+      "isLocation": true,
+      "facet": "centre",
+      "shouldGround": true,
+      "kbAnswerContains": ["Delhi"],
+      "kbAnswerNotContains": ["Ahmedabad"],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "neighbourhood-alias-gachibowli",
+    "category": "centre-neighbourhood-alias",
+    "turns": [
+      "any jetking near gachibowli"
+    ],
+    "expect": {
+      "cityHint": "gachibowli",
+      "isLocation": true,
+      "facet": "centre",
+      "shouldGround": true,
+      "kbAnswerContains": ["Hyderabad"],
+      "kbAnswerNotContains": ["Ahmedabad"],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "neighbourhood-alias-salt-lake",
+    "category": "centre-neighbourhood-alias",
+    "turns": [
+      "centre in salt lake kolkata"
+    ],
+    "expect": {
+      "cityHint": "kolkata",
+      "isLocation": true,
+      "facet": "centre",
+      "shouldGround": true,
+      "kbAnswerContains": ["Kolkata"],
+      "kbAnswerNotContains": ["Ahmedabad"],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "neighbourhood-alias-cyber-city",
+    "category": "centre-neighbourhood-alias",
+    "turns": [
+      "jetking in cyber city gurgaon"
+    ],
+    "expect": {
+      "cityHint": "gurgaon",
+      "isLocation": true,
+      "facet": "centre",
+      "shouldGround": true,
+      "kbAnswerContains": ["Gurgaon"],
+      "kbAnswerNotContains": ["Ahmedabad"],
+      "needsPlanner": false
+    }
+  },
+  {
     "id": "subject-switch-cloud-to-cyber",
     "category": "subject-switching",
     "turns": [
@@ -471,7 +614,7 @@
           "Cyber Security"
         ]
       },
-      "needsPlanner": false
+      "needsPlanner": true
     }
   },
   {
@@ -1222,6 +1365,38 @@
     }
   },
   {
+    "id": "unsupported-cloud-ai-guarantee-kb-data",
+    "category": "unsupported-claims",
+    "turns": [
+      "does jetking guarantee a job after cloud computing professional with ai course"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": "Cloud Computing",
+      "cityHint": null,
+      "isLocation": false,
+      "facet": "placement",
+      "shouldGround": true,
+      "kbAnswerNotContains": ["100% Job Guarantee", "100%Job guarantee", "Job guarantee"],
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "unsupported-windows10-job-guarantee-kb-data",
+    "category": "unsupported-claims",
+    "turns": [
+      "kya windows 10 course ke baad job milega"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "isLocation": false,
+      "facet": "placement",
+      "shouldGround": true,
+      "kbAnswerNotContains": ["Job guarantee", "100% Job Guarantee"],
+      "needsPlanner": false
+    }
+  },
+  {
     "id": "unsupported-cyber-guarantee",
     "category": "unsupported-claims",
     "turns": [
@@ -1923,6 +2098,34 @@
     }
   },
   {
+    "id": "unrecognised-city-continues-centre-flow",
+    "category": "centre-neighbourhood-alias",
+    "turns": [
+      "jetking centre in mumbai",
+      "vapi"
+    ],
+    "expect": {
+      "isFollowUp": true,
+      "isLocation": true,
+      "facet": "centre",
+      "needsPlanner": false
+    }
+  },
+  {
+    "id": "offtopic-css-center-not-location",
+    "category": "off-topic",
+    "turns": [
+      "how do I center a div in css"
+    ],
+    "expect": {
+      "isFollowUp": false,
+      "subject": null,
+      "cityHint": null,
+      "isLocation": false,
+      "needsPlanner": true
+    }
+  },
+  {
     "id": "offtopic-joke",
     "category": "off-topic",
     "turns": [
@@ -2010,7 +2213,7 @@
         "lastFacet": "course"
       },
       "shouldGround": true,
-      "needsPlanner": false
+      "needsPlanner": true
     }
   },
   {
@@ -2151,7 +2354,7 @@
         "lastFacet": "placement"
       },
       "shouldGround": true,
-      "needsPlanner": false
+      "needsPlanner": true
     }
   },
   {
@@ -2173,7 +2376,7 @@
         "lastFacet": "placement"
       },
       "shouldGround": true,
-      "needsPlanner": false
+      "needsPlanner": true
     }
   },
   {
@@ -2217,7 +2420,7 @@
         "lastFacet": "eligibility"
       },
       "shouldGround": false,
-      "needsPlanner": false
+      "needsPlanner": true
     }
   }
 ]

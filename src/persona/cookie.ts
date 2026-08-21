@@ -103,6 +103,12 @@ export async function decodePersonaCookie(value: string | undefined): Promise<Pe
   }
   if (!timingSafeEqual(sig, expected)) return null;
 
+  // The signature alone never expires — Max-Age is a browser-honored hint, not
+  // something a replayed cookie value is bound by. Enforce it server-side too.
+  return parsePayload(body);
+}
+
+function parsePayload(body: string): PersonaCookiePayload | null {
   try {
     const decoded: unknown = JSON.parse(new TextDecoder().decode(fromBase64Url(body)));
     if (typeof decoded !== 'object' || decoded === null) return null;
@@ -110,8 +116,6 @@ export async function decodePersonaCookie(value: string | undefined): Promise<Pe
     if (typeof payload.p !== 'string' || typeof payload.c !== 'number') return null;
     if (!Array.isArray(payload.s)) return null;
 
-    // The signature alone never expires — Max-Age is a browser-honored hint, not
-    // something a replayed cookie value is bound by. Enforce it server-side too.
     const classifiedAt = Date.parse(payload.t);
     if (!Number.isFinite(classifiedAt)) return null;
     if (Date.now() - classifiedAt > COOKIE_MAX_AGE * 1000) return null;
@@ -120,6 +124,29 @@ export async function decodePersonaCookie(value: string | undefined): Promise<Pe
   } catch {
     return null;
   }
+}
+
+/**
+ * Client-safe read of the persona cookie — same shape/expiry checks as
+ * `decodePersonaCookie`, but never checks the signature, because the signing
+ * secret is a private env var and is correctly never present in the browser
+ * bundle (calling `decodePersonaCookie` itself from client code always fails
+ * signature verification there — that isn't a bug in `decodePersonaCookie`,
+ * it's this function's whole reason to exist).
+ *
+ * This is safe specifically because of how the result is used: the client only
+ * feeds it into its own `classify()` call as `priorSignals`/`priorChannel` to
+ * seed the *next* classification — a visitor editing their own cookie only
+ * biases their own personalization, the same as the on-page persona picker
+ * already lets them do directly. The cookie the server actually trusts for
+ * anything else is verified server-side, in `decodePersonaCookie`, via
+ * `src/proxy.ts`.
+ */
+export function decodePersonaCookieUnverified(value: string | undefined): PersonaCookiePayload | null {
+  if (!value) return null;
+  const separator = value.lastIndexOf('.');
+  if (separator <= 0) return null;
+  return parsePayload(value.slice(0, separator));
 }
 
 /** Rehydrate signal hits from the cookie. `detail` is regenerated as a placeholder. */

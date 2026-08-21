@@ -285,7 +285,7 @@ export function ParentLanding({
       </div>
 
       {/* ── Let us help you ──────────────────────────────────────────────── */}
-      <section className="bg-[var(--stu-surface)] pb-10 sm:pb-12 lg:pb-14" aria-labelledby="par-help">
+      <section className="bg-[var(--stu-surface)] pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14" aria-labelledby="par-help">
         <div className="shell">
           <div className="grid gap-4 lg:grid-cols-12 lg:gap-6">
             <div className="rounded-[22px] border border-[var(--stu-hairline)] bg-[var(--stu-card)] p-5 sm:p-6 lg:col-span-8">
@@ -349,7 +349,7 @@ export function ParentLanding({
 
       {/* ── Success stories ──────────────────────────────────────────────── */}
       <section
-        className="bg-[var(--stu-surface)] pb-10 sm:pb-12 lg:pb-14"
+        className="bg-[var(--stu-surface)] pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14"
         aria-labelledby="par-stories"
       >
         <div className="shell">
@@ -406,7 +406,7 @@ export function ParentLanding({
 
       {/* ── Things parents love ──────────────────────────────────────────── */}
       <section
-        className="bg-[var(--stu-surface)] pb-10 sm:pb-12 lg:pb-14"
+        className="bg-[var(--stu-surface)] pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14"
         aria-labelledby="par-loves"
       >
         <div className="shell">

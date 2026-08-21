@@ -1,0 +1,155 @@
+'use client';
+
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+import { Play, X } from 'lucide-react';
+import { Carousel } from '@/components/Carousel';
+import {
+  TESTIMONIALS as PLACEMENT_TESTIMONIALS,
+  VIDEO_TESTIMONIALS,
+  type Testimonial,
+  type VideoTestimonial,
+} from '@/components/placements/data';
+
+const AVATARS = [
+  '/student/avatar-1.png',
+  '/student/avatar-2.png',
+  '/student/avatar-3.png',
+  '/student/testimonial.png',
+] as const;
+
+type Slide =
+  | { kind: 'quote'; key: string; data: Testimonial }
+  | { kind: 'video'; key: string; data: VideoTestimonial };
+
+const SLIDES: Slide[] = [
+  ...PLACEMENT_TESTIMONIALS.map((t): Slide => ({ kind: 'quote', key: t.name, data: t })),
+  ...VIDEO_TESTIMONIALS.map((v): Slide => ({ kind: 'video', key: v.name, data: v })),
+];
+
+function embedSrc(video: VideoTestimonial): string {
+  return video.provider === 'youtube'
+    ? `https://www.youtube.com/embed/${video.videoId}?autoplay=1`
+    : `https://player.vimeo.com/video/${video.videoId}?autoplay=1`;
+}
+
+function VideoSlide({ video }: { video: VideoTestimonial }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (open && !dialog.open) dialog.showModal();
+    if (!open && dialog.open) dialog.close();
+  }, [open]);
+
+  return (
+    <div className="stu-quote relative flex h-full min-h-[220px] flex-col overflow-hidden p-0 sm:min-h-[240px]">
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label={`Play video: ${video.title}, ${video.name}`}
+        className="group/play relative flex h-full min-h-[220px] w-full cursor-pointer items-end sm:min-h-[240px]"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element -- external YouTube/Vimeo thumbnail */}
+        <img
+          src={video.thumbnail}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover/play:scale-105"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-t from-[rgb(7_7_12/0.85)] via-[rgb(7_7_12/0.15)] to-transparent"
+        />
+        <span
+          aria-hidden="true"
+          className="absolute top-1/2 left-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-ink-900 shadow-[0_8px_24px_rgb(0_0_0/0.4)] transition-transform duration-200 group-hover/play:scale-110"
+        >
+          <Play className="h-6 w-6 fill-current" strokeWidth={0} />
+        </span>
+        <footer className="relative z-10 flex items-center gap-3 p-6 text-left sm:p-7">
+          <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-white/40">
+            <Image src={AVATARS[3]} alt="" fill sizes="48px" className="object-cover" />
+          </span>
+          <span>
+            <span className="block text-[14.5px] font-bold text-white">{video.name}</span>
+            <span className="mt-0.5 block text-[13px] text-white">{video.title}</span>
+          </span>
+        </footer>
+      </button>
+
+      <dialog
+        ref={dialogRef}
+        onClose={() => setOpen(false)}
+        aria-label={video.title}
+        className="m-auto w-[min(920px,92vw)] rounded-[var(--radius-dialog)] bg-transparent p-0 backdrop:bg-black/60"
+      >
+        <div className="relative overflow-hidden rounded-[var(--radius-dialog)] bg-black">
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            aria-label="Close video"
+            className="absolute top-3 right-3 z-10 grid h-11 w-11 cursor-pointer place-items-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/80"
+          >
+            <X className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+          </button>
+          {open ? (
+            <iframe
+              title={video.title}
+              src={embedSrc(video)}
+              className="aspect-video w-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : null}
+        </div>
+      </dialog>
+    </div>
+  );
+}
+
+export function ExploreTestimonialSlider() {
+  return (
+    <Carousel
+      items={SLIDES}
+      label="Placement stories"
+      itemKey={(slide) => slide.key}
+      itemLabel={(slide) => (slide.kind === 'video' ? `${slide.data.name}, video` : `${slide.data.name}, ${slide.data.role}`)}
+      classNames={{ viewport: 'rounded-[24px]' }}
+    >
+      {(slide, i) =>
+        slide.kind === 'video' ? (
+          <VideoSlide video={slide.data} />
+        ) : (
+          <blockquote className="stu-quote flex h-full min-h-[220px] flex-col p-6 text-white sm:min-h-[240px] sm:p-7">
+            <span
+              aria-hidden="true"
+              className="font-display text-[56px] leading-none font-extrabold text-white/30"
+            >
+              &ldquo;
+            </span>
+            <p className="-mt-5 flex-1 text-[15.5px] leading-relaxed font-medium sm:text-[16.5px]">
+              {slide.data.quote}
+            </p>
+            <footer className="mt-6 flex items-center gap-3">
+              <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-white/40">
+                <Image
+                  src={AVATARS[i % AVATARS.length] ?? AVATARS[0]}
+                  alt=""
+                  fill
+                  sizes="48px"
+                  className="object-cover"
+                />
+              </span>
+              <cite className="not-italic">
+                <span className="block text-[14.5px] font-bold">{slide.data.name}</span>
+                <span className="mt-0.5 block text-[13px] text-white">{slide.data.role}</span>
+              </cite>
+            </footer>
+          </blockquote>
+        )
+      }
+    </Carousel>
+  );
+}

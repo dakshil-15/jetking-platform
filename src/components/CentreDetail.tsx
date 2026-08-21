@@ -213,7 +213,7 @@ export function CentreDetail({
 
       {/* Why / legacy stats */}
       {showStats ? (
-        <section className="shell pb-10 sm:pb-12" aria-label="Jetking at a glance">
+        <section className="shell pt-8 pb-10 sm:pt-10 sm:pb-12" aria-label="Jetking at a glance">
           <div className="centres-why overflow-hidden rounded-[24px] px-5 py-8 xs:rounded-[28px] sm:px-8 sm:py-10 lg:px-10">
             <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
               <div className="max-w-md">
@@ -250,7 +250,7 @@ export function CentreDetail({
         </section>
       ) : null}
 
-      <section className="shell pb-14 sm:pb-16 lg:pb-20">
+      <section className="shell pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pb-20">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,21rem)] lg:items-start lg:gap-10 xl:gap-12">
           <div className="min-w-0 space-y-8">
             {/* Featured programmes — student-style course cards */}

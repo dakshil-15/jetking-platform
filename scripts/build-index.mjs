@@ -175,6 +175,15 @@ for (const g of groups.values()) {
 
 const kbCount = items.length;
 
+// Every row above is regenerated fresh from jetking-kb.json on every run —
+// tag it so section 5 can drop the *prior* run's copy instead of reusing it
+// verbatim. Without this, editing a fact in a course/centre/faq record (e.g.
+// fixing a wrong salary figure) left the old wording as a permanent extra
+// row: dedup is keyed on the first 140 chars of text, so a changed fact gets
+// a new key and the stale one never gets superseded, just piles up forever —
+// the same staleness class already fixed for website/manual rows below.
+for (let i = 0; i < kbCount; i++) items[i].source = 'kb';
+
 /* --- 3. Current merged website ContentSource -------------------------------- */
 
 let websiteCount = 0;
@@ -264,6 +273,7 @@ let droppedBlog = 0;
 let droppedLegal = 0;
 let droppedWebsite = 0;
 let droppedManual = 0;
+let droppedKb = 0;
 const priorVectorByText = new Map();
 
 prior.items.forEach((it, i) => {
@@ -272,6 +282,14 @@ prior.items.forEach((it, i) => {
   }
   if (it.source === 'website-content-source') {
     droppedWebsite++;
+    return;
+  }
+  // See the kbCount loop above: every jetking-kb.json-derived row is
+  // re-pushed fresh in section 1/2 above, so the *prior* run's copy must not
+  // be reused verbatim or an edited fact keeps its old wording forever
+  // alongside the new one.
+  if (it.source === 'kb') {
+    droppedKb++;
     return;
   }
   // Manual knowledge is re-pushed fresh from src/content/manual-knowledge.json
@@ -320,6 +338,8 @@ const AUTHORITY_BY_TYPE = {
   placement: 0.95,
   faq: 0.9,
   overview: 0.9,
+  about: 0.9,
+  franchise: 0.9,
   city: 0.8,
   info: 0.8,
   home: 0.8,
@@ -343,7 +363,7 @@ console.log(`from manual knowledge: ${manualCount} items`);
 console.log(
   `reused from scrape  : ${items.length - kbCount - websiteCount - manualCount} items ` +
     `(dropped ${droppedWebsite} replaced website rows, ${droppedManual} replaced manual rows, ` +
-    `${droppedBlog} blog listing rows, ${droppedLegal} legal/policy rows)`,
+    `${droppedKb} replaced kb rows, ${droppedBlog} blog listing rows, ${droppedLegal} legal/policy rows)`,
 );
 console.log(`total               : ${items.length} items`);
 console.log(`by type             : ${JSON.stringify(dist)}`);

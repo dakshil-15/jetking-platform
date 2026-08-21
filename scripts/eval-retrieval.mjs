@@ -150,6 +150,45 @@ const CASES = [
     must: ['interview', 'placement', 'hiring'],
   },
 
+  // About / company — added when the About and Placements page copy
+  // (leadership bios, history, awards, published placement records) was
+  // wired into the corpus. Previously unanswerable: no "about" facet
+  // existed at all, so these fell through to generic or gated replies.
+  {
+    q: 'who founded jetking?',
+    types: ['about'],
+    must: ['gordhandas', '1947'],
+  },
+  {
+    q: 'who is the CEO of jetking?',
+    types: ['about'],
+    must: ['harsh bharwani', 'ceo'],
+  },
+  {
+    q: 'which companies recruit from jetking?',
+    types: ['placement'],
+    must: ['wipro', 'airtel', 'icici'],
+  },
+  {
+    q: 'has jetking won any awards?',
+    types: ['about'],
+    must: ['award', 'limca', 'ficci'],
+  },
+
+  // Franchise — added when FranchiseLandingLight's own support/launch/
+  // investment copy was wired into the corpus. Previously unanswerable the
+  // same way About/Placements were: real page content, invisible to the bot.
+  {
+    q: 'how much investment is needed for a jetking franchise',
+    types: ['franchise'],
+    must: ['50 l', '1 cr', '3 cr'],
+  },
+  {
+    q: 'what is the process to launch a jetking franchise',
+    types: ['franchise'],
+    must: ['pre-launch', 'training'],
+  },
+
   // Off-topic — must be gated, not answered.
   { q: 'how do I bake sourdough bread?', reject: true },
   { q: 'what is the capital of France?', reject: true },
@@ -168,8 +207,11 @@ console.log(`by type: ${JSON.stringify(dist)}\n`);
  * cannot be answered with "here is our Pune branch". Kept in step with the
  * route by hand — if that filter changes, change it here too.
  */
+// Mirrors LOCATION_RE in src/features/jetking-ai/intent.ts — "centre(s)"
+// only, not "center(s)", which false-matches ordinary English ("center a
+// div") as a location query.
 const LOCATION_RE =
-  /\b(cent(re|er)s?|near(est)?|location|address|branch|directions?|visit|where)\b/i;
+  /\b(centres?|near(est)?|location|address|branch|directions?|visit|where)\b/i;
 const CITY_RE =
   /\b(mumbai|delhi|pune|bangalore|bengaluru|hyderabad|chennai|kolkata|ahmedabad|nagpur|thane|noida|gurgaon|gurugram|lucknow|kanpur|indore|bhopal|chandigarh|jammu|kochi|varanasi|prayagraj|vasai|borivali|dadar|vashi|shivajinagar|maninagar)\b/i;
 
@@ -203,6 +245,11 @@ function routePool(query, hits) {
     /\b(course|courses|diploma|masters|learn|training|program|certification|specialization)\b/i.test(
       query,
     );
+  // Mirrors detectWants' wantAbout in src/features/jetking-ai/intent.ts.
+  const wantAbout =
+    /\b(founder|founded|company history|jetking'?s? history|legacy|\bceo\b|chairman|managing director|leadership|awards?|achievements?|about jetking)\b/i.test(
+      query,
+    );
 
   const weight = (t) => {
     if (t === 'centre') return isLocation ? 0.15 : 0;
@@ -214,6 +261,7 @@ function routePool(query, hits) {
     if (wantPlacement) w += t === 'placement' ? 0.13 : t === 'info' || t === 'blog' ? 0.05 : 0;
     if (wantDuration) w += t === 'duration' ? 0.14 : 0;
     if (wantCourse) w += t === 'course' || t === 'overview' || t === 'curriculum' ? 0.05 : 0;
+    if (wantAbout) w += t === 'about' ? 0.14 : 0;
     return w;
   };
 

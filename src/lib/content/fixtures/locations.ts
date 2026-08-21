@@ -448,7 +448,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Cloud Computing Courses & Training Institute in Hyderabad",
-      "description": "Cloud Computing courses in Ameerpet, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure & more from Certified Professionals"
+      "description": "Cloud Computing courses in Ameerpet, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure & more from Certified Professionals"
     },
     "updatedAt": "2026-08-06"
   },
@@ -463,7 +463,7 @@ export const centres: Centre[] = [
     "phone": "09811305736",
     "helpline": "07666830000",
     "email": "azadpur@jetking.com",
-    "intro": "Join the best computer course training institute in Delhi and secure your future with a job guarantee* on industry-leading IT programs. At Jetking Azadpur Learning Centre, we offer specialized courses in Cloud Computing, Cybersecurity, Gaming Design, Graphic Design, Animation, and a comprehensive 3-year BCA degree in Cloud Computing & Cyber Security. With our career-focused curriculum, hands-on training, and expert f",
+    "intro": "Join the best computer course training institute in Delhi and secure your future with strong placement support on industry-leading IT programs. At Jetking Azadpur Learning Centre, we offer specialized courses in Cloud Computing, Cybersecurity, Gaming Design, Graphic Design, Animation, and a comprehensive 3-year BCA degree in Cloud Computing & Cyber Security. With our career-focused curriculum, hands-on training, and expert f",
     "body": "Boost your Skills and secure your future with Best Cloud Computing Course in Delhi and Cyber Security course, BCA 3-Year Degree program along with Ethical Hacking Course, CCNA Course, Python Course and many more offerings at Jetking Azadpur Learning Centre Delhi.\n\nJoin India’s leading and most trusted digital skills institute, with over 79 years of legacy, offering industry-focused programs in Cloud Computing, Cybersecurity, and BCA Degrees, along with job assistance to launch your career.",
     "featuredProgrammes": [
       {
@@ -564,7 +564,7 @@ export const centres: Centre[] = [
     "faqs": [
       {
         "question": "Why get Cloud computing training from Jetking Azadpur Institute?",
-        "answer": "Here at Jetking Azadpur Institute, we provide the Best learning environment at affordable fees and training by Industry Experts. Jetking Institute is popular for its Cloud Computing Training in Delhi with updated, high-tech gadgets and lab facility with Job Guarantee."
+        "answer": "Here at Jetking Azadpur Institute, we provide the Best learning environment at affordable fees and training by Industry Experts. Jetking Institute is popular for its Cloud Computing Training in Delhi with updated, high-tech gadgets and lab facility with dedicated placement support."
       },
       {
         "question": "Who is eligible for Cloud computing with AI?",
@@ -622,7 +622,7 @@ export const centres: Centre[] = [
     "helpline": "07666830000",
     "email": "balasore@jetking.com",
     "intro": "Advance your Skills and Career with Best Computer IT Training Institute in Balasore, Odisha and secure your future with Jetking top Cloud Computing courses with AI, Cyber Security Courses and CCNA, Server and Ethical Hacking courses in Odisha, Balasore Jetking Learning Centre.",
-    "body": "Advance your Skills and Career with Best Computer IT Training Institute in Balasore, Odisha and secure your future with Jetking top Cloud Computing courses with AI, Cyber Security Courses and CCNA, Server and Ethical Hacking courses in Odisha, Balasore Jetking Learning Centre.\n\nJoin India's No.1 digital skills institute with over 78 years of legacy in Cloud Computing, Cyber Security, Gaming & Graphic design and BCA Degree programs, offering a 100% job guarantee*.",
+    "body": "Advance your Skills and Career with Best Computer IT Training Institute in Balasore, Odisha and secure your future with Jetking top Cloud Computing courses with AI, Cyber Security Courses and CCNA, Server and Ethical Hacking courses in Odisha, Balasore Jetking Learning Centre.\n\nJoin India's No.1 digital skills institute with over 78 years of legacy in Cloud Computing, Cyber Security, Gaming & Graphic design and BCA Degree programs, offering dedicated placement support.",
     "featuredProgrammes": [
       {
         "title": "Diploma In Cloud Computing with Artificial Intelligence",
@@ -774,7 +774,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Best Cloud Computing Courses & Training Institute in Balasor",
-      "description": "Cloud Computing courses in Odisha, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure & more from Certified Professionals"
+      "description": "Cloud Computing courses in Odisha, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure & more from Certified Professionals"
     },
     "updatedAt": "2026-08-06"
   },
@@ -1134,7 +1134,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Cloud Computing Courses & Training Institute in Bhubaneshwar",
-      "description": "Cloud Computing courses in Odisha, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn all modules in CCNA, AWS, Azure, Linux from Experts"
+      "description": "Cloud Computing courses in Odisha, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn all modules in CCNA, AWS, Azure, Linux from Experts"
     },
     "updatedAt": "2026-08-06"
   },
@@ -1149,7 +1149,7 @@ export const centres: Centre[] = [
     "phone": "07021584939",
     "helpline": "07666830000",
     "email": "bor@jetking.com",
-    "intro": "Cloud Computing courses in Mumbai, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux & more in IT-IMS from Experts",
+    "intro": "Cloud Computing courses in Mumbai, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux & more in IT-IMS from Experts",
     "body": "Boost your expertise and secure your future with Jetking's top Cloud Computing with AI ,  Cyber Security courses , Explore  BCA Cloud Computing & Cybersecurity (UGC Approved) 3 Year Degree program, Ethical Hacking c ourse , CCNA , Python Programing and many more trending courses at Borivali Learning Center, Mumbai.\n\nJoin India’s leading and most trusted digital skills institute, with over 79 years of legacy, offering industry-focused programs in Cloud Computing, Cybersecurity, and BCA Degrees, along with job assistance to launch your career.",
     "featuredProgrammes": [
       {
@@ -1290,7 +1290,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Cloud Computing Courses & Training Institute in Borivali",
-      "description": "Cloud Computing courses in Mumbai, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux & more in IT-IMS from Experts"
+      "description": "Cloud Computing courses in Mumbai, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux & more in IT-IMS from Experts"
     },
     "updatedAt": "2026-08-06"
   },
@@ -1572,7 +1572,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Best Cloud Computing Courses & Training Institute in Kolkata",
-      "description": "Cloud Computing courses in Kolkata, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux & more in IT-IMS from Experts"
+      "description": "Cloud Computing courses in Kolkata, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux & more in IT-IMS from Experts"
     },
     "updatedAt": "2026-08-06"
   },
@@ -1811,7 +1811,7 @@ export const centres: Centre[] = [
     "email": "dadar.con3@jetking.com",
     "headline": "Best Cloud Computing with AI & Data Analytics Training Institute in Mumbai",
     "intro": "Best Cloud Computing with AI & Data Analytics Training Institute in Mumbai",
-    "body": "Boost your career with the best Cloud Computing, IT Networking, Cyber Security, Ethical Hacking, Data Analytics, Animation, Graphics Design & UGC-Approved BCA Degree courses in Mumbai with Job Guarantee* programs at Jetking Dadar.\n\nJoin Jetking, India's Leading IT Training Institute Enroll today at Jetking Dadar, Mumbai’s leading Computer Training Institute, offering industry-focused Cloud Computing, Cyber Security, IT Networking and UGC-Approved BCA Degree programs with flexible EMI options. Gain hands-on experience through live projects and unlock exciting, high-paying career opportunities!",
+    "body": "Boost your career with the best Cloud Computing, IT Networking, Cyber Security, Ethical Hacking, Data Analytics, Animation, Graphics Design & UGC-Approved BCA Degree courses in Mumbai with placement-support programs at Jetking Dadar.\n\nJoin Jetking, India's Leading IT Training Institute Enroll today at Jetking Dadar, Mumbai’s leading Computer Training Institute, offering industry-focused Cloud Computing, Cyber Security, IT Networking and UGC-Approved BCA Degree programs with flexible EMI options. Gain hands-on experience through live projects and unlock exciting, high-paying career opportunities!",
     "featuredProgrammes": [
       {
         "title": "Diploma In Cloud Computing with Artificial Intelligence",
@@ -2047,7 +2047,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Best Cloud Computing & Data Analytics Course in Mumbai",
-      "description": "Jetking Dadar offers Cloud Computing, Cyber Security, Data Analytics, Multimedia & Animation, UGC-Approved BCA Degree courses in Mumbai with 100% Placement."
+      "description": "Jetking Dadar offers Cloud Computing, Cyber Security, Data Analytics, Multimedia & Animation, UGC-Approved BCA Degree courses in Mumbai with dedicated placement support."
     },
     "updatedAt": "2026-08-06"
   },
@@ -2062,7 +2062,7 @@ export const centres: Centre[] = [
     "phone": "07561994941",
     "helpline": "07666830000",
     "email": "dhanbad@jetking.com",
-    "intro": "Cloud Computing course in Dhanbad, UG/Diploma programs in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux from Certified Experts",
+    "intro": "Cloud Computing course in Dhanbad, UG/Diploma programs in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux from Certified Experts",
     "body": "Join Jetking, India's Leading IT Training Institute Enroll now in Jetking Dhanbad, Jharkhand with Cloud Computing Courses, AI Cloud Courses, Cyber Security courses and BCA 3 years graduation programs with flexible and easy EMIs. Gain hands-on practical experience on live projects and open doors to endless career opportunities!\n\nJoin India’s leading and most trusted digital skills institute, with over 79 years of legacy, offering industry-focused programs in Cloud Computing, Cybersecurity, and BCA Degrees, along with job assistance to launch your career.",
     "featuredProgrammes": [
       {
@@ -2181,7 +2181,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Best Cloud Computing Courses & Training Institute in Jharkha",
-      "description": "Cloud Computing course in Dhanbad, UG/Diploma programs in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux from Certified Experts"
+      "description": "Cloud Computing course in Dhanbad, UG/Diploma programs in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux from Certified Experts"
     },
     "updatedAt": "2026-08-06"
   },
@@ -2325,7 +2325,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Cloud Computing Courses & Training Institute in Chhattisgarh",
-      "description": "Cloud Computing courses in Durg, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux & more in IT-IMS from Experts"
+      "description": "Cloud Computing courses in Durg, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux & more in IT-IMS from Experts"
     },
     "updatedAt": "2026-08-06"
   },
@@ -2340,7 +2340,7 @@ export const centres: Centre[] = [
     "phone": "+91-9911027722",
     "helpline": "07666830000",
     "email": "ghz@jetking.com",
-    "intro": "Join Best Computer Course training Centre Jetking Ghaziabad today, and secure your future with job guarantee* on industry-leading IT courses, including Cloud Computing course, Cybersecurity course, Metaverse and Gaming Design, Graphic Design, Animation courses and a comprehensive 3 year BCA degree program in cloud computing & Cyber security in Ghaziabad. Elevate your career prospects with in-demand skills and guarant",
+    "intro": "Join Best Computer Course training Centre Jetking Ghaziabad today, and secure your future with strong placement support on industry-leading IT courses, including Cloud Computing course, Cybersecurity course, Metaverse and Gaming Design, Graphic Design, Animation courses and a comprehensive 3 year BCA degree program in cloud computing & Cyber security in Ghaziabad. Elevate your career prospects with in-demand skills",
     "body": "Join Jetking, India's Leading IT Training Institute Enroll in our Cloud Computing, Cyber Security courses and BCA Degree programs with flexible and easy EMIs. Gain hands-on experience on live projects and open doors to endless career opportunities!\n\nJoin India’s leading and most trusted digital skills institute, with over 79 years of legacy, offering industry-focused programs in Cloud Computing, Cybersecurity, and BCA Degrees, along with job assistance to launch your career.",
     "featuredProgrammes": [
       {
@@ -2716,7 +2716,7 @@ export const centres: Centre[] = [
     "phone": "09039393444",
     "helpline": "07666830000",
     "email": "gwalior@jetking.com",
-    "intro": "Cloud Computing courses in Gwalior M.P, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux from Industry Experts",
+    "intro": "Cloud Computing courses in Gwalior M.P, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux from Industry Experts",
     "body": "Join India’s leading and most trusted digital skills institute, with over 79 years of legacy, offering industry-focused programs in Cloud Computing, Cybersecurity, and BCA Degrees, along with job assistance to launch your career.\n\nI am very happy with Jetking for the placement assistance, even after my first job. I am grateful for all the guidance and technical knowledge provided. At Jetking we are not only trained in the technical domain as well as I have also improved my communication skills and confidence in appearing for interviews.",
     "featuredProgrammes": [
       {
@@ -2891,7 +2891,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Best Cloud Computing Courses & Training Institute in Gwalior",
-      "description": "Cloud Computing courses in Gwalior M.P, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux from Industry Experts"
+      "description": "Cloud Computing courses in Gwalior M.P, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux from Industry Experts"
     },
     "updatedAt": "2026-08-06"
   },
@@ -2908,7 +2908,7 @@ export const centres: Centre[] = [
     "email": "gur@jetking.com",
     "headline": "Best Cloud Computing and AI Training Institute In Gurgaon",
     "intro": "Best Cloud Computing and AI Training Institute In Gurgaon",
-    "body": "Boost Your Technical Skills and secure your future with Jetking Gurgaon, Top Cloud Computing Courses with AI and Cyber Security courses, BCA 3 Year Degree program with Job guarantee from Gurgaon along with Ethical Hacking, CCNA, Python Programing and many more offerings at Jetking Gurgaon learning center.\n\nJoin Jetking, India's Leading IT Training Institute Enroll now in Best IT Training institute and Courses in Gurgaon, Cyber Security courses and BCA Degree programs with flexible and easy EMIs. Gain hands-on experience on live projects and open doors to endless career opportunities!",
+    "body": "Boost Your Technical Skills and secure your future with Jetking Gurgaon, Top Cloud Computing Courses with AI and Cyber Security courses, BCA 3 Year Degree program with placement support from Gurgaon along with Ethical Hacking, CCNA, Python Programing and many more offerings at Jetking Gurgaon learning center.\n\nJoin Jetking, India's Leading IT Training Institute Enroll now in Best IT Training institute and Courses in Gurgaon, Cyber Security courses and BCA Degree programs with flexible and easy EMIs. Gain hands-on experience on live projects and open doors to endless career opportunities!",
     "featuredProgrammes": [
       {
         "title": "Diploma In Cloud Computing with Artificial Intelligence",
@@ -3163,7 +3163,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Best Cloud Computing with AI Training in Gurgaon",
-      "description": "Best Cloud Computing courses in Jetking Gurgaon, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux & more."
+      "description": "Best Cloud Computing courses in Jetking Gurgaon, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux & more."
     },
     "updatedAt": "2026-08-06"
   },
@@ -3178,7 +3178,7 @@ export const centres: Centre[] = [
     "phone": "06262606077",
     "helpline": "07666830000",
     "email": "ind@jetking.com",
-    "intro": "Cloud Computing courses in Madhya Pradesh, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux from Industry Experts",
+    "intro": "Cloud Computing courses in Madhya Pradesh, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux from Industry Experts",
     "body": "Join India’s leading and most trusted digital skills institute, with over 79 years of legacy, offering industry-focused programs in Cloud Computing, Cybersecurity, and BCA Degrees, along with job assistance to launch your career.\n\nI am very happy with Jetking for the placement assistance, even after my first job. I am grateful for all the guidance and technical knowledge provided. At Jetking we are not only trained in the technical domain as well as I have also improved my communication skills and confidence in appearing for interviews.",
     "featuredProgrammes": [
       {
@@ -3337,7 +3337,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Best Cloud Computing Courses & Training Institute in Indore",
-      "description": "Cloud Computing courses in Madhya Pradesh, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux from Industry Experts"
+      "description": "Cloud Computing courses in Madhya Pradesh, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux from Industry Experts"
     },
     "updatedAt": "2026-08-06"
   },
@@ -3724,8 +3724,8 @@ export const centres: Centre[] = [
     "phone": "8008711500",
     "helpline": "07666830000",
     "email": "kukatpally@jetking.com",
-    "intro": "Cloud Computing courses in Hyderabad, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure & more from Certified Professionals",
-    "body": "Boost your skills and ensure a promising future with  Top Cloud Computing courses in Hyderabad, Cyber Security Courses, the BCA 3 Year Degree program, Ethical Hacking, CCNA, Python Programming, and many more Best Job Guarantee Courses at our Kukatpally, Hyderabad Learning Center.\n\nJoin India’s leading and most trusted digital skills institute, with over 79 years of legacy, offering industry-focused programs in Cloud Computing, Cybersecurity, and BCA Degrees, along with job assistance to launch your career.",
+    "intro": "Cloud Computing courses in Hyderabad, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure & more from Certified Professionals",
+    "body": "Boost your skills and ensure a promising future with  Top Cloud Computing courses in Hyderabad, Cyber Security Courses, the BCA 3 Year Degree program, Ethical Hacking, CCNA, Python Programming, and many more placement-supported courses at our Kukatpally, Hyderabad Learning Center.\n\nJoin India’s leading and most trusted digital skills institute, with over 79 years of legacy, offering industry-focused programs in Cloud Computing, Cybersecurity, and BCA Degrees, along with job assistance to launch your career.",
     "featuredProgrammes": [
       {
         "title": "Diploma In Cloud Computing with Artificial Intelligence",
@@ -3841,7 +3841,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Cloud Computing Courses & Training Institute in Kukatpally",
-      "description": "Cloud Computing courses in Hyderabad, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure & more from Certified Professionals"
+      "description": "Cloud Computing courses in Hyderabad, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure & more from Certified Professionals"
     },
     "updatedAt": "2026-08-06"
   },
@@ -4030,7 +4030,7 @@ export const centres: Centre[] = [
     "faqs": [
       {
         "question": "Why get Cloud computing training from Jetking Laxminagar Institute?",
-        "answer": "Here at Jetking Laxminagar Institute, we provide the Best learning environment at affordable fees and training by Industry Experts. Jetking Institute is popular for its Cloud computing Training in Delhi with updated, high-tech gadgets and lab facility with  Job Guarantee ."
+        "answer": "Here at Jetking Laxminagar Institute, we provide the Best learning environment at affordable fees and training by Industry Experts. Jetking Institute is popular for its Cloud computing Training in Delhi with updated, high-tech gadgets and lab facility with dedicated placement support."
       },
       {
         "question": "Who is eligible for Cloud computing with AI?",
@@ -4072,7 +4072,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Best Cloud Computing Courses & Training Institute in Delhi",
-      "description": "Best Training Institute for Cloud Computing Course in Delhi. Learn AWS, Azure, Linux, Networking, CCNA, Cyber Security & 100% Jobs Placement in Delhi."
+      "description": "Best Training Institute for Cloud Computing Course in Delhi. Learn AWS, Azure, Linux, Networking, CCNA, Cyber Security & dedicated placement support in Delhi."
     },
     "updatedAt": "2026-08-06"
   },
@@ -4256,7 +4256,7 @@ export const centres: Centre[] = [
     "email": "mittal@jetking.com",
     "headline": "Best Cloud Computing & AI Course Institute in Ahmedabad, Gujrat",
     "intro": "Cloud Computing course in Ahmedabad - UG/Diploma programs in Cloud AI & Cybersecurity with job placement, Learn AWS, Azure & more from Certified Professionals",
-    "body": "Advanced your expertise and solidify your career with our Cloud Computing and Cyber Security courses in Jetking Maninagar, Gujrat. Pursue a 3-year BCA degree at Maninagar, Ahmedabad, Jetking Learning Center and secure a future in the IT & Tech Industry.\n\nJoin India’s leading and most trusted digital skills institute, with over 79 years of legacy, offering industry-focused programs in Cloud Computing, Cybersecurity, and BCA Degrees along with 100% job assistance to launch your career.",
+    "body": "Advanced your expertise and solidify your career with our Cloud Computing and Cyber Security courses in Jetking Maninagar, Gujrat. Pursue a 3-year BCA degree at Maninagar, Ahmedabad, Jetking Learning Center and secure a future in the IT & Tech Industry.\n\nJoin India’s leading and most trusted digital skills institute, with over 79 years of legacy, offering industry-focused programs in Cloud Computing, Cybersecurity, and BCA Degrees along with placement support to launch your career.",
     "featuredProgrammes": [
       {
         "title": "Diploma In Cloud Computing with Artificial Intelligence",
@@ -5074,7 +5074,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Cloud Computing Courses in Prayagraj, CCNA, Cyber Security",
-      "description": "Cloud Computing courses in Prayagraj, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure & more from Certified Professionals"
+      "description": "Cloud Computing courses in Prayagraj, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure & more from Certified Professionals"
     },
     "updatedAt": "2026-08-06"
   },
@@ -6411,8 +6411,8 @@ export const centres: Centre[] = [
     "helpline": "07666830000",
     "email": "vashi.cm@jetking.com",
     "headline": "Best Cloud Computing with AI, Data Analytics, Graphic design, Animation & VFX Institute in Navi Mumbai",
-    "intro": "Jetking Vashi offers Cloud Computing, Cyber Security, Data Analytics, Multimedia & Animation, UGC-Approved BCA Degree courses in Navi Mumbai with 100% Jobs.",
-    "body": "Top IT Training Institute in Mumbai & Navi Mumbai offering Job Guarantee* Courses in Cloud Computing, IT Networking, Cyber Security, Ethical Hacking, Data Analytics, Animation, Graphic Design & UGC-Approved BCA Degree Program at Jetking Vashi.\n\nGet Job-Ready in 6 Months!* Jetking Vashi Institute, Navi Mumbai offers industry-focused Hardware & Networking and cloud Computing & Data Analysis courses including CCNA Cisco Specialization, Router & Switches Management, Windows Server, RedHat Linux, Ethical Hacking, Cyber Security, Gaming & Design, Graphics Design, and 2D & 3D Animation, Data Analytics program and BCA Degree course with strong placement support.",
+    "intro": "Jetking Vashi offers Cloud Computing, Cyber Security, Data Analytics, Multimedia & Animation, UGC-Approved BCA Degree courses in Navi Mumbai with dedicated placement support.",
+    "body": "Top IT Training Institute in Mumbai & Navi Mumbai offering placement-supported courses in Cloud Computing, IT Networking, Cyber Security, Ethical Hacking, Data Analytics, Animation, Graphic Design & UGC-Approved BCA Degree Program at Jetking Vashi.\n\nGet Job-Ready in 6 Months!* Jetking Vashi Institute, Navi Mumbai offers industry-focused Hardware & Networking and cloud Computing & Data Analysis courses including CCNA Cisco Specialization, Router & Switches Management, Windows Server, RedHat Linux, Ethical Hacking, Cyber Security, Gaming & Design, Graphics Design, and 2D & 3D Animation, Data Analytics program and BCA Degree course with strong placement support.",
     "featuredProgrammes": [
       {
         "title": "BCA In Cloud Computing & Cyber Security",
@@ -6502,7 +6502,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Best Cloud Computing & Data Analyst Institute in Navi Mumbai",
-      "description": "Jetking Vashi offers Cloud Computing, Cyber Security, Data Analytics, Multimedia & Animation, UGC-Approved BCA Degree courses in Navi Mumbai with 100% Jobs."
+      "description": "Jetking Vashi offers Cloud Computing, Cyber Security, Data Analytics, Multimedia & Animation, UGC-Approved BCA Degree courses in Navi Mumbai with dedicated placement support."
     },
     "updatedAt": "2026-08-06"
   },
@@ -7270,7 +7270,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Cloud Computing Courses & Training Institute in Chinchwad",
-      "description": "Cloud Computing courses in Pune, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, AWS, Azure, Linux & more in IT-IMS from Experts"
+      "description": "Cloud Computing courses in Pune, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, AWS, Azure, Linux & more in IT-IMS from Experts"
     },
     "updatedAt": "2026-08-06"
   },
@@ -7286,8 +7286,8 @@ export const centres: Centre[] = [
     "helpline": "07666830000",
     "email": "wardha@jetking.com",
     "headline": "Best Cloud Computing with AI and Cyber security Courses Institute",
-    "intro": "Cloud Computing course in Wardha Maharashtra, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, Linux, AWS, gain from Industry Experts",
-    "body": "Boost your IT Technical Skills with our Job Guarantee IT Courses and secure your Career with Jetking best Cloud Computing with AI Courses & Cyber Security Courses in Wardha, Maharashtra.\n\nJoin Jetking, India's Leading IT Training Institute Enroll now in our best IT Career Courses like Cloud Computing course, Cyber Security courses and BCA Degree programs with flexible easy EMIs in Jetking Wardha learning Institute. Gain hands-on experience on live projects and open doors to endless career opportunities!",
+    "intro": "Cloud Computing course in Wardha Maharashtra, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, Linux, AWS, gain from Industry Experts",
+    "body": "Boost your IT Technical Skills with our placement-supported IT courses and secure your Career with Jetking best Cloud Computing with AI Courses & Cyber Security Courses in Wardha, Maharashtra.\n\nJoin Jetking, India's Leading IT Training Institute Enroll now in our best IT Career Courses like Cloud Computing course, Cyber Security courses and BCA Degree programs with flexible easy EMIs in Jetking Wardha learning Institute. Gain hands-on experience on live projects and open doors to endless career opportunities!",
     "featuredProgrammes": [
       {
         "title": "Diploma In Cloud Computing with Artificial Intelligence",
@@ -7405,7 +7405,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Cloud Computing Training Institute in Wardha, Maharashtra",
-      "description": "Cloud Computing course in Wardha Maharashtra, UG/Diploma in Cloud AI & Cybersecurity with 100% job placement, Learn CCNA, Linux, AWS, gain from Industry Experts"
+      "description": "Cloud Computing course in Wardha Maharashtra, UG/Diploma in Cloud AI & Cybersecurity with strong placement support, Learn CCNA, Linux, AWS, gain from Industry Experts"
     },
     "updatedAt": "2026-08-06"
   },
@@ -7421,7 +7421,7 @@ export const centres: Centre[] = [
     "helpline": "07666830000",
     "email": "info@jetking.com",
     "headline": "Best BCA Degree Courses Institute in Mumbai, Maharashtra",
-    "intro": "Jetking Khar Learning Centre offers UGC-approved, government-certified BCA Degree and MCA Postgraduate programs in Mumbai with 100% placement support.",
+    "intro": "Jetking Khar Learning Centre offers UGC-approved, government-certified BCA Degree and MCA Postgraduate programs in Mumbai with dedicated placement support.",
     "body": "Jetking Khar Learning Center is a top institute in Mumbai offering BCA in Cloud Computing & Cyber Security , MCA in Cloud Technology & Cyber Security , and career-focused programs in Artificial Intelligence, AWS, Azure, Python, Linux, Ethical Hacking, Machine Learning, and Cyber Forensics. Our industry-oriented degree programs combine practical training, live projects, internships, and certifications to help students build in-demand IT skills. With placement support, expert trainers, advanced labs, and strong industry partnerships, Jetking Khar prepares students for high-growth careers in Cloud computing, cyber security, Ethical hacking, and emerging technologies.\n\nJoin India’s leading and most trusted digital skills institute with over 79 years of legacy, offering an industry-focused BCA in Cloud Computing & Cyber Security program with training in AWS, Azure, Python, Linux, AI, and Ethical Hacking, plus job assistance to help launch your IT career.",
     "featuredProgrammes": [
       {
@@ -7528,7 +7528,7 @@ export const centres: Centre[] = [
     ],
     "seo": {
       "title": "Jetking Khar BCA & MCA Degree courses Institute in Mumbai",
-      "description": "Jetking Khar Learning Centre offers UGC-approved, government-certified BCA Degree and MCA Postgraduate programs in Mumbai with 100% placement support."
+      "description": "Jetking Khar Learning Centre offers UGC-approved, government-certified BCA Degree and MCA Postgraduate programs in Mumbai with dedicated placement support."
     },
     "updatedAt": "2026-08-06"
   }

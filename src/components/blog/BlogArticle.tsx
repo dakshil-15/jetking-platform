@@ -143,7 +143,7 @@ export function BlogArticle({
         </header>
       </section>
 
-      <div className="shell pb-12 sm:pb-14 lg:pb-16">
+      <div className="shell pt-8 pb-12 sm:pt-10 sm:pb-14 lg:pb-16">
         <article className="mx-auto w-full max-w-[var(--content-reading)]">
           <p className="text-[16px] leading-[1.7] text-[var(--blog-ink-secondary)] sm:text-[17.5px]">
             {post.excerpt}
@@ -196,7 +196,7 @@ export function BlogArticle({
       </div>
 
       {related.length ? (
-        <section className="shell pb-12 sm:pb-14 lg:pb-16" aria-labelledby="blog-related">
+        <section className="shell pt-8 pb-12 sm:pt-10 sm:pb-14 lg:pb-16" aria-labelledby="blog-related">
           <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[var(--blog-hairline)]/35 pb-5">
             <div>
               <p className="text-[12px] font-bold tracking-[0.14em] text-[var(--blog-accent-soft)] uppercase">

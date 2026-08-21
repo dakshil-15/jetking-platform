@@ -154,22 +154,49 @@ export async function listCollection<K extends CmsCollection>(
   return rows;
 }
 
+export class DuplicateIdError extends Error {
+  constructor(id: string) {
+    super(`A record with id "${id}" already exists.`);
+    this.name = 'DuplicateIdError';
+  }
+}
+
 export async function upsertRecord(
   collection: CmsCollection,
   record: Record<string, unknown>,
   idKey: string,
+  /**
+   * The id this record was loaded under, if editing an existing row. Without
+   * this, changing the id field in the editor (e.g. renaming a course's slug)
+   * doesn't find the old row — `findIndex` looks up the *new* id, which no row
+   * has yet — so the edit gets pushed as an extra row and the stale original is
+   * left behind, still published, still rendering at its old URL.
+   */
+  previousId?: string,
 ): Promise<void> {
   return serialized(async () => {
     const store = await readCmsStore();
     const rows = [...(store[collection] as unknown as Record<string, unknown>[])];
     const id = record[idKey];
-    const idx = rows.findIndex((r) => r[idKey] === id);
-    if (idx >= 0) rows[idx] = record;
+
+    // Renaming: the old row still carries `previousId`, not `id`, so it can
+    // never itself trip this check — a hit here means a *different* row already
+    // owns the new id.
+    const renaming = previousId !== undefined && previousId !== id;
+    if (renaming && rows.some((r) => r[idKey] === id)) {
+      throw new DuplicateIdError(String(id));
+    }
+
+    const targetIdx = rows.findIndex((r) => r[idKey] === (renaming ? previousId : id));
+    if (targetIdx >= 0) rows[targetIdx] = record;
     else rows.push(record);
     (store as unknown as Record<string, unknown>)[collection] = rows;
 
     const supabase = getSupabase();
     if (supabase) {
+      if (renaming && targetIdx >= 0) {
+        await supabase.from(collection).delete().eq(idKey, previousId);
+      }
       await supabase.from(collection).upsert(record as never);
     }
 

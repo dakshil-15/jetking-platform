@@ -18,7 +18,7 @@ import { CourseViewTracker } from './CourseViewTracker';
  * so it lives here as static content rather than per-course data.
  */
 const JETKING_STATS = [
-  { value: '100%', label: 'Job guarantee' },
+  { value: '79+', label: 'Years of legacy' },
   { value: '5000+', label: 'Recruiter partners' },
   { value: '360°', label: 'Career support' },
 ];
@@ -40,7 +40,7 @@ const WHY_JETKING: Array<{ title: string; body: string; icon: LucideIcon }> = [
     icon: Waypoints,
   },
   {
-    title: 'Placement guarantee',
+    title: 'Placement support',
     body: 'A 5000+ recruiter network with 360° placement support to launch your career.',
     icon: BadgeCheck,
   },

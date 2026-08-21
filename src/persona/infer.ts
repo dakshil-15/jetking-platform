@@ -130,9 +130,11 @@ export function heuristicInfer(payload: InferPayload): InferResult {
   scores.parent += Math.min(payload.behaviour.centreViews * 0.15, 0.35);
   scores.franchise += Math.min(payload.behaviour.franchiseViews * 0.5, 0.9);
 
-  for (const tag of payload.behaviour.interests) {
-    if (/ai|cloud|cyber/i.test(tag)) scores.student += 0.08;
-  }
+  // No topic-interest boost here: subject tags like "cloud"/"cyber"/"ai" are
+  // shared across degree and short/certification programmes alike, so they
+  // don't discriminate between student and professional — level (above)
+  // already carries that signal. A blanket student-only nudge on these tags
+  // was misclassifying working professionals researching the same subjects.
 
   const ranked = PERSONA_IDS.map((p) => ({ p, score: scores[p] })).sort((a, b) => b.score - a.score);
   const top = ranked[0];

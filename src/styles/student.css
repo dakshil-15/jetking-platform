@@ -315,3 +315,29 @@ html:not(.dark) .student-page .stu-journey-panel {
     radial-gradient(70% 50% at 90% 80%, rgb(95 58 168 / 0.07) 0%, transparent 50%),
     linear-gradient(180deg, #ffffff 0%, #f8f6fa 100%);
 }
+
+/*
+ * Real CSS, not Tailwind utility classes: the shared `fieldControl` base
+ * (src/components/form.tsx) sets its own border/focus-ring via Tailwind
+ * classes, and `cx()` is a plain string join with no Tailwind-merge dedup —
+ * an *additional* utility class doesn't reliably win the cascade, since
+ * ordering then depends on generation order, not class-list order. Measured
+ * live: `fieldControl`'s own focus ring never painted at all (computed
+ * `box-shadow: none` while focused), leaving keyboard/mouse focus with no
+ * visible indicator (WCAG 2.4.7), and its resting border measured ~1.2:1
+ * against the card, under the 3:1 WCAG 1.4.11 needs for a field boundary.
+ * A real stylesheet rule with `!important` is unambiguous either way.
+ */
+.stu-field {
+  border-color: var(--stu-ink-muted) !important;
+}
+
+.stu-field:hover {
+  border-color: var(--stu-accent-soft) !important;
+}
+
+.stu-field:focus {
+  border-color: var(--stu-accent-soft) !important;
+  outline: 2px solid var(--stu-accent) !important;
+  outline-offset: 2px !important;
+}
