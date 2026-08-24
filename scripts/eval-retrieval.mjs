@@ -273,7 +273,11 @@ let lastMode = 'unknown';
 const failures = [];
 
 for (const c of CASES) {
-  const raw = await semanticSearch(c.q, 8);
+  // Must match route.ts's own semanticSearch(searchQuery, 12) call — a
+  // narrower window here can drop a correct hit that the live route (which
+  // re-ranks a bigger pool via rankHits) still finds, turning a passing
+  // production answer into a false-negative eval failure.
+  const raw = await semanticSearch(c.q, 12);
   lastMode = raw.mode;
   const topScore = raw.topScore;
   const hits = routePool(c.q, raw.hits).slice(0, 3);

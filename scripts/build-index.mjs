@@ -31,7 +31,21 @@ const DIM = Number(process.env.JK_EMBED_DIM ?? 384);
 const BATCH = Number(process.env.JK_EMBED_BATCH ?? 64);
 const MAX_TEXT = 1400;
 
-const clean = (s) => (s || '').replace(/​/g, '').replace(/\s+/g, ' ').trim();
+/**
+ * `\s+` also matches `\n`, so a plain "collapse all whitespace" pass silently
+ * eats the title/body newline every `${item.title}\n${item.text}` join below
+ * inserts — every source that carries that separator (about/franchise/
+ * placement/professional/parent/student/explore, and course rows straight
+ * from the CMS) loses it on every rebuild, leaving splitTitleBody() in
+ * format-passage.ts with nothing to split on. Collapses horizontal
+ * whitespace only, then folds any run of newlines down to exactly one.
+ */
+const clean = (s) =>
+  (s || '')
+    .replace(/​/g, '')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/ *\n+ */g, '\n')
+    .trim();
 
 /* -------------------------------------------------------------------------- */
 /* Item collection                                                             */

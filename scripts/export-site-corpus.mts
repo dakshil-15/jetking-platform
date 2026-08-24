@@ -230,7 +230,164 @@ const franchiseItems = [
   },
 ];
 
-items.push(...aboutItems, ...placementItems, ...franchiseItems);
+/**
+ * The Professional, Parent, Student and Explore landing pages carry the same
+ * class of real, page-only copy as About/Placements/Franchise above — persona
+ * stats, named hiring partners, testimonials, "why choose Jetking" reasons —
+ * that live in component arrays, not the ContentSource `buildCorpus()` reads.
+ * Without this, a working-professional or parent visitor's questions ("which
+ * companies hire from Jetking", "is Jetking safe for my child") had nothing
+ * persona-specific to draw on even though the answer is on the page they're
+ * standing on.
+ *
+ * The values below are hand-copied from their source arrays rather than
+ * imported, because those files (src/components/professional/data.ts,
+ * .../parent/ParentLanding.tsx, .../student/StudentLanding.tsx,
+ * .../explore/ExploreLanding.tsx) also import lucide-react icon components —
+ * unavailable under this script's `--conditions=react-server` runtime, same
+ * reason franchise/data.ts documents for keeping icons out of its own arrays.
+ * Keep these in sync by hand if the source arrays change.
+ */
+const professionalItems = [
+  {
+    id: 'professional-impact-stats',
+    type: 'professional',
+    title: 'Jetking outcomes for working professionals',
+    path: '/professional',
+    text: '60–120% Avg. Salary Increase, 75,000+ Professionals Upskilled, 1000+ Hiring Partners, 90% Placement Rate.',
+    source: 'website-content-source' as const,
+  },
+  {
+    id: 'professional-benefits',
+    type: 'professional',
+    title: 'Why working professionals choose Jetking to upskill',
+    path: '/professional',
+    text:
+      'Hands-on Projects: Build portfolio-ready work in guided labs — not theory-only sessions. ' +
+      'Recognized Certifications: Industry credentials included to strengthen your professional profile. ' +
+      'Flexible Batches: Weekend and evening options designed around a full-time work schedule. ' +
+      'Career Counsellors: Dedicated guidance on courses, timing, and your next career move. ' +
+      'Interview Preparation: Mock interviews and resume support before you step into hiring loops. ' +
+      'Hiring Network: Access to 1000+ hiring partners across roles, sectors, and cities.',
+    source: 'website-content-source' as const,
+  },
+  {
+    id: 'professional-flexible-batches',
+    type: 'professional',
+    title: 'Flexible batch options for working professionals',
+    path: '/professional',
+    text: 'Batch formats: Weekend Batches, Evening Batches, Online Live Classes, Career Break Friendly.',
+    source: 'website-content-source' as const,
+  },
+  {
+    id: 'professional-success-stories',
+    type: 'professional',
+    title: 'Working-professional success stories at Jetking',
+    path: '/professional',
+    text:
+      'Rahul M., System Admin to Cloud Engineer (70% hike): "Evening batches meant I could upskill without quitting. Within 8 months I moved to a cloud role with a 70% salary hike." ' +
+      'Priya K., IT Support to Cyber Security Analyst (85% hike): "The hands-on labs and mock interviews made the career switch feel achievable — not just theoretical." ' +
+      'Vikram S., Network Engineer to DevOps Lead (60% hike): "Jetking mapped my existing skills to what hiring managers actually wanted. The DevOps track was spot on."',
+    source: 'website-content-source' as const,
+  },
+];
+
+const parentItems = [
+  {
+    id: 'parent-trust-stats',
+    type: 'parent',
+    title: 'Why parents trust Jetking',
+    path: '/parent',
+    text: '75,000+ Students Trained Successfully, 90% Placement Assistance, Industry Aligned Curriculum, Trusted Brand Legacy Since 1947.',
+    source: 'website-content-source' as const,
+  },
+  {
+    id: 'parent-loves',
+    type: 'parent',
+    title: 'What parents value about Jetking',
+    path: '/parent',
+    text: 'Safe & Secure Learning Environment, Dedicated Mentors, Hands-on Labs, Career Counselling, Trusted Legacy Since 1947.',
+    source: 'website-content-source' as const,
+  },
+  {
+    id: 'parent-journey-steps',
+    type: 'parent',
+    title: "A student's journey at Jetking, for parents",
+    path: '/parent',
+    text: 'Career Guidance & Counselling → Choose the Right Course → Hands-on Training & Projects → Placement Support → Successful Career.',
+    source: 'website-content-source' as const,
+  },
+];
+
+const studentItems = [
+  {
+    id: 'student-benefits',
+    type: 'student',
+    title: 'What students get at Jetking',
+    path: '/student',
+    text:
+      'Live Projects: Build portfolio-ready work in guided labs, not slide decks. ' +
+      'Expert Trainers: Learn from faculty who teach what centres actually run. ' +
+      'Flexible Batches: Weekday and weekend options so study fits your schedule. ' +
+      '100% Support: Counsellors guide courses, centres and next steps — no pressure.',
+    source: 'website-content-source' as const,
+  },
+];
+
+const exploreItems = [
+  {
+    id: 'explore-reasons',
+    type: 'explore',
+    title: "Why choose Jetking — every student's reasons",
+    path: '/explore',
+    text:
+      'Trained & Certified Faculty: Award winning and internationally bench-marked training faculty. ' +
+      'Practical Foundation through Labs: One computer per student, so every theory lesson gets hands-on practice. ' +
+      'Placement Support: We take every necessary step to help you get a suitable job on completing the course. ' +
+      'Scenario Based Learning: Case studies and animated scenarios give you real-life problem-solving practice. ' +
+      'SmartLabPlus Teaching Methodology: Innovative methods of teaching that make learning fun and easy to remember. ' +
+      'Countrywide Network: A well-established, nationally recognised institute with 100+ centres. ' +
+      'Personality Development: Builds confidence and supports better job and salary prospects. ' +
+      'State-of-the-Art Infrastructure: Every centre is equipped for a successful learning environment. ' +
+      'De-stress with Yoga: A relaxed mind finds it easier to learn. ' +
+      'Partnership with NSDC: Associated with the National Skill Development Corporation as a skill development partner.',
+    source: 'website-content-source' as const,
+  },
+  {
+    id: 'explore-university-partners',
+    type: 'explore',
+    title: 'Universities and institutions Jetking partners with',
+    path: '/explore',
+    text: 'Jetking collaborates with: Yenepoya (Deemed to be University), Tilak Maharashtra Vidyapeeth Pune, Pearson, Lincoln University College.',
+    source: 'website-content-source' as const,
+  },
+  {
+    id: 'explore-certification-partners',
+    type: 'explore',
+    title: 'Industry certifications available through Jetking',
+    path: '/explore',
+    text: 'Certification tracks include: Cisco, CompTIA, Red Hat, CEH, AWS, Microsoft Azure, Google Cloud, Kubernetes, Docker, Linux, Splunk, Checkpoint.',
+    source: 'website-content-source' as const,
+  },
+  {
+    id: 'explore-affiliations',
+    type: 'explore',
+    title: 'Jetking affiliations and accreditations',
+    path: '/explore',
+    text: 'Jetking is affiliated with: Skill India, NSDC, Red Hat, Delhi Capitals.',
+    source: 'website-content-source' as const,
+  },
+];
+
+items.push(
+  ...aboutItems,
+  ...placementItems,
+  ...franchiseItems,
+  ...professionalItems,
+  ...parentItems,
+  ...studentItems,
+  ...exploreItems,
+);
 
 await mkdir(dirname(OUTPUT), { recursive: true });
 await writeFile(
