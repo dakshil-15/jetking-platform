@@ -26,6 +26,12 @@ export interface Chip {
   query?: string;
   /** Opens another conversation starter instead of querying. */
   intent?: IntentKey;
+  /**
+   * Triggers the browser's Geolocation API instead of sending `query`
+   * directly — see JetkingAiClient's `useMyLocation` handler, which asks for
+   * the permission prompt and then sends the resolved coordinates.
+   */
+  geolocate?: boolean;
 }
 
 export interface Starter {
@@ -63,6 +69,7 @@ export const STARTERS: Record<IntentKey, Starter> = {
     message:
       "📍 Which city are you in? I'll find the nearest Jetking centre and share the contact details.",
     chips: [
+      { label: '📌 Use my current location', geolocate: true },
       { label: 'Mumbai', query: 'Jetking centre in Mumbai' },
       { label: 'Delhi', query: 'Jetking centre in Delhi' },
       { label: 'Pune', query: 'Jetking centre in Pune' },

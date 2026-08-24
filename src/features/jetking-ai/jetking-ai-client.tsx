@@ -791,27 +791,29 @@ export function JetkingAiClient() {
     bottomRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   }, [messages]);
 
-  const runLocal = useCallback((query: string, prior: Message[]) => {
-    const thinkingId = nextId();
-    setBusy(true);
-    setMessages((m) => [...m, { id: thinkingId, role: 'assistant', kind: 'thinking' }]);
+  const runLocal = useCallback(
+    (query: string, prior: Message[], coords?: { lat: number; lng: number }) => {
+      const thinkingId = nextId();
+      setBusy(true);
+      setMessages((m) => [...m, { id: thinkingId, role: 'assistant', kind: 'thinking' }]);
 
-    const replaceWithText = (text: string) =>
-      setMessages((m) =>
-        m.map((msg) =>
-          msg.id === thinkingId ? { id: thinkingId, role: 'assistant', kind: 'text', text } : msg,
-        ),
-      );
+      const replaceWithText = (text: string) =>
+        setMessages((m) =>
+          m.map((msg) =>
+            msg.id === thinkingId ? { id: thinkingId, role: 'assistant', kind: 'text', text } : msg,
+          ),
+        );
 
-    // Persona is inferred server-side from the question — no UI path CTAs.
-    fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        messages: toApiMessages(prior, query),
-        session: sessionRef.current,
-      }),
-    })
+      // Persona is inferred server-side from the question — no UI path CTAs.
+      fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          messages: toApiMessages(prior, query),
+          session: sessionRef.current,
+          ...coords,
+        }),
+      })
       .then((r) => r.json())
       .then(
         (data: {
@@ -880,6 +882,57 @@ export function JetkingAiClient() {
     [runLocal],
   );
 
+  /**
+   * The "📌 Use my current location" chip — asks the browser's Geolocation
+   * API for coordinates (a real permission prompt) rather than making the
+   * user type a city, then sends them straight through the same runLocal
+   * path resolveCentreAnswerByCoords answers server-side. Denied/unsupported/
+   * timed-out geolocation falls back to the existing "which city" chips
+   * rather than dead-ending the conversation.
+   */
+  const askMyLocation = useCallback(() => {
+    awaitingCityRef.current = false;
+    const prior = messagesRef.current;
+    const cityChips = STARTERS.locations.chips!.filter((c) => !c.geolocate);
+    const geoChip = STARTERS.locations.chips!.find((c) => c.geolocate);
+    setMessages((m) => [
+      ...m,
+      { id: nextId(), role: 'user', text: geoChip?.label ?? 'Use my current location' },
+    ]);
+    const askForCityInstead = (text: string) => {
+      awaitingCityRef.current = true;
+      setBusy(false);
+      setMessages((m) => [
+        ...m,
+        { id: nextId(), role: 'assistant', kind: 'text', text, chips: cityChips },
+      ]);
+    };
+
+    if (typeof navigator === 'undefined' || !navigator.geolocation) {
+      askForCityInstead("This browser can't share your location. Which city are you in?");
+      return;
+    }
+
+    const thinkingId = nextId();
+    setBusy(true);
+    setMessages((m) => [...m, { id: thinkingId, role: 'assistant', kind: 'thinking' }]);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setMessages((m) => m.filter((msg) => msg.id !== thinkingId));
+        runLocal('Where is my nearest Jetking centre?', prior, {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      () => {
+        setMessages((m) => m.filter((msg) => msg.id !== thinkingId));
+        askForCityInstead("I couldn't access your location. Which city are you in?");
+      },
+      { timeout: 8000, maximumAge: 300000 },
+    );
+  }, [runLocal]);
+
   const onIntent = useCallback(
     (key: IntentKey) => {
       setActiveKey(key);
@@ -916,14 +969,16 @@ export function JetkingAiClient() {
 
   const onChip = useCallback(
     (chip: Chip) => {
-      if (chip.intent) {
+      if (chip.geolocate) {
+        askMyLocation();
+      } else if (chip.intent) {
         setMessages((m) => [...m, { id: nextId(), role: 'user', text: chip.label }]);
         startIntent(chip.intent);
       } else if (chip.query) {
         ask(chip.query, chip.label);
       }
     },
-    [ask, startIntent],
+    [ask, startIntent, askMyLocation],
   );
 
   const onSubmit = (e: React.FormEvent) => {

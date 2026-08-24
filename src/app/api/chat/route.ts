@@ -14,6 +14,7 @@ import {
 import {
   extractCityHint,
   resolveCentreAnswer,
+  resolveCentreAnswerByCoords,
 } from '@/features/jetking-ai/resolve-centre-answer';
 import {
   detectAnsweredFacet,
@@ -95,6 +96,11 @@ const ChatRequestSchema = z.object({
     .max(40)
     .optional(),
   session: SessionSchema.optional(),
+  // From the browser's Geolocation API (see jetking-ai-client.tsx's "use my
+  // location" chip) — only consulted for a location question that named no
+  // city in its own text; see the isLocation branch below.
+  lat: z.number().min(-90).max(90).optional(),
+  lng: z.number().min(-180).max(180).optional(),
 });
 
 /** Real cost per request (embeddings + a local/OpenAI generation) — must be capped. */
@@ -524,8 +530,15 @@ export async function POST(req: Request): Promise<Response> {
   // Location questions: always answer from structured centre records.
   // Never fall through to SEO embedding blobs (those mash into "Centre…" mush).
   if (isLocation) {
+    // The query text wins when it names a city; coordinates only fill in when
+    // it doesn't, so a user who both shared their location earlier and later
+    // types "centre in Pune" still gets Pune, not their GPS position.
+    const { lat, lng } = parsed.data;
+    const useCoords = !cityHint && lat !== undefined && lng !== undefined;
     try {
-      const centreText = await resolveCentreAnswer(retrievalText);
+      const centreText = useCoords
+        ? await resolveCentreAnswerByCoords(lat, lng)
+        : await resolveCentreAnswer(retrievalText);
       if (centreText) {
         return Response.json({
           ok: true,
@@ -534,7 +547,9 @@ export async function POST(req: Request): Promise<Response> {
           reasoning: [
             step1,
             `Recognised it as about ${intentLabel}.`,
-            'Matched structured centre records in the Jetking knowledge base.',
+            useCoords
+              ? 'Matched the nearest centre by straight-line distance from the shared location.'
+              : 'Matched structured centre records in the Jetking knowledge base.',
             'Listed verified branches and programmes — nothing invented.',
           ],
           followUps: buildFollowUps(false),

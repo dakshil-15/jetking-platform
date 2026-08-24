@@ -3,8 +3,11 @@ import { extractCityHint } from '@/features/jetking-ai/city';
 import { loadIndex } from '@/features/knowledge/lib/engine';
 import type { CentreRecord } from '@/features/knowledge/types';
 import websiteCorpus from '@/content/website-corpus.json';
+import centreCoordinates from '@/content/centre-coordinates.json';
 
 export { extractCityHint };
+
+const CENTRE_COORDINATES: Record<string, { lat: number; lng: number }> = centreCoordinates;
 
 const CITY_ALIASES: Record<string, string[]> = {
   bangalore: ['bangalore', 'bengaluru'],
@@ -199,4 +202,64 @@ export async function resolveCentreAnswer(query: string): Promise<string | null>
     picked.length === 1 ? `Jetking centres in ${picked[0]!.city}` : 'Jetking training centres';
   const lede = picked.length === 1 ? picked[0]!.summary : undefined;
   return formatCentreRecords(picked, title, lede);
+}
+
+/** Great-circle distance in km — accurate enough to rank city-level centres. */
+function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+/**
+ * Nearest centre by straight-line distance from the visitor's coordinates —
+ * used when the browser's Geolocation API supplied lat/lng and the query
+ * text named no city for `pickCentresForQuery` to key off. Centres with no
+ * entry in centre-coordinates.json are skipped rather than guessed at.
+ * Website and KB centre lists both use the same `city` records for the same
+ * place, so multiple candidates can tie on distance — the branch-bearing hub
+ * (locations.length > 0) is preferred over an empty SEO stub at that city.
+ */
+export function pickCentreByCoords(
+  centres: CentreRecord[],
+  lat: number,
+  lng: number,
+): { centre: CentreRecord; distanceKm: number } | null {
+  const withDistance = centres
+    .map((c) => {
+      const coord = CENTRE_COORDINATES[c.city];
+      return coord ? { centre: c, distanceKm: haversineKm(lat, lng, coord.lat, coord.lng) } : null;
+    })
+    .filter((x): x is { centre: CentreRecord; distanceKm: number } => x !== null)
+    .sort((a, b) => a.distanceKm - b.distanceKm);
+
+  if (!withDistance.length) return null;
+
+  const nearestCity = withDistance[0]!.centre.city;
+  const sameCity = withDistance.filter((x) => x.centre.city === nearestCity);
+  return sameCity.find((x) => x.centre.locations.length > 0) ?? sameCity[0]!;
+}
+
+/**
+ * Same structured-record answer as resolveCentreAnswer, but keyed off the
+ * visitor's real coordinates instead of a city named in the query text.
+ */
+export async function resolveCentreAnswerByCoords(
+  lat: number,
+  lng: number,
+): Promise<string | null> {
+  const index = await loadIndex();
+  const result = pickCentreByCoords([...websiteCentres(), ...index.base.centres], lat, lng);
+  if (!result) return null;
+
+  const { centre, distanceKm } = result;
+  return formatCentreRecords(
+    [centre],
+    `Jetking centres in ${centre.city}`,
+    `Based on your current location, your nearest Jetking centre is in ${centre.city} (about ${Math.round(distanceKm)} km away).`,
+  );
 }
