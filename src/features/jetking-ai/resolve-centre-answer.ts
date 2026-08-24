@@ -145,7 +145,15 @@ export function pickCentresForQuery(
   query: string,
 ): CentreRecord[] {
   const hint = extractCityHint(query);
-  if (!hint) return centres.filter((c) => c.locations.length > 0).slice(0, 4);
+  // No city named at all — let resolveCentreAnswer's own no-match branch
+  // handle it with a "name your city" prompt. Returning the first 4 centres
+  // alphabetically (Ahmedabad, Balasore, Bengaluru, Bhopal, ...) here instead
+  // used to win: resolveCentreAnswer only falls back to that prompt when
+  // `picked` is empty, so this always-populated array short-circuited it and
+  // led every "what is my nearest centre?" with an arbitrary city's own
+  // summary line ("Jetking centres in Ahmedabad offer...") as if it meant
+  // something, before finally asking for a locality further down.
+  if (!hint) return [];
 
   const matched = centres.filter(
     (c) =>
