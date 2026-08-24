@@ -661,27 +661,42 @@ export async function POST(req: Request): Promise<Response> {
     );
   }
 
-  const reply = await askOllama(
-    systemPrompt(context, persona, nextSession, plannerResult?.nextBestQuestion),
-    messages,
-    0.3,
-  );
-  if (!reply) return passagesAnswer();
-
-  const unsupported = unsupportedSensitiveClaims(reply.text, context);
-  if (unsupported.length) {
-    return passagesAnswer(
-      `Rejected unsupported model claims (${unsupported.join(', ')}) and returned verified content instead.`,
+  // Wrapped defensively: a query answered at all — even the deterministic
+  // passages fallback — beats a 500. Seen live under a rare combined-failure
+  // condition (both LLM backends unavailable in the same request) where a
+  // reply that should have been null wasn't caught by the `!reply` guard
+  // alone; this makes the fallback unconditional rather than depending on
+  // exactly which line first notices the bad state.
+  try {
+    const reply = await askOllama(
+      systemPrompt(context, persona, nextSession, plannerResult?.nextBestQuestion),
+      messages,
+      0.3,
     );
-  }
+    if (!reply?.text) return passagesAnswer();
 
-  return Response.json({
-    ok: true,
-    source: 'llm',
-    scope: 'jetking',
-    text: structureAnswerText(reply.text),
-    reasoning: answerReasoning('llm', reply.thinking ? reply.thinking.slice(0, 600) : undefined),
-    followUps: buildFollowUps(false),
-    session: nextSession,
-  });
+    const unsupported = unsupportedSensitiveClaims(reply.text, context);
+    if (unsupported.length) {
+      return passagesAnswer(
+        `Rejected unsupported model claims (${unsupported.join(', ')}) and returned verified content instead.`,
+      );
+    }
+
+    return Response.json({
+      ok: true,
+      source: 'llm',
+      scope: 'jetking',
+      text: structureAnswerText(reply.text),
+      reasoning: answerReasoning('llm', reply.thinking ? reply.thinking.slice(0, 600) : undefined),
+      followUps: buildFollowUps(false),
+      session: nextSession,
+    });
+  } catch (error) {
+    console.warn(
+      `[chat] LLM-answer step threw, falling back to passages: ${
+        error instanceof Error ? `${error.name}: ${error.message}` : String(error)
+      }`,
+    );
+    return passagesAnswer();
+  }
 }
