@@ -234,7 +234,13 @@ async function askOllama(
         messages: [{ role: 'system', content: prompt }, ...messages],
       }),
     });
-    if (!response.ok) return null;
+    if (!response.ok) {
+      const body = await response.text().catch(() => '');
+      console.warn(
+        `[chat] askOllama got HTTP ${response.status} from ${OLLAMA_URL}: ${body.slice(0, 300)}`,
+      );
+      return null;
+    }
 
     const data = (await response.json()) as { message?: { content?: string; thinking?: string } };
     let text = data.message?.content?.trim() ?? '';
@@ -246,7 +252,15 @@ async function askOllama(
     }
 
     return text ? { text, thinking: thinking || undefined } : null;
-  } catch {
+  } catch (error) {
+    // Silent by design everywhere else — passagesAnswer() is a real fallback,
+    // not an error state — but the cause is otherwise unobservable in
+    // production (no local terminal to watch), so it's worth one log line.
+    console.warn(
+      `[chat] askOllama unreachable at ${OLLAMA_URL}: ${
+        error instanceof Error ? `${error.name}: ${error.message}` : String(error)
+      }`,
+    );
     return null;
   }
 }
