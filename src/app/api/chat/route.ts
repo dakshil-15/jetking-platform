@@ -217,7 +217,48 @@ interface OllamaReply {
   thinking?: string;
 }
 
-async function askOllama(
+/** Same key/model pair src/guide/answer.ts already uses for /api/guide. */
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_MODEL = process.env.GUIDE_MODEL ?? 'gpt-4o';
+
+async function askOpenAI(
+  prompt: string,
+  messages: ApiMessage[],
+  temperature: number,
+): Promise<OllamaReply | null> {
+  try {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${OPENAI_API_KEY}`,
+      },
+      signal: AbortSignal.timeout(serverEnv.ollamaTimeoutMs),
+      body: JSON.stringify({
+        model: OPENAI_MODEL,
+        max_tokens: 700,
+        temperature,
+        messages: [{ role: 'system', content: prompt }, ...messages],
+      }),
+    });
+    if (!response.ok) {
+      const body = await response.text().catch(() => '');
+      console.warn(`[chat] askOpenAI got HTTP ${response.status}: ${body.slice(0, 300)}`);
+      return null;
+    }
+
+    const data = (await response.json()) as { choices?: Array<{ message?: { content?: string } }> };
+    const text = data.choices?.[0]?.message?.content?.trim() ?? '';
+    return text ? { text } : null;
+  } catch (error) {
+    console.warn(
+      `[chat] askOpenAI failed: ${error instanceof Error ? `${error.name}: ${error.message}` : String(error)}`,
+    );
+    return null;
+  }
+}
+
+async function askOllamaLocal(
   prompt: string,
   messages: ApiMessage[],
   temperature: number,
@@ -263,6 +304,23 @@ async function askOllama(
     );
     return null;
   }
+}
+
+/**
+ * Prefers a hosted OpenAI model when a key is configured — src/guide/answer.ts
+ * already does this for /api/guide, and OLLAMA_BASE_URL has no reachable
+ * target in this deployment (confirmed live: it resolves to the serverless
+ * function's own localhost, which has no Ollama listening on it). Falling
+ * back to the local model keeps this working unchanged for anyone who *does*
+ * run Ollama themselves — self-hosted or local dev with no OpenAI key set.
+ */
+async function askOllama(
+  prompt: string,
+  messages: ApiMessage[],
+  temperature: number,
+): Promise<OllamaReply | null> {
+  if (OPENAI_API_KEY) return askOpenAI(prompt, messages, temperature);
+  return askOllamaLocal(prompt, messages, temperature);
 }
 
 export async function POST(req: Request): Promise<Response> {

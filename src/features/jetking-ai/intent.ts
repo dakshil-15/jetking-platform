@@ -11,8 +11,25 @@ const REFERENTIAL_RE =
 const SUBJECT_RE =
   /\b(cyber|security|cloud|network|networking|hacking|ethical|blockchain|animation|gaming|metaverse|hardware|software|bca|mca|linux|red ?hat|rhcsa|aws|azure|data science|\bai\b|course|courses|diploma|masters|certification|centre|center|placement|blog)\b/i;
 
+/**
+ * A self-contained task request — "write me a poem about...", "give me a
+ * recipe for...", "translate this into..." — has neither a referential
+ * pronoun nor a Jetking subject keyword, so without this it fell through to
+ * `!SUBJECT_RE.test()` and got treated as a follow-up to whatever topic came
+ * before. That merged it into the previous turn's subject and let a
+ * completely unrelated request clear the retrieval gate on borrowed context
+ * (confirmed live: "write me a poem about the ocean" right after a CEO
+ * question answered from founder/leadership passages). A short reactive word
+ * ("shorter", "yes", "address") or a real question ("what is the eligibility")
+ * never matches this, so genuine follow-ups are unaffected.
+ */
+const IMPERATIVE_TASK_RE =
+  /^(write|compose|create|generate|make|give me|tell me a|draw|design|code|solve|translate|summarize|summarise|sing|recite)\b/i;
+
 export function isFollowUpMessage(message: string, hasPrevUser: boolean): boolean {
-  return hasPrevUser && (REFERENTIAL_RE.test(message) || !SUBJECT_RE.test(message));
+  if (!hasPrevUser) return false;
+  if (IMPERATIVE_TASK_RE.test(message.trim()) && !SUBJECT_RE.test(message)) return false;
+  return REFERENTIAL_RE.test(message) || !SUBJECT_RE.test(message);
 }
 
 /**
