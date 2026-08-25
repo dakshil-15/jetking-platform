@@ -16,6 +16,7 @@ import {
   resolveCentreAnswer,
   resolveCentreAnswerByCoords,
 } from '@/features/jetking-ai/resolve-centre-answer';
+import { logUnanswered } from '@/features/jetking-ai/feedback-log';
 import {
   detectAnsweredFacet,
   detectSubject,
@@ -559,6 +560,7 @@ export async function POST(req: Request): Promise<Response> {
     } catch {
       // KB index failed to load — tell the user rather than inventing from SEO pages.
     }
+    await logUnanswered({ question: q, intent: intentLabel, persona, reason: 'no-centre-match' });
     return Response.json({
       ok: true,
       gated: true,
@@ -601,6 +603,7 @@ export async function POST(req: Request): Promise<Response> {
           });
         }
       }
+      await logUnanswered({ question: q, intent: intentLabel, persona, reason: 'low-confidence', topScore });
       return Response.json({
         ok: true,
         gated: true,

@@ -27,6 +27,7 @@
     "eval:chatbot-retrieval": "node --conditions=react-server --import ./scripts/register-alias.mjs scripts/eval-retrieval.mjs",
     "eval:conversations": "node --conditions=react-server --import ./scripts/register-alias.mjs scripts/eval-conversations.mts",
     "ingest:manual-knowledge": "node --conditions=react-server --import ./scripts/register-alias.mjs scripts/ingest-manual-knowledge.mts",
+    "report:unanswered": "node --conditions=react-server --import ./scripts/register-alias.mjs scripts/unanswered-report.mts",
     "check": "npm run typecheck && npm run lint && npm run test",
     "check:seo": "npm run verify:seo"
   },
