@@ -26,10 +26,32 @@ const SUBJECT_RE =
 const IMPERATIVE_TASK_RE =
   /^(write|compose|create|generate|make|give me|tell me a|draw|design|code|solve|translate|summarize|summarise|sing|recite)\b/i;
 
+/**
+ * A complete, subject-less, facet-less question needs nothing from the prior
+ * turn to mean what it means — unlike a short reactive reply ("shorter",
+ * "yes", "address") that's meaningless without it. Below this word count, a
+ * bare utterance is assumed to be exactly that kind of short reply and stays
+ * a follow-up; every genuine short-reply case in the eval fixtures is 1 word,
+ * so 5 leaves a wide margin. Confirmed live: "how do I bake sourdough
+ * bread?", asked right after an unrelated question, inherited that
+ * question's retrieval context (no subject keyword, no facet, no referential
+ * pronoun) and answered from an unrelated Cloud Computing passage instead of
+ * running fresh retrieval and correctly gating as off-topic.
+ */
+const STANDALONE_MIN_WORDS = 5;
+
 export function isFollowUpMessage(message: string, hasPrevUser: boolean): boolean {
   if (!hasPrevUser) return false;
-  if (IMPERATIVE_TASK_RE.test(message.trim()) && !SUBJECT_RE.test(message)) return false;
-  return REFERENTIAL_RE.test(message) || !SUBJECT_RE.test(message);
+  const trimmed = message.trim();
+  if (IMPERATIVE_TASK_RE.test(trimmed) && !SUBJECT_RE.test(message)) return false;
+  if (REFERENTIAL_RE.test(message)) return true;
+  if (SUBJECT_RE.test(message)) return false;
+  // No subject and no referential pronoun. A facet word ("fees", "eligibility",
+  // "duration", ...) always means "of whatever we were just discussing", so it
+  // stays a follow-up regardless of length; otherwise only a short utterance
+  // is assumed to be relying on context — a longer one stands on its own.
+  if (Object.values(detectWants(message)).some(Boolean)) return true;
+  return trimmed.split(/\s+/).length < STANDALONE_MIN_WORDS;
 }
 
 /**
