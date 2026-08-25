@@ -330,6 +330,50 @@ async function askOllama(
   return askOllamaLocal(prompt, messages, temperature);
 }
 
+/**
+ * The below-gate "answer with the local general model" attempt, isolated in
+ * its own function with its own try/catch. Confirmed live: nesting this
+ * directly inside the semanticSearch try block (its original shape) let some
+ * exception — reproducible every time, even once askOllama() was confirmed
+ * to resolve cleanly to null — surface as `{ok:false,reason:'no-embeddings'}`
+ * instead of the correct gated refusal, for every single query that failed
+ * to clear the confidence bar. Isolating it here means a failure here can
+ * never masquerade as a retrieval failure, whatever its real cause.
+ */
+async function tryGeneralAnswer(
+  persona: PersonaId,
+  messages: ApiMessage[],
+  size: number,
+  step1: string,
+  gate: number,
+  nextSession: CounsellingSession,
+): Promise<Response | null> {
+  try {
+    const generalReply = await askOllama(generalSystemPrompt(persona), messages, 0.45);
+    if (!generalReply?.text) return null;
+    return Response.json({
+      ok: true,
+      source: 'llm',
+      scope: 'general',
+      text: structureAnswerText(generalReply.text),
+      reasoning: [
+        step1,
+        `Searched ${size.toLocaleString()} items in the local Jetking knowledge base.`,
+        `No verified Jetking match cleared the ${Math.round(gate * 100)}% confidence bar.`,
+        'Answered with the local general model without treating the reply as a verified Jetking fact.',
+      ],
+      followUps: [],
+      session: nextSession,
+    });
+  } catch (error) {
+    console.warn(
+      '[chat] general-answer attempt failed:',
+      error instanceof Error ? `${error.name}: ${error.message}` : String(error),
+    );
+    return null;
+  }
+}
+
 export async function POST(req: Request): Promise<Response> {
   const limit = await limiter.check(clientKey(req));
   if (!limit.allowed) {
@@ -585,23 +629,8 @@ export async function POST(req: Request): Promise<Response> {
     topScore = result.topScore;
     if (result.topScore < GATE) {
       if (serverEnv.allowGeneralAnswers) {
-        const generalReply = await askOllama(generalSystemPrompt(persona), messages, 0.45);
-        if (generalReply) {
-          return Response.json({
-            ok: true,
-            source: 'llm',
-            scope: 'general',
-            text: structureAnswerText(generalReply.text),
-            reasoning: [
-              step1,
-              `Searched ${size.toLocaleString()} items in the local Jetking knowledge base.`,
-              `No verified Jetking match cleared the ${Math.round(GATE * 100)}% confidence bar.`,
-              'Answered with the local general model without treating the reply as a verified Jetking fact.',
-            ],
-            followUps: [],
-            session: nextSession,
-          });
-        }
+        const generalAnswer = await tryGeneralAnswer(persona, messages, size, step1, GATE, nextSession);
+        if (generalAnswer) return generalAnswer;
       }
       await logUnanswered({ question: q, intent: intentLabel, persona, reason: 'low-confidence', topScore });
       return Response.json({
@@ -622,7 +651,11 @@ export async function POST(req: Request): Promise<Response> {
     }
     // Never lead non-location answers with centre SEO pages.
     hits = rankHits(result.hits, wants);
-  } catch {
+  } catch (error) {
+    console.warn(
+      '[chat] retrieval/gate branch failed:',
+      error instanceof Error ? `${error.name}: ${error.message}\n${error.stack}` : String(error),
+    );
     return Response.json({ ok: false, reason: 'no-embeddings' });
   }
 
