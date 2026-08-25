@@ -167,7 +167,7 @@ async function runCase(kase: ConversationCase): Promise<CaseActual> {
     };
   }
 
-  const result = await semanticSearch(lastTurn.retrievalQuery, 12);
+  const result = await semanticSearch(lastTurn.retrievalQuery, 16); // must match route.ts's topK
   const grounded = result.topScore >= GATE;
   if (!grounded) {
     return { id: kase.id, category: kase.category, lastTurn, finalSession, shouldGround: false, topScore: result.topScore, kbAnswer: '' };

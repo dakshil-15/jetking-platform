@@ -624,7 +624,7 @@ export async function POST(req: Request): Promise<Response> {
   let size = 0;
   let topScore = 0;
   try {
-    const result = await semanticSearch(searchQuery, 12);
+    const result = await semanticSearch(searchQuery, 16);
     size = result.size;
     topScore = result.topScore;
     if (result.topScore < GATE) {

@@ -32,7 +32,12 @@ export function rankHits(searchHits: SearchHit[], wants: WantFlags): RankedHit[]
     if (wants.wantFees) w += t === 'fees' ? 0.14 : t === 'overview' || t === 'course' ? 0.05 : 0;
     if (wants.wantEligibility) w += t === 'eligibility' ? 0.14 : 0;
     if (wants.wantCurriculum) w += t === 'curriculum' ? 0.13 : t === 'course' ? 0.05 : 0;
-    if (wants.wantPlacement) w += t === 'placement' ? 0.13 : t === 'info' || t === 'blog' ? 0.05 : 0;
+    // A structured placement record beats a keyword-stuffed blog title on
+    // authority alone (0.95 vs 0.6) but that gap alone wasn't enough to
+    // overcome a short, "100% Placement"-in-the-title blog chunk's raw
+    // lexical score — confirmed live. Widened the boost gap rather than
+    // relying on authority alone to separate them.
+    if (wants.wantPlacement) w += t === 'placement' ? 0.16 : t === 'info' || t === 'blog' ? 0.02 : 0;
     if (wants.wantDuration) w += t === 'duration' ? 0.14 : 0;
     if (wants.wantCourse) w += t === 'course' || t === 'overview' || t === 'curriculum' ? 0.05 : 0;
     if (wants.wantAbout) w += t === 'about' ? 0.14 : 0;

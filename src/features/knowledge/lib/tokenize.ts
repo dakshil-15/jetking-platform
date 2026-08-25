@@ -122,6 +122,7 @@ const SYNONYMS: Record<string, readonly string[]> = {
   duration: ['months', 'month', 'long', 'year', 'years'],
   long: ['duration', 'months', 'year'],
   eligibility: ['eligible', 'qualification', 'requirement', 'criteria'],
+  eligible: ['eligibility', 'qualification', 'requirement', 'criteria'],
   admission: ['enroll', 'enrol', 'apply', 'enquiry', 'join'],
   centre: ['center', 'branch', 'location', 'campus'],
   center: ['centre', 'branch', 'location', 'campus'],
