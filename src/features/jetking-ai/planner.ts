@@ -174,10 +174,17 @@ async function callOpenAiPlanner(apiKey: string, prompt: string): Promise<string
       }),
       signal: AbortSignal.timeout(8_000),
     });
-    if (!response.ok) return null;
+    if (!response.ok) {
+      const body = await response.text().catch(() => '');
+      console.warn(`[planner] OpenAI got HTTP ${response.status}: ${body.slice(0, 300)}`);
+      return null;
+    }
     const data = (await response.json()) as { choices?: Array<{ message?: { content?: string } }> };
     return data.choices?.[0]?.message?.content?.trim() ?? null;
-  } catch {
+  } catch (error) {
+    console.warn(
+      `[planner] OpenAI call failed: ${error instanceof Error ? `${error.name}: ${error.message}` : String(error)}`,
+    );
     return null;
   }
 }
@@ -223,11 +230,20 @@ export async function runPlanner(input: {
   const apiKey = process.env.OPENAI_API_KEY;
 
   const raw = apiKey ? await callOpenAiPlanner(apiKey, prompt) : await callOllamaPlanner(prompt);
-  if (!raw) return null;
+  if (!raw) {
+    console.warn(`[planner] no reply from ${apiKey ? 'OpenAI' : 'Ollama'} — falling through ungrounded`);
+    return null;
+  }
 
   const parsed = extractJson(raw);
-  if (parsed === null) return null;
+  if (parsed === null) {
+    console.warn('[planner] reply was not valid JSON:', raw.slice(0, 300));
+    return null;
+  }
 
   const result = PLANNER_OUTPUT_SCHEMA.safeParse(parsed);
+  if (!result.success) {
+    console.warn('[planner] reply failed schema validation:', JSON.stringify(parsed).slice(0, 300));
+  }
   return result.success ? result.data : null;
 }
