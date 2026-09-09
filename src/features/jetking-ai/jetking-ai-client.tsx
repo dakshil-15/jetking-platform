@@ -823,8 +823,17 @@ export function JetkingAiClient() {
           reasoning?: string[];
           followUps?: { label: string; query: string }[];
           session?: CounsellingSession;
+          /**
+           * A typed "what's my nearest centre" with no city named and no
+           * shared coordinates — the server declined to guess and wants the
+           * same interactive location-or-city prompt the "📍 Nearest centre"
+           * chip already opens (see STARTERS.locations). Reuse it here
+           * rather than rendering `data.text` as a flat, chip-less answer.
+           */
+          askLocation?: boolean;
         }) => {
           if (data?.session) sessionRef.current = data.session;
+          if (data?.askLocation) awaitingCityRef.current = true;
           setMessages((m) =>
             m.map((msg) =>
               msg.id === thinkingId
@@ -832,11 +841,12 @@ export function JetkingAiClient() {
                     id: thinkingId,
                     role: 'assistant',
                     kind: 'text',
-                    text: data?.text ?? GATE_TEXT,
+                    text: data?.askLocation ? STARTERS.locations.message : (data?.text ?? GATE_TEXT),
                     title: data?.title,
                     source: data?.source,
                     reasoning: data?.reasoning,
-                    followUps: data?.followUps,
+                    followUps: data?.askLocation ? undefined : data?.followUps,
+                    chips: data?.askLocation ? STARTERS.locations.chips : undefined,
                   }
                 : msg,
             ),

@@ -580,6 +580,29 @@ export async function POST(req: Request): Promise<Response> {
     // types "centre in Pune" still gets Pune, not their GPS position.
     const { lat, lng } = parsed.data;
     const useCoords = !cityHint && lat !== undefined && lng !== undefined;
+
+    // Neither a city in the text nor a shared location — this used to fall
+    // through to resolveCentreAnswer's generic "first 4 hubs nationwide" dump,
+    // which reads like an answer but isn't one. The dedicated "📍 Nearest
+    // centre" chip already asks for location-or-city interactively (see
+    // STARTERS.locations in conversation.ts / askMyLocation in
+    // jetking-ai-client.tsx); `askLocation` lets a *typed* "what's my nearest
+    // centre" question reuse that same flow instead of a plain-text dead end.
+    if (!cityHint && !useCoords) {
+      return Response.json({
+        ok: true,
+        askLocation: true,
+        text: "Which city are you in? I'll find the nearest Jetking centre and share the contact details.",
+        reasoning: [
+          step1,
+          `Recognised it as about ${intentLabel}.`,
+          'No city named and no shared location — asked which city instead of listing an arbitrary few.',
+        ],
+        followUps: buildFollowUps(false),
+        session: nextSession,
+      });
+    }
+
     try {
       const centreText = useCoords
         ? await resolveCentreAnswerByCoords(lat, lng)
