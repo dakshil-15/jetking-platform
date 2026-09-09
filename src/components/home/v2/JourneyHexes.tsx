@@ -13,12 +13,27 @@ import { JOURNEYS } from '../journeys';
 /**
  * Hex journey chooser — responsive:
  *   default → md  → row cards with environment thumb
- *   lg+           → large hexagons in a fixed 3-over-2 honeycomb
+ *   lg+           → large hexagons, single row of three
  *
- * lg+ uses a 6-column grid (each hex spans 2 cols; bottom row starts at
- * col 2 / col 4) so the layout never collapses to 4+1 on wide laptops,
- * and hexes can shrink when the stage column is narrow.
+ * v2 shows only three journeys (student, working professional, just
+ * browsing) — the parent and franchise entries stay in the shared
+ * JOURNEYS list (v1's JourneyChooser still uses all five) but are
+ * filtered out here. "Just Exploring" is relabelled "Just Browsing"
+ * for this lead only.
  */
+const HOME_V2_JOURNEY_IDS = ['student', 'professional', 'exploring'];
+
+/**
+ * Degree-programme callout under the Student and Working Professional hexes —
+ * a second, separate link (never nested inside the hex's own <Link>) straight
+ * into the course tab, pre-filtered to degree-level programmes (BCA & MCA).
+ */
+const DEGREE_CALLOUT_IDS = new Set(['student', 'professional']);
+const DEGREE_CALLOUT_HREF = '/courses?level=degree';
+
+const homeV2Journeys = JOURNEYS.filter((journey) => HOME_V2_JOURNEY_IDS.includes(journey.id)).map(
+  (journey) => (journey.id === 'exploring' ? { ...journey, title: "I'm Just Browsing" } : journey),
+);
 
 const STAGGER = [
   'lg:mt-0',
@@ -55,7 +70,7 @@ export function JourneyHexes() {
         '4xl:max-w-[min(100%,1024px)]',
       ].join(' ')}
     >
-      {JOURNEYS.map((journey, index) => {
+      {homeV2Journeys.map((journey, index) => {
         const ink = `var(--v2-${journey.hue}-ink)`;
 
         return (
@@ -154,6 +169,24 @@ export function JourneyHexes() {
                 <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
               </span>
             </Link>
+
+            {DEGREE_CALLOUT_IDS.has(journey.id) ? (
+              <Link
+                href={DEGREE_CALLOUT_HREF as Route}
+                onClick={() =>
+                  track('adaptive_slot_rendered', {
+                    slot_id: 'home-v2-journey-degree-callout',
+                    persona: journey.persona ?? 'unknown',
+                    strategy: 'emphasise',
+                    journey: journey.id,
+                  })
+                }
+                className="mx-auto mt-2.5 flex w-fit items-center gap-1 rounded-full border border-[rgb(232_36_43/0.28)] bg-[rgb(232_36_43/0.08)] px-3 py-1 text-[11px] font-bold tracking-[0.01em] whitespace-nowrap text-[var(--v2-accent)] transition-colors duration-200 hover:border-[rgb(232_36_43/0.5)] hover:bg-[rgb(232_36_43/0.16)] xs:text-[11.5px]"
+              >
+                MCA &amp; BCA degrees
+                <ArrowRight className="h-3 w-3 shrink-0" strokeWidth={2.5} aria-hidden="true" />
+              </Link>
+            ) : null}
           </li>
         );
       })}

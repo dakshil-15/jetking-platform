@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1788319982967,
+      "tag": "0000_talented_mandrill",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788324457920,
+      "tag": "0001_small_ma_gnuci",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788329644760,
+      "tag": "0002_outstanding_shape",
+      "breakpoints": true
+    }
+  ]
+}

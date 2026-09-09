@@ -1,64 +1,51 @@
 import { adminLogin, isAdminAuthenticated } from '../actions';
 import { redirect } from 'next/navigation';
 import type { Route } from 'next';
+import { isDatabaseConfigured } from '@/lib/auth/users';
+import { LoginForm } from './LoginForm';
 
-export default async function AdminLoginPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string }>;
-}) {
+export default async function AdminLoginPage() {
   if (await isAdminAuthenticated()) redirect('/admin' as Route);
-  const params = await searchParams;
+  const multiUser = isDatabaseConfigured();
 
   return (
-    <div className="w-full max-w-sm rounded-[var(--radius-dialog)] border border-border bg-card p-8">
-      <span
-        aria-hidden="true"
-        className="grid h-9 w-9 place-items-center rounded-[0.6rem] bg-jk-600 font-display text-sm font-extrabold text-white"
-      >
-        Jk
-      </span>
-
-      <h1 className="mt-6 text-2xl">Staff login</h1>
-      <p className="mt-2 text-sm text-foreground-secondary">Enter the staff password to continue.</p>
-
-      {params.error === 'rate_limited' ? (
-        <p
-          role="alert"
-          className="mt-5 rounded-[var(--radius-input)] border border-jk-500/30 bg-jk-500/10 px-4 py-3 text-sm font-medium text-jk-400"
-        >
-          Too many attempts. Please wait a few minutes and try again.
-        </p>
-      ) : params.error ? (
-        <p
-          role="alert"
-          className="mt-5 rounded-[var(--radius-input)] border border-jk-500/30 bg-jk-500/10 px-4 py-3 text-sm font-medium text-jk-400"
-        >
-          Incorrect password.
-        </p>
-      ) : null}
-
-      <form action={adminLogin} className="mt-7 space-y-4">
-        <div className="space-y-2">
-          <label htmlFor="password" className="block text-sm font-semibold text-foreground">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            required
-            autoComplete="current-password"
-            className="h-12 w-full rounded-[var(--radius-input)] border border-border bg-background px-4 text-base text-foreground transition-colors hover:border-border-medium focus:border-jk-400 focus:ring-2 focus:ring-jk-400/25 focus:outline-none"
+    <div className="flex min-h-full items-center justify-center bg-surface px-4 py-10 sm:px-6 lg:px-8">
+      <div className="grid w-full max-w-[920px] overflow-hidden rounded-2xl border border-border bg-background shadow-[var(--shadow-sm)] lg:grid-cols-2">
+        {/* Brand panel — a light intro, not a full-bleed dark block; the
+           accent is reserved for the form's own CTA and focus states. */}
+        <div className="flex flex-col justify-between gap-10 border-b border-border bg-surface p-8 sm:p-10 lg:border-r lg:border-b-0">
+          {/* eslint-disable-next-line @next/next/no-img-element -- brand asset; sized by caller */}
+          <img
+            src="/brand/jetking-wordmark.png"
+            alt="Jetking"
+            draggable={false}
+            className="h-8 w-auto shrink-0 select-none object-contain"
           />
+
+          <div>
+            <p className="label-mono text-[var(--accent-ink)]">Admin console</p>
+            <h1 className="mt-3 text-2xl text-foreground sm:text-[28px]">Admin Console</h1>
+            <p className="mt-3 max-w-xs text-[15px] leading-relaxed text-foreground-secondary">
+              Manage content, centres, leads and platform operations.
+            </p>
+          </div>
+
+          <p className="text-xs text-foreground-muted">
+            &copy; {new Date().getFullYear()} Jetking. Staff access only.
+          </p>
         </div>
-        <button
-          type="submit"
-          className="inline-flex h-12 w-full cursor-pointer items-center justify-center rounded-full bg-jk-600 px-6 text-sm font-semibold text-white transition-colors hover:bg-jk-500"
-        >
-          Sign in
-        </button>
-      </form>
+
+        {/* Form panel */}
+        <div className="flex flex-col justify-center p-8 sm:p-10">
+          <p className="label-mono text-[var(--accent-ink)]">Welcome back</p>
+          <h2 className="mt-3 text-2xl text-foreground">Sign in to Admin</h2>
+          <p className="mt-2 text-sm text-foreground-secondary">
+            {multiUser ? 'Sign in with your staff account.' : 'Enter the staff password to continue.'}
+          </p>
+
+          <LoginForm action={adminLogin} multiUser={multiUser} />
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,10 +1,14 @@
-import { redirect } from 'next/navigation';
-import type { Route } from 'next';
-import { getAdminCollection, isAdminAuthenticated } from '../actions';
-import { JsonEditor } from '../JsonEditor';
-
+import { getAdminCollection, requireRole } from '../actions';
+import { RecordEditor } from '../RecordEditor';
 export default async function Page() {
-  if (!(await isAdminAuthenticated())) redirect('/admin/login' as Route);
+  await requireRole(['admin', 'editor']);
   const items = await getAdminCollection('centres');
-  return <JsonEditor collection="centres" idKey="slug" initial={items} title="Centres" />;
+  return (
+    <RecordEditor
+      collection="centres"
+      idKey="slug"
+      initial={items}
+      title="Centres"
+    />
+  );
 }

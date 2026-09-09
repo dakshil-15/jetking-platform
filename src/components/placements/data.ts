@@ -16,22 +16,50 @@ export const PLACEMENTS_HERO = {
 export const PLACEMENT_DISCLAIMER =
   'Placement support is real work Jetking does on a learner’s behalf: resume preparation, interview practice and introductions to hiring partners where available. It is not a guarantee — outcomes depend on the programme, the centre, the local employer market and the individual learner.';
 
-export type ProcessStep = { step: string; title: string };
+export type ProcessStep = { step: string; title: string; description: string };
 
 export const PROCESS_STEPS: ProcessStep[] = [
-  { step: '01', title: 'Complete the training' },
-  { step: '02', title: 'Biodata preparation' },
-  { step: '03', title: 'Mock interviews' },
-  { step: '04', title: 'Student interviews' },
-  { step: '05', title: 'Appointment letter' },
+  {
+    step: '01',
+    title: 'Complete the training',
+    description: 'Build strong technical and practical skills.',
+  },
+  {
+    step: '02',
+    title: 'Biodata preparation',
+    description: 'Create a professional resume with guidance.',
+  },
+  {
+    step: '03',
+    title: 'Mock interviews',
+    description: 'Practice with industry-style interview rounds.',
+  },
+  {
+    step: '04',
+    title: 'Student interviews',
+    description: 'Get introduced to hiring partners where available.',
+  },
+  {
+    step: '05',
+    title: 'Appointment letter',
+    description: 'Start the next step of your career journey.',
+  },
 ];
 
-export const STUDENT_BENEFITS = [
-  'Learn practically',
-  'English speaking',
-  'Interview skills',
-  'Get jobs',
-] as const;
+export type StudentBenefit = { title: string; description: string };
+
+export const STUDENT_BENEFITS: StudentBenefit[] = [
+  { title: 'Learn practically', description: 'Hands-on training with real-world tools.' },
+  { title: 'English speaking', description: 'Improve communication for the workplace.' },
+  {
+    title: 'Interview skills',
+    description: 'Build confidence and learn interview techniques.',
+  },
+  { title: 'Get jobs', description: 'Explore opportunities through our hiring network.' },
+  { title: 'Mock Interviews', description: 'Practice with structured feedback.' },
+  { title: 'AI Bot Interviews', description: 'Experience realistic interview scenarios with AI.' },
+  { title: 'Presentation', description: 'Learn to present your skills effectively.' },
+];
 
 export type PlacedCandidate = { name: string; company: string };
 

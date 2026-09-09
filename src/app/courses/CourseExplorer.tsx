@@ -114,8 +114,21 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setView(readViewFromUrl()), []);
 
+  /*
+   * The read above lands in state one render after mount — the reflect effect
+   * below must not fire on that first render, or it writes `view`'s stale
+   * DEFAULT_VIEW back into `history`, erasing whatever `?level=` a Link (e.g.
+   * the homepage's "MCA & BCA degrees" callout) just navigated here with,
+   * before the read effect's setState has had a chance to apply.
+   */
+  const skippedFirstSync = useRef(false);
+
   // ── Reflect state into the URL without navigating ─────────────────────────
   useEffect(() => {
+    if (!skippedFirstSync.current) {
+      skippedFirstSync.current = true;
+      return;
+    }
     if (!hydrated) return;
     const params = new URLSearchParams();
     if (level !== 'all') params.set('level', level);

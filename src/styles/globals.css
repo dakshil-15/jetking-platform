@@ -414,6 +414,83 @@
   color: var(--color-foreground);
 }
 
+/*
+ * Forces the light palette regardless of an ancestor `.dark` — the Admin CMS is
+ * meant to read as its own tool, not follow a visitor's site-wide dark-mode
+ * toggle. Neutrals mirror the public site's (`:root`, re-asserted so this wins
+ * the cascade under `.dark`).
+ *
+ * Design direction: TailAdmin (nextjs-demo.tailadmin.com) is the structural
+ * reference — shell proportions, control density, card/table/form component
+ * quality — but NOT the palette or typeface. The admin keeps Jetking's own
+ * brand red as its accent (never TailAdmin's blue) and Jetking's own display/
+ * body faces (this site has an intentional, documented type system — see
+ * design-system/MASTER.md — so there's no reason to swap in TailAdmin's
+ * Outfit). Semantic success/warning/danger/info are a restrained soft-badge
+ * triad in TailAdmin's spirit, sized to Jetking's own tint/ink pairing.
+ */
+.surface-default {
+  color-scheme: light;
+
+  --color-background: #ffffff;
+  --color-surface: #f9fafb;
+  --color-elevated: #ffffff;
+  --color-card: #ffffff;
+
+  --color-foreground: #101828;
+  --color-foreground-secondary: #475467;
+  --color-foreground-muted: #667085;
+  --color-foreground-disabled: #98a2b3;
+
+  --color-border: #e4e7ec;
+  --color-border-medium: #cfd4dc;
+  --color-border-strong: #98a2b3;
+  --color-border-subtle: #f2f4f7;
+
+  --surface: var(--color-background);
+  --surface-sunken: var(--color-surface);
+  --surface-raised: var(--color-elevated);
+  --surface-card: var(--color-card);
+
+  --content-primary: var(--color-foreground);
+  --content-secondary: var(--color-foreground-secondary);
+  --content-muted: var(--color-foreground-muted);
+
+  --hairline: var(--color-border);
+  --hairline-medium: var(--color-border-medium);
+  --hairline-strong: var(--color-border-strong);
+
+  /* Jetking's own brand red — same ramp the public site uses for its accent. */
+  --accent: var(--color-jk-500);
+  --accent-hover: var(--color-jk-600);
+  --accent-active: var(--color-jk-700);
+  --accent-soft: var(--color-jk-50);
+  --accent-border: var(--color-jk-200);
+  --accent-ink: var(--color-jk-600);
+  --focus-ring: var(--color-jk-600);
+
+  /* Soft semantic triad — distinct hues from the red accent, so a status badge
+     never reads as "another button." */
+  --color-trust-600: #175cd3;
+  --color-trust-50: #eff8ff;
+  --color-growth-600: #12b76a;
+  --color-growth-50: #ecfdf3;
+  --color-signal-600: #f79009;
+  --color-signal-50: #fffaeb;
+  --color-error-600: #f04438;
+  --color-error-50: #fef3f2;
+  --color-error-200: #fecdca;
+  --color-info-600: #0ba5ec;
+  --color-info-50: #f0f9ff;
+
+  /* TailAdmin's control radius (buttons, inputs, nav items) — smaller and
+     squarer than the public site's pill buttons. Cards keep --radius-card. */
+  --admin-radius: 8px;
+
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
 /* ── Responsive gutters / section rhythm ────────────────────────────────── */
 @media (min-width: 480px) {
   :root {
@@ -696,6 +773,33 @@
   .numeral {
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.03em;
+  }
+
+  /* Shared text input / select / textarea treatment across every admin form —
+   * RecordEditor's generated fields, the leads CRM, and the login form.
+   * Background is the card's own white, not a gray fill — TailAdmin's own
+   * inputs are transparent-on-white, just a hairline border; a filled input
+   * reads as "boxed," which is exactly the clutter this is meant to avoid. */
+  .admin-input {
+    width: 100%;
+    border-radius: var(--admin-radius, var(--radius-input));
+    border: 1px solid var(--hairline);
+    background: var(--surface-card, var(--color-background));
+    padding: 0.5rem 0.75rem;
+    color: var(--content-primary);
+    transition:
+      border-color var(--duration-base) var(--ease-out-soft),
+      box-shadow var(--duration-base) var(--ease-out-soft);
+  }
+
+  .admin-input:hover {
+    border-color: var(--hairline-medium);
+  }
+
+  .admin-input:focus {
+    outline: none;
+    border-color: var(--focus-ring);
+    box-shadow: 0 0 0 2px rgb(from var(--focus-ring) r g b / 0.25);
   }
 
   .link-underline {

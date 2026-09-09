@@ -16,7 +16,7 @@ import { JourneyHexes } from './JourneyHexes';
  * Ask Jetking lives on the global Guide launcher.
  */
 export function HomeV2({ data }: { data: HomeData }) {
-  const { counts, variants } = data;
+  const { variants } = data;
 
   const defaultVariant = variants.find((v) => v.id === 'default') ?? variants[0];
 
@@ -59,7 +59,7 @@ export function HomeV2({ data }: { data: HomeData }) {
         >
           <div className="flex h-full flex-col justify-center">
             <p className="v2-eyebrow-glow text-[11px] font-bold tracking-[0.16em] text-[var(--v2-eyebrow)] uppercase xs:text-[12px] sm:text-[13px] sm:tracking-[0.18em]">
-              India&rsquo;s Leading IT Education Network
+              India&rsquo;s No.1 Technology Training Institute
             </p>
 
             <h1
@@ -83,7 +83,15 @@ export function HomeV2({ data }: { data: HomeData }) {
               <span className="v2-accent-glow text-[var(--v2-accent)]">{siteConfig.name}</span>
             </h1>
 
-            <p className="mt-5 max-w-[42ch] text-[15px] leading-[1.6] text-[var(--v2-ink-secondary)] xs:mt-6 xs:text-[15.5px] sm:text-[16px] lg:text-[17px] 3xl:text-[18px]">
+            <p className="mt-3 text-[16px] font-extrabold tracking-[-0.01em] text-[var(--v2-accent)] xs:mt-4 xs:text-[17px] sm:text-[18px] 3xl:text-[19px]">
+              The Power of Three with Jetking
+            </p>
+
+            <p className="mt-2.5 max-w-[42ch] text-[15px] leading-[1.6] font-bold text-[var(--v2-ink)] xs:text-[15.5px] sm:text-[16px] lg:text-[17px] 3xl:text-[18px]">
+              Get Skills. Get a Degree. 100% Placement — only at Jetking.
+            </p>
+
+            <p className="mt-3 max-w-[42ch] text-[15px] leading-[1.6] text-[var(--v2-ink-secondary)] xs:mt-3.5 xs:text-[15.5px] sm:text-[16px] lg:text-[17px] 3xl:text-[18px]">
               Industry-relevant training. Real-world projects.
               <br className="hidden sm:inline" /> Placement support that delivers.
             </p>
@@ -124,7 +132,7 @@ export function HomeV2({ data }: { data: HomeData }) {
 
         {/* ── Action bar ───────────────────────────────────────────────── */}
         <div className="mt-8 shrink-0 xs:mt-10 lg:mt-12 3xl:mt-14">
-          <ActionBar centres={counts.centres} />
+          <ActionBar />
         </div>
 
         {/* Same quick-action rail as v1 — inline while stacked, fixed vertical on the

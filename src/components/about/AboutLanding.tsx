@@ -2,9 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Route } from 'next';
 import {
-  ArrowRight,
   Award,
   Building2,
+  Handshake,
   ShieldCheck,
   Sparkles,
   Users,
@@ -13,14 +13,18 @@ import { Breadcrumbs, type Crumb } from '@/components/ui';
 import {
   ABOUT_HERO,
   ACHIEVEMENTS,
-  LEADERS,
+  DIRECTORS,
+  INDEPENDENT_DIRECTOR,
   LEGACY_STATS,
-  LIFE_AT_JETKING,
+  MANAGEMENT_TEAM,
+  PARTNERSHIPS,
   PURPOSE,
   VALUES,
+  type Leader,
 } from './data';
-import { LeaderBio } from './LeaderBio';
 import { AboutTimeline } from './AboutTimeline';
+import { LeaderAvatar } from './LeaderAvatar';
+import { LeaderDetailModal } from './LeaderDetailModal';
 
 const trail: Crumb[] = [
   { name: 'Home', path: '/' },
@@ -28,6 +32,27 @@ const trail: Crumb[] = [
 ];
 
 const STAT_ICONS = [Award, Users, Building2, ShieldCheck] as const;
+
+function LeaderCard({ leader }: { leader: Leader }) {
+  return (
+    <li data-reveal>
+      <article className="dc-card-shell h-full">
+        <div className="dc-card flex h-full flex-col p-5 sm:p-6">
+          <div className="relative mx-auto h-28 w-28 shrink-0 overflow-hidden rounded-full bg-[var(--dc-surface)] ring-1 ring-[var(--dc-hairline)] sm:h-32 sm:w-32">
+            <LeaderAvatar leader={leader} />
+          </div>
+          <div className="mt-5 flex flex-1 flex-col text-center">
+            <h3 className="font-display text-[18px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] sm:text-[20px]">
+              {leader.name}
+            </h3>
+            <p className="mt-1 text-[13px] font-bold text-[var(--dc-accent-soft)]">{leader.role}</p>
+            {leader.bio ? <LeaderDetailModal leader={leader} /> : null}
+          </div>
+        </div>
+      </article>
+    </li>
+  );
+}
 
 export function AboutLanding() {
   return (
@@ -65,14 +90,8 @@ export function AboutLanding() {
 
               <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
                 <Link
-                  href={'/enquiry' as Route}
-                  className="dc-cta inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-bold sm:h-14 sm:px-7 sm:text-base"
-                >
-                  Talk to a counsellor
-                </Link>
-                <Link
                   href={'/centres' as Route}
-                  className="inline-flex h-12 items-center justify-center rounded-full border border-[var(--dc-hairline-strong)] bg-[var(--dc-card)] px-6 text-sm font-bold text-[var(--dc-ink)] transition-colors hover:border-[var(--dc-accent-soft)] sm:h-14 sm:px-7 sm:text-base"
+                  className="dc-cta inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-bold sm:h-14 sm:px-7 sm:text-base"
                 >
                   Find a centre
                 </Link>
@@ -159,54 +178,6 @@ export function AboutLanding() {
         </ul>
       </section>
 
-      {/* ── Life at Jetking ──────────────────────────────────────────────── */}
-      <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="about-life">
-        <div className="dc-panel overflow-hidden rounded-[24px] xs:rounded-[28px] sm:rounded-[32px]">
-          <div className="grid items-center gap-8 p-6 sm:gap-10 sm:p-8 lg:grid-cols-2 lg:gap-12 lg:p-10 xl:p-12">
-            <div>
-              <p className="dc-eyebrow label-mono">Learning methodology</p>
-              <h2
-                id="about-life"
-                className="dc-heading-glow mt-3 font-display text-[28px] font-extrabold tracking-[-0.03em] text-[var(--dc-ink)] xs:text-[32px] sm:text-[36px]"
-              >
-                {LIFE_AT_JETKING.title.split(' ').slice(0, -1).join(' ')}{' '}
-                <span className="dc-accent-glow">
-                  {LIFE_AT_JETKING.title.split(' ').slice(-1)}
-                </span>
-              </h2>
-              <p className="mt-4 max-w-[42ch] text-[15px] leading-relaxed text-[var(--dc-ink-secondary)]">
-                {LIFE_AT_JETKING.lede}
-              </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <Link
-                  href={LIFE_AT_JETKING.href as Route}
-                  className="dc-cta inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-bold"
-                >
-                  {LIFE_AT_JETKING.cta}
-                  <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
-                </Link>
-                <Link
-                  href={'/enquiry' as Route}
-                  className="inline-flex h-12 items-center justify-center rounded-full border border-[var(--dc-hairline-strong)] px-6 text-sm font-bold text-[var(--dc-ink)] transition-colors hover:border-[var(--dc-accent-soft)]"
-                >
-                  Ask about SmartLabPlus
-                </Link>
-              </div>
-            </div>
-            <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-              <Image
-                src={LIFE_AT_JETKING.imageSrc}
-                alt={LIFE_AT_JETKING.imageAlt}
-                width={760}
-                height={541}
-                className="h-auto w-full"
-                unoptimized
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── Leadership ───────────────────────────────────────────────────── */}
       <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="about-leaders">
         <p className="dc-eyebrow label-mono">Leadership</p>
@@ -222,34 +193,23 @@ export function AboutLanding() {
           methodologies.
         </p>
 
-        <ul className="mt-10 grid gap-5 sm:mt-12 lg:grid-cols-3 lg:gap-6">
-          {LEADERS.map((leader) => (
-            <li key={leader.name} data-reveal>
-              <article className="dc-card-shell h-full">
-                <div className="dc-card flex h-full flex-col p-5 sm:p-6">
-                  <div className="relative mx-auto h-28 w-28 shrink-0 overflow-hidden rounded-full bg-[var(--dc-surface)] ring-1 ring-[var(--dc-hairline)] sm:h-32 sm:w-32">
-                    <Image
-                      src={leader.photoUrl}
-                      alt={leader.name}
-                      fill
-                      loading="eager"
-                      sizes="128px"
-                      className="object-cover object-top"
-                    />
-                  </div>
-                  <div className="mt-5 flex flex-1 flex-col text-center">
-                    <h3 className="font-display text-[18px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] sm:text-[20px]">
-                      {leader.name}
-                    </h3>
-                    <p className="mt-1 text-[13px] font-bold text-[var(--dc-accent-soft)]">
-                      {leader.role}
-                    </p>
-                    <LeaderBio paragraphs={leader.bio} />
-                  </div>
-                </div>
-              </article>
-            </li>
+        <ul className="mt-10 grid gap-5 sm:mt-12 lg:grid-cols-4 lg:gap-6">
+          {DIRECTORS.map((leader) => (
+            <LeaderCard key={leader.name} leader={leader} />
           ))}
+        </ul>
+
+        <h3 className="mt-14 font-display text-[20px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] sm:mt-16 sm:text-[22px]">
+          Management team
+        </h3>
+        <ul className="mt-8 grid gap-5 sm:mt-9 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          {MANAGEMENT_TEAM.map((leader) => (
+            <LeaderCard key={leader.name} leader={leader} />
+          ))}
+        </ul>
+
+        <ul className="mt-5 grid gap-5 sm:max-w-xs">
+          <LeaderCard leader={INDEPENDENT_DIRECTOR} />
         </ul>
       </section>
 
@@ -316,10 +276,43 @@ export function AboutLanding() {
         </ul>
       </section>
 
+      {/* ── Partnerships ─────────────────────────────────────────────────── */}
+      <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="about-partnerships">
+        <p className="dc-eyebrow label-mono">Alliances</p>
+        <h2
+          id="about-partnerships"
+          className="dc-heading-glow mt-3 font-display text-[28px] font-extrabold tracking-[-0.03em] text-[var(--dc-ink)] xs:text-[32px] sm:text-[36px] lg:text-[40px]"
+        >
+          Our <span className="dc-accent-glow">partnerships</span>
+        </h2>
+
+        <ul className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-3 sm:gap-5">
+          {PARTNERSHIPS.map((partner) => (
+            <li key={partner.name} data-reveal>
+              <article className="dc-card-shell h-full">
+                <div className="dc-card flex h-full flex-col p-5 sm:p-6">
+                  <Handshake
+                    className="h-5 w-5 text-[var(--dc-accent-soft)]"
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                  />
+                  <h3 className="mt-4 font-display text-[16px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)]">
+                    {partner.name}
+                  </h3>
+                  <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--dc-ink-secondary)]">
+                    {partner.body}
+                  </p>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       {/* ── Close CTA ────────────────────────────────────────────────────── */}
       <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="about-cta">
         <div className="dc-panel overflow-hidden rounded-[24px] xs:rounded-[28px] sm:rounded-[32px]">
-          <div className="flex flex-col gap-8 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:p-10 xl:px-12">
+          <div className="p-6 sm:p-8 lg:p-10 xl:px-12">
             <div className="max-w-2xl">
               <p className="dc-eyebrow label-mono">Next step</p>
               <h2
@@ -348,19 +341,6 @@ export function AboutLanding() {
                 ))}
               </ul>
             </div>
-
-            <Link
-              href={'/enquiry' as Route}
-              className="group/cta dc-cta inline-flex min-h-14 shrink-0 items-center justify-center gap-3 self-start rounded-full py-3.5 pr-3 pl-7 text-[15px] font-bold sm:text-[16px] lg:self-center"
-            >
-              Enquire now
-              <span
-                aria-hidden="true"
-                className="grid h-10 w-10 place-items-center rounded-full bg-white text-[#14141f] transition-transform duration-200 group-hover/cta:translate-x-0.5"
-              >
-                <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
-              </span>
-            </Link>
           </div>
         </div>
       </section>

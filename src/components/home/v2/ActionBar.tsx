@@ -2,17 +2,20 @@
 
 import Link from 'next/link';
 import type { Route } from 'next';
-import { CalendarDays, Clock, Download, MapPin } from 'lucide-react';
+import { Download, MessageSquareQuote, ShieldCheck } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { usePersona } from '@/persona/PersonaProvider';
 import { track } from '@/lib/analytics';
 import type { EventName } from '@/lib/analytics';
 
 /**
- * The dark four-up action bar that closes the v2 lead.
+ * The dark three-up action bar that closes the v2 lead.
  *
- * Labels match the mock. "Download Brochure" points at /courses (no PDF yet);
- * "Upcoming Batches" points at /centres where start dates live per centre.
+ * "Find Center", "Call a Center" and "Book Counselling" already live in the
+ * ActionRail right beside this bar — this bar covers what the rail doesn't:
+ * the brochure, the placement pitch and social proof. "Download Brochure"
+ * points at /courses (no PDF yet); the other two point at /placements,
+ * which carries the placement-support content and its testimonials.
  */
 
 interface Action {
@@ -23,23 +26,10 @@ interface Action {
   event?: EventName;
 }
 
-export function ActionBar({ centres }: { centres: number }) {
+export function ActionBar() {
   const { classification } = usePersona();
 
   const actions: Action[] = [
-    {
-      icon: MapPin,
-      label: 'Find Nearest Center',
-      detail: `${centres}+ centers near you`,
-      href: '/centres',
-    },
-    {
-      icon: CalendarDays,
-      label: 'Schedule Counselling',
-      detail: 'Book a free 1:1 session',
-      href: '/enquiry',
-      event: 'enquiry_started',
-    },
     {
       icon: Download,
       label: 'Download Brochure',
@@ -47,10 +37,16 @@ export function ActionBar({ centres }: { centres: number }) {
       href: '/courses',
     },
     {
-      icon: Clock,
-      label: 'Upcoming Batches',
-      detail: 'Check start dates',
-      href: '/centres',
+      icon: ShieldCheck,
+      label: '100% Job Guarantee',
+      detail: 'See how placement support works',
+      href: '/placements',
+    },
+    {
+      icon: MessageSquareQuote,
+      label: 'Student Testimonials',
+      detail: 'Hear from Jetking alumni',
+      href: '/placements#placements-testimonials',
     },
   ];
 

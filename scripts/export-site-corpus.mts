@@ -15,7 +15,17 @@ import { fileURLToPath } from 'node:url';
 import { buildCorpus } from '@/guide/corpus';
 import type { ChunkType } from '@/guide/types';
 import { content } from '@/lib/content';
-import { ABOUT_HERO, ACHIEVEMENTS, LEADERS, LEGACY_STATS, PURPOSE, TIMELINE, VALUES } from '@/components/about/data';
+import {
+  ABOUT_HERO,
+  ACHIEVEMENTS,
+  DIRECTORS,
+  INDEPENDENT_DIRECTOR,
+  LEGACY_STATS,
+  MANAGEMENT_TEAM,
+  PURPOSE,
+  TIMELINE,
+  VALUES,
+} from '@/components/about/data';
 import {
   PLACED_CANDIDATES,
   PLACEMENT_DISCLAIMER,
@@ -96,12 +106,12 @@ const aboutItems = [
       `${LEGACY_STATS.map((s) => `${s.value} ${s.label}`).join(', ')}.`,
     source: 'website-content-source' as const,
   },
-  ...LEADERS.map((leader) => ({
+  ...[...DIRECTORS, ...MANAGEMENT_TEAM, INDEPENDENT_DIRECTOR].map((leader) => ({
     id: `about-leader-${slugify(leader.name)}`,
     type: 'about',
     title: leader.name,
     path: '/about-us',
-    text: `${leader.role}\n${leader.bio.join(' ')}`,
+    text: leader.bio ? `${leader.role}\n${leader.bio.join(' ')}` : leader.role,
     source: 'website-content-source' as const,
   })),
   {

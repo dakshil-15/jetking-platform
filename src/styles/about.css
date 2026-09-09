@@ -172,6 +172,38 @@
   overflow: hidden;
 }
 
+.about-tl-link {
+  display: inline-block;
+  margin-top: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dc-accent-soft);
+}
+.about-tl-link:hover { text-decoration: underline; }
+
+/* decade band divider — a labelled break in the flow, centred on the spine */
+.about-tl-decade {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 28px 0 8px;
+}
+.about-tl-decade span {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--dc-hairline-strong);
+  background: var(--dc-canvas);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dc-eyebrow);
+}
+
 /* Phones: collapse to a left spine with milestones stacked to the right. */
 @media (max-width: 720px) {
   .about-tl::before { left: 28px; }
@@ -188,4 +220,5 @@
     text-align: left !important;
   }
   .about-tl-card p { -webkit-line-clamp: unset; }
+  .about-tl-decade { justify-content: flex-start; padding-left: 4px; }
 }

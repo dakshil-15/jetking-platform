@@ -32,23 +32,29 @@ export const VALUES = [
   'Equanimity',
 ] as const;
 
-export const LIFE_AT_JETKING = {
-  title: 'Life at Jetking',
-  lede: '14 ways we teach you better with our 21st Century Learning Methodology.',
-  href: '/courses' as const,
-  cta: 'Explore More',
-  imageSrc: '/about/life-methodology.svg',
-  imageAlt: 'Illustration of Jetking’s learning methodology',
-} as const;
-
+/**
+ * Leadership cards show photo + name + designation only — no bio text on the
+ * card face. Where real bio copy exists (the three Directors below), it's
+ * available behind a "Read more" toggle (`LeaderCard` in AboutLanding.tsx);
+ * cards with no `bio` render without the toggle at all.
+ *
+ * `photoUrl: undefined` renders an initials placeholder (see `LeaderAvatar` in
+ * AboutLanding.tsx) instead of a broken image — real photos for the Directors
+ * (new ones, replacing the current three), SGB, the Management Team and the
+ * Independent Director are not yet supplied.
+ */
 export type Leader = {
   name: string;
   role: string;
-  photoUrl: string;
-  bio: string[];
+  photoUrl?: string;
+  bio?: string[];
 };
 
-export const LEADERS: Leader[] = [
+export const DIRECTORS: Leader[] = [
+  {
+    name: 'Mr. Suresh G. Bharwani',
+    role: 'Chairman, Emrust',
+  },
   {
     name: 'Mr. Avinash Bharwani',
     role: 'Chairman and Director',
@@ -80,10 +86,32 @@ export const LEADERS: Leader[] = [
   },
 ];
 
+/**
+ * Names only — job titles were not supplied, so each carries a placeholder
+ * designation pending real content rather than a guessed one.
+ */
+export const MANAGEMENT_TEAM: Leader[] = [
+  { name: 'Meghna', role: 'Designation to be confirmed' },
+  { name: 'Keyur', role: 'Designation to be confirmed' },
+  { name: 'Rajashree', role: 'Designation to be confirmed' },
+  { name: 'Akhilesh', role: 'Designation to be confirmed' },
+  { name: 'Shabnam', role: 'Designation to be confirmed' },
+  { name: 'Anand', role: 'Designation to be confirmed' },
+  { name: 'Dhruti', role: 'Designation to be confirmed' },
+];
+
+/** Name not yet supplied. */
+export const INDEPENDENT_DIRECTOR: Leader = {
+  name: 'Name to be confirmed',
+  role: 'Independent Director',
+};
+
 export type Milestone = {
   year: string;
   title: string;
   body?: string;
+  /** Optional trailing link rendered after `body` (used by "Toward the Future"). */
+  link?: { href: string; label: string };
 };
 
 /** Legacy timeline — full copy from the live about-us page; years from its markers. */
@@ -192,6 +220,12 @@ export const TIMELINE: Milestone[] = [
     year: '2024',
     title: 'Launched Chip Design & Semiconductor courses; tie-up with Pearson & Lincoln University',
   },
+  {
+    year: '2025',
+    title: 'Toward the Future',
+    body: 'Jetking is charting its next chapter as The First Bitcoin Treasury Company in India, with a multi-phase plan to accumulate up to 18,000 BTC by 2030.',
+    link: { href: 'https://www.jetking.org', label: 'jetking.org' },
+  },
 ];
 
 export type Achievement = {
@@ -243,9 +277,29 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
 ];
 
+export type Partnership = {
+  name: string;
+  body: string;
+};
+
+export const PARTNERSHIPS: Partnership[] = [
+  {
+    name: 'NSDC',
+    body: 'National Skill Development Corporation — skilling and certification alignment.',
+  },
+  {
+    name: 'Lincoln University',
+    body: 'Degree and certification tie-up for select programmes.',
+  },
+  {
+    name: 'Yenepoya University',
+    body: 'UGC-recognised postgraduate degrees, including the MCA in Cloud Computing & Cyber Security.',
+  },
+];
+
 export const LEGACY_STATS = [
   { value: '79+', label: 'Years of legacy' },
-  { value: '12L+', label: 'Students trained' },
+  { value: '15,00,000', label: 'Students Placed' },
   { value: '100+', label: 'Training centres' },
   { value: '5000+', label: 'Recruiting partners' },
 ] as const;

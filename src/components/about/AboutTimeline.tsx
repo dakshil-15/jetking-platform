@@ -1,7 +1,38 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { TIMELINE } from './data';
+
+/**
+ * Decade bands the timeline is broken into. Each milestone lands in the
+ * first band its year fits (so a boundary year like 1986 lands in the band
+ * that ends there, not the one that starts there).
+ */
+const DECADE_BANDS: Array<{ label: string; end: number }> = [
+  { label: '1940 – 1986', end: 1986 },
+  { label: '1986 – 2010', end: 2010 },
+  { label: '2010 – 2020', end: 2020 },
+  { label: '2020 – 2026', end: 2026 },
+];
+
+const timelineByDecade = DECADE_BANDS.map((band, bandIndex) => {
+  const previousEnd = DECADE_BANDS[bandIndex - 1]?.end ?? -Infinity;
+  return {
+    label: band.label,
+    items: TIMELINE.filter((item) => {
+      const year = parseInt(item.year, 10);
+      return year > previousEnd && year <= band.end;
+    }),
+  };
+});
+
+const timelineFlat = timelineByDecade.flatMap((group) =>
+  group.items.map((item, index) => ({
+    item,
+    decadeLabel: group.label,
+    isDecadeStart: index === 0,
+  })),
+);
 
 /**
  * Legacy timeline — alternating curved-branch design (styles in about.css),
@@ -138,20 +169,34 @@ export function AboutTimeline() {
       <span className="about-tl-cap is-top" aria-hidden="true" />
       <span className="about-tl-progress" aria-hidden="true" />
       <ol>
-        {TIMELINE.map((item, index) => (
-          <li
-            key={`${item.year}-${item.title}`}
-            className={`about-tl-item ${index % 2 === 0 ? 'is-r' : 'is-l'}`}
-          >
-            <span className="about-tl-node">
-              <b className="numeral">{item.year}</b>
-            </span>
-            <span className="about-tl-elbow" aria-hidden="true" />
-            <div className="about-tl-card">
-              <h3>{item.title}</h3>
-              {item.body ? <p>{item.body}</p> : null}
-            </div>
-          </li>
+        {timelineFlat.map(({ item, decadeLabel, isDecadeStart }, index) => (
+          <Fragment key={`${item.year}-${item.title}`}>
+            {isDecadeStart ? (
+              <li className="about-tl-decade">
+                <span>{decadeLabel}</span>
+              </li>
+            ) : null}
+            <li className={`about-tl-item ${index % 2 === 0 ? 'is-r' : 'is-l'}`}>
+              <span className="about-tl-node">
+                <b className="numeral">{item.year}</b>
+              </span>
+              <span className="about-tl-elbow" aria-hidden="true" />
+              <div className="about-tl-card">
+                <h3>{item.title}</h3>
+                {item.body ? <p>{item.body}</p> : null}
+                {item.link ? (
+                  <a
+                    href={item.link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="about-tl-link"
+                  >
+                    {item.link.label}
+                  </a>
+                ) : null}
+              </div>
+            </li>
+          </Fragment>
         ))}
       </ol>
       <span className="about-tl-cap is-bot" aria-hidden="true" />

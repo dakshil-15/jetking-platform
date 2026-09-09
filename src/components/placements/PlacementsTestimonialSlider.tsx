@@ -15,6 +15,18 @@ const AVATARS = [
 
 type Slide = Testimonial & { id: string };
 
+/**
+ * `role` is free text mirrored from jetking.com — sometimes "Title, Company"
+ * (e.g. "Support Engineer, Apple"), sometimes just the company on its own
+ * (e.g. "Tata Consultancy Services"). Split on the last comma so the company
+ * can stand out as its own chip without re-typing any of the source data.
+ */
+function splitRole(role: string): { title?: string; company: string } {
+  const commaIndex = role.lastIndexOf(',');
+  if (commaIndex === -1) return { company: role.trim() };
+  return { title: role.slice(0, commaIndex).trim(), company: role.slice(commaIndex + 1).trim() };
+}
+
 export function PlacementsTestimonialSlider({ testimonials }: { testimonials: Testimonial[] }) {
   const items: Slide[] = testimonials.map((t, i) => ({
     ...t,
@@ -36,34 +48,44 @@ export function PlacementsTestimonialSlider({ testimonials }: { testimonials: Te
         dotIdle: 'bg-[var(--dc-ink-muted)]/40',
       }}
     >
-      {(item, i) => (
-        <blockquote className="dc-quote flex h-full min-h-[240px] flex-col p-6 text-white sm:min-h-[260px] sm:p-7">
-          <span
-            aria-hidden="true"
-            className="font-display text-[56px] leading-none font-extrabold text-white/30"
-          >
-            &ldquo;
-          </span>
-          <p className="-mt-5 flex-1 text-[15.5px] leading-relaxed font-medium text-white/95 sm:text-[16.5px]">
-            {item.quote}
-          </p>
-          <footer className="mt-6 flex items-center gap-3">
-            <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-white/40">
-              <Image
-                src={AVATARS[i % AVATARS.length] ?? AVATARS[0]}
-                alt=""
-                fill
-                sizes="48px"
-                className="object-cover"
-              />
+      {(item, i) => {
+        const { title, company } = splitRole(item.role);
+        return (
+          <blockquote className="dc-quote flex h-full min-h-[220px] flex-col gap-5 p-6 text-white sm:min-h-[200px] sm:flex-row sm:items-center sm:gap-6 sm:p-7">
+            <footer className="flex shrink-0 flex-col items-center gap-2 text-center sm:w-[160px]">
+              <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-white/40">
+                <Image
+                  src={AVATARS[i % AVATARS.length] ?? AVATARS[0]}
+                  alt=""
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                />
+              </span>
+              <cite className="not-italic">
+                <span className="block text-[14px] font-bold text-white">{item.name}</span>
+                {title ? <span className="mt-0.5 block text-[12px] text-white/75">{title}</span> : null}
+              </cite>
+            </footer>
+
+            <div className="relative flex-1">
+              <span
+                aria-hidden="true"
+                className="absolute -top-3 -left-1 font-display text-[40px] leading-none font-extrabold text-white/25"
+              >
+                &ldquo;
+              </span>
+              <p className="relative pl-6 text-[14.5px] leading-relaxed font-medium text-white/95 sm:pl-7 sm:text-[15.5px]">
+                {item.quote}
+              </p>
+            </div>
+
+            <span className="shrink-0 self-center rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-[12.5px] font-bold text-white sm:self-auto">
+              {company}
             </span>
-            <cite className="not-italic">
-              <span className="block text-[14.5px] font-bold text-white">{item.name}</span>
-              <span className="mt-0.5 block text-[13px] text-white/80">{item.role}</span>
-            </cite>
-          </footer>
-        </blockquote>
-      )}
+          </blockquote>
+        );
+      }}
     </Carousel>
   );
 }
