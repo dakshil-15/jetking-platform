@@ -18,7 +18,7 @@ import { CourseViewTracker } from './CourseViewTracker';
  * so it lives here as static content rather than per-course data.
  */
 const JETKING_STATS = [
-  { value: '79+', label: 'Years of legacy' },
+  { value: '80', label: 'Years of Legacy' },
   { value: '5000+', label: 'Recruiter partners' },
   { value: '360°', label: 'Career support' },
 ];
@@ -370,28 +370,73 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   </section>
                 ) : null}
 
-                {/* Certificate specimen — shown only when we have the image */}
-                {course.certificateImage ? (
-                  <section>
-                    <SectionHeading>The certificate you&rsquo;ll earn</SectionHeading>
-                    <figure className="dc-panel mt-6 max-w-md overflow-hidden rounded-[16px] p-3 sm:max-w-lg sm:p-4">
-                      <div className="overflow-hidden rounded-[12px] bg-white">
-                        <Image
-                          src={course.certificateImage.url}
-                          alt={course.certificateImage.alt}
-                          width={1200}
-                          height={850}
-                          sizes="(min-width: 640px) 32rem, 90vw"
-                          className="h-auto w-full object-contain"
-                        />
+                {/* The Power of Three — Certificate | Degree | Offer letter. The
+                   certificate card only renders for the courses that already
+                   have their own real specimen image; Degree Picture and
+                   Sample Offer Letter are generic, illustrative mockups
+                   shared across every course, so they always render. Grid
+                   columns match the actual card count (2 or 3) rather than a
+                   fixed 3-up — a 2-card row in a 3-column grid would leave a
+                   visibly empty slot on wide screens. */}
+                <section>
+                  <SectionHeading>The Power of Three</SectionHeading>
+                  <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[var(--dc-ink-secondary)]">
+                    Skills you can practise, a degree you can show, and a career outcome you can
+                    point to.
+                  </p>
+                  {(() => {
+                    const cards = [
+                      course.certificateImage
+                        ? {
+                            key: 'certificate',
+                            label: 'Jetking Certificate',
+                            image: course.certificateImage,
+                            caption: 'Specimen shown — issued in your name on successful completion.',
+                          }
+                        : null,
+                      {
+                        key: 'degree',
+                        label: 'Degree Picture',
+                        image: { url: '/courses/sample-degree.svg', alt: 'Sample degree certificate' },
+                        caption: 'Illustrative sample — actual degree is issued by our university partner.',
+                      },
+                      {
+                        key: 'offer',
+                        label: 'Sample Offer Letter',
+                        image: { url: '/courses/sample-offer-letter.svg', alt: 'Sample job offer letter' },
+                        caption: 'Illustrative sample — actual offer letters vary by employer.',
+                      },
+                    ].filter((card): card is NonNullable<typeof card> => card !== null);
+
+                    return (
+                      <div
+                        className={`mt-6 grid gap-5 sm:grid-cols-2 ${
+                          cards.length >= 3 ? 'lg:grid-cols-3' : 'lg:max-w-[47rem]'
+                        }`}
+                      >
+                        {cards.map((card) => (
+                          <figure
+                            key={card.key}
+                            className="dc-panel flex h-full flex-col overflow-hidden rounded-[16px] p-3 sm:p-4"
+                          >
+                            <div className="flex h-56 items-center justify-center overflow-hidden rounded-[12px] bg-white">
+                              {/* eslint-disable-next-line @next/next/no-img-element -- local SVG/JPEG specimens; next/image's optimizer rejects SVGs without extra config */}
+                              <img
+                                src={card.image.url}
+                                alt={card.image.alt}
+                                className="h-full w-full object-contain"
+                              />
+                            </div>
+                            <figcaption className="mt-3 px-1">
+                              <p className="text-[15px] font-bold text-[var(--dc-ink)]">{card.label}</p>
+                              <p className="mt-1 text-[13px] text-[var(--dc-ink-muted)]">{card.caption}</p>
+                            </figcaption>
+                          </figure>
+                        ))}
                       </div>
-                      <figcaption className="mt-3 px-1 text-[13px] text-[var(--dc-ink-muted)]">
-                        Specimen shown — the certificate is issued in your name on
-                        successful completion.
-                      </figcaption>
-                    </figure>
-                  </section>
-                ) : null}
+                    );
+                  })()}
+                </section>
 
                 {/* Career opportunities — shown only when roles are listed */}
                 {course.careerRoles?.length ? (

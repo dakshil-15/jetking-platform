@@ -8,6 +8,7 @@ import type { KnownPersonaId } from './types';
 import { track } from '@/lib/analytics';
 import { buttonBase, buttonSizes, buttonTones, type ButtonSize, type ButtonTone } from '@/components/ui';
 import { useFlip } from '@/components/motion/flip';
+import { openGuide } from '@/components/Guide';
 
 /**
  * ══════════════════════════════════════════════════════════════════════════════
@@ -100,7 +101,10 @@ export interface NudgeContent {
   headline: string;
   body?: string;
   ctaLabel: string;
-  ctaHref: string;
+  /** Omit when `ctaAction` is set — the CTA opens the Guide instead of navigating. */
+  ctaHref?: string;
+  /** 'guide' opens the AI Guide chat panel in place of a `ctaHref` navigation. */
+  ctaAction?: 'guide';
 }
 
 /**
@@ -156,26 +160,40 @@ export function AdaptiveNudge({
     });
   }, [nudge, id, persona, classification.confidence, classification.version]);
 
-  const nudgeHref = nudge ? (nudge.ctaHref as Route) : undefined;
+  const nudgeHref = nudge?.ctaAction ? undefined : nudge ? (nudge.ctaHref as Route) : undefined;
   const skin = NUDGE_SKINS[tone];
 
   return (
     <div className={`slot-stable ${RESERVE[reserve]}`} data-slot={id}>
-      {nudge && nudgeHref ? (
+      {nudge && (nudgeHref || nudge.ctaAction) ? (
         <aside className={skin.aside} aria-label="Suggested next step">
           <div className="min-w-0">
             <p className={skin.eyebrow}>Suggested for you</p>
             <p className={skin.headline}>{nudge.headline}</p>
             {nudge.body ? <p className={skin.body}>{nudge.body}</p> : null}
           </div>
-          <Link
-            href={nudgeHref}
-            onClick={() => track('nudge_clicked', { nudge_id: id, persona, href: nudge.ctaHref })}
-            className={skin.cta}
-          >
-            {nudge.ctaLabel}
-            <span aria-hidden="true">→</span>
-          </Link>
+          {nudge.ctaAction === 'guide' ? (
+            <button
+              type="button"
+              onClick={() => {
+                track('nudge_clicked', { nudge_id: id, persona, href: 'guide' });
+                openGuide(id, nudge.headline);
+              }}
+              className={skin.cta}
+            >
+              {nudge.ctaLabel}
+              <span aria-hidden="true">→</span>
+            </button>
+          ) : (
+            <Link
+              href={nudgeHref as Route}
+              onClick={() => track('nudge_clicked', { nudge_id: id, persona, href: nudge.ctaHref })}
+              className={skin.cta}
+            >
+              {nudge.ctaLabel}
+              <span aria-hidden="true">→</span>
+            </Link>
+          )}
         </aside>
       ) : null}
     </div>

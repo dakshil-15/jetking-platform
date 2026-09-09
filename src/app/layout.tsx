@@ -7,6 +7,7 @@ import { SiteChrome } from '@/components/SiteShell';
 import { SiteHeader } from '@/components/SiteHeader';
 import { PersonaInspector } from '@/components/PersonaInspector';
 import { Guide } from '@/components/Guide';
+import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import { JsonLd } from '@/components/ui';
 import { AppProviders } from '@/components/providers/app-providers';
 import { themeScript } from '@/components/providers/theme-script';
@@ -79,6 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main id="main">{children}</main>
             <SiteChrome>
               <Guide />
+              <ExitIntentPopup />
               {showInspector ? <PersonaInspector /> : null}
             </SiteChrome>
           </PersonaProvider>

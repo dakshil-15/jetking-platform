@@ -34,6 +34,7 @@ export type EventName =
   | 'guide_handoff'
   | 'enquiry_started'
   | 'enquiry_submitted'
+  | 'exit_intent_shown'
   | 'whatsapp_clicked'
   | 'course_viewed'
   | 'centre_viewed'

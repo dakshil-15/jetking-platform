@@ -6,9 +6,9 @@ import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = buildMetadata(
   {
-    title: `About ${siteConfig.name} — 79 Years of IT Education`,
+    title: `About ${siteConfig.name} — 80 Years of Legacy`,
     description:
-      'Jetking is India\'s foremost computer networking and IT training institute with 79 years of legacy, 100+ centres and placement support for students across India.',
+      'Jetking is India\'s foremost computer networking and IT training institute with 80 years of legacy, 100+ centres and placement support for students across India.',
   },
   '/about-us',
 );

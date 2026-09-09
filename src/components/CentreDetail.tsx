@@ -27,7 +27,7 @@ import { CentreTestimonialSlider } from '@/components/centres/CentreTestimonialS
 import { TrackedAnchor } from '@/components/TrackedAnchor';
 
 const LEGACY_STATS = [
-  { icon: Award, value: '79+', label: 'Years of legacy' },
+  { icon: Award, value: '80', label: 'Years of Legacy' },
   { icon: Users, value: '12L+', label: 'Students trained' },
   { icon: Building2, value: '5000+', label: 'Recruiters' },
   { icon: ShieldCheck, value: '100+', label: 'Training centres' },

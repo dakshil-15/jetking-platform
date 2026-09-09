@@ -1,0 +1,50 @@
+<svg viewBox="0 0 1200 850" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sample degree certificate, for illustration only">
+  <rect width="1200" height="850" fill="#FBF7EE" />
+
+  <!-- Decorative double border -->
+  <rect x="28" y="28" width="1144" height="794" fill="none" stroke="#B08D57" stroke-width="3" />
+  <rect x="46" y="46" width="1108" height="758" fill="none" stroke="#2B2118" stroke-width="1.5" />
+
+  <!-- Corner flourishes -->
+  <g stroke="#B08D57" stroke-width="2" fill="none">
+    <path d="M46 90 L46 46 L90 46" />
+    <path d="M1110 46 L1154 46 L1154 90" />
+    <path d="M1154 760 L1154 804 L1110 804" />
+    <path d="M90 804 L46 804 L46 760" />
+  </g>
+
+  <!-- Laurel emblem -->
+  <g transform="translate(600 150)">
+    <circle r="46" fill="none" stroke="#B08D57" stroke-width="3" />
+    <path d="M-16 -6 C-30 -2 -30 20 -8 26 C-14 12 -12 2 -16 -6 Z" fill="#B08D57" />
+    <path d="M16 -6 C30 -2 30 20 8 26 C14 12 12 2 16 -6 Z" fill="#B08D57" />
+    <path d="M0 -22 L7 -4 L26 -4 L11 8 L16 26 L0 15 L-16 26 L-11 8 L-26 -4 L-7 -4 Z" fill="#2B2118" />
+  </g>
+
+  <text x="600" y="248" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" letter-spacing="4" fill="#6B5A3E">DEGREE CERTIFICATE</text>
+
+  <text x="600" y="300" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="#2B2118">This is to certify that</text>
+
+  <text x="600" y="380" text-anchor="middle" font-family="'Brush Script MT', 'Segoe Script', cursive" font-size="52" fill="#2B2118">Student Name</text>
+  <line x1="380" y1="404" x2="820" y2="404" stroke="#B08D57" stroke-width="1.5" />
+
+  <text x="600" y="460" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#4A4032">
+    <tspan x="600" dy="0">has successfully completed the prescribed course of study and is</tspan>
+    <tspan x="600" dy="32">awarded this degree with all the rights, privileges and honours</tspan>
+    <tspan x="600" dy="32">pertaining thereto.</tspan>
+  </text>
+
+  <!-- Signature block -->
+  <g font-family="Georgia, serif" font-size="16" fill="#2B2118" text-anchor="middle">
+    <line x1="270" y1="700" x2="470" y2="700" stroke="#2B2118" stroke-width="1" />
+    <text x="370" y="726">Registrar</text>
+
+    <line x1="730" y1="700" x2="930" y2="700" stroke="#2B2118" stroke-width="1" />
+    <text x="830" y="726">Controller of Examinations</text>
+  </g>
+
+  <!-- Watermark -->
+  <text x="600" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#2B2118" opacity="0.06" transform="rotate(-25 600 470)">SAMPLE</text>
+
+  <text x="600" y="800" text-anchor="middle" font-family="Arial, sans-serif" font-style="italic" font-size="13" fill="#8C7B5E">For illustration purposes only — not an actual issued document.</text>
+</svg>

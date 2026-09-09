@@ -65,8 +65,8 @@ export default async function CoursesPage() {
                 <p className="dc-eyebrow label-mono">Programmes</p>
 
                 <h1 className="dc-heading-glow mt-4 font-display text-[34px] leading-[1.04] font-extrabold tracking-[-0.035em] text-balance text-[var(--dc-ink)] xs:text-[40px] sm:mt-5 sm:text-[48px] md:text-[52px] lg:text-[54px]">
-                  Every Jetking programme,
-                  <span className="dc-accent-glow mt-1 block sm:mt-1.5">in one place.</span>
+                  The Most In-Demand
+                  <span className="dc-accent-glow mt-1 block sm:mt-1.5">Job-Ready Courses.</span>
                 </h1>
 
                 <p className="mt-4 max-w-[46ch] text-[14.5px] leading-[1.65] text-[var(--dc-ink-secondary)] xs:text-[15.5px] sm:mt-5 sm:text-[16px]">
@@ -101,8 +101,8 @@ export default async function CoursesPage() {
                 professional: {
                   headline: 'Changing careers rather than starting one?',
                   body: 'What transfers from your current role, and what does not.',
-                  ctaLabel: 'Read the guide',
-                  ctaHref: '/blog/switching-to-it-career-at-30',
+                  ctaLabel: 'Chat with Jetking',
+                  ctaAction: 'guide',
                 },
                 parent: {
                   headline: 'Evaluating on your child’s behalf?',

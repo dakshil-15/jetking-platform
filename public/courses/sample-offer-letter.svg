@@ -1,0 +1,56 @@
+<svg viewBox="0 0 850 1200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sample offer letter, for illustration only">
+  <rect width="850" height="1200" fill="#ffffff" />
+  <rect x="16" y="16" width="818" height="1168" fill="none" stroke="#E4E7EC" stroke-width="2" />
+
+  <!-- Letterhead -->
+  <g transform="translate(56 60)">
+    <rect width="44" height="44" rx="10" fill="#475467" />
+    <text x="22" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#ffffff">Co</text>
+    <text x="60" y="18" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#101828">Company Name</text>
+    <text x="60" y="38" font-family="Arial, sans-serif" font-size="12" fill="#667085">Recruiting Organisation</text>
+  </g>
+
+  <g font-family="Arial, sans-serif" font-size="11" fill="#667085" text-anchor="end">
+    <text x="794" y="66">123 Business Park, Sector 5</text>
+    <text x="794" y="82">Bengaluru, Karnataka 560001</text>
+    <text x="794" y="98">hr@example.com</text>
+  </g>
+
+  <line x1="56" y1="140" x2="794" y2="140" stroke="#E4E7EC" stroke-width="1.5" />
+
+  <text x="794" y="172" text-anchor="end" font-family="Arial, sans-serif" font-size="13" fill="#475467">Date: DD/MM/YYYY</text>
+
+  <text x="56" y="230" font-family="Arial, sans-serif" font-size="24" font-weight="bold" letter-spacing="2" fill="#101828">OFFER LETTER</text>
+
+  <text x="56" y="284" font-family="Arial, sans-serif" font-size="15" fill="#101828">Dear Candidate Name,</text>
+
+  <g font-family="Arial, sans-serif" font-size="14.5" fill="#344054">
+    <text x="56" y="326">
+      <tspan x="56" dy="0">We are pleased to offer you the position of Job Title with our</tspan>
+      <tspan x="56" dy="26">organisation, subject to the terms and conditions of this offer and our</tspan>
+      <tspan x="56" dy="26">standard employment policies.</tspan>
+    </text>
+    <text x="56" y="424">
+      <tspan x="56" dy="0">Your date of joining and compensation details will be shared</tspan>
+      <tspan x="56" dy="26">separately by our HR team. We look forward to your valuable</tspan>
+      <tspan x="56" dy="26">contribution and wish you a rewarding career with us.</tspan>
+    </text>
+    <text x="56" y="522">
+      <tspan x="56" dy="0">Please sign and return a copy of this letter as a token of your</tspan>
+      <tspan x="56" dy="26">acceptance of the above terms.</tspan>
+    </text>
+  </g>
+
+  <text x="56" y="608" font-family="Arial, sans-serif" font-size="14.5" fill="#344054">Warm regards,</text>
+
+  <g font-family="'Brush Script MT', 'Segoe Script', cursive" font-size="30" fill="#101828">
+    <text x="56" y="668">Authorized Signatory</text>
+  </g>
+  <line x1="56" y1="686" x2="280" y2="686" stroke="#344054" stroke-width="1" />
+  <text x="56" y="708" font-family="Arial, sans-serif" font-size="12" fill="#667085">HR Department, Company Name</text>
+
+  <!-- Watermark -->
+  <text x="425" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="110" font-weight="bold" fill="#101828" opacity="0.05" transform="rotate(-30 425 640)">SAMPLE</text>
+
+  <text x="425" y="1150" text-anchor="middle" font-family="Arial, sans-serif" font-style="italic" font-size="12" fill="#98A2B3">For illustration purposes only — actual offer letters vary by employer.</text>
+</svg>

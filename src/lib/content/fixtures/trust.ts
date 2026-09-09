@@ -18,7 +18,7 @@ import type { TrustSignal } from '../types';
 export const trustSignals: TrustSignal[] = [
   {
     id: 'legacy',
-    value: '79 years',
+    value: '80 years',
     label: 'Of IT training in India',
     verified: false,
     source: 'Jetking Phase 1 proposal deck — needs confirmation against founding date',

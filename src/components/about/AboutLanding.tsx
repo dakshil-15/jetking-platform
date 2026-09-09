@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Route } from 'next';
 import {
+  ArrowUpRight,
   Award,
   Building2,
   Handshake,
@@ -343,6 +344,30 @@ export function AboutLanding() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* ── Toward the Future ───────────────────────────────────────────────
+         New venture announcement — deliberately its own section, below the
+         Close CTA, so it reads as a forward-looking postscript to the legacy
+         story above rather than being folded into it. */}
+      <section className="shell relative mt-10 sm:mt-12" aria-labelledby="about-future">
+        <a
+          href="https://www.jetking.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="dc-panel group flex flex-col items-start gap-3 rounded-[20px] p-6 transition-colors hover:border-[var(--dc-accent)]/40 sm:flex-row sm:items-center sm:justify-between sm:rounded-[24px] sm:p-8"
+        >
+          <p id="about-future" className="text-[17px] font-extrabold text-[var(--dc-ink)] sm:text-[19px]">
+            Toward the Future – The First Bitcoin Treasury Company in India
+          </p>
+          <span className="flex shrink-0 items-center gap-1.5 text-[14px] font-semibold text-[var(--dc-accent)]">
+            jetking.org
+            <ArrowUpRight
+              className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              aria-hidden="true"
+            />
+          </span>
+        </a>
       </section>
     </div>
   );

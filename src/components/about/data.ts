@@ -2,7 +2,7 @@
 
 export const ABOUT_HERO = {
   eyebrow: 'Since 1947',
-  titleLead: 'A 79-year-old legacy moulding',
+  titleLead: 'An 80-year-old legacy moulding',
   titleAccent: 'the innovators of the future',
   lede: 'India’s foremost computer networking institute, committed to creating a better life for students, franchisees, recruiters, and investors.',
 } as const;
@@ -53,7 +53,7 @@ export type Leader = {
 export const DIRECTORS: Leader[] = [
   {
     name: 'Mr. Suresh G. Bharwani',
-    role: 'Chairman, Emrust',
+    role: 'Chairman Emeritus',
   },
   {
     name: 'Mr. Avinash Bharwani',
@@ -298,7 +298,7 @@ export const PARTNERSHIPS: Partnership[] = [
 ];
 
 export const LEGACY_STATS = [
-  { value: '79+', label: 'Years of legacy' },
+  { value: '80', label: 'Years of Legacy' },
   { value: '15,00,000', label: 'Students Placed' },
   { value: '100+', label: 'Training centres' },
   { value: '5000+', label: 'Recruiting partners' },
