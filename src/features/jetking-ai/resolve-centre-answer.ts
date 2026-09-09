@@ -16,6 +16,10 @@ const CITY_ALIASES: Record<string, string[]> = {
   gurugram: ['gurgaon', 'gurugram'],
   delhi: ['delhi', 'noida', 'gurgaon', 'gurugram', 'azadpur'],
   mumbai: ['mumbai', 'borivali', 'dadar', 'khar', 'thane', 'vasai', 'vashi'],
+  // Renamed in 2018 — still the more commonly used name; no branch record
+  // itself says "Allahabad", so this needs a real alias rather than relying
+  // on the locations[]-substring fallback the other CITY_RE additions use.
+  allahabad: ['prayagraj'],
   // IT-hub neighbourhoods `extractCityHint` recognises (see CITY_RE in
   // city.ts) that have no Jetking branch of their own — route them to the
   // nearest city hub instead of falling through to the generic "name your
