@@ -228,6 +228,18 @@ function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): nu
  * place, so multiple candidates can tie on distance — the branch-bearing hub
  * (locations.length > 0) is preferred over an empty SEO stub at that city.
  */
+
+/**
+ * A locality that has its own coordinate entry and its own bare `city`
+ * record (Thane, Swargate, Ameerpet, Azadpur, …) but no populated
+ * `locations[]` — a KB-scraped suburb page indexed as if it were its own
+ * city, distinct from the real metro hub record (Mumbai, Pune, Hyderabad,
+ * Delhi, …) that already lists it as a proper branch with a real address.
+ * Real, independent Jetking cities always have at least one populated
+ * `locations` entry, so this test doesn't risk misclassifying one of those.
+ */
+const NEARBY_STUB_RADIUS_KM = 60;
+
 export function pickCentreByCoords(
   centres: CentreRecord[],
   lat: number,
@@ -243,7 +255,24 @@ export function pickCentreByCoords(
 
   if (!withDistance.length) return null;
 
-  const nearestCity = withDistance[0]!.centre.city;
+  const nearest = withDistance[0]!;
+
+  // The raw-nearest match is an address-less locality stub (see
+  // NEARBY_STUB_RADIUS_KM above) — the exact same locality, searched by name
+  // instead of coordinates, resolves to the rich metro hub via
+  // pickCentresForQuery's `locations[]` substring match (e.g. "centre in
+  // Thane" → the Mumbai record, because Mumbai lists a "Jetking Thane"
+  // branch). Do the same here: prefer the nearest hub with a real address
+  // over a same-distance-ish stub with none, rather than handing back "Jetking
+  // centre in Thane" with no address just because it's technically 0km away.
+  if (nearest.centre.locations.length === 0) {
+    const richNearby = withDistance.find(
+      (x) => x.centre.locations.length > 0 && x.distanceKm <= NEARBY_STUB_RADIUS_KM,
+    );
+    if (richNearby) return richNearby;
+  }
+
+  const nearestCity = nearest.centre.city;
   const sameCity = withDistance.filter((x) => x.centre.city === nearestCity);
   return sameCity.find((x) => x.centre.locations.length > 0) ?? sameCity[0]!;
 }
