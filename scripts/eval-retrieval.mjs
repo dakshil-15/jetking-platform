@@ -200,6 +200,63 @@ const CASES = [
   { q: 'how do I bake sourdough bread?', reject: true },
   { q: 'what is the capital of France?', reject: true },
   { q: 'write me a python script to scrape twitter', reject: true },
+  { q: 'how do I make butter chicken', reject: true },
+  { q: 'solve this equation: 2x + 5 = 17', reject: true },
+  { q: 'translate hello into french', reject: true },
+
+  // More course/facet coverage — courses not otherwise exercised above.
+  {
+    q: 'what is the eligibility for microsoft server technology specialist?',
+    types: ['eligibility', 'overview', 'course'],
+    must: ['eligib', 'graduat', '10+2'],
+  },
+  {
+    q: 'how long is the pc hardware support course?',
+    types: ['duration', 'overview', 'course'],
+    must: ['month'],
+  },
+  {
+    q: 'what will I learn in red hat professional rhcsa?',
+    types: ['curriculum', 'course', 'overview'],
+    must: ['linux', 'red hat', 'rhcsa'],
+  },
+  {
+    q: 'jobs after routing and switching administrator ccna',
+    types: ['placement', 'course', 'overview'],
+    must: ['network', 'administrator', 'support'],
+  },
+  {
+    q: 'fees for windows 10 operating system course',
+    types: ['fees', 'overview', 'course'],
+    must: ['fee', 'emi', 'counsellor', 'payment'],
+  },
+  {
+    q: 'duration of masters in gaming and metaverse design',
+    types: ['duration', 'overview', 'course'],
+    must: ['year'],
+  },
+
+  // More centres.
+  { q: 'is there a jetking centre in indore?', types: ['centre'], must: ['indore'] },
+  { q: 'jetking centre in lucknow', types: ['centre'], must: ['lucknow'] },
+  { q: 'centre near thane', types: ['centre'], must: ['thane'] },
+
+  // Persona / comparison / franchise coverage.
+  {
+    q: 'is a certification course or a full BCA degree better for me?',
+    types: ['course', 'overview', 'blog', 'curriculum'],
+    must: ['bca', 'degree', 'certification'],
+  },
+  {
+    q: 'what is the minimum investment for a jetking franchise?',
+    types: ['franchise'],
+    must: ['50 l', '1 cr', '3 cr', 'invest'],
+  },
+  {
+    q: 'my daughter finished 12th commerce, which jetking course suits her?',
+    types: ['course', 'overview', 'eligibility', 'blog'],
+    must: ['commerce', '12th', 'course'],
+  },
 ];
 
 const raw = JSON.parse(readFileSync(INDEX, 'utf8'));

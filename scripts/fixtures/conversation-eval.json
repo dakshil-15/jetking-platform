@@ -292,8 +292,12 @@
       "isLocation": true,
       "facet": "centre",
       "shouldGround": true,
-      "kbAnswerContains": ["Bengaluru"],
-      "kbAnswerNotContains": ["Ahmedabad"],
+      "kbAnswerContains": [
+        "Bengaluru"
+      ],
+      "kbAnswerNotContains": [
+        "Ahmedabad"
+      ],
       "needsPlanner": false
     }
   },
@@ -308,8 +312,12 @@
       "isLocation": true,
       "facet": "centre",
       "shouldGround": true,
-      "kbAnswerContains": ["Delhi"],
-      "kbAnswerNotContains": ["Ahmedabad"],
+      "kbAnswerContains": [
+        "Delhi"
+      ],
+      "kbAnswerNotContains": [
+        "Ahmedabad"
+      ],
       "needsPlanner": false
     }
   },
@@ -324,8 +332,12 @@
       "isLocation": true,
       "facet": "centre",
       "shouldGround": true,
-      "kbAnswerContains": ["Hyderabad"],
-      "kbAnswerNotContains": ["Ahmedabad"],
+      "kbAnswerContains": [
+        "Hyderabad"
+      ],
+      "kbAnswerNotContains": [
+        "Ahmedabad"
+      ],
       "needsPlanner": false
     }
   },
@@ -340,8 +352,12 @@
       "isLocation": true,
       "facet": "centre",
       "shouldGround": true,
-      "kbAnswerContains": ["Kolkata"],
-      "kbAnswerNotContains": ["Ahmedabad"],
+      "kbAnswerContains": [
+        "Kolkata"
+      ],
+      "kbAnswerNotContains": [
+        "Ahmedabad"
+      ],
       "needsPlanner": false
     }
   },
@@ -356,8 +372,12 @@
       "isLocation": true,
       "facet": "centre",
       "shouldGround": true,
-      "kbAnswerContains": ["Gurgaon"],
-      "kbAnswerNotContains": ["Ahmedabad"],
+      "kbAnswerContains": [
+        "Gurgaon"
+      ],
+      "kbAnswerNotContains": [
+        "Ahmedabad"
+      ],
       "needsPlanner": false
     }
   },
@@ -1377,7 +1397,11 @@
       "isLocation": false,
       "facet": "placement",
       "shouldGround": true,
-      "kbAnswerNotContains": ["100% Job Guarantee", "100%Job guarantee", "Job guarantee"],
+      "kbAnswerNotContains": [
+        "100% Job Guarantee",
+        "100%Job guarantee",
+        "Job guarantee"
+      ],
       "needsPlanner": false
     }
   },
@@ -1392,7 +1416,10 @@
       "isLocation": false,
       "facet": "placement",
       "shouldGround": true,
-      "kbAnswerNotContains": ["Job guarantee", "100% Job Guarantee"],
+      "kbAnswerNotContains": [
+        "Job guarantee",
+        "100% Job Guarantee"
+      ],
       "needsPlanner": false
     }
   },
@@ -2421,6 +2448,2071 @@
       },
       "shouldGround": false,
       "needsPlanner": true
+    }
+  },
+  {
+    "id": "gen-fees-aws-solution-specialist",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for AWS Solution Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-eligibility-aws-solution-specialist",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for AWS Solution Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-aws-solution-specialist",
+    "category": "course-facet",
+    "turns": [
+      "how long does AWS Solution Specialist take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-aws-solution-specialist",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in AWS Solution Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-aws-solution-specialist",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after AWS Solution Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-bca-in-cloud-computing-cyber-security",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for BCA in Cloud Computing & Cyber Security?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security"
+    }
+  },
+  {
+    "id": "gen-eligibility-bca-in-cloud-computing-cyber-security",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for BCA in Cloud Computing & Cyber Security?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-bca-in-cloud-computing-cyber-security",
+    "category": "course-facet",
+    "turns": [
+      "how long does BCA in Cloud Computing & Cyber Security take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-bca-in-cloud-computing-cyber-security",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in BCA in Cloud Computing & Cyber Security?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-bca-in-cloud-computing-cyber-security",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after BCA in Cloud Computing & Cyber Security?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-bca-in-multimedia-animation",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for BCA in Multimedia & Animation?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming"
+    }
+  },
+  {
+    "id": "gen-eligibility-bca-in-multimedia-animation",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for BCA in Multimedia & Animation?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-bca-in-multimedia-animation",
+    "category": "course-facet",
+    "turns": [
+      "how long does BCA in Multimedia & Animation take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-bca-in-multimedia-animation",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in BCA in Multimedia & Animation?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-bca-in-multimedia-animation",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after BCA in Multimedia & Animation?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-jetking-certified-cloud-computing-engineer-with-ai",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Jetking Certified Cloud Computing Engineer with AI?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-eligibility-jetking-certified-cloud-computing-engineer-with-ai",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Jetking Certified Cloud Computing Engineer with AI?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-jetking-certified-cloud-computing-engineer-with-ai",
+    "category": "course-facet",
+    "turns": [
+      "how long does Jetking Certified Cloud Computing Engineer with AI take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-jetking-certified-cloud-computing-engineer-with-ai",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Jetking Certified Cloud Computing Engineer with AI?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-jetking-certified-cloud-computing-engineer-with-ai",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Jetking Certified Cloud Computing Engineer with AI?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-jetking-certified-cloud-computing-professional-with-ai",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Jetking Certified Cloud Computing Professional with AI?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-eligibility-jetking-certified-cloud-computing-professional-with-ai",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Jetking Certified Cloud Computing Professional with AI?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-jetking-certified-cloud-computing-professional-with-ai",
+    "category": "course-facet",
+    "turns": [
+      "how long does Jetking Certified Cloud Computing Professional with AI take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-jetking-certified-cloud-computing-professional-with-ai",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Jetking Certified Cloud Computing Professional with AI?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-jetking-certified-cloud-computing-professional-with-ai",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Jetking Certified Cloud Computing Professional with AI?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-jetking-certified-cloud-computing-cyber-security-engineer",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Jetking Certified Cloud Computing & Cyber Security Engineer?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security"
+    }
+  },
+  {
+    "id": "gen-eligibility-jetking-certified-cloud-computing-cyber-security-engineer",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Jetking Certified Cloud Computing & Cyber Security Engineer?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-jetking-certified-cloud-computing-cyber-security-engineer",
+    "category": "course-facet",
+    "turns": [
+      "how long does Jetking Certified Cloud Computing & Cyber Security Engineer take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-jetking-certified-cloud-computing-cyber-security-engineer",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Jetking Certified Cloud Computing & Cyber Security Engineer?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-jetking-certified-cloud-computing-cyber-security-engineer",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Jetking Certified Cloud Computing & Cyber Security Engineer?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-jetking-certified-cloud-computing-cyber-security-professional",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Jetking Certified Cloud Computing & Cyber Security Professional?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security"
+    }
+  },
+  {
+    "id": "gen-eligibility-jetking-certified-cloud-computing-cyber-security-professional",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Jetking Certified Cloud Computing & Cyber Security Professional?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-jetking-certified-cloud-computing-cyber-security-professional",
+    "category": "course-facet",
+    "turns": [
+      "how long does Jetking Certified Cloud Computing & Cyber Security Professional take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-jetking-certified-cloud-computing-cyber-security-professional",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Jetking Certified Cloud Computing & Cyber Security Professional?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-jetking-certified-cloud-computing-cyber-security-professional",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Jetking Certified Cloud Computing & Cyber Security Professional?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-jetking-certified-data-analyst",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Jetking Certified Data Analyst?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-eligibility-jetking-certified-data-analyst",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Jetking Certified Data Analyst?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-jetking-certified-data-analyst",
+    "category": "course-facet",
+    "turns": [
+      "how long does Jetking Certified Data Analyst take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-jetking-certified-data-analyst",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Jetking Certified Data Analyst?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-jetking-certified-data-analyst",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Jetking Certified Data Analyst?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-digital-marketing-training-solutions",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Digital Marketing Training Solutions?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-eligibility-digital-marketing-training-solutions",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Digital Marketing Training Solutions?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-digital-marketing-training-solutions",
+    "category": "course-facet",
+    "turns": [
+      "how long does Digital Marketing Training Solutions take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-digital-marketing-training-solutions",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Digital Marketing Training Solutions?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-digital-marketing-training-solutions",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Digital Marketing Training Solutions?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-ethical-hacking-specialist",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Ethical Hacking Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Ethical Hacking"
+    }
+  },
+  {
+    "id": "gen-eligibility-ethical-hacking-specialist",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Ethical Hacking Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Ethical Hacking",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-ethical-hacking-specialist",
+    "category": "course-facet",
+    "turns": [
+      "how long does Ethical Hacking Specialist take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Ethical Hacking",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-ethical-hacking-specialist",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Ethical Hacking Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Ethical Hacking",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-ethical-hacking-specialist",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Ethical Hacking Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Ethical Hacking",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-masters-in-gaming-metaverse-design",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Masters in Gaming & Metaverse Design?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming"
+    }
+  },
+  {
+    "id": "gen-eligibility-masters-in-gaming-metaverse-design",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Masters in Gaming & Metaverse Design?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-masters-in-gaming-metaverse-design",
+    "category": "course-facet",
+    "turns": [
+      "how long does Masters in Gaming & Metaverse Design take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-masters-in-gaming-metaverse-design",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Masters in Gaming & Metaverse Design?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-masters-in-gaming-metaverse-design",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Masters in Gaming & Metaverse Design?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-mca-in-cloud-computing-cyber-security",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for MCA in Cloud Computing & Cyber Security?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security"
+    }
+  },
+  {
+    "id": "gen-eligibility-mca-in-cloud-computing-cyber-security",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for MCA in Cloud Computing & Cyber Security?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-mca-in-cloud-computing-cyber-security",
+    "category": "course-facet",
+    "turns": [
+      "how long does MCA in Cloud Computing & Cyber Security take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-mca-in-cloud-computing-cyber-security",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in MCA in Cloud Computing & Cyber Security?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-mca-in-cloud-computing-cyber-security",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after MCA in Cloud Computing & Cyber Security?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-microsoft-server-technology-specialist",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Microsoft Server Technology Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-eligibility-microsoft-server-technology-specialist",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Microsoft Server Technology Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-microsoft-server-technology-specialist",
+    "category": "course-facet",
+    "turns": [
+      "how long does Microsoft Server Technology Specialist take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-microsoft-server-technology-specialist",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Microsoft Server Technology Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-microsoft-server-technology-specialist",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Microsoft Server Technology Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-networking-essentials-specialist",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Networking Essentials Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Networking"
+    }
+  },
+  {
+    "id": "gen-eligibility-networking-essentials-specialist",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Networking Essentials Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Networking",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-networking-essentials-specialist",
+    "category": "course-facet",
+    "turns": [
+      "how long does Networking Essentials Specialist take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Networking",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-networking-essentials-specialist",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Networking Essentials Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Networking",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-networking-essentials-specialist",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Networking Essentials Specialist?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Networking",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-pc-hardware-support",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for PC Hardware Support?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Hardware & Networking"
+    }
+  },
+  {
+    "id": "gen-eligibility-pc-hardware-support",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for PC Hardware Support?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Hardware & Networking",
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-pc-hardware-support",
+    "category": "course-facet",
+    "turns": [
+      "how long does PC Hardware Support take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Hardware & Networking",
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-pc-hardware-support",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in PC Hardware Support?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Hardware & Networking",
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-pc-hardware-support",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after PC Hardware Support?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Hardware & Networking",
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-red-hat-professional-rhcsa",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Red Hat Professional (RHCSA)?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-eligibility-red-hat-professional-rhcsa",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Red Hat Professional (RHCSA)?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-red-hat-professional-rhcsa",
+    "category": "course-facet",
+    "turns": [
+      "how long does Red Hat Professional (RHCSA) take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-red-hat-professional-rhcsa",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Red Hat Professional (RHCSA)?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-red-hat-professional-rhcsa",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Red Hat Professional (RHCSA)?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-routing-switching-administrator-ccna",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Routing & Switching Administrator (CCNA)?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-eligibility-routing-switching-administrator-ccna",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Routing & Switching Administrator (CCNA)?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-routing-switching-administrator-ccna",
+    "category": "course-facet",
+    "turns": [
+      "how long does Routing & Switching Administrator (CCNA) take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-routing-switching-administrator-ccna",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Routing & Switching Administrator (CCNA)?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-routing-switching-administrator-ccna",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Routing & Switching Administrator (CCNA)?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-fees-windows-10-operating-system",
+    "category": "fee-question",
+    "turns": [
+      "what are the fees for Windows 10 Operating System?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-eligibility-windows-10-operating-system",
+    "category": "course-facet",
+    "turns": [
+      "am I eligible for Windows 10 Operating System?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "eligibility"
+    }
+  },
+  {
+    "id": "gen-duration-windows-10-operating-system",
+    "category": "course-facet",
+    "turns": [
+      "how long does Windows 10 Operating System take?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-curriculum-windows-10-operating-system",
+    "category": "course-facet",
+    "turns": [
+      "what will I learn in Windows 10 Operating System?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "curriculum"
+    }
+  },
+  {
+    "id": "gen-placement-windows-10-operating-system",
+    "category": "course-facet",
+    "turns": [
+      "what jobs can I get after Windows 10 Operating System?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "facet": "placement"
+    }
+  },
+  {
+    "id": "gen-centre-chandigarh",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Chandigarh?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-indore",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Indore?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-jammu",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Jammu?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-kanpur",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Kanpur?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-kochi",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Kochi?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-lucknow",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Lucknow?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-nagpur",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Nagpur?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-noida",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Noida?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-varanasi",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Varanasi?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-bhopal",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Bhopal?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-gwalior",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Gwalior?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-dhanbad",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Dhanbad?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-durg",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Durg?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-ghaziabad",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Ghaziabad?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-gorakhpur",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Gorakhpur?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-mohali",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Mohali?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-thane",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Thane?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-vashi",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Vashi?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-rajajinagar",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Rajajinagar?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-centre-shivajinagar",
+    "category": "centre-lookup",
+    "turns": [
+      "is there a jetking centre in Shivajinagar?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-persona-12th-science-1",
+    "category": "persona-student",
+    "turns": [
+      "I just finished 12th science, which course should I take for a good IT career?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-persona-12th-arts-1",
+    "category": "persona-student",
+    "turns": [
+      "I am from arts background after 12th, can I still do a cloud computing course?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-persona-12th-commerce-2",
+    "category": "persona-student",
+    "turns": [
+      "12th commerce complete hui hai, mujhe cyber security me career banana hai"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security"
+    }
+  },
+  {
+    "id": "gen-persona-diploma-holder",
+    "category": "persona-student",
+    "turns": [
+      "I have a diploma in mechanical engineering, can I switch to IT with Jetking?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-persona-10th-pass",
+    "category": "persona-student",
+    "turns": [
+      "I only passed 10th, what options do I have at Jetking?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-persona-graduate-bsc",
+    "category": "persona-student",
+    "turns": [
+      "I have a BSc in physics, is MCA in cloud computing a good fit for me?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-persona-graduate-any",
+    "category": "persona-student",
+    "turns": [
+      "I am a graduate in any stream, which Jetking course fits me best?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-persona-btech-unemployed",
+    "category": "persona-student",
+    "turns": [
+      "I finished BTech but I am unemployed, will an ethical hacking certificate help me get a job?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Ethical Hacking"
+    }
+  },
+  {
+    "id": "gen-persona-prof-networking",
+    "category": "persona-professional",
+    "turns": [
+      "I work in IT support and want to move into networking, which course helps?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Networking"
+    }
+  },
+  {
+    "id": "gen-persona-prof-nightshift",
+    "category": "persona-professional",
+    "turns": [
+      "can I attend classes at night since I work day shift?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-persona-prof-salaryhike",
+    "category": "persona-professional",
+    "turns": [
+      "I want a salary hike, will a cloud computing certification actually help?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-persona-prof-nocode",
+    "category": "persona-professional",
+    "turns": [
+      "I have 5 years experience in sales, can I move into cyber security without a coding background?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security"
+    }
+  },
+  {
+    "id": "gen-persona-prof-onlineclass",
+    "category": "persona-professional",
+    "turns": [
+      "are the professional courses available online or only in-centre?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-persona-parent-son-networking",
+    "category": "persona-parent",
+    "turns": [
+      "my son wants to do a networking course, is Jetking a genuine institute?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Networking"
+    }
+  },
+  {
+    "id": "gen-persona-parent-scholarship",
+    "category": "persona-parent",
+    "turns": [
+      "does Jetking offer any scholarship for my daughter?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-persona-parent-safety-girl",
+    "category": "persona-parent",
+    "turns": [
+      "is the campus safe for a girl student travelling alone?"
+    ],
+    "expect": {
+      "shouldGround": false
+    }
+  },
+  {
+    "id": "gen-persona-parent-placement-proof",
+    "category": "persona-parent",
+    "turns": [
+      "can you show proof that Jetking students actually get placed?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-persona-parent-value-for-money",
+    "category": "persona-parent",
+    "turns": [
+      "is Jetking worth the fees compared to a regular college degree?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-franchise-investment-range",
+    "category": "franchise",
+    "turns": [
+      "what is the minimum investment to open a Jetking franchise?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-franchise-roi",
+    "category": "franchise",
+    "turns": [
+      "how long does it take to recover the investment in a Jetking franchise?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-franchise-eligibility",
+    "category": "franchise",
+    "turns": [
+      "who is eligible to apply for a Jetking franchise?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-franchise-support",
+    "category": "franchise",
+    "turns": [
+      "what support does Jetking give to a new franchise owner?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-franchise-location",
+    "category": "franchise",
+    "turns": [
+      "can I open a Jetking franchise in a small town?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-compare-bca-cloud-vs-networking",
+    "category": "course-comparison",
+    "turns": [
+      "what is the difference between BCA in cloud computing and the networking essentials course?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-compare-cert-vs-degree",
+    "category": "course-comparison",
+    "turns": [
+      "should I go for a certification course or a full BCA degree?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "BCA"
+    }
+  },
+  {
+    "id": "gen-compare-aws-vs-azure-course",
+    "category": "course-comparison",
+    "turns": [
+      "does Jetking teach AWS or Azure, and which one should I learn first?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-compare-data-analyst-vs-ai",
+    "category": "course-comparison",
+    "turns": [
+      "is data analyst course better than an AI course for a beginner?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "AI & Data Science"
+    }
+  },
+  {
+    "id": "gen-compare-short-vs-long-cyber",
+    "category": "course-comparison",
+    "turns": [
+      "is the 2-month ethical hacking course enough or should I do the 18-month cloud and cyber security programme?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Ethical Hacking"
+    }
+  },
+  {
+    "id": "gen-competitor-simplilearn",
+    "category": "competitor-questions",
+    "turns": [
+      "is jetking better than simplilearn for cloud computing?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-competitor-coursera",
+    "category": "competitor-questions",
+    "turns": [
+      "why should I pay for Jetking when Coursera has free courses?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-competitor-iit-certification",
+    "category": "competitor-questions",
+    "turns": [
+      "is an IIT online certificate more valuable than a Jetking certificate?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-competitor-local-institute",
+    "category": "competitor-questions",
+    "turns": [
+      "there is a local computer institute near my house charging half the fees, why choose jetking instead?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-competitor-google-cert",
+    "category": "competitor-questions",
+    "turns": [
+      "does a Google IT certificate work better than Jetking for getting a job?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-ambiguous-no-idea-1",
+    "category": "ambiguous-profile",
+    "turns": [
+      "I have no idea what to do after 12th, please guide me"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-ambiguous-scared-coding",
+    "category": "ambiguous-profile",
+    "turns": [
+      "mujhe coding se dar lagta hai lekin IT me career chahiye"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-ambiguous-low-budget",
+    "category": "ambiguous-profile",
+    "turns": [
+      "mera budget kam hai, kaunsa course sasta aur acha hoga"
+    ],
+    "expect": {
+      "shouldGround": false
+    }
+  },
+  {
+    "id": "gen-ambiguous-time-crunch",
+    "category": "ambiguous-profile",
+    "turns": [
+      "mujhe jaldi job chahiye, sabse chota course kaunsa hai jisse job mil jaye"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-ambiguous-switch-field",
+    "category": "ambiguous-profile",
+    "turns": [
+      "main mechanical engineer hoon lekin ab IT me jana chahta hoon, kya karu"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-ambiguous-abroad-goal",
+    "category": "ambiguous-profile",
+    "turns": [
+      "I want to settle abroad, which Jetking course improves my chances?"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-spelling-clowd-computng",
+    "category": "spelling-mistakes",
+    "turns": [
+      "clowd computng corse ki fees kitni hai"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-spelling-netwrking",
+    "category": "spelling-mistakes",
+    "turns": [
+      "netwrking corse ke baare mein bataiye"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-spelling-jetkin-fees",
+    "category": "spelling-mistakes",
+    "turns": [
+      "jetkin ki fees kitni hoti hai"
+    ],
+    "expect": {
+      "shouldGround": false
+    }
+  },
+  {
+    "id": "gen-spelling-elligibility",
+    "category": "spelling-mistakes",
+    "turns": [
+      "elligibility kya hai bca ke liye"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "BCA"
+    }
+  },
+  {
+    "id": "gen-spelling-plcement",
+    "category": "spelling-mistakes",
+    "turns": [
+      "plcement suport kaisa hai jetking me"
+    ],
+    "expect": {
+      "shouldGround": false
+    }
+  },
+  {
+    "id": "gen-spelling-cybersecurty2",
+    "category": "spelling-mistakes",
+    "turns": [
+      "cybersecurty corse duration kitni hai"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cyber Security"
+    }
+  },
+  {
+    "id": "gen-offtopic-movie",
+    "category": "off-topic",
+    "turns": [
+      "what is the best bollywood movie of 2025"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-offtopic-stock",
+    "category": "off-topic",
+    "turns": [
+      "should I invest in the stock market right now"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-offtopic-recipe",
+    "category": "off-topic",
+    "turns": [
+      "how do I make butter chicken"
+    ],
+    "expect": {
+      "shouldGround": false
+    }
+  },
+  {
+    "id": "gen-offtopic-medical",
+    "category": "off-topic",
+    "turns": [
+      "I have a headache, what medicine should I take"
+    ],
+    "expect": {
+      "shouldGround": false
+    }
+  },
+  {
+    "id": "gen-offtopic-politics",
+    "category": "off-topic",
+    "turns": [
+      "who is going to win the next election"
+    ],
+    "expect": {
+      "shouldGround": false
+    }
+  },
+  {
+    "id": "gen-offtopic-math-homework",
+    "category": "off-topic",
+    "turns": [
+      "solve this equation: 2x + 5 = 17"
+    ],
+    "expect": {
+      "shouldGround": false
+    }
+  },
+  {
+    "id": "gen-offtopic-translate",
+    "category": "off-topic",
+    "turns": [
+      "translate hello into french"
+    ],
+    "expect": {
+      "shouldGround": false
+    }
+  },
+  {
+    "id": "gen-offtopic-flight",
+    "category": "off-topic",
+    "turns": [
+      "book me a flight to mumbai"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-fee-refusal-exact-aws",
+    "category": "fee-refusal",
+    "turns": [
+      "tell me the exact fee in rupees for AWS Solution Specialist, not a range"
+    ],
+    "expect": {
+      "shouldGround": true
+    }
+  },
+  {
+    "id": "gen-fee-refusal-exact-mca",
+    "category": "fee-refusal",
+    "turns": [
+      "give me the precise total fee for MCA in cloud computing including hostel"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-fee-refusal-exact-animation",
+    "category": "fee-refusal",
+    "turns": [
+      "what is the exact fee for BCA in multimedia and animation, give me the number"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "subject": "Animation & Gaming"
+    }
+  },
+  {
+    "id": "gen-unsupported-refund-guarantee",
+    "category": "unsupported-claims",
+    "turns": [
+      "does jetking give a 100% money back guarantee if I don't get placed?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "unsupportedClaimProbe": "Yes, Jetking offers a ₹50,000 refund if you are not placed within 6 months of completing the course."
+    }
+  },
+  {
+    "id": "gen-unsupported-visa-sponsorship",
+    "category": "unsupported-claims",
+    "turns": [
+      "will jetking sponsor my work visa abroad after the course?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "unsupportedClaimProbe": "Yes, Jetking has helped over 500 students get work visas abroad after this course."
+    }
+  },
+  {
+    "id": "gen-unsupported-govt-job",
+    "category": "unsupported-claims",
+    "turns": [
+      "does completing a Jetking course guarantee a government job?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "unsupportedClaimProbe": "This course comes with a 100% job guarantee for a government position."
+    }
+  },
+  {
+    "id": "gen-followup-fees-after-course",
+    "category": "facet-followup",
+    "turns": [
+      "tell me about the ethical hacking specialist course",
+      "fees?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "subject": "Ethical Hacking",
+      "facet": "fees"
+    }
+  },
+  {
+    "id": "gen-followup-duration-after-course",
+    "category": "facet-followup",
+    "turns": [
+      "tell me about the data analyst certification",
+      "duration?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "facet": "duration"
+    }
+  },
+  {
+    "id": "gen-followup-centres-after-course",
+    "category": "facet-followup",
+    "turns": [
+      "tell me about MCA in cloud computing",
+      "which centres offer this?"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "subject": "Cloud Computing",
+      "isLocation": true,
+      "facet": "centre"
+    }
+  },
+  {
+    "id": "gen-followup-yes-continue",
+    "category": "short-followup",
+    "turns": [
+      "tell me about the cyber security engineer programme",
+      "sounds good, tell me more"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "subject": "Cyber Security"
+    }
+  },
+  {
+    "id": "gen-followup-hindi-aur",
+    "category": "follow-up-pronoun",
+    "turns": [
+      "bataiye cloud computing course ke baare mein",
+      "aur iski duration kya hai"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-journey-student-full",
+    "category": "multi-turn-journey",
+    "turns": [
+      "12th pass out hoon science se",
+      "coding thoda aata hai but expert nahi hoon",
+      "cyber security me interest hai",
+      "iski fees aur duration kya hai"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "subject": "Cyber Security"
+    }
+  },
+  {
+    "id": "gen-journey-professional-full",
+    "category": "multi-turn-journey",
+    "turns": [
+      "I work as a system admin and want to upskill",
+      "I am interested in cloud computing certifications",
+      "can I do this on weekends",
+      "what will it cost me"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-journey-parent-full",
+    "category": "multi-turn-journey",
+    "turns": [
+      "my daughter finished 12th commerce",
+      "she is interested in a BCA degree",
+      "is placement support genuinely good",
+      "which centre is closest to Pune"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": false,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-switch-cyber-to-cloud",
+    "category": "subject-switching",
+    "turns": [
+      "tell me about ethical hacking",
+      "actually what about cloud computing instead"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "subject": "Ethical Hacking"
+    }
+  },
+  {
+    "id": "gen-switch-course-to-centre",
+    "category": "subject-switching",
+    "turns": [
+      "tell me about the BCA degree",
+      "is there a centre in Nagpur"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "subject": "BCA",
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-repeat-fees-rephrase",
+    "category": "repeat-question",
+    "turns": [
+      "what are the fees for cloud computing engineer with AI",
+      "sorry I mean the exact course fee for that programme"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "subject": "Cloud Computing"
+    }
+  },
+  {
+    "id": "gen-location-change-city",
+    "category": "location-change",
+    "turns": [
+      "is there a centre in Pune",
+      "actually I meant Mumbai"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-location-change-unrecognised",
+    "category": "location-change",
+    "turns": [
+      "jetking centre in mumbai",
+      "actually near vapi"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "isLocation": true
+    }
+  },
+  {
+    "id": "gen-pronoun-its-fees",
+    "category": "pronoun-reference",
+    "turns": [
+      "tell me about the networking essentials course",
+      "what is its fee"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "subject": "Networking"
+    }
+  },
+  {
+    "id": "gen-pronoun-them-centres",
+    "category": "pronoun-reference",
+    "turns": [
+      "which courses are offered in Pune",
+      "tell me more about them"
+    ],
+    "expect": {
+      "shouldGround": true,
+      "isFollowUp": true,
+      "isLocation": true
     }
   }
 ]
