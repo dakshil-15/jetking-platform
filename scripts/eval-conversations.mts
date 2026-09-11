@@ -123,10 +123,19 @@ async function runCase(kase: ConversationCase): Promise<CaseActual> {
       wants.wantDuration ||
       wants.wantCourse ||
       wants.wantAbout;
+    // Narrower than hasExplicitFacet — excludes wantCourse on purpose, see
+    // isLocationMessage's doc comment for why. Mirrors route.ts.
+    const hasStrongFacet =
+      wants.wantFees ||
+      wants.wantEligibility ||
+      wants.wantCurriculum ||
+      wants.wantPlacement ||
+      wants.wantDuration ||
+      wants.wantAbout;
     // Mirrors route.ts's isLocation computation — see isLocationFollowUp's
     // own doc comment for why a session-only continuation check exists.
     const isLocation =
-      isLocationMessage(message, Boolean(cityHint)) ||
+      isLocationMessage(message, Boolean(cityHint), hasStrongFacet) ||
       isLocationFollowUp({
         isFollowUp,
         lastFacet: incoming.lastFacet,

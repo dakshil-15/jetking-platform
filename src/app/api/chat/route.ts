@@ -428,6 +428,10 @@ export async function POST(req: Request): Promise<Response> {
     wants;
   const anyExplicitFacet =
     wantFees || wantEligibility || wantCurriculum || wantPlacement || wantDuration || wantCourse || wantAbout;
+  // Narrower than anyExplicitFacet — excludes wantCourse on purpose, see
+  // isLocationMessage's doc comment for why.
+  const hasStrongFacet =
+    wantFees || wantEligibility || wantCurriculum || wantPlacement || wantDuration || wantAbout;
   /**
    * The assistant's own immediately-prior message text, checked in addition
    * to `session.lastFacet` inside `isLocationFollowUp` — the client's
@@ -440,7 +444,7 @@ export async function POST(req: Request): Promise<Response> {
     lastAssistantMessage !== undefined &&
     /\b(which city|your city|share your city)\b/i.test(lastAssistantMessage.content);
   const isLocation =
-    isLocationMessage(q, Boolean(cityHint)) ||
+    isLocationMessage(q, Boolean(cityHint), hasStrongFacet) ||
     isLocationFollowUp({
       isFollowUp,
       lastFacet: lastAssistantAskedCity ? 'centre' : incomingSession.lastFacet,

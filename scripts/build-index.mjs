@@ -216,7 +216,14 @@ try {
     // dedicated duration facet so a similarly named legacy course cannot win
     // a precise "how long" question merely because it has an older facet row.
     if (item.type === 'course') {
-      const duration = /\bDuration:\s*([^.]+)\./i.exec(item.text)?.[1]?.trim();
+      // `[^.]+` up to the first "." truncated any fractional duration at the
+      // decimal point itself ("Duration: 1.5 months." -> captured just "1"),
+      // silently cutting off the unit for every course whose duration isn't a
+      // whole number (confirmed live: Windows 10 Operating System and
+      // Microsoft Server Technology Specialist both answered "runs for 1."/
+      // "runs for 2." with nothing after). Match the number (decimal point
+      // included) plus its unit directly instead of stopping at punctuation.
+      const duration = /\bDuration:\s*([\d.]+\s*(?:months?|years?|weeks?))/i.exec(item.text)?.[1]?.trim();
       if (duration) {
         const facetBefore = items.length;
         push('duration', `How long is ${item.title}?\n${item.title} runs for ${duration}.`, {

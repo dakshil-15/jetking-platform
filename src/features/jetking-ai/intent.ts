@@ -8,6 +8,18 @@
 
 const REFERENTIAL_RE =
   /\b(it|its|it's|that|this|these|those|they|them|their|there|same|also|too|another|what about|how about|and|aur|iska|uska|isme|usme|kitni|kitna)\b/i;
+
+/**
+ * A reactive continuation phrase — "sounds good, tell me more", "go on",
+ * "please continue", "what else" — carries zero topic information of its own
+ * regardless of word count; it means "keep going on whatever we were just
+ * discussing" every time. Confirmed live: "sounds good, tell me more" (5
+ * words) tripped STANDALONE_MIN_WORDS below and got treated as a fresh,
+ * standalone message, searching for literally "sounds good tell me more"
+ * instead of continuing the prior course topic.
+ */
+const CONTINUATION_RE =
+  /\b(tell me more|go on|please continue|continue|what else|anything else|sounds (good|great|interesting|nice)|more (info|information|details)|know more)\b/i;
 const SUBJECT_RE =
   /\b(cyber|security|cloud|network|networking|hacking|ethical|blockchain|animation|gaming|metaverse|hardware|software|bca|mca|linux|red ?hat|rhcsa|aws|azure|data science|\bai\b|course|courses|diploma|masters|certification|centre|center|placement|blog)\b/i;
 
@@ -44,7 +56,7 @@ export function isFollowUpMessage(message: string, hasPrevUser: boolean): boolea
   if (!hasPrevUser) return false;
   const trimmed = message.trim();
   if (IMPERATIVE_TASK_RE.test(trimmed) && !SUBJECT_RE.test(message)) return false;
-  if (REFERENTIAL_RE.test(message)) return true;
+  if (REFERENTIAL_RE.test(message) || CONTINUATION_RE.test(message)) return true;
   if (SUBJECT_RE.test(message)) return false;
   // No subject and no referential pronoun. A facet word ("fees", "eligibility",
   // "duration", ...) always means "of whatever we were just discussing", so it
@@ -104,8 +116,34 @@ export interface WantFlags {
 // questions as "where is the nearest Jetking centre" location queries.
 const LOCATION_RE = /\b(centres?|near(est)?|location|address|branch|directions?|visit|where)\b/i;
 
-export function isLocationMessage(message: string, hasCityHint: boolean): boolean {
-  return LOCATION_RE.test(message) || hasCityHint;
+/**
+ * A bare city mention ("Mumbai", "I'm in Pune") is the whole intent and
+ * should always route to a centre answer. But a city mentioned inside a
+ * message that already carries a specific-fact facet — "what is the
+ * eligibility for the cyber security course in mumbai" — is a qualifier, not
+ * the ask; treating `hasCityHint` alone as sufficient sent that exact
+ * question to a generic Mumbai-centre answer instead of eligibility.
+ * `hasStrongFacet` lets a real fact-question win, matching
+ * detectAnsweredFacet's own priority (fees/eligibility/curriculum/duration/
+ * placement/about all outrank location there).
+ *
+ * Deliberately NOT `wantCourse` — that one is too broad (matches "course",
+ * "learn", "training"...) and, unlike the others, detectAnsweredFacet
+ * already treats it as lower priority than location. Including it here broke
+ * "same course in vasai" (a course name + city, asking where a course is
+ * offered — a location question) by treating the mere presence of the word
+ * "course" as reason enough to skip location routing entirely.
+ *
+ * An explicit LOCATION_RE keyword ("centre", "near", ...) still always wins
+ * regardless — "is there a centre in mumbai for cyber security" stays a
+ * location question.
+ */
+export function isLocationMessage(
+  message: string,
+  hasCityHint: boolean,
+  hasStrongFacet = false,
+): boolean {
+  return LOCATION_RE.test(message) || (hasCityHint && !hasStrongFacet);
 }
 
 /**
