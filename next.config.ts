@@ -25,7 +25,14 @@ const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  // geolocation=(self) — not fully disabled like camera/microphone (never
+  // used anywhere on the site): the chatbot's "Use my current location"
+  // nearest-centre chip calls navigator.geolocation, and geolocation=()
+  // blocks that outright for every visitor, with no permission prompt ever
+  // shown, regardless of what they'd have clicked. Confirmed live: the
+  // feature always fell through to "I couldn't access your location" — this
+  // header, not a user declining permission, was the entire cause.
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self)' },
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
 ];
 
