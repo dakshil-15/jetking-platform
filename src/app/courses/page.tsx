@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { content } from '@/lib/content';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 import { Breadcrumbs, JsonLd, type Crumb } from '@/components/ui';
@@ -129,6 +131,35 @@ export default async function CoursesPage() {
           <div className="mt-10 lg:mt-12">
             <CourseExplorer courses={courses} />
           </div>
+
+          {/* ── Closing CTA — the page's one consolidated enquiry prompt ───── */}
+          <section
+            className="mt-16 border-t border-[var(--dc-hairline)] pt-12 sm:mt-20 sm:pt-14"
+            aria-labelledby="courses-cta"
+          >
+            <div className="dc-panel flex flex-col items-start gap-6 rounded-[24px] p-7 sm:flex-row sm:items-center sm:justify-between sm:rounded-[28px] sm:p-9">
+              <div className="max-w-lg">
+                <p className="dc-eyebrow label-mono">Still deciding</p>
+                <h2
+                  id="courses-cta"
+                  className="mt-3 font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] sm:text-[28px]"
+                >
+                  Not sure which programme fits?
+                </h2>
+                <p className="mt-2.5 text-[14.5px] leading-relaxed text-[var(--dc-ink-secondary)]">
+                  Talk to a counsellor about your goals, eligibility and the right track — no
+                  commitment needed.
+                </p>
+              </div>
+              <Link
+                href="/enquiry"
+                className="dc-cta inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full px-7 text-sm font-bold sm:h-14 sm:px-8 sm:text-base"
+              >
+                Talk to a counsellor
+                <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
+              </Link>
+            </div>
+          </section>
         </div>
       </div>
     </>

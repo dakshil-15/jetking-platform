@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Search, X } from 'lucide-react';
+import { ArrowRight, ChevronDown, Search, X } from 'lucide-react';
 import type { Course, CourseLevel } from '@/lib/content/types';
 import { usePersona } from '@/persona/PersonaProvider';
 import { useFlip } from '@/components/motion/flip';
@@ -36,32 +36,63 @@ import { track } from '@/lib/analytics';
 const LEVELS: Array<{ id: CourseLevel | 'all'; label: string }> = [
   { id: 'all', label: 'All levels' },
   { id: 'degree', label: 'Degree' },
-  { id: 'diploma', label: 'Diploma' },
   { id: 'certification', label: 'Certification' },
   { id: 'short', label: 'Short course' },
 ];
 
-const COMMITMENTS = [
-  { id: 'all', label: 'Any length' },
-  { id: 'short', label: 'Under 6 months' },
-  { id: 'medium', label: '6–12 months' },
-  { id: 'long', label: 'Over a year' },
-] as const;
-
-type Commitment = (typeof COMMITMENTS)[number]['id'];
-
-/** Parse "3 years" / "12 months" / "10 months" into months. */
-function durationInMonths(duration: string): number {
-  const value = Number(duration.match(/\d+/)?.[0] ?? 0);
-  return /year/i.test(duration) ? value * 12 : value;
+/**
+ * The Level filter shows four buckets, not the four-plus-diploma the raw
+ * course data carries — Diploma reads as Certification here, and what was
+ * Certification folds into Short course. This is purely a display/filter
+ * grouping; `course.level` itself is untouched everywhere else in the app.
+ */
+function displayLevel(level: CourseLevel): CourseLevel {
+  if (level === 'diploma') return 'certification';
+  if (level === 'certification') return 'short';
+  return level;
 }
 
-function matchesCommitment(course: Course, commitment: Commitment): boolean {
-  if (commitment === 'all') return true;
-  const months = durationInMonths(course.duration);
-  if (commitment === 'short') return months < 6;
-  if (commitment === 'medium') return months >= 6 && months <= 12;
-  return months > 12;
+type Technology =
+  | 'cloud'
+  | 'cyber-security'
+  | 'networking'
+  | 'data'
+  | 'design-gaming'
+  | 'marketing'
+  | 'hardware-os';
+
+const TECHNOLOGIES: Array<{ id: Technology | 'all'; label: string }> = [
+  { id: 'all', label: 'All technologies' },
+  { id: 'cloud', label: 'Cloud' },
+  { id: 'cyber-security', label: 'Cyber Security' },
+  { id: 'networking', label: 'Networking' },
+  { id: 'data', label: 'Data' },
+  { id: 'design-gaming', label: 'Design & Gaming' },
+  { id: 'marketing', label: 'Marketing' },
+  { id: 'hardware-os', label: 'Hardware & OS' },
+];
+
+/*
+ * There is no dedicated category field in the course schema, so the facet is
+ * derived from each course's slug + title — grounded in real course names
+ * rather than an invented taxonomy. A course can match more than one
+ * technology (e.g. the Cloud & Cyber Security degrees match both).
+ */
+const TECHNOLOGY_KEYWORDS: Record<Technology, RegExp> = {
+  cloud: /cloud|\baws\b|azure/,
+  'cyber-security': /cyber|hacking|security/,
+  networking: /network|routing|switching|cisco/,
+  data: /\bdata\b/,
+  'design-gaming': /multimedia|animation|gaming|metaverse|design/,
+  marketing: /marketing/,
+  'hardware-os': /hardware|windows|server|red hat/,
+};
+
+function courseTechnologies(course: Course): Technology[] {
+  const haystack = `${course.slug} ${course.title}`.toLowerCase().replace(/-/g, ' ');
+  return (Object.keys(TECHNOLOGY_KEYWORDS) as Technology[]).filter((tech) =>
+    TECHNOLOGY_KEYWORDS[tech].test(haystack),
+  );
 }
 
 function matchesQuery(course: Course, needle: string): boolean {
@@ -77,23 +108,21 @@ function matchesQuery(course: Course, needle: string): boolean {
 
 interface ViewState {
   level: CourseLevel | 'all';
-  commitment: Commitment;
+  technology: Technology | 'all';
   query: string;
 }
 
-const DEFAULT_VIEW: ViewState = { level: 'all', commitment: 'all', query: '' };
+const DEFAULT_VIEW: ViewState = { level: 'all', technology: 'all', query: '' };
 
 function readViewFromUrl(): ViewState {
   const params = new URLSearchParams(window.location.search);
   const level = params.get('level');
-  const commitment = params.get('length');
+  const technology = params.get('tech');
   const query = params.get('q');
 
   return {
     level: LEVELS.some((x) => x.id === level) ? (level as CourseLevel) : 'all',
-    commitment: COMMITMENTS.some((x) => x.id === commitment)
-      ? (commitment as Commitment)
-      : 'all',
+    technology: TECHNOLOGIES.some((x) => x.id === technology) ? (technology as Technology) : 'all',
     query: typeof query === 'string' ? query : '',
   };
 }
@@ -103,16 +132,39 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
   const inputId = useId();
   const [view, setView] = useState<ViewState>(DEFAULT_VIEW);
   const listRef = useRef<HTMLDivElement>(null);
-  const { level, commitment, query } = view;
+  const { level, technology, query } = view;
+
+  /*
+   * The two facet groups are accordions at every width — closed by default
+   * so the results aren't pushed down by every option sitting expanded; see
+   * `.dc-filter-group` in dark-canvas.css. On desktop (lg, the width where the
+   * sidebar sits beside the results instead of above them) there's no such
+   * crowding concern, so Level starts open there — see the post-hydration
+   * check below.
+   */
+  const [levelOpen, setLevelOpen] = useState(false);
+  const [technologyOpen, setTechnologyOpen] = useState(false);
 
   /*
    * Restore a shared filtered URL — a genuine external-source sync, not derived
    * state: `window.location` does not exist during SSR, so reading it in a lazy
    * initialiser would cause a hydration mismatch. The one-time post-hydration
-   * read is the correct and only safe option.
+   * read is the correct and only safe option. A restored filter also opens its
+   * accordion, so a shared link doesn't hide the very facet it points at.
+   *
+   * The desktop-open default for Level is read the same way, for the same
+   * reason: `window.innerWidth` doesn't exist during SSR either.
    */
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => setView(readViewFromUrl()), []);
+  /* eslint-disable react-hooks/set-state-in-effect --
+     one-time post-hydration restore, not a synchronisation loop */
+  useEffect(() => {
+    const restored = readViewFromUrl();
+    setView(restored);
+    if (window.matchMedia('(min-width: 1024px)').matches) setLevelOpen(true);
+    if (restored.level !== 'all') setLevelOpen(true);
+    if (restored.technology !== 'all') setTechnologyOpen(true);
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   /*
    * The read above lands in state one render after mount — the reflect effect
@@ -132,12 +184,12 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
     if (!hydrated) return;
     const params = new URLSearchParams();
     if (level !== 'all') params.set('level', level);
-    if (commitment !== 'all') params.set('length', commitment);
+    if (technology !== 'all') params.set('tech', technology);
     const trimmed = query.trim();
     if (trimmed) params.set('q', trimmed);
     const qs = params.toString();
     window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
-  }, [level, commitment, query, hydrated]);
+  }, [level, technology, query, hydrated]);
 
   // ── Ordering: persona relevance, then editorial order. Stable. ────────────
   const ordered = useMemo(() => {
@@ -157,17 +209,17 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
   // ── Facet counts (over the full set, like the centres sidebar) ────────────
   const levelCounts = useMemo(() => {
     const map = new Map<string, number>();
-    for (const course of courses) map.set(course.level, (map.get(course.level) ?? 0) + 1);
+    for (const course of courses) {
+      const level = displayLevel(course.level);
+      map.set(level, (map.get(level) ?? 0) + 1);
+    }
     return map;
   }, [courses]);
 
-  const commitmentCounts = useMemo(() => {
-    const map = new Map<Commitment, number>();
-    for (const option of COMMITMENTS) {
-      map.set(
-        option.id,
-        courses.filter((course) => matchesCommitment(course, option.id)).length,
-      );
+  const technologyCounts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const course of courses) {
+      for (const tech of courseTechnologies(course)) map.set(tech, (map.get(tech) ?? 0) + 1);
     }
     return map;
   }, [courses]);
@@ -180,13 +232,13 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
         ordered
           .filter(
             (course) =>
-              (level === 'all' || course.level === level) &&
-              matchesCommitment(course, commitment) &&
+              (level === 'all' || displayLevel(course.level) === level) &&
+              (technology === 'all' || courseTechnologies(course).includes(technology)) &&
               matchesQuery(course, needle),
           )
           .map((course) => course.slug),
       ),
-    [ordered, level, commitment, needle],
+    [ordered, level, technology, needle],
   );
 
   // Signature encodes arrangement + membership, so FLIP fires on any
@@ -194,7 +246,7 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
   const signature = `${ordered.map((c) => c.slug).join(',')}|${[...visible].join(',')}`;
   useFlip(listRef, signature);
 
-  const hasActiveFilters = level !== 'all' || commitment !== 'all' || needle !== '';
+  const hasActiveFilters = level !== 'all' || technology !== 'all' || needle !== '';
 
   function clearFilters() {
     setView(DEFAULT_VIEW);
@@ -251,9 +303,9 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
           </label>
         </div>
 
-        {/* Scrollable: level + commitment lists */}
+        {/* Scrollable: level + technology lists */}
         <div className="dc-filter-scroll min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
-          <FilterGroup label="Level">
+          <FilterGroup label="Level" open={levelOpen} onToggle={() => setLevelOpen((v) => !v)}>
             {LEVELS.map((option) => (
               <FilterRow
                 key={option.id}
@@ -268,14 +320,22 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
             ))}
           </FilterGroup>
 
-          <FilterGroup label="Commitment" className="mt-6">
-            {COMMITMENTS.map((option) => (
+          <FilterGroup
+            label="Technology"
+            className="mt-6"
+            open={technologyOpen}
+            onToggle={() => setTechnologyOpen((v) => !v)}
+          >
+            {TECHNOLOGIES.map((option) => (
               <FilterRow
                 key={option.id}
-                active={commitment === option.id}
-                onClick={() => setView((v) => ({ ...v, commitment: option.id }))}
+                active={technology === option.id}
+                onClick={() => {
+                  setView((v) => ({ ...v, technology: option.id }));
+                  track('nudge_clicked', { nudge_id: 'explorer-technology', href: String(option.id) });
+                }}
                 label={option.label}
-                count={commitmentCounts.get(option.id) ?? 0}
+                count={option.id === 'all' ? courses.length : (technologyCounts.get(option.id) ?? 0)}
               />
             ))}
           </FilterGroup>
@@ -299,7 +359,7 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
           {ordered.map((course) => {
             const isVisible = visible.has(course.slug);
             const levelLabel =
-              LEVELS.find((l) => l.id === course.level)?.label ?? course.level;
+              LEVELS.find((l) => l.id === displayLevel(course.level))?.label ?? course.level;
 
             return (
               <article
@@ -383,7 +443,7 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
               No programme matches those filters
             </p>
             <p className="mt-2 text-[14px] text-[var(--dc-ink-secondary)]">
-              Try a different level, length, or search term.
+              Try a different level, technology, or search term.
             </p>
             <button
               type="button"
@@ -404,18 +464,38 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
 function FilterGroup({
   label,
   className,
+  open,
+  onToggle,
   children,
 }: {
   label: string;
   className?: string;
+  open: boolean;
+  onToggle: () => void;
   children: React.ReactNode;
 }) {
+  const panelId = useId();
   return (
-    <div className={className}>
-      <p className="text-[11px] font-bold tracking-[0.12em] text-[var(--dc-ink-muted)] uppercase">
-        {label}
-      </p>
-      <ul className="mt-2.5 flex flex-col gap-1">{children}</ul>
+    <div className={`dc-filter-group${className ? ` ${className}` : ''}`} data-open={open}>
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="dc-filter-group-trigger"
+      >
+        <span className="text-[11px] font-bold tracking-[0.12em] text-[var(--dc-ink-muted)] uppercase">
+          {label}
+        </span>
+        <ChevronDown
+          className="dc-filter-group-chevron h-4 w-4"
+          strokeWidth={2.25}
+          aria-hidden="true"
+        />
+      </button>
+      <div id={panelId} className="dc-filter-group-panel">
+        <ul className="mt-2.5 flex flex-col gap-1">{children}</ul>
+      </div>
     </div>
   );
 }
