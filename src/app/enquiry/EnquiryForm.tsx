@@ -227,7 +227,7 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => track('whatsapp_clicked', { persona: classification.persona })}
-              className="link-underline mt-4 inline-flex items-center gap-1.5 font-semibold text-jk-600"
+              className="link-underline mt-4 inline-flex items-center gap-1.5 font-semibold text-[var(--accent-ink)]"
             >
               Prefer WhatsApp? Message us now
               <span aria-hidden="true">→</span>

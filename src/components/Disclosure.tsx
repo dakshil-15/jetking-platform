@@ -54,7 +54,7 @@ export function Disclosure({
         onClick={() => setOpen((v) => !v)}
         className={cx(
           'flex w-full cursor-pointer items-center gap-4 text-left transition-colors duration-200',
-          tone === 'default' ? 'p-5' : 'py-5 hover:text-jk-600',
+          tone === 'default' ? 'p-5' : 'py-5 hover:text-[var(--accent-ink)]',
         )}
       >
         <span className="min-w-0 flex-1 text-base font-semibold">{summary}</span>
@@ -63,8 +63,8 @@ export function Disclosure({
           aria-hidden="true"
           className="relative grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border transition-transform duration-300 ease-[var(--ease-out-soft)] group-data-[open=true]/disclosure:rotate-45"
         >
-          <span className="absolute h-px w-3 bg-jk-600" />
-          <span className="absolute h-3 w-px bg-jk-600 transition-opacity duration-300 group-data-[open=true]/disclosure:opacity-100" />
+          <span className="absolute h-px w-3 bg-[var(--accent-ink)]" />
+          <span className="absolute h-3 w-px bg-[var(--accent-ink)] transition-opacity duration-300 group-data-[open=true]/disclosure:opacity-100" />
         </span>
       </button>
 

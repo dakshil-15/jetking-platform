@@ -90,7 +90,7 @@ export function Field({
             "star" before every required field.
           */}
           {required ? (
-            <span aria-hidden="true" className="ml-1 text-jk-600">
+            <span aria-hidden="true" className="ml-1 text-[var(--accent-ink)]">
               *
             </span>
           ) : null}
@@ -102,7 +102,7 @@ export function Field({
         ) : null}
         {children}
         {error ? (
-          <p id={errorId} className="text-sm font-medium text-jk-700" role="alert">
+          <p id={errorId} className="text-sm font-medium text-[var(--accent-ink)]" role="alert">
             {error}
           </p>
         ) : null}

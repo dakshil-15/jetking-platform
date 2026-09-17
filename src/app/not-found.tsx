@@ -12,7 +12,7 @@ export default function NotFound() {
   return (
     <Section>
       <div className="mx-auto max-w-2xl py-8">
-        <p className="label-mono numeral text-jk-600">Error 404</p>
+        <p className="label-mono numeral text-[var(--accent-ink)]">Error 404</p>
         <h1 className="mt-5 text-3xl sm:text-4xl">We could not find that page</h1>
         <p className="lede mt-5">
           The page may have moved during our site migration. Here is where most people

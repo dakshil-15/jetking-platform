@@ -11,16 +11,16 @@ export function ProfessionalSocialProof() {
         <div className="pro-why overflow-hidden rounded-[28px] px-6 py-10 xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
             <div>
-              <p className="text-[13px] font-bold tracking-[0.06em] text-jk-400 uppercase">
+              <p className="text-[13px] font-bold tracking-[0.06em] text-[var(--pro-accent-soft)] uppercase">
                 Success stories
               </p>
               <h2
                 id="pro-stories-heading"
-                className="mt-2 font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
+                className="mt-2 font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--pro-ink)] xs:text-[28px] sm:text-[32px]"
               >
                 Real career transitions
               </h2>
-              <p className="mt-2 text-[14px] text-white/75 sm:text-[15px]">
+              <p className="mt-2 text-[14px] text-[var(--pro-ink-secondary)] sm:text-[15px]">
                 Working professionals like you who upskilled without quitting their day job.
               </p>
 
@@ -32,10 +32,10 @@ export function ProfessionalSocialProof() {
                 itemLabel={(story) => `${story.name}, ${story.from} to ${story.to}`}
                 classNames={{
                   viewport: 'rounded-[24px]',
-                  dotActive: 'bg-jk-400',
-                  dotIdle: 'bg-white/25',
+                  dotActive: 'bg-[var(--pro-accent-soft)]',
+                  dotIdle: 'bg-[var(--pro-ink-muted)]/40',
                   button:
-                    'border-white/20 bg-white/10 text-white transition-colors hover:border-jk-400 hover:text-jk-400',
+                    'border-[var(--pro-hairline)] bg-[var(--pro-card)] text-[var(--pro-ink)] transition-colors hover:border-[var(--pro-accent-soft)] hover:text-[var(--pro-accent-soft)]',
                 }}
               >
                 {(story) => (
@@ -80,10 +80,10 @@ export function ProfessionalSocialProof() {
             </div>
 
             <div>
-              <h3 className="font-display text-[20px] font-extrabold tracking-[-0.02em] text-white sm:text-[22px]">
+              <h3 className="font-display text-[20px] font-extrabold tracking-[-0.02em] text-[var(--pro-ink)] sm:text-[22px]">
                 Our Hiring Partners
               </h3>
-              <p className="mt-2 text-[14px] text-white/75">
+              <p className="mt-2 text-[14px] text-[var(--pro-ink-secondary)]">
                 Illustrative partners — introductions vary by centre and programme.
               </p>
               <ul className="mt-6 grid grid-cols-2 gap-3 xs:grid-cols-3 sm:gap-4">

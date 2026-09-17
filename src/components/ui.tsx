@@ -130,7 +130,7 @@ export const buttonTones: Record<ButtonTone, string> = {
     'bg-background text-foreground border border-border-medium hover:border-foreground hover:shadow-[var(--shadow-sm)]',
   ghost:
     'bg-transparent text-foreground border border-transparent hover:border-border-medium',
-  text: 'bg-transparent text-foreground link-underline h-auto rounded-none px-0 hover:text-jk-600',
+  text: 'bg-transparent text-foreground link-underline h-auto rounded-none px-0 hover:text-[var(--accent-ink)]',
 };
 
 export const buttonSizes: Record<ButtonSize, string> = {
@@ -193,7 +193,7 @@ export function ArrowLink({
     <Link
       href={href as Route}
       className={cx(
-        'group/arrow inline-flex items-center gap-1.5 text-sm font-semibold text-jk-600',
+        'group/arrow inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent-ink)]',
         className,
       )}
     >
@@ -328,7 +328,7 @@ export function IndexRow({
         className="group/row flex items-baseline justify-between gap-6 border-b border-border py-4.5 transition-colors duration-200 hover:bg-surface"
       >
         <span className="min-w-0">
-          <span className="block font-semibold text-foreground transition-colors group-hover/row:text-jk-600">
+          <span className="block font-semibold text-foreground transition-colors group-hover/row:text-[var(--accent-ink)]">
             {title}
           </span>
           {meta ? (
@@ -347,7 +347,7 @@ export function IndexRow({
         ) : (
           <span
             aria-hidden="true"
-            className="shrink-0 text-jk-600 transition-transform duration-200 ease-[var(--ease-out-soft)] group-hover/row:translate-x-1"
+            className="shrink-0 text-[var(--accent-ink)] transition-transform duration-200 ease-[var(--ease-out-soft)] group-hover/row:translate-x-1"
           >
             →
           </span>
@@ -447,7 +447,7 @@ export function Breadcrumbs({ trail }: { trail: Crumb[] }) {
                   {item.name}
                 </span>
               ) : (
-                <Link href={href} className="link-underline hover:text-jk-600">
+                <Link href={href} className="link-underline hover:text-[var(--accent-ink)]">
                   {item.name}
                 </Link>
               )}

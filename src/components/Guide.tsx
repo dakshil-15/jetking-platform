@@ -365,7 +365,7 @@ export function Guide() {
                                 <Link
                                   href={citation.url as Route}
                                   onClick={() => setOpen(false)}
-                                  className="text-xs text-jk-600 hover:underline"
+                                  className="text-xs text-[var(--accent-ink)] hover:underline"
                                 >
                                   {citation.title}
                                 </Link>
@@ -375,7 +375,7 @@ export function Guide() {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={() => setOpen(false)}
-                                  className="text-xs text-jk-600 hover:underline"
+                                  className="text-xs text-[var(--accent-ink)] hover:underline"
                                 >
                                   {citation.title}
                                   <span className="sr-only"> (opens in a new tab)</span>
@@ -396,7 +396,7 @@ export function Guide() {
                             track('guide_handoff', { persona: classification.persona });
                             setOpen(false);
                           }}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-jk-600 hover:underline"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--accent-ink)] hover:underline"
                         >
                           Talk to a counsellor <span aria-hidden="true">→</span>
                         </Link>
@@ -409,7 +409,7 @@ export function Guide() {
                               if (handoffPayload) storeHandoff(handoffPayload);
                               track('whatsapp_clicked', { persona: classification.persona });
                             }}
-                            className="inline-flex items-center gap-1 text-xs font-semibold text-jk-600 hover:underline"
+                            className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--accent-ink)] hover:underline"
                           >
                             Continue on WhatsApp <span aria-hidden="true">→</span>
                             <span className="sr-only">(opens in a new tab)</span>

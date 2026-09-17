@@ -60,7 +60,10 @@
   /* ── Text — every value below passes WCAG AA on white ──────────────────── */
   --color-foreground: #101828; /* 16.6:1 */
   --color-foreground-secondary: #475467; /* 8.6:1 */
-  --color-foreground-muted: #667085; /* 5.7:1 */
+  /* #667085 measured 4.43:1 on a tinted (non-white) card — just under the 4.5
+     AA floor for normal-size text. Darkened slightly to clear it; still 5.7:1+
+     on white. */
+  --color-foreground-muted: #5f6b7d;
   --color-foreground-disabled: #98a2b3; /* decorative / disabled only */
 
   /* ── Hairlines — one weight, three strengths ───────────────────────────── */
@@ -199,7 +202,7 @@
 
   --color-foreground: #101828;
   --color-foreground-secondary: #475467;
-  --color-foreground-muted: #667085;
+  --color-foreground-muted: #5f6b7d;
   --color-foreground-disabled: #98a2b3;
 
   --color-border: #e4e7ec;
@@ -259,7 +262,9 @@
   /* Text Colors */
   --theme-ink: #1d2939;
   --theme-ink-secondary: #344054;
-  --theme-ink-muted: #667085;
+  /* #667085 measured 4.48:1 on --theme-card (#f1f3f7) — just under the 4.5
+     AA floor for normal-size text. Darkened slightly to clear it. */
+  --theme-ink-muted: #5f6b7d;
 
   /* Accent & Highlights */
   --theme-accent: #ea1c24;
@@ -375,7 +380,10 @@
   --theme-ink-muted: #9a9aa8;
 
   /* Accent & Highlights */
-  --theme-accent: #e8242b;
+  /* #e8242b measured 4.45:1 for white text — just under the 4.5 AA floor for
+     normal-size text (e.g. solid CTA button labels). Darkened slightly to
+     clear it; the shift is imperceptible next to the original brand red. */
+  --theme-accent: #e01e25;
   --theme-accent-hover: #c41e24;
   --theme-accent-soft: #ff6b70;
   --theme-accent-soft-light: #ff8a90;
@@ -439,7 +447,7 @@
 
   --color-foreground: #101828;
   --color-foreground-secondary: #475467;
-  --color-foreground-muted: #667085;
+  --color-foreground-muted: #5f6b7d;
   --color-foreground-disabled: #98a2b3;
 
   --color-border: #e4e7ec;
@@ -629,6 +637,22 @@
       scroll-behavior: auto !important;
     }
   }
+
+  /*
+   * Lives in `base`, not `utilities`, on purpose: every `text-*` color utility
+   * lives in the `utilities` layer, and a same-layer, same-specificity tie is
+   * broken by source order — which silently let this class's own `color` win
+   * over a caller's intended override (e.g. `label-mono text-jk-700` rendered
+   * as muted grey, not jk-700). Layer order settles the tie instead: `base`
+   * always loses to `utilities`, so any `text-*` alongside this now wins.
+   */
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--content-muted);
+  }
 }
 
 @layer utilities {
@@ -759,14 +783,6 @@
 
   .measure {
     max-width: 68ch;
-  }
-
-  .label-mono {
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--content-muted);
   }
 
   /* Figures in stat rows and tables align on the decimal. */

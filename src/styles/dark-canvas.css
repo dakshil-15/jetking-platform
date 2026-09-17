@@ -30,9 +30,12 @@
        on `.dark-canvas` alone, because the global toggle flips their
        `--color-*` tokens the same way it flips `--dc-*`.
        `.surface-inverse` is still the right call for a section that should stay
-       dark *regardless* of the page's own theme — e.g. `SiteFooter.tsx`, the
-       admin shell, or a single `<Section tone="inverse">` block inside an
-       otherwise light page.
+       dark *regardless* of the page's own theme — e.g. the admin shell, a
+       `.home-v2` page that never opts into `.home-v2-themeable` (see
+       `FranchiseLanding.tsx`), or a single `<Section tone="inverse">` block
+       inside an otherwise light page. `SiteFooter.tsx` used to be an example
+       here too, but the footer is meant to track the site's own toggle like
+       any other section, so it now just uses `bg-surface`.
      • If the page has sticky chrome, use `.dc-flow` + `.no-orbs` + a `.dc-orbs`
        child instead of the built-in orbs (see the flow-modifier note below).
 
@@ -69,9 +72,9 @@
   --dc-shadow-hover: var(--theme-shadow-hover);
   --dc-glow-red: var(--theme-glow);
 
-  /* ── Card chamfer (top-left + bottom-right crop) ───────────────────── */
-  --dc-cut: 18px;
-  --dc-cut-inner: 16px;
+  /* ── Card corner radius (matches `.dc-panel`'s rounded corners) ──────── */
+  --dc-cut: 20px;
+  --dc-cut-inner: 18px;
 
   background: var(--dc-canvas);
   color: var(--dc-ink);
@@ -82,8 +85,8 @@
 
 @media (min-width: 640px) {
   .dark-canvas {
-    --dc-cut: 22px;
-    --dc-cut-inner: 20px;
+    --dc-cut: 24px;
+    --dc-cut-inner: 22px;
   }
 }
 
@@ -255,27 +258,24 @@
    PRIMITIVES
    ══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Chamfered card ─────────────────────────────────────────────────────
-   Outer shell = gradient rim; inner fill uses a slightly smaller cut so the
-   border reads evenly. `filter:drop-shadow` follows clip-path (box-shadow does
-   not). Wrap `.dc-card` inside `.dc-card-shell`; add `.dc-card-interactive`
-   to the shell for hover/focus lift. */
+/* ── Rounded card ───────────────────────────────────────────────────────
+   Outer shell = gradient rim; inner fill uses a slightly smaller radius so the
+   border reads evenly (same relationship `.dc-panel` uses) — same corner
+   radius as `.dc-panel` (the stat-card style), via the same `--dc-cut` /
+   `--dc-cut-inner` tokens this design system already tracks responsively.
+   `filter:drop-shadow` follows border-radius here too. Wrap `.dc-card`
+   inside `.dc-card-shell`; add `.dc-card-interactive` to the shell for
+   hover/focus lift. */
 .dc-card-shell {
   display: block;
   height: 100%;
   padding: 1.5px;
-  background: linear-gradient(180deg, rgb(255 107 112 / 0.9) 0%, rgb(139 0 20 / 0.7) 100%);
-  clip-path: polygon(
-    var(--dc-cut) 0,
-    100% 0,
-    100% calc(100% - var(--dc-cut)),
-    calc(100% - var(--dc-cut)) 100%,
-    0 100%,
-    0 var(--dc-cut)
-  );
+  background: linear-gradient(180deg, rgb(255 107 112 / 0.55) 0%, rgb(139 0 20 / 0.4) 100%);
+  border-radius: var(--dc-cut);
+  overflow: hidden;
   filter:
-    drop-shadow(0 8px 24px rgb(0 0 0 / 0.45))
-    drop-shadow(0 0 18px rgb(232 36 43 / 0.12));
+    drop-shadow(0 8px 24px rgb(0 0 0 / 0.3))
+    drop-shadow(0 0 18px rgb(232 36 43 / 0.07));
   transition:
     filter var(--duration-base) var(--ease-out-soft),
     transform var(--duration-base) var(--ease-out-soft),
@@ -287,39 +287,33 @@
   background: var(--dc-card);
   border: none;
   box-shadow: none;
-  clip-path: polygon(
-    var(--dc-cut-inner) 0,
-    100% 0,
-    100% calc(100% - var(--dc-cut-inner)),
-    calc(100% - var(--dc-cut-inner)) 100%,
-    0 100%,
-    0 var(--dc-cut-inner)
-  );
+  border-radius: var(--dc-cut-inner);
+  overflow: hidden;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .dc-card-interactive:hover {
-    background: linear-gradient(180deg, rgb(255 130 135 / 1) 0%, rgb(180 20 40 / 0.85) 100%);
+    background: linear-gradient(180deg, rgb(255 130 135 / 0.6) 0%, rgb(180 20 40 / 0.5) 100%);
     filter:
-      drop-shadow(0 14px 32px rgb(0 0 0 / 0.55))
-      drop-shadow(0 0 28px rgb(232 36 43 / 0.38));
+      drop-shadow(0 14px 32px rgb(0 0 0 / 0.35))
+      drop-shadow(0 0 28px rgb(232 36 43 / 0.22));
     transform: translateY(-3px);
   }
 }
 
 .dc-card-interactive:focus-within {
-  background: linear-gradient(180deg, rgb(255 130 135 / 1) 0%, rgb(180 20 40 / 0.85) 100%);
+  background: linear-gradient(180deg, rgb(255 130 135 / 0.6) 0%, rgb(180 20 40 / 0.5) 100%);
   filter:
-    drop-shadow(0 14px 32px rgb(0 0 0 / 0.55))
-    drop-shadow(0 0 28px rgb(232 36 43 / 0.38));
+    drop-shadow(0 14px 32px rgb(0 0 0 / 0.35))
+    drop-shadow(0 0 28px rgb(232 36 43 / 0.22));
 }
 
 /* Selected/active shell — persistent red rim without the lift. */
 .dc-card-selected {
-  background: linear-gradient(180deg, rgb(255 130 135 / 1) 0%, rgb(180 20 40 / 0.9) 100%);
+  background: linear-gradient(180deg, rgb(255 130 135 / 0.6) 0%, rgb(180 20 40 / 0.55) 100%);
   filter:
-    drop-shadow(0 12px 30px rgb(0 0 0 / 0.55))
-    drop-shadow(0 0 26px rgb(232 36 43 / 0.4));
+    drop-shadow(0 12px 30px rgb(0 0 0 / 0.35))
+    drop-shadow(0 0 26px rgb(232 36 43 / 0.24));
 }
 
 /* Media plate for cards without imagery. */
@@ -445,6 +439,45 @@
   color: var(--dc-ink);
   border-color: rgb(255 107 112 / 0.55);
   background: var(--dc-accent-tint);
+}
+
+/* ── Filter group accordion ───────────────────────────────────────────────────
+   A facet group (Level, Technology, …) is an accordion at every width — up
+   to 8 options has no business sitting fully expanded by default, phone or
+   desktop. Closed until the visitor opens one. */
+.dc-filter-group-trigger {
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.dc-filter-group-chevron {
+  flex-shrink: 0;
+  color: var(--dc-ink-muted);
+  transition: transform var(--duration-base) var(--ease-out-soft);
+}
+
+.dc-filter-group[data-open='true'] .dc-filter-group-chevron {
+  transform: rotate(180deg);
+}
+
+.dc-filter-group-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-base) var(--ease-out-soft);
+}
+
+.dc-filter-group[data-open='true'] .dc-filter-group-panel {
+  grid-template-rows: 1fr;
+}
+
+.dc-filter-group-panel > ul {
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* ── Brand logo glyph ────────────────────────────────────────────────────────

@@ -186,7 +186,7 @@ export function ExitIntentPopup() {
               </Field>
 
               {error ? (
-                <p role="alert" className="text-sm font-medium text-jk-600">
+                <p role="alert" className="text-sm font-medium text-[var(--accent-ink)]">
                   {error}
                 </p>
               ) : null}
