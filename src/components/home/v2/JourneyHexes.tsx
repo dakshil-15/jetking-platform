@@ -23,14 +23,6 @@ import { JOURNEYS } from '../journeys';
  */
 const HOME_V2_JOURNEY_IDS = ['student', 'professional', 'exploring'];
 
-/**
- * Degree-programme callout under the Student and Working Professional hexes —
- * a second, separate link (never nested inside the hex's own <Link>) straight
- * into the course tab, pre-filtered to degree-level programmes (BCA & MCA).
- */
-const DEGREE_CALLOUT_IDS = new Set(['student', 'professional']);
-const DEGREE_CALLOUT_HREF = '/courses?level=degree';
-
 const homeV2Journeys = JOURNEYS.filter((journey) => HOME_V2_JOURNEY_IDS.includes(journey.id)).map(
   (journey) => (journey.id === 'exploring' ? { ...journey, title: "I'm Just Browsing" } : journey),
 );
@@ -169,24 +161,6 @@ export function JourneyHexes() {
                 <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
               </span>
             </Link>
-
-            {DEGREE_CALLOUT_IDS.has(journey.id) ? (
-              <Link
-                href={DEGREE_CALLOUT_HREF as Route}
-                onClick={() =>
-                  track('adaptive_slot_rendered', {
-                    slot_id: 'home-v2-journey-degree-callout',
-                    persona: journey.persona ?? 'unknown',
-                    strategy: 'emphasise',
-                    journey: journey.id,
-                  })
-                }
-                className="mx-auto mt-2.5 flex w-fit items-center gap-1 rounded-full border border-[rgb(232_36_43/0.28)] bg-[rgb(232_36_43/0.08)] px-3 py-1 text-[11px] font-bold tracking-[0.01em] whitespace-nowrap text-[var(--v2-accent)] transition-colors duration-200 hover:border-[rgb(232_36_43/0.5)] hover:bg-[rgb(232_36_43/0.16)] xs:text-[11.5px]"
-              >
-                MCA &amp; BCA degrees
-                <ArrowRight className="h-3 w-3 shrink-0" strokeWidth={2.5} aria-hidden="true" />
-              </Link>
-            ) : null}
           </li>
         );
       })}

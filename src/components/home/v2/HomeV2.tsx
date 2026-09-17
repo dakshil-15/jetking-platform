@@ -4,22 +4,17 @@ import { ArrowRight } from 'lucide-react';
 import { siteConfig } from '@/lib/site';
 import { WelcomeBack } from '@/persona/WelcomeBack';
 import type { HomeData } from '../data';
-import { WatchVideo } from '../WatchVideo';
 import { ActionRail } from '../v1/ActionRail';
 import { ActionBar } from './ActionBar';
 import { JourneyHexes } from './JourneyHexes';
 
 /**
- * Homepage lead v2 — "Future-Ready".
+ * The homepage — "Future-Ready".
  *
- * The floating ActionRail (Find Center / Call / Book Counselling) matches v1.
- * Ask Jetking lives on the global Guide launcher.
+ * Ask Jetking lives on the global Guide launcher, not on this page's floating
+ * ActionRail (Find Center / Call / Book Counselling).
  */
-export function HomeV2({ data }: { data: HomeData }) {
-  const { variants } = data;
-
-  const defaultVariant = variants.find((v) => v.id === 'default') ?? variants[0];
-
+export function HomeV2({ data: _data }: { data: HomeData }) {
   return (
     <section
       className={[
@@ -75,17 +70,11 @@ export function HomeV2({ data }: { data: HomeData }) {
                 '3xl:text-[62px] 4xl:text-[68px]',
               ].join(' ')}
             >
-              Future-Ready
+              The Power of Three
               <br />
-              Careers Start
-              <br />
-              at{' '}
+              with{' '}
               <span className="v2-accent-glow text-[var(--v2-accent)]">{siteConfig.name}</span>
             </h1>
-
-            <p className="mt-3 text-[16px] font-extrabold tracking-[-0.01em] text-[var(--v2-accent)] xs:mt-4 xs:text-[17px] sm:text-[18px] 3xl:text-[19px]">
-              The Power of Three with Jetking
-            </p>
 
             <p className="mt-2.5 max-w-[42ch] text-[15px] leading-[1.6] font-bold text-[var(--v2-ink)] xs:text-[15.5px] sm:text-[16px] lg:text-[17px] 3xl:text-[18px]">
               Get Skills. Get a Degree. 100% Placement — only at Jetking.
@@ -108,8 +97,6 @@ export function HomeV2({ data }: { data: HomeData }) {
                   aria-hidden="true"
                 />
               </Link>
-
-              <WatchVideo video={defaultVariant?.video} variant="inline" />
             </div>
           </div>
 

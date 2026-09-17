@@ -12,19 +12,19 @@ import { cx } from '@/components/ui';
 /**
  * Standing quick actions from the homepage lead (Find Center / Call / Book).
  * The AI Guide lives on the global Guide launcher — not duplicated here.
+ * Shared by the live homepage (HomeV2) and the Professional page, which reuses
+ * the same `.home-v2` design language.
  *
- * Below `xl`: a horizontal row under the chooser (in document flow).
- * From `xl` up: fixed on the right edge, sharing the `right-4` gutter with
+ * Below `lg2` (1200px): a horizontal row under the chooser (in document flow).
+ * From `lg2` up: fixed on the right edge, sharing the `right-4` gutter with
  * the Guide launcher below it.
  *
  * "Call us" only renders as a `tel:` link when NEXT_PUBLIC_PHONE is configured.
  * Otherwise it points at /centres, whose pages carry each centre's real number.
- *
- * Tokens fall back across v1/v2 so the same rail can sit on either lead.
  */
 
 const RAIL_CLASS =
-  'grid h-[54px] w-[54px] place-items-center rounded-full bg-white text-ink-900 shadow-[0_0_18px_rgb(232_36_43/0.28),0_8px_24px_rgb(0_0_0/0.25)] transition-[transform,box-shadow] duration-200 ease-[var(--ease-out-soft)] group-hover/rail:-translate-y-0.5 group-hover/rail:shadow-[0_0_28px_rgb(232_36_43/0.55),0_0_48px_rgb(232_36_43/0.25)]';
+  'grid h-[54px] w-[54px] place-items-center rounded-full bg-white text-ink-900 shadow-[0_8px_24px_rgb(0_0_0/0.25)] transition-[transform,box-shadow] duration-200 ease-[var(--ease-out-soft)] group-hover/rail:-translate-y-0.5 group-hover/rail:shadow-[0_12px_28px_rgb(0_0_0/0.3)]';
 
 function Item({
   icon,
@@ -40,7 +40,7 @@ function Item({
   const body = (
     <>
       {icon}
-      <span className="text-[12.5px] font-semibold text-[var(--v1-ink-secondary,var(--v2-ink-secondary,#43434e))]">
+      <span className="text-[12.5px] font-semibold text-[var(--v2-ink-secondary,#43434e)]">
         {label}
       </span>
     </>

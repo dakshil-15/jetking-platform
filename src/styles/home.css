@@ -1,227 +1,22 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   HOMEPAGE LEAD SKINS
-   Two scoped palettes, one per homepage lead. Nothing here is global.
+   HOMEPAGE LEAD SKIN — "FUTURE-READY"
+   Dark canvas, Jetking red highlights, soft atmospheric glow, hexagon chooser,
+   action bar, floating ActionRail. Shared by the live homepage (HomeV2) and
+   the Professional persona page, which reuses the same `.home-v2` language.
 
-   Why this file exists rather than new tokens in globals.css:
+   Why this file exists rather than new tokens in globals.css: this design
+   speaks a softer, rounder, multi-hue language — tinted paper, resting
+   shadows, a per-persona accent hue, gradient panels. design-system/MASTER.md
+   explicitly rules those out for the site at large: one accent, one hairline
+   weight, no resting shadows on cards, no gradient fills.
 
-   Both imported designs (Claude Design → "Jetking Landing Replica" and its v2)
-   speak a softer, rounder, multi-hue language — tinted paper, resting shadows, a
-   per-persona accent hue, gradient panels. design-system/MASTER.md explicitly
-   rules those out for the site at large: one accent, one hairline weight, no
-   resting shadows on cards, no gradient fills.
-
-   Both are correct in their place, so the skins are *scoped*: every value below
-   lives under `.home-v1` or `.home-v2` and is inert everywhere else. globals.css
-   remains the single source of truth for the system that governs the rest of the
-   site, and deleting a lead's components plus its block here leaves that system
-   untouched.
+   It is correct in its place, so the skin is *scoped*: every value below lives
+   under `.home-v2` and is inert everywhere else. globals.css remains the
+   single source of truth for the system that governs the rest of the site.
 
    Rules that are NOT relaxed, because they are not stylistic: accessible
    contrast, 44px touch targets, visible focus rings, reduced-motion, and the
    requirement that every card is a real crawlable link.
-   ══════════════════════════════════════════════════════════════════════════ */
-
-/* ══════════════════════════════════════════════════════════════════════════
-   V1 — "JOURNEY LEAD"
-   Lavender wash, tilted portrait, hue-coded journey cards, dark impact circle.
-   ══════════════════════════════════════════════════════════════════════════ */
-
-.home-v1 {
-  --v1-canvas: radial-gradient(120% 90% at 8% 6%, #fdfcfe 0%, #f6f3f8 45%, #eeeaf3 100%);
-  --v1-card: #fdfcff;
-  --v1-card-warm: #fefdfb;
-  --v1-hairline: rgb(150 140 180 / 0.16);
-  --v1-hairline-warm: rgb(180 150 120 / 0.18);
-
-  /* Ink. Both pass AA on the canvas above. */
-  --v1-ink: #0d0d16;
-  --v1-ink-secondary: #45454f;
-  --v1-ink-muted: #55555f;
-
-  --v1-accent: #e01f26;
-
-  /*
-   * Journey hues. These are wayfinding, not brand chrome — each labels one route
-   * out of the chooser, the way a transit map colours lines. Every pairing below
-   * is >= 4.5:1 on its own tint and on the card surface.
-   */
-  --v1-student-ink: #5a2fbd;
-  --v1-student-tint: #ece4fb;
-  --v1-parent-ink: #176732;
-  --v1-parent-tint: #dcefe0;
-  --v1-professional-ink: #1e56c8;
-  --v1-professional-tint: #dde7fb;
-  --v1-franchise-ink: #b34c11;
-  --v1-franchise-tint: #fde7d4;
-  --v1-explore-ink: #2b2b38;
-  --v1-explore-tint: #e6e6ec;
-
-  --v1-shadow-card: 0 12px 30px rgb(60 50 95 / 0.07);
-  --v1-shadow-card-hover: 0 18px 40px rgb(60 50 95 / 0.16);
-  --v1-shadow-float: 0 14px 36px rgb(50 40 80 / 0.14);
-  --v1-shadow-portrait: 0 40px 90px rgb(40 25 70 / 0.28);
-
-  background: var(--v1-canvas);
-  color: var(--v1-ink);
-}
-
-.v1-card {
-  background: var(--v1-card);
-  border: 1px solid var(--v1-hairline);
-  box-shadow: var(--v1-shadow-card);
-  transition:
-    box-shadow var(--duration-base) var(--ease-out-soft),
-    transform var(--duration-base) var(--ease-out-soft);
-}
-
-.v1-card-warm {
-  background: var(--v1-card-warm);
-  border-color: var(--v1-hairline-warm);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .v1-card-interactive:hover {
-    box-shadow: var(--v1-shadow-card-hover);
-    transform: translateY(-3px);
-  }
-}
-
-.v1-card-interactive:focus-within {
-  box-shadow: var(--v1-shadow-card-hover);
-}
-
-.v1-float {
-  background: var(--v1-card);
-  box-shadow: var(--v1-shadow-float);
-}
-
-/* The dark "Our Impact" panel. A circle at desktop width, a rounded panel below. */
-.v1-impact {
-  background: radial-gradient(120% 100% at 50% 8%, #1b1f3a 0%, #101332 40%, #070919 100%);
-  box-shadow:
-    0 -20px 70px rgb(20 20 60 / 0.35),
-    inset 0 1px 0 rgb(255 255 255 / 0.14);
-}
-
-/*
- * Desktop impact band — only the upper crescent of the disc is visible.
- * Mock (1536×1024): 780 disc at top:764 → ~260px of arc shows; cards at top:884.
- */
-.v1-impact-band {
-  height: 268px;
-}
-
-.v1-impact-arc {
-  width: min(640px, 70vw);
-  height: min(640px, 70vw);
-  border-radius: 50%;
-}
-
-.v1-impact-floor {
-  bottom: -72%;
-  width: min(1400px, 160vw);
-  height: min(900px, 100vw);
-}
-
-@media (min-width: 1280px) {
-  .v1-impact-band {
-    height: 290px;
-  }
-
-  .v1-impact-arc {
-    width: min(720px, 68vw);
-    height: min(720px, 68vw);
-  }
-}
-
-@media (min-width: 1536px) {
-  .v1-impact-band {
-    height: 260px;
-  }
-
-  .v1-impact-arc {
-    width: 780px;
-    height: 780px;
-  }
-
-  .v1-impact-floor {
-    bottom: -560px;
-    width: 1720px;
-    height: 1100px;
-  }
-}
-
-@media (min-width: 1920px) {
-  .v1-impact-band {
-    height: 300px;
-  }
-
-  .v1-impact-arc {
-    width: 860px;
-    height: 860px;
-  }
-}
-
-@media (min-width: 2560px) {
-  .v1-impact-band {
-    height: 340px;
-  }
-
-  .v1-impact-arc {
-    width: 960px;
-    height: 960px;
-  }
-}
-
-.v1-bloom {
-  background: radial-gradient(circle, rgb(255 225 228 / 0.55) 0%, rgb(244 241 248 / 0) 62%);
-}
-
-.v1-dots {
-  background-image: radial-gradient(rgb(120 110 150 / 0.28) 1px, transparent 1px);
-  background-size: 14px 14px;
-}
-
-.v1-pulse {
-  animation: v1-pulse-ring 2.4s var(--ease-out-soft) infinite;
-}
-
-@keyframes v1-pulse-ring {
-  0% {
-    box-shadow: 0 0 0 0 rgb(224 31 38 / 0.45);
-  }
-  70% {
-    box-shadow: 0 0 0 14px rgb(224 31 38 / 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgb(224 31 38 / 0);
-  }
-}
-
-/*
- * The hero portrait tilts, but only on pointers wide enough for it to read as
- * composition rather than as a broken image. It also unrotates on hover so the
- * photo can be looked at straight.
- */
-.v1-portrait {
-  box-shadow: var(--v1-shadow-portrait);
-  transition: transform var(--duration-base) var(--ease-out-soft);
-}
-
-@media (min-width: 1024px) {
-  .v1-portrait {
-    transform: rotate(4.6deg);
-  }
-
-  .v1-portrait:hover {
-    transform: rotate(0deg);
-  }
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   V2 — "FUTURE-READY"
-   Dark canvas, Jetking red highlights, soft atmospheric glow, hexagon chooser,
-   action bar, floating ActionRail.
    ══════════════════════════════════════════════════════════════════════════ */
 
 .home-v2 {
@@ -256,17 +51,17 @@
 
   --v2-shadow-card:
     0 8px 28px rgb(0 0 0 / 0.45),
-    0 0 20px rgb(232 36 43 / 0.08);
+    0 0 20px rgb(232 36 43 / 0.05);
   --v2-shadow-card-hover:
-    0 0 0 1px rgb(232 36 43 / 0.65),
-    0 0 36px rgb(232 36 43 / 0.45),
-    0 0 72px rgb(232 36 43 / 0.22),
+    0 0 0 1px rgb(232 36 43 / 0.39),
+    0 0 36px rgb(232 36 43 / 0.27),
+    0 0 72px rgb(232 36 43 / 0.13),
     0 16px 40px rgb(0 0 0 / 0.55);
   --v2-shadow-float: 0 14px 34px rgb(0 0 0 / 0.4);
   --v2-glow-red:
-    0 0 18px rgb(232 36 43 / 0.65),
-    0 0 42px rgb(232 36 43 / 0.4),
-    0 0 80px rgb(232 36 43 / 0.22);
+    0 0 18px rgb(232 36 43 / 0.39),
+    0 0 42px rgb(232 36 43 / 0.24),
+    0 0 80px rgb(232 36 43 / 0.13);
 
   background: var(--v2-canvas);
   color: var(--v2-ink);
@@ -308,18 +103,18 @@ html:not(.dark) .home-v2-themeable {
 
   --v2-shadow-card: 0 10px 30px rgb(20 20 31 / 0.09);
   --v2-shadow-card-hover:
-    0 0 0 1px rgb(216 31 38 / 0.42),
+    0 0 0 1px rgb(216 31 38 / 0.25),
     0 18px 44px rgb(60 50 90 / 0.14);
   --v2-shadow-float: 0 14px 34px rgb(20 20 31 / 0.14);
-  --v2-glow-red: 0 8px 26px rgb(199 20 28 / 0.24);
+  --v2-glow-red: 0 8px 26px rgb(199 20 28 / 0.14);
 }
 
 html:not(.dark) .home-v2-themeable::before {
-  background: radial-gradient(circle, rgb(232 36 43 / 0.14) 0%, transparent 68%);
+  background: radial-gradient(circle, rgb(232 36 43 / 0.08) 0%, transparent 68%);
 }
 
 html:not(.dark) .home-v2-themeable::after {
-  background: radial-gradient(circle, rgb(95 58 168 / 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgb(95 58 168 / 0.06) 0%, transparent 70%);
 }
 
 html:not(.dark) .home-v2-themeable .v2-heading-glow,
@@ -329,38 +124,7 @@ html:not(.dark) .home-v2-themeable .v2-eyebrow-glow {
 
 html:not(.dark) .home-v2-themeable .v2-accent-glow {
   animation: none;
-  text-shadow: 0 6px 22px rgb(216 31 38 / 0.16);
-}
-
-/* The alternate /v2 homepage follows the same global switch. */
-.dark .home-v1 {
-  --v1-canvas: radial-gradient(120% 90% at 8% 6%, #15131b 0%, #0d0d14 48%, #07070c 100%);
-  --v1-card: #14141c;
-  --v1-card-warm: #1a1615;
-  --v1-hairline: rgb(255 255 255 / 0.12);
-  --v1-hairline-warm: rgb(255 160 120 / 0.16);
-  --v1-ink: #f4f4f8;
-  --v1-ink-secondary: #c4c4d0;
-  --v1-ink-muted: #a4a4b2;
-  --v1-accent: #ff4d54;
-  --v1-student-ink: #d2c0ff;
-  --v1-student-tint: #2a2240;
-  --v1-parent-ink: #8eecc0;
-  --v1-parent-tint: #1a2e22;
-  --v1-professional-ink: #a8c8ff;
-  --v1-professional-tint: #1a2438;
-  --v1-franchise-ink: #ffc49a;
-  --v1-franchise-tint: #2e1c14;
-  --v1-explore-ink: #d4d4de;
-  --v1-explore-tint: #22222c;
-  --v1-shadow-card: 0 12px 30px rgb(0 0 0 / 0.28);
-  --v1-shadow-card-hover: 0 18px 44px rgb(0 0 0 / 0.42);
-  --v1-shadow-float: 0 14px 36px rgb(0 0 0 / 0.34);
-  --v1-shadow-portrait: 0 40px 90px rgb(0 0 0 / 0.48);
-}
-
-.dark .home-v1 .v1-float {
-  background: var(--v1-card);
+  text-shadow: 0 6px 22px rgb(216 31 38 / 0.1);
 }
 
 /* Soft red atmosphere — stronger, with a slow pulse. */
@@ -380,7 +144,7 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
   right: -8%;
   width: min(780px, 75vw);
   height: min(780px, 75vw);
-  background: radial-gradient(circle, rgb(232 36 43 / 0.42) 0%, transparent 68%);
+  background: radial-gradient(circle, rgb(232 36 43 / 0.25) 0%, transparent 68%);
 }
 
 .home-v2::after {
@@ -388,7 +152,7 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
   left: -12%;
   width: min(700px, 70vw);
   height: min(700px, 70vw);
-  background: radial-gradient(circle, rgb(200 24 48 / 0.32) 0%, transparent 70%);
+  background: radial-gradient(circle, rgb(200 24 48 / 0.19) 0%, transparent 70%);
   animation-delay: -3.2s;
 }
 
@@ -422,20 +186,20 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
 
 .v2-eyebrow-glow {
   text-shadow:
-    0 0 12px rgb(255 138 144 / 0.55),
-    0 0 28px rgb(232 36 43 / 0.35);
+    0 0 12px rgb(255 138 144 / 0.33),
+    0 0 28px rgb(232 36 43 / 0.21);
 }
 
 .v2-accent-glow {
   text-shadow:
-    0 0 16px rgb(232 36 43 / 0.85),
-    0 0 36px rgb(232 36 43 / 0.55),
-    0 0 72px rgb(232 36 43 / 0.35);
+    0 0 16px rgb(232 36 43 / 0.51),
+    0 0 36px rgb(232 36 43 / 0.33),
+    0 0 72px rgb(232 36 43 / 0.21);
   animation: v2-text-glow 3.8s var(--ease-out-soft) infinite alternate;
 }
 
 .v2-heading-glow {
-  text-shadow: 0 0 40px rgb(255 255 255 / 0.08);
+  text-shadow: 0 0 40px rgb(255 255 255 / 0.05);
 }
 
 .v2-cta-glow {
@@ -448,30 +212,22 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
   background: var(--v2-accent);
   animation: none;
   box-shadow:
-    0 0 24px rgb(255 60 70 / 0.85),
-    0 0 56px rgb(232 36 43 / 0.55),
-    0 0 100px rgb(232 36 43 / 0.32);
-}
-
-.v2-play-glow {
-  box-shadow:
-    0 0 16px rgb(232 36 43 / 0.65),
-    0 0 36px rgb(232 36 43 / 0.4),
-    0 0 64px rgb(232 36 43 / 0.22);
-  animation: v2-cta-pulse 3.6s var(--ease-out-soft) infinite alternate;
+    0 0 24px rgb(255 60 70 / 0.51),
+    0 0 56px rgb(232 36 43 / 0.33),
+    0 0 100px rgb(232 36 43 / 0.19);
 }
 
 .v2-bar-glow {
-  border-color: rgb(232 36 43 / 0.45) !important;
+  border-color: rgb(232 36 43 / 0.27) !important;
   box-shadow:
-    0 0 0 1px rgb(232 36 43 / 0.2),
-    0 0 28px rgb(232 36 43 / 0.28),
-    0 0 64px rgb(232 36 43 / 0.14),
+    0 0 0 1px rgb(232 36 43 / 0.12),
+    0 0 28px rgb(232 36 43 / 0.17),
+    0 0 64px rgb(232 36 43 / 0.08),
     inset 0 1px 0 rgb(255 255 255 / 0.06);
 }
 
 .v2-icon-glow {
-  filter: drop-shadow(0 0 6px rgb(232 36 43 / 0.65)) drop-shadow(0 0 14px rgb(232 36 43 / 0.35));
+  filter: drop-shadow(0 0 6px rgb(232 36 43 / 0.39)) drop-shadow(0 0 14px rgb(232 36 43 / 0.21));
 }
 
 .v2-hero-stage::before {
@@ -482,7 +238,7 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
   height: 70%;
   z-index: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(232 36 43 / 0.28) 0%, transparent 68%);
+  background: radial-gradient(circle, rgb(232 36 43 / 0.17) 0%, transparent 68%);
   filter: blur(48px);
   animation: v2-orb-pulse 5.5s var(--ease-out-soft) infinite alternate;
 }
@@ -506,43 +262,43 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
 @keyframes v2-text-glow {
   from {
     text-shadow:
-      0 0 14px rgb(232 36 43 / 0.7),
-      0 0 30px rgb(232 36 43 / 0.4),
-      0 0 56px rgb(232 36 43 / 0.22);
+      0 0 14px rgb(232 36 43 / 0.42),
+      0 0 30px rgb(232 36 43 / 0.24),
+      0 0 56px rgb(232 36 43 / 0.13);
   }
   to {
     text-shadow:
-      0 0 22px rgb(255 70 80 / 0.95),
-      0 0 48px rgb(232 36 43 / 0.65),
-      0 0 90px rgb(232 36 43 / 0.4);
+      0 0 22px rgb(255 70 80 / 0.57),
+      0 0 48px rgb(232 36 43 / 0.39),
+      0 0 90px rgb(232 36 43 / 0.24);
   }
 }
 
 @keyframes v2-cta-pulse {
   from {
     box-shadow:
-      0 0 14px rgb(232 36 43 / 0.5),
-      0 0 32px rgb(232 36 43 / 0.3),
-      0 0 56px rgb(232 36 43 / 0.14);
+      0 0 14px rgb(232 36 43 / 0.3),
+      0 0 32px rgb(232 36 43 / 0.18),
+      0 0 56px rgb(232 36 43 / 0.08);
   }
   to {
     box-shadow:
-      0 0 24px rgb(255 60 70 / 0.8),
-      0 0 52px rgb(232 36 43 / 0.5),
-      0 0 96px rgb(232 36 43 / 0.28);
+      0 0 24px rgb(255 60 70 / 0.48),
+      0 0 52px rgb(232 36 43 / 0.3),
+      0 0 96px rgb(232 36 43 / 0.17);
   }
 }
 
 @keyframes v2-hex-glow {
   from {
     filter:
-      drop-shadow(0 0 6px rgb(232 36 43 / 0.38))
-      drop-shadow(0 0 14px rgb(232 36 43 / 0.22));
+      drop-shadow(0 0 6px rgb(232 36 43 / 0.23))
+      drop-shadow(0 0 14px rgb(232 36 43 / 0.13));
   }
   to {
     filter:
-      drop-shadow(0 0 10px rgb(255 80 90 / 0.52))
-      drop-shadow(0 0 22px rgb(232 36 43 / 0.32));
+      drop-shadow(0 0 10px rgb(255 80 90 / 0.31))
+      drop-shadow(0 0 22px rgb(232 36 43 / 0.19));
   }
 }
 
@@ -556,8 +312,8 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
 @media (min-width: 1024px) {
   .v2-hex-shell {
     filter:
-      drop-shadow(0 0 8px rgb(232 36 43 / 0.42))
-      drop-shadow(0 0 18px rgb(232 36 43 / 0.24));
+      drop-shadow(0 0 8px rgb(232 36 43 / 0.25))
+      drop-shadow(0 0 18px rgb(232 36 43 / 0.14));
     animation: v2-hex-glow 4.5s var(--ease-out-soft) infinite alternate;
   }
 
@@ -581,38 +337,39 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
     .v2-hex-shell:has(.v2-hex:hover) {
       animation: none;
       filter:
-        drop-shadow(0 0 12px rgb(255 80 90 / 0.65))
-        drop-shadow(0 0 28px rgb(232 36 43 / 0.4));
+        drop-shadow(0 0 12px rgb(255 80 90 / 0.39))
+        drop-shadow(0 0 28px rgb(232 36 43 / 0.24));
     }
   }
 }
 
 /*
- * The hexagon chooser.
+ * The circular journey chooser (class names kept as `v2-hex*` — only the
+ * shape changed, from a hexagon to a circle).
  *
- * `clip-path` only from `lg`, and only alongside a fixed square box — a hexagon
- * needs room for its points, and clipping a narrow phone-width card turns the
+ * Rounded only from `lg`, and only alongside a fixed square box — a circle
+ * needs room on all sides, and rounding a narrow phone-width card turns the
  * label into a sliver. Below that the same card renders as an ordinary row, which
  * is what the source design's own mobile layout does.
  */
 @media (min-width: 1024px) {
   .v2-hex {
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    border-radius: 50%;
     border: none;
     box-shadow: none;
   }
 
   .v2-hex-rim {
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    border-radius: 50%;
     box-shadow:
-      inset 0 0 0 2px rgb(255 100 110 / 0.72),
-      inset 0 0 12px rgb(232 36 43 / 0.22);
+      inset 0 0 0 2px rgb(255 100 110 / 0.43),
+      inset 0 0 12px rgb(232 36 43 / 0.13);
   }
 
   .v2-hex-warm .v2-hex-rim {
     box-shadow:
-      inset 0 0 0 2px rgb(255 170 130 / 0.75),
-      inset 0 0 12px rgb(232 36 43 / 0.18);
+      inset 0 0 0 2px rgb(255 170 130 / 0.45),
+      inset 0 0 12px rgb(232 36 43 / 0.11);
   }
 
   .v2-hex:focus-visible {
@@ -622,7 +379,7 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
   .v2-hex:focus-visible .v2-hex-rim {
     box-shadow:
       inset 0 0 0 2.5px var(--focus-ring),
-      inset 0 0 14px rgb(232 36 43 / 0.28);
+      inset 0 0 14px rgb(232 36 43 / 0.17);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -632,28 +389,18 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
 
     .v2-hex.v2-card-interactive:hover .v2-hex-rim {
       box-shadow:
-        inset 0 0 0 2px rgb(255 140 150 / 0.9),
-        inset 0 0 18px rgb(232 36 43 / 0.35);
+        inset 0 0 0 2px rgb(255 140 150 / 0.54),
+        inset 0 0 18px rgb(232 36 43 / 0.21);
     }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .v1-pulse {
-    animation: none;
-  }
-
-  .v1-portrait,
-  .v1-portrait:hover {
-    transform: none;
-  }
-
   .home-v2::before,
   .home-v2::after,
   .v2-hero-stage::before,
   .v2-accent-glow,
   .v2-cta-glow,
-  .v2-play-glow,
   .v2-hex-shell {
     animation: none;
   }
@@ -667,7 +414,7 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
 
   .v2-hex-shell {
     filter:
-      drop-shadow(0 0 8px rgb(232 36 43 / 0.4))
-      drop-shadow(0 0 16px rgb(232 36 43 / 0.22));
+      drop-shadow(0 0 8px rgb(232 36 43 / 0.24))
+      drop-shadow(0 0 16px rgb(232 36 43 / 0.13));
   }
 }

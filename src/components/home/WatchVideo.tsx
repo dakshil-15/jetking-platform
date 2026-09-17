@@ -57,7 +57,7 @@ export function WatchVideo({
       <>
         <span
           aria-hidden="true"
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--v2-accent,#e8242b)] text-white v2-play-glow transition-shadow duration-200 ease-[var(--ease-out-soft)] group-hover/watch:shadow-[0_0_40px_rgb(232_36_43/0.75)]"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--v2-accent,#e8242b)] text-white"
         >
           <Play className="h-4 w-4 fill-current" strokeWidth={0} />
         </span>
