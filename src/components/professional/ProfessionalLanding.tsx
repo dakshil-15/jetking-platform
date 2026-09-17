@@ -19,7 +19,14 @@ export function ProfessionalLanding({
     <>
       <section
         className={[
-          'home-v2 relative flex flex-col overflow-hidden',
+          'home-v2 home-v2-themeable relative z-20 flex flex-col overflow-hidden',
+          /* `isolation: isolate` (from `.home-v2`) traps the fixed ActionRail's
+             z-30 inside this section's own stacking context — without an
+             explicit z-index here, this whole section (rail included) sits in
+             the default stacking bucket and loses to the `.professional-page`
+             sibling's `z-10` panel below the moment the rail's fixed position
+             scrolls past the hero, making the rail disappear behind it. `z-20`
+             makes this section win that comparison outright. */
           /* Bleed the section's own gradient background up behind the sticky,
              transparent header instead of stopping in a hard line at its
              bottom edge — see the matching fix in home/v2/HomeV2.tsx. Offsets
