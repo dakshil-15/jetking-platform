@@ -83,7 +83,7 @@ export function RoadmapStep({
           track('journey_roadmap_continue', { slug: course.slug });
           onContinue();
         }}
-        className="group/next inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-navy)] py-3 pr-3 pl-6 text-[15px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.35)] transition-colors hover:bg-jk-700"
+        className="group/next inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-navy)] py-3 pr-3 pl-6 text-[15px] font-bold text-white transition-colors hover:bg-jk-700"
       >
         Book free counselling for this path
         <span

@@ -139,7 +139,7 @@ export function ParentLanding({
             <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               <Link
                 href="#courses"
-                className="group/cta inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.4)] transition-colors hover:bg-jk-700"
+                className="group/cta inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white transition-colors hover:bg-jk-700"
               >
                 Explore Courses for Your Child
                 <span
@@ -223,7 +223,7 @@ export function ParentLanding({
       </section>
 
       {/* ── Journey steps ────────────────────────────────────────────────── */}
-      <section className="bg-[var(--stu-surface)] pt-10 pb-10 sm:pt-12 sm:pb-12" aria-labelledby="par-journey">
+      <section className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="par-journey">
         <div className="shell">
           <div className="overflow-hidden rounded-[24px] border border-[var(--stu-hairline)] bg-[var(--stu-card)] px-5 py-7 sm:rounded-[28px] sm:px-8 sm:py-8 lg:px-10">
             <div className="flex flex-wrap items-center gap-3">
@@ -285,7 +285,7 @@ export function ParentLanding({
       </div>
 
       {/* ── Let us help you ──────────────────────────────────────────────── */}
-      <section className="bg-[var(--stu-surface)] pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14" aria-labelledby="par-help">
+      <section className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="par-help">
         <div className="shell">
           <div className="grid gap-4 lg:grid-cols-12 lg:gap-6">
             <div className="rounded-[22px] border border-[var(--stu-hairline)] bg-[var(--stu-card)] p-5 sm:p-6 lg:col-span-8">
@@ -321,7 +321,7 @@ export function ParentLanding({
                 ))}
               </ul>
               <p className="mt-4 text-[12.5px] text-[var(--stu-ink-muted)]">
-                {counts.centres}+ centres across {counts.cities}+ cities — visit before you decide.
+                50+ centres across {counts.cities}+ cities — visit before you decide.
               </p>
             </div>
 
@@ -349,35 +349,35 @@ export function ParentLanding({
 
       {/* ── Success stories ──────────────────────────────────────────────── */}
       <section
-        className="bg-[var(--stu-surface)] pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14"
+        className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14"
         aria-labelledby="par-stories"
       >
         <div className="shell">
-          <div className="stu-why rounded-[28px] px-6 py-10 text-white xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+          <div className="stu-why rounded-[28px] px-6 py-10 text-[var(--stu-ink)] xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
             <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-12">
               <div>
                 <h2
                   id="par-stories"
-                  className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
+                  className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] xs:text-[28px] sm:text-[32px]"
                 >
                   Real Success Stories.{' '}
-                  <span className="text-jk-400">Real Parents.</span> Real Results.
+                  <span className="text-[var(--stu-accent-soft)]">Real Parents.</span> Real Results.
                 </h2>
 
                 <div className="mt-8 flex flex-wrap items-end gap-8">
                   <div>
-                    <p className="font-display text-[48px] leading-none font-extrabold text-jk-400 sm:text-[56px]">
+                    <p className="font-display text-[48px] leading-none font-extrabold text-[var(--stu-accent-soft)] sm:text-[56px]">
                       90%
                     </p>
-                    <p className="mt-2 text-[13.5px] font-semibold text-white/70">
+                    <p className="mt-2 text-[13.5px] font-semibold text-[var(--stu-ink-secondary)]">
                       Placement assistance
                     </p>
                   </div>
                   <div>
-                    <p className="font-display text-[32px] leading-none font-extrabold text-white sm:text-[36px]">
+                    <p className="font-display text-[32px] leading-none font-extrabold text-[var(--stu-ink)] sm:text-[36px]">
                       75,000+
                     </p>
-                    <p className="mt-2 text-[13.5px] font-semibold text-white/70">Happy students</p>
+                    <p className="mt-2 text-[13.5px] font-semibold text-[var(--stu-ink-secondary)]">Happy students</p>
                   </div>
                 </div>
 
@@ -386,13 +386,13 @@ export function ParentLanding({
                     {STORY_AVATARS.map((src) => (
                       <span
                         key={src}
-                        className="relative h-9 w-9 overflow-hidden rounded-full border-[2.5px] border-white/40"
+                        className="relative h-9 w-9 overflow-hidden rounded-full border-[2.5px] border-[var(--stu-card)]"
                       >
                         <Image src={src} alt="" fill sizes="36px" className="object-cover" />
                       </span>
                     ))}
                   </span>
-                  <span className="text-[13px] font-semibold text-white/70">
+                  <span className="text-[13px] font-semibold text-[var(--stu-ink-secondary)]">
                     Parents &amp; learners across India
                   </span>
                 </div>
@@ -406,7 +406,7 @@ export function ParentLanding({
 
       {/* ── Things parents love ──────────────────────────────────────────── */}
       <section
-        className="bg-[var(--stu-surface)] pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14"
+        className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14"
         aria-labelledby="par-loves"
       >
         <div className="shell">
@@ -456,7 +456,7 @@ export function ParentLanding({
 
                 <Link
                   href={'/enquiry' as Route}
-                  className="group/book mt-7 inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[14.5px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.4)] transition-colors hover:bg-jk-700 sm:text-[15px]"
+                  className="group/book mt-7 inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[14.5px] font-bold text-white transition-colors hover:bg-jk-700 sm:text-[15px]"
                 >
                   Book Free Career Counselling
                   <span

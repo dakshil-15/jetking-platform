@@ -120,7 +120,7 @@ export function FranchiseLandingLight({
             <div className="mt-7 flex flex-col items-start gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               <Link
                 href="#enquire"
-                className="group/cta inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.4)] transition-colors hover:bg-jk-700"
+                className="group/cta inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white transition-colors hover:bg-jk-700"
               >
                 Enquire Now
                 <span
@@ -233,15 +233,15 @@ export function FranchiseLandingLight({
         aria-labelledby="fra-why"
       >
         <div className="shell">
-          <div className="stu-why overflow-hidden rounded-[28px] px-6 py-10 text-white xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+          <div className="stu-why overflow-hidden rounded-[28px] px-6 py-10 text-[var(--stu-ink)] xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
             <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-12">
               <div>
                 <h2
                   id="fra-why"
-                  className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
+                  className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] xs:text-[28px] sm:text-[32px]"
                 >
                   Why Partners Choose{' '}
-                  <span className="text-jk-400">{siteConfig.name}</span>
+                  <span className="text-[var(--stu-accent-soft)]">{siteConfig.name}</span>
                 </h2>
 
                 <dl className="mt-8 grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-3">
@@ -250,7 +250,7 @@ export function FranchiseLandingLight({
                     return (
                     <div key={stat.label} className="text-center sm:text-left lg:text-center">
                       <Icon
-                        className="mx-auto h-6 w-6 text-jk-400 sm:mx-0 lg:mx-auto"
+                        className="mx-auto h-6 w-6 text-[var(--stu-accent-soft)] sm:mx-0 lg:mx-auto"
                         strokeWidth={1.75}
                         aria-hidden="true"
                       />
@@ -259,7 +259,7 @@ export function FranchiseLandingLight({
                         <span className="mt-2.5 block font-display text-[20px] leading-none font-extrabold sm:text-[22px]">
                           {stat.value}
                         </span>
-                        <span className="mt-1.5 block text-[12.5px] leading-snug text-white/70">
+                        <span className="mt-1.5 block text-[12.5px] leading-snug text-[var(--stu-ink-secondary)]">
                           {stat.label}
                         </span>
                       </dd>
@@ -277,7 +277,7 @@ export function FranchiseLandingLight({
 
       {/* ── Partner benefits (student Benefits pattern) ────────────────── */}
       <section
-        className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20"
+        className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14"
         aria-labelledby="fra-benefits"
       >
         <div className="shell">
@@ -339,7 +339,7 @@ export function FranchiseLandingLight({
 
                 <a
                   href="#enquire"
-                  className="group/book relative mt-6 inline-flex w-full min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--stu-navy)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.35)] transition-colors hover:bg-jk-700 xs:mt-7 xs:text-[15px]"
+                  className="group/book relative mt-6 inline-flex w-full min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--stu-navy)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white transition-colors hover:bg-jk-700 xs:mt-7 xs:text-[15px]"
                 >
                   <span>Start franchise enquiry</span>
                   <span
@@ -360,7 +360,7 @@ export function FranchiseLandingLight({
       </section>
 
       {/* ── Launch plan ─────────────────────────────────────────────────── */}
-      <section id="journey" className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20">
+      <section id="journey" className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14">
         <div className="shell">
           <div className="max-w-xl">
             <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] sm:text-[28px] lg:text-[30px]">
@@ -403,7 +403,7 @@ export function FranchiseLandingLight({
       </section>
 
       {/* ── Market opportunity + image ─────────────────────────────────── */}
-      <section id="opportunity" className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20">
+      <section id="opportunity" className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14">
         <div className="shell">
           <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
             <div className="relative overflow-hidden rounded-[24px] border border-[var(--stu-hairline)] lg:col-span-5">
@@ -447,7 +447,7 @@ export function FranchiseLandingLight({
       </section>
 
       {/* ── Courses ────────────────────────────────────────────────────── */}
-      <section id="courses" className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20">
+      <section id="courses" className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14">
         <div className="shell">
           <div className="max-w-xl">
             <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] sm:text-[28px] lg:text-[30px]">
@@ -486,7 +486,7 @@ export function FranchiseLandingLight({
 
       {/* ── FAQs ───────────────────────────────────────────────────────── */}
       {faqs?.length ? (
-        <section id="faqs" className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20">
+        <section id="faqs" className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14">
           <div className="shell">
             <h2 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] sm:text-[28px] lg:text-[30px]">
               Frequently Asked Questions
@@ -505,7 +505,7 @@ export function FranchiseLandingLight({
       ) : null}
 
       {/* ── Enquire ────────────────────────────────────────────────────── */}
-      <section id="enquire" className="bg-[var(--stu-surface)] py-16 sm:py-20 lg:py-24">
+      <section id="enquire" className="bg-[var(--stu-surface)] py-14 sm:py-16 lg:py-20">
         <div className="shell">
           <div className="stu-card overflow-hidden rounded-[28px]">
             <div className="grid lg:grid-cols-2">

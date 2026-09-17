@@ -19,8 +19,6 @@
   --blog-hairline: var(--theme-hairline-strong);
   --blog-shadow: var(--theme-shadow);
   --blog-shadow-hover: var(--theme-shadow-hover);
-  --blog-card-cut: 18px;
-  --blog-card-cut-inner: 16px;
 
   background: var(--blog-canvas);
   color: var(--blog-ink);
@@ -71,76 +69,43 @@
   z-index: 1;
 }
 
-/*
- * Chamfered cards — top-left + bottom-right crop (Spider-Man CTA language).
- * Outer shell = gradient rim; inner fill uses a slightly smaller cut so the
- * border reads evenly. filter:drop-shadow follows clip-path (box-shadow does not).
- */
-@media (min-width: 640px) {
-  .blog-page {
-    --blog-card-cut: 22px;
-    --blog-card-cut-inner: 20px;
-  }
-}
-
-.blog-card-shell {
-  display: block;
-  height: 100%;
-  padding: 1.5px;
-  background: linear-gradient(180deg, rgb(255 107 112 / 0.9) 0%, rgb(139 0 20 / 0.7) 100%);
-  clip-path: polygon(
-    var(--blog-card-cut) 0,
-    100% 0,
-    100% calc(100% - var(--blog-card-cut)),
-    calc(100% - var(--blog-card-cut)) 100%,
-    0 100%,
-    0 var(--blog-card-cut)
-  );
-  filter:
-    drop-shadow(0 8px 24px rgb(0 0 0 / 0.45))
-    drop-shadow(0 0 18px rgb(232 36 43 / 0.12));
-  transition:
-    filter var(--duration-base) var(--ease-out-soft),
-    transform var(--duration-base) var(--ease-out-soft),
-    background var(--duration-base) var(--ease-out-soft);
-}
-
+/* Plain card — flat background, hairline border, ambient shadow only (same
+   recipe as `.centres-card`). No gradient rim, no accent glow. */
 .blog-card {
-  height: 100%;
   background: var(--blog-card);
-  border: none;
-  box-shadow: none;
-  clip-path: polygon(
-    var(--blog-card-cut-inner) 0,
-    100% 0,
-    100% calc(100% - var(--blog-card-cut-inner)),
-    calc(100% - var(--blog-card-cut-inner)) 100%,
-    0 100%,
-    0 var(--blog-card-cut-inner)
-  );
+  border: 1px solid var(--blog-hairline);
+  box-shadow: var(--blog-shadow);
+  transition:
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-base) var(--ease-out-soft),
+    border-color var(--duration-base) var(--ease-out-soft);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .blog-card-interactive:hover {
-    background: linear-gradient(180deg, rgb(255 130 135 / 1) 0%, rgb(180 20 40 / 0.85) 100%);
-    filter:
-      drop-shadow(0 14px 32px rgb(0 0 0 / 0.55))
-      drop-shadow(0 0 28px rgb(232 36 43 / 0.38));
-    transform: translateY(-3px);
+    box-shadow: var(--blog-shadow-hover);
+    transform: translateY(-2px);
   }
 }
 
 .blog-card-interactive:focus-within {
-  background: linear-gradient(180deg, rgb(255 130 135 / 1) 0%, rgb(180 20 40 / 0.85) 100%);
-  filter:
-    drop-shadow(0 14px 32px rgb(0 0 0 / 0.55))
-    drop-shadow(0 0 28px rgb(232 36 43 / 0.38));
+  box-shadow: var(--blog-shadow-hover);
 }
 
 .blog-cta-band {
   background:
     radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.35) 0%, transparent 55%),
     linear-gradient(155deg, #1a1218 0%, #101018 52%, #07070c 100%);
+  border: 1px solid var(--blog-hairline);
+}
+
+/* Light mode: the band is a spotlight card, not a fixed-dark one — it follows
+   the toggle like every other surface on the page. Must stay AFTER the
+   unconditional rule above; see the note on `.blog-hero-wash` below. */
+:where(html:not(.dark)) .blog-cta-band {
+  background:
+    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.12) 0%, transparent 55%),
+    linear-gradient(155deg, #fff5f5 0%, #ffffff 55%, #fef8f8 100%);
   border: 1px solid var(--blog-hairline);
 }
 
@@ -206,7 +171,7 @@
 }
 
 .blog-card-media {
-  background: linear-gradient(145deg, #2a1618 0%, #14141c 55%, #1a1218 100%);
+  background: var(--blog-surface);
 }
 
 /* Latest badge — mirrors student course Best match corner chip */
@@ -220,7 +185,7 @@
   gap: 0.3rem;
   padding: 0.45rem 0.85rem 0.45rem 0.7rem;
   background: linear-gradient(135deg, #ff4d55 0%, #c41e24 52%, #a81820 100%);
-  color: var(--blog-ink);
+  color: #fff;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.07em;

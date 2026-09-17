@@ -8,19 +8,19 @@ export function ProfessionalImpact() {
   return (
     <section className="bg-[var(--pro-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="pro-impact-heading">
       <div className="shell">
-        <div className="pro-why overflow-hidden rounded-[28px] px-6 py-10 text-white xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+        <div className="pro-why overflow-hidden rounded-[28px] px-6 py-10 xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
           <div className="max-w-3xl">
-            <p className="text-[13px] font-bold tracking-[0.06em] text-jk-400 uppercase">
+            <p className="text-[13px] font-bold tracking-[0.06em] text-[var(--pro-accent-soft)] uppercase">
               Career outcomes
             </p>
             <h2
               id="pro-impact-heading"
-              className="mt-2 font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
+              className="mt-2 font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--pro-ink)] xs:text-[28px] sm:text-[32px]"
             >
               The Impact You Can Expect from{' '}
-              <span className="text-jk-400">{siteConfig.name}</span>
+              <span className="text-[var(--pro-accent-soft)]">{siteConfig.name}</span>
             </h2>
-            <p className="mt-3 max-w-[58ch] text-[14px] leading-relaxed text-white/75 sm:text-[15px]">
+            <p className="mt-3 max-w-[58ch] text-[14px] leading-relaxed text-[var(--pro-ink-secondary)] sm:text-[15px]">
               Measurable career growth for working professionals who upskill without leaving their
               current role.
             </p>
@@ -51,16 +51,16 @@ export function ProfessionalImpact() {
             ))}
           </dl>
 
-          <div className="mt-8 border-t border-white/10 pt-8 sm:mt-10 sm:pt-10">
+          <div className="mt-8 border-t border-[var(--pro-hairline)] pt-8 sm:mt-10 sm:pt-10">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
               <div className="max-w-xl">
                 <h3
                   id="pro-flex-heading"
-                  className="font-display text-[18px] font-extrabold tracking-[-0.02em] text-white sm:text-[20px]"
+                  className="font-display text-[18px] font-extrabold tracking-[-0.02em] text-[var(--pro-ink)] sm:text-[20px]"
                 >
                   Flexible Learning That Fits Your Life
                 </h3>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-white/75 sm:text-[14px]">
+                <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--pro-ink-secondary)] sm:text-[14px]">
                   Choose a schedule that works around your job — not the other way around.
                 </p>
               </div>
@@ -90,7 +90,15 @@ export function ProfessionalImpact() {
         </div>
 
         <div
-          className="mt-10 grid gap-6 xs:gap-7 sm:mt-12 sm:gap-8 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-6 xl:gap-x-10"
+          className={[
+            'mt-10 grid gap-6 xs:gap-7 sm:mt-12 sm:gap-8',
+            'lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-6 xl:gap-x-10',
+            /* The quick-action rail (ActionRail) goes `fixed` to the viewport's
+               right edge from lg2 (1200px) — see its own breakpoint. This
+               grid's right-hand card reaches far enough right to sit under it
+               without this gutter; same fix as ProfessionalHero's grid. */
+            'lg2:pr-[130px] 2xl:pr-[160px]',
+          ].join(' ')}
           aria-labelledby="pro-benefits-heading"
         >
           <div className="max-w-xl lg:col-span-7 xl:col-span-8">
@@ -147,7 +155,7 @@ export function ProfessionalImpact() {
 
               <Link
                 href={'/enquiry' as Route}
-                className="group/book relative mt-6 inline-flex w-full min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--pro-navy)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.35)] transition-colors hover:bg-jk-700 xs:mt-7 xs:text-[15px]"
+                className="group/book relative mt-6 inline-flex w-full min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--pro-navy)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white transition-colors hover:bg-jk-700 xs:mt-7 xs:text-[15px]"
               >
                 <span>Book My Session Now</span>
                 <span

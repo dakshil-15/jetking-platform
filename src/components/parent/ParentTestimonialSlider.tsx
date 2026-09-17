@@ -44,7 +44,13 @@ export function ParentTestimonialSlider({ testimonials }: { testimonials?: Testi
       label="Parent stories"
       itemKey={(item) => item.id}
       itemLabel={(item) => `${item.name}, ${item.role}`}
-      classNames={{ viewport: 'rounded-[24px]' }}
+      classNames={{
+        viewport: 'rounded-[24px]',
+        dotActive: 'bg-[var(--stu-accent-soft)]',
+        dotIdle: 'bg-[var(--stu-ink-muted)]/40',
+        button:
+          'border-[var(--stu-hairline)] bg-[var(--stu-card)] text-[var(--stu-ink)] transition-colors hover:border-[var(--stu-accent-soft)] hover:text-[var(--stu-accent-soft)]',
+      }}
     >
       {(item, i) => (
         <blockquote className="stu-quote flex h-full min-h-[220px] flex-col p-6 text-white sm:min-h-[240px] sm:p-7">

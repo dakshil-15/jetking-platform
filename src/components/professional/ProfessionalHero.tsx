@@ -20,7 +20,11 @@ export function ProfessionalHero({
         'xs:gap-9 sm:gap-10 md:gap-12',
         'lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-8',
         'xl:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] xl:gap-8',
-        '2xl:grid-cols-[minmax(0,1.35fr)_minmax(0,0.65fr)] 2xl:gap-10',
+        /* The quick-action rail (ActionRail) goes `fixed` to the viewport's right
+           edge from lg2 (1200px) — see its own breakpoint. Reserve the same
+           gutter HomeV2's hero does so the rail never overlaps the photo. */
+        'lg2:pr-[130px]',
+        '2xl:grid-cols-[minmax(0,1.35fr)_minmax(0,0.65fr)] 2xl:gap-10 2xl:pr-[160px]',
         '3xl:grid-cols-[minmax(0,1.4fr)_minmax(0,0.6fr)] 3xl:gap-12',
       ].join(' ')}
       aria-labelledby="pro-hero-heading"

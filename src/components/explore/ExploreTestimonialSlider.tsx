@@ -116,7 +116,13 @@ export function ExploreTestimonialSlider() {
       label="Placement stories"
       itemKey={(slide) => slide.key}
       itemLabel={(slide) => (slide.kind === 'video' ? `${slide.data.name}, video` : `${slide.data.name}, ${slide.data.role}`)}
-      classNames={{ viewport: 'rounded-[24px]' }}
+      classNames={{
+        viewport: 'rounded-[24px]',
+        dotActive: 'bg-[var(--stu-accent-soft)]',
+        dotIdle: 'bg-[var(--stu-ink-muted)]/40',
+        button:
+          'border-[var(--stu-hairline)] bg-[var(--stu-card)] text-[var(--stu-ink)] transition-colors hover:border-[var(--stu-accent-soft)] hover:text-[var(--stu-accent-soft)]',
+      }}
     >
       {(slide, i) =>
         slide.kind === 'video' ? (

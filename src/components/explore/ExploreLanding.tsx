@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import type { Course, CourseLevel, Post } from '@/lib/content/types';
 import { siteConfig } from '@/lib/site';
-import { ABOUT_HERO, ACHIEVEMENTS, LEGACY_STATS, PURPOSE } from '@/components/about/data';
+import { ABOUT_HERO, ACHIEVEMENTS, legacyStats, PURPOSE } from '@/components/about/data';
 import { PLACED_CANDIDATES, PLACEMENT_DISCLAIMER } from '@/components/placements/data';
 import { RecommendedCourses } from '@/components/student/RecommendedCourses';
 import { PostCard } from '@/components/blog/BlogCards';
@@ -168,7 +168,7 @@ const REASONS = [
   },
   {
     title: 'Countrywide Network',
-    detail: 'A well-established, nationally recognised institute with 100+ centres.',
+    detail: 'A well-established, nationally recognised institute with 50+ centres.',
     icon: Building2,
   },
   {
@@ -303,7 +303,7 @@ export function ExploreLanding({
             <div className="mt-7 flex flex-col items-start gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               <Link
                 href={'/courses' as Route}
-                className="group/cta inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.4)] transition-colors hover:bg-jk-700"
+                className="group/cta inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white transition-colors hover:bg-jk-700"
               >
                 Explore courses
                 <span
@@ -496,27 +496,28 @@ export function ExploreLanding({
       </div>
 
       {/* ── Why Jetking + testimonial slider ─────────────────────────────── */}
-      <section className="bg-[var(--stu-surface)] pt-2 pb-10 sm:pb-12 lg:pb-14" aria-labelledby="exp-why">
+      <section className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="exp-why">
         <div className="shell">
-          <div className="stu-why overflow-hidden rounded-[28px] px-6 py-10 text-white xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+          <div className="stu-why overflow-hidden rounded-[28px] px-6 py-10 text-[var(--stu-ink)] xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
             <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-12">
               <div>
                 <h2
                   id="exp-why"
-                  className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
+                  className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] xs:text-[28px] sm:text-[32px]"
                 >
-                  Why People Choose <span className="text-jk-400">{siteConfig.name}</span>
+                  Why People Choose{' '}
+                  <span className="text-[var(--stu-accent-soft)]">{siteConfig.name}</span>
                 </h2>
 
                 <dl className="mt-8 grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-4 lg:grid-cols-2">
-                  {LEGACY_STATS.map((stat) => (
+                  {legacyStats().map((stat) => (
                     <div key={stat.label}>
                       <dt className="sr-only">{stat.label}</dt>
                       <dd>
-                        <span className="block font-display text-[24px] leading-none font-extrabold text-jk-400 sm:text-[28px]">
+                        <span className="block font-display text-[24px] leading-none font-extrabold text-[var(--stu-accent-soft)] sm:text-[28px]">
                           {stat.value}
                         </span>
-                        <span className="mt-2 block text-[12.5px] leading-snug text-white/70 sm:text-[13.5px]">
+                        <span className="mt-2 block text-[12.5px] leading-snug text-[var(--stu-ink-secondary)] sm:text-[13.5px]">
                           {stat.label}
                         </span>
                       </dd>
@@ -524,7 +525,7 @@ export function ExploreLanding({
                   ))}
                 </dl>
 
-                <p className="mt-8 max-w-md text-[12.5px] leading-relaxed text-white/60">
+                <p className="mt-8 max-w-md text-[12.5px] leading-relaxed text-[var(--stu-ink-muted)]">
                   {PLACEMENT_DISCLAIMER}
                 </p>
               </div>
@@ -536,7 +537,7 @@ export function ExploreLanding({
       </section>
 
       {/* ── Awards & recognition ─────────────────────────────────────────── */}
-      <section className="bg-[var(--stu-surface)] pt-0 pb-10 sm:pb-12 lg:pb-14" aria-labelledby="exp-awards">
+      <section className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="exp-awards">
         <div className="shell">
           <h2
             id="exp-awards"
@@ -568,7 +569,7 @@ export function ExploreLanding({
       </section>
 
       {/* ── 10 reasons why Jetking is every student's choice ─────────────── */}
-      <section className="bg-[var(--stu-surface)] pt-0 pb-10 sm:pb-12 lg:pb-14" aria-labelledby="exp-benefits">
+      <section className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="exp-benefits">
         <div className="shell">
           <h2
             id="exp-benefits"
@@ -600,7 +601,7 @@ export function ExploreLanding({
       </section>
 
       {/* ── Collaboration with top universities & learning entities ──────── */}
-      <section className="bg-[var(--stu-surface)] pt-0 pb-10 sm:pb-12 lg:pb-14" aria-labelledby="exp-university-partners">
+      <section className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="exp-university-partners">
         <div className="shell">
           <h2
             id="exp-university-partners"
@@ -765,7 +766,7 @@ export function ExploreLanding({
       ) : null}
 
       {/* ── Locations + final CTA ────────────────────────────────────────── */}
-      <section className="pt-4 pb-14 sm:pb-16 lg:pb-20" aria-labelledby="exp-cta">
+      <section className="py-14 sm:py-16 lg:py-20" aria-labelledby="exp-cta">
         <div className="shell">
           <div className="stu-card flex flex-col gap-6 rounded-[24px] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
@@ -776,7 +777,7 @@ export function ExploreLanding({
                 <MapPin className="h-5 w-5" strokeWidth={1.75} />
               </span>
               <h2 id="exp-cta" className="mt-4 text-[20px] font-extrabold text-[var(--stu-ink)] sm:text-[22px]">
-                {counts.centres}+ centres across {counts.cities}+ cities
+                50+ centres across {counts.cities}+ cities
               </h2>
               <p className="mt-1.5 max-w-md text-[13.5px] leading-relaxed text-[var(--stu-ink-muted)]">
                 Not ready to talk to anyone yet? Just browse — every centre and every

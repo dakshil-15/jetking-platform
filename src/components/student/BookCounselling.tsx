@@ -15,7 +15,7 @@ export function BookCounselling() {
       onClick={() =>
         track('enquiry_started', { persona: classification.persona, source: 'student-whats-next' })
       }
-      className="group/book inline-flex w-full min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--stu-navy)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.35)] transition-colors hover:bg-jk-700 xs:text-[15px]"
+      className="group/book inline-flex w-full min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--stu-navy)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white transition-colors hover:bg-jk-700 xs:text-[15px]"
     >
       <span className="inline-flex min-w-0 items-center gap-2.5">
         <CalendarDays className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden="true" />

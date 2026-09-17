@@ -44,7 +44,7 @@ function buildWhyStats(counts: {
   cities: number;
 }): Array<{ icon: typeof Building2; value: string; label: string }> {
   return [
-    { icon: Building2, value: `${counts.centres}+`, label: 'Learning Centres' },
+    { icon: Building2, value: '50+', label: 'Learning Centres' },
     { icon: ShieldCheck, value: 'Support', label: 'Placement Assistance' },
     { icon: Handshake, value: `${counts.cities}+`, label: 'Cities Across India' },
     { icon: Users, value: `${counts.courses}`, label: 'Programmes On Offer' },
@@ -86,22 +86,22 @@ export function StudentLanding({
       {/* ── Why Jetking ───────────────────────────────────────────────────── */}
       <section className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="stu-why">
         <div className="shell">
-          <div className="stu-why overflow-hidden rounded-[28px] px-6 py-10 text-white xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+          <div className="stu-why overflow-hidden rounded-[28px] px-6 py-10 text-[var(--stu-ink)] xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
             <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-12">
               <div>
                 <h2
                   id="stu-why"
-                  className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
+                  className="font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] xs:text-[28px] sm:text-[32px]"
                 >
                   Why Students Choose{' '}
-                  <span className="text-jk-400">{siteConfig.name}</span>
+                  <span className="text-[var(--stu-accent-soft)]">{siteConfig.name}</span>
                 </h2>
 
                 <dl className="mt-8 grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-3">
                   {whyStats.map((stat) => (
                     <div key={stat.label} className="text-center sm:text-left lg:text-center">
                       <stat.icon
-                        className="mx-auto h-6 w-6 text-jk-400 sm:mx-0 lg:mx-auto"
+                        className="mx-auto h-6 w-6 text-[var(--stu-accent-soft)] sm:mx-0 lg:mx-auto"
                         strokeWidth={1.75}
                         aria-hidden="true"
                       />
@@ -110,7 +110,7 @@ export function StudentLanding({
                         <span className="mt-2.5 block font-display text-[20px] leading-none font-extrabold sm:text-[22px]">
                           {stat.value}
                         </span>
-                        <span className="mt-1.5 block text-[12.5px] leading-snug text-white/70">
+                        <span className="mt-1.5 block text-[12.5px] leading-snug text-[var(--stu-ink-secondary)]">
                           {stat.label}
                         </span>
                       </dd>
@@ -127,7 +127,7 @@ export function StudentLanding({
 
       {/* ── Benefits ────────────────────────────────────────────────────────── */}
       <section
-        className="bg-[var(--stu-surface)] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20"
+        className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14"
         aria-labelledby="stu-benefits"
       >
         <div className="shell">
@@ -186,7 +186,7 @@ export function StudentLanding({
 
                 <a
                   href="#start-journey"
-                  className="group/book relative mt-6 inline-flex w-full min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--stu-navy)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.35)] transition-colors hover:bg-jk-700 xs:mt-7 xs:text-[15px]"
+                  className="group/book relative mt-6 inline-flex w-full min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--stu-navy)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white transition-colors hover:bg-jk-700 xs:mt-7 xs:text-[15px]"
                 >
                   <span>Start your career journey</span>
                   <span

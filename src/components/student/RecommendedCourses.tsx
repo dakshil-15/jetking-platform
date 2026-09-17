@@ -261,7 +261,7 @@ export function RecommendedCourses({
   };
 
   return (
-    <section className="shell py-12 xs:py-14 sm:py-16 lg:py-18" aria-labelledby={headingId}>
+    <section className="shell py-10 sm:py-12 lg:py-14" aria-labelledby={headingId}>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2

@@ -116,7 +116,7 @@ export function ProfessionalPrograms({ courses }: { courses: Course[] }) {
 
   return (
     <section
-      className="shell pt-10 pb-12 xs:pt-12 xs:pb-14 sm:pt-14 sm:pb-16 lg:pb-18"
+      className="shell py-10 sm:py-12 lg:py-14"
       aria-labelledby="pro-programs-heading"
     >
       <div className="flex flex-wrap items-end justify-between gap-4">

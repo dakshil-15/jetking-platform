@@ -112,7 +112,7 @@ export function DiscoveryStep({
         type="button"
         disabled={!ready}
         onClick={submit}
-        className="group/next inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.4)] transition-colors hover:bg-jk-700 disabled:cursor-not-allowed disabled:opacity-45"
+        className="group/next inline-flex min-h-12 items-center gap-3 rounded-full bg-[var(--stu-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white transition-colors hover:bg-jk-700 disabled:cursor-not-allowed disabled:opacity-45"
       >
         See my recommendations
         <span
