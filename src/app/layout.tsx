@@ -3,8 +3,9 @@ import { Bricolage_Grotesque, Plus_Jakarta_Sans } from 'next/font/google';
 import Script from 'next/script';
 import { PersonaProvider } from '@/persona/PersonaProvider';
 import { SilentPersonaInfer } from '@/persona/SilentPersonaInfer';
-import { SiteChrome } from '@/components/SiteShell';
+import { SiteChrome, FooterChrome } from '@/components/SiteShell';
 import { SiteHeader } from '@/components/SiteHeader';
+import { SiteFooter } from '@/components/SiteFooter';
 import { PersonaInspector } from '@/components/PersonaInspector';
 import { Guide } from '@/components/Guide';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
@@ -78,6 +79,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <SiteHeader />
             </SiteChrome>
             <main id="main">{children}</main>
+            <FooterChrome>
+              <SiteFooter />
+            </FooterChrome>
             <SiteChrome>
               <Guide />
               <ExitIntentPopup />

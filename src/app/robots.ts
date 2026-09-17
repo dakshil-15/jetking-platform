@@ -18,10 +18,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        // /v2 is the alternate homepage lead over the same content. It carries
-        // noindex + a canonical to `/` already; keeping crawlers off it entirely
-        // saves the budget being spent on a duplicate of the site's top page.
-        disallow: ['/api/', '/enquiry', '/v2'],
+        disallow: ['/api/', '/enquiry'],
       },
     ],
     sitemap: absoluteUrl('/sitemap.xml'),

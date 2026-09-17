@@ -8,11 +8,23 @@ import { usePathname } from 'next/navigation';
  *
  *   · /admin, /chatbot — no header, footer, or Guide
  *
- * The site footer itself is not rendered anywhere (see layout.tsx) — nav lives
- * in the header menu and on-page CTAs instead.
+ * Everywhere else — including `/` — renders the header and Guide.
  */
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   if (pathname.startsWith('/admin') || pathname.startsWith('/chatbot')) return null;
+  return <>{children}</>;
+}
+
+/**
+ * Footer-specific chrome gate — same admin/chatbot exclusion as SiteChrome,
+ * plus `/`: the homepage lead is a full-viewport hero (see HomeV2) designed
+ * to end at the fold, not hand off into a footer.
+ */
+export function FooterChrome({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  if (pathname.startsWith('/admin') || pathname.startsWith('/chatbot') || pathname === '/') {
+    return null;
+  }
   return <>{children}</>;
 }
