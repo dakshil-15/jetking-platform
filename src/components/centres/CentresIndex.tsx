@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { MapPin, Phone, Search, X } from 'lucide-react';
+import { ChevronDown, MapPin, Phone, Search, X } from 'lucide-react';
 import { track } from '@/lib/analytics';
 import { centrePath } from '@/lib/centre-path';
 import { usePersona } from '@/persona/PersonaProvider';
@@ -78,20 +78,14 @@ export function CentresIndex({
   const [activeCity, setActiveCity] = useState<string | null>(null);
   const trackedRef = useRef('');
 
-  useEffect(() => {
-    if (!hydrated) return;
-    const params = new URLSearchParams(window.location.search);
-    const trimmed = query.trim();
-    if (trimmed) params.set('q', trimmed);
-    else params.delete('q');
-    const qs = params.toString();
-    const next = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
-    window.history.replaceState(null, '', next);
-  }, [query, hydrated]);
-
-  useEffect(() => subscribeCentresSearch((next) => setQuery(next)), []);
-
-  const needle = query.trim().toLowerCase();
+  /*
+   * The sidebar's State and City facet lists are accordions at every width —
+   * up to 28 cities has no business sitting fully expanded by default, phone
+   * or desktop. Closed until the visitor opens one, and mutually exclusive —
+   * opening one closes the other, so the sidebar never shows both long lists
+   * stacked at once.
+   */
+  const [openFacet, setOpenFacet] = useState<'state' | 'city' | null>(null);
 
   const states = useMemo(() => {
     const map = new Map<string, number>();
@@ -102,23 +96,97 @@ export function CentresIndex({
     return [...map.entries()].sort(([a], [b]) => a.localeCompare(b));
   }, [cities, centres]);
 
+  // Results are grouped State > City — same shape as the sidebar facets, so
+  // browsing the whole country reads as one hierarchy instead of two.
+  const citiesByState = useMemo(() => {
+    const byState = new Map<string, CitySummary[]>();
+    for (const city of cities) {
+      const list = byState.get(city.state);
+      if (list) list.push(city);
+      else byState.set(city.state, [city]);
+    }
+    return states.map(([state, count]) => ({
+      state,
+      count,
+      cities: (byState.get(state) ?? [])
+        .slice()
+        .sort((a, b) => a.name.localeCompare(b.name)),
+    }));
+  }, [cities, states]);
+
+  /*
+   * The results list itself is grouped State > City, each level its own
+   * accordion (keyed by name/slug, not a single bool — many groups, each
+   * independently toggled). The first state opens by default, and the first
+   * city within it too, so a first-time visitor immediately sees a real,
+   * fully-expanded centre card rather than a wall of collapsed rows; every
+   * other group stays closed until touched, or forced open the moment a
+   * filter or search actually matches it.
+   */
+  const [openResultStates, setOpenResultStates] = useState<
+    Record<string, boolean>
+  >(() => (states[0] ? { [states[0][0]]: true } : {}));
+  const [openResultCities, setOpenResultCities] = useState<
+    Record<string, boolean>
+  >(() => {
+    const firstCity = citiesByState[0]?.cities[0];
+    return firstCity ? { [firstCity.slug]: true } : {};
+  });
+
+  /*
+   * On desktop the sidebar's own first facet group (State) opens by default
+   * too — same treatment as the course explorer's "Level" group — since
+   * `window.innerWidth` doesn't exist during SSR, this is a one-time
+   * post-hydration read, not a synchronisation loop.
+   */
+  /* eslint-disable react-hooks/set-state-in-effect --
+     one-time post-hydration read, not a synchronisation loop */
+  useEffect(() => {
+    if (window.matchMedia('(min-width: 1024px)').matches) setOpenFacet('state');
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const params = new URLSearchParams(window.location.search);
+    const trimmed = query.trim();
+    if (trimmed) params.set('q', trimmed);
+    else params.delete('q');
+    const qs = params.toString();
+    const next = qs
+      ? `${window.location.pathname}?${qs}`
+      : window.location.pathname;
+    window.history.replaceState(null, '', next);
+  }, [query, hydrated]);
+
+  useEffect(() => subscribeCentresSearch((next) => setQuery(next)), []);
+
+  const needle = query.trim().toLowerCase();
+
   const sidebarCities = useMemo(() => {
     return cities.filter((city) => {
       if (activeState && city.state !== activeState) return false;
       const cityCentres = centres.filter((c) => c.citySlug === city.slug);
       if (!needle) return true;
-      return matchesCity(city, needle) || cityCentres.some((c) => matchesCentre(c, needle));
+      return (
+        matchesCity(city, needle) ||
+        cityCentres.some((c) => matchesCentre(c, needle))
+      );
     });
   }, [cities, centres, activeState, needle]);
 
   const visibleCentreCount = useMemo(() => {
     return cities.reduce((total, city) => {
       const cityCentres = centres.filter((c) => c.citySlug === city.slug);
-      if (!cityMatchesFilters(city, cityCentres, needle, activeState, activeCity)) return total;
+      if (
+        !cityMatchesFilters(city, cityCentres, needle, activeState, activeCity)
+      )
+        return total;
       return (
         total +
         cityCentres.filter(
-          (c) => !needle || matchesCentre(c, needle) || matchesCity(city, needle),
+          (c) =>
+            !needle || matchesCentre(c, needle) || matchesCity(city, needle),
         ).length
       );
     }, 0);
@@ -208,7 +276,11 @@ export function CentresIndex({
                   aria-label="Clear search"
                   className="absolute top-1/2 right-2.5 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full text-[var(--centres-ink-muted)] transition-colors hover:bg-[var(--centres-accent-tint)] hover:text-[var(--centres-ink)]"
                 >
-                  <X className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden="true" />
+                  <X
+                    className="h-3.5 w-3.5"
+                    strokeWidth={2.25}
+                    aria-hidden="true"
+                  />
                 </button>
               ) : null}
             </label>
@@ -216,74 +288,81 @@ export function CentresIndex({
 
           {/* Scrollable: state + city lists */}
           <div className="centres-filter-scroll min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
-            <div>
-              <p className="text-[11px] font-bold tracking-[0.12em] text-[var(--centres-ink-muted)] uppercase">
-                State
-              </p>
-              <ul className="mt-2.5 flex flex-col gap-1">
-                <li>
+            <FilterGroup
+              label="State"
+              open={openFacet === 'state'}
+              onToggle={() =>
+                setOpenFacet((v) => (v === 'state' ? null : 'state'))
+              }
+            >
+              <li>
+                <FilterButton
+                  active={!activeState}
+                  onClick={() => {
+                    setActiveState(null);
+                    setActiveCity(null);
+                  }}
+                  label="All states"
+                  count={centres.length}
+                />
+              </li>
+              {states.map(([state, count]) => (
+                <li key={state}>
                   <FilterButton
-                    active={!activeState}
+                    active={activeState === state}
                     onClick={() => {
-                      setActiveState(null);
+                      setActiveState(state);
                       setActiveCity(null);
                     }}
-                    label="All states"
-                    count={centres.length}
+                    label={state}
+                    count={count}
                   />
                 </li>
-                {states.map(([state, count]) => (
-                  <li key={state}>
+              ))}
+            </FilterGroup>
+
+            <FilterGroup
+              label="City"
+              className="mt-6"
+              open={openFacet === 'city'}
+              onToggle={() =>
+                setOpenFacet((v) => (v === 'city' ? null : 'city'))
+              }
+            >
+              <li>
+                <FilterButton
+                  active={!activeCity}
+                  onClick={() => setActiveCity(null)}
+                  label="All cities"
+                  count={
+                    activeState
+                      ? centres.filter((c) => {
+                          const city = cities.find(
+                            (ct) => ct.slug === c.citySlug,
+                          );
+                          return city?.state === activeState;
+                        }).length
+                      : centres.length
+                  }
+                />
+              </li>
+              {sidebarCities.map((city) => {
+                const cityCount = centres.filter(
+                  (c) => c.citySlug === city.slug,
+                ).length;
+                return (
+                  <li key={city.slug}>
                     <FilterButton
-                      active={activeState === state}
-                      onClick={() => {
-                        setActiveState(state);
-                        setActiveCity(null);
-                      }}
-                      label={state}
-                      count={count}
+                      active={activeCity === city.slug}
+                      onClick={() => setActiveCity(city.slug)}
+                      label={city.name}
+                      count={cityCount}
+                      icon={MapPin}
                     />
                   </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mt-6">
-              <p className="text-[11px] font-bold tracking-[0.12em] text-[var(--centres-ink-muted)] uppercase">
-                City
-              </p>
-              <ul className="mt-2.5 flex flex-col gap-1 pr-0.5">
-                <li>
-                  <FilterButton
-                    active={!activeCity}
-                    onClick={() => setActiveCity(null)}
-                    label="All cities"
-                    count={
-                      activeState
-                        ? centres.filter((c) => {
-                            const city = cities.find((ct) => ct.slug === c.citySlug);
-                            return city?.state === activeState;
-                          }).length
-                        : centres.length
-                    }
-                  />
-                </li>
-                {sidebarCities.map((city) => {
-                  const cityCount = centres.filter((c) => c.citySlug === city.slug).length;
-                  return (
-                    <li key={city.slug}>
-                      <FilterButton
-                        active={activeCity === city.slug}
-                        onClick={() => setActiveCity(city.slug)}
-                        label={city.name}
-                        count={cityCount}
-                        icon={MapPin}
-                      />
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+                );
+              })}
+            </FilterGroup>
           </div>
         </aside>
 
@@ -294,7 +373,8 @@ export function CentresIndex({
               aria-live="polite"
               className="numeral text-[12px] font-bold tracking-[0.1em] text-[var(--centres-ink-muted)] uppercase"
             >
-              {visibleCentreCount} {visibleCentreCount === 1 ? 'centre' : 'centres'}
+              {visibleCentreCount}{' '}
+              {visibleCentreCount === 1 ? 'centre' : 'centres'}
               {hasActiveFilters ? ' matching' : null}
             </p>
             {activeCity ? (
@@ -306,136 +386,182 @@ export function CentresIndex({
               </p>
             ) : activeState ? (
               <p className="text-[13px] text-[var(--centres-ink-secondary)]">
-                Showing <span className="font-bold text-[var(--centres-ink)]">{activeState}</span>
+                Showing{' '}
+                <span className="font-bold text-[var(--centres-ink)]">
+                  {activeState}
+                </span>
               </p>
             ) : null}
           </div>
 
-          <div className="mt-5 space-y-5 sm:mt-6">
-            {cities.map((city) => {
-              const cityCentres = centres.filter((c) => c.citySlug === city.slug);
-              const cityVisible = cityMatchesFilters(
-                city,
-                cityCentres,
-                needle,
-                activeState,
-                activeCity,
-              );
+          <div className="mt-5 space-y-4 sm:mt-6">
+            {citiesByState.map(({ state, count, cities: stateCities }) => {
+              const stateVisible = stateCities.some((city) => {
+                const cityCentres = centres.filter(
+                  (c) => c.citySlug === city.slug,
+                );
+                return cityMatchesFilters(
+                  city,
+                  cityCentres,
+                  needle,
+                  activeState,
+                  activeCity,
+                );
+              });
+              const stateOpen =
+                hasActiveFilters || Boolean(openResultStates[state]);
 
               return (
-                <section
-                  key={city.slug}
-                  id={`city-${city.slug}`}
-                  className={cityVisible ? 'scroll-mt-28 space-y-4' : 'hidden'}
-                  aria-labelledby={`city-heading-${city.slug}`}
+                <div
+                  key={state}
+                  className={`centres-accordion centres-card scroll-mt-28 rounded-[16px]${stateVisible ? '' : ' hidden'}`}
+                  data-open={stateOpen}
                 >
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-1">
-                    <h3
-                      id={`city-heading-${city.slug}`}
-                      className="font-display text-[18px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[20px]"
-                    >
-                      {city.name}
-                    </h3>
-                    <span className="text-[11px] font-bold tracking-[0.08em] text-[var(--centres-ink-muted)] uppercase">
-                      {city.state} · {cityCentres.length}{' '}
-                      {cityCentres.length === 1 ? 'centre' : 'centres'}
-                    </span>
-                  </div>
-
-                  <ul
-                    className={
-                      cityCentres.length > 1
-                        ? 'grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5'
-                        : 'grid grid-cols-1 gap-4'
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenResultStates((prev) => ({
+                        ...prev,
+                        [state]: !prev[state],
+                      }))
                     }
+                    aria-expanded={stateOpen}
+                    aria-controls={`state-panel-${state}`}
+                    className="centres-accordion-trigger px-5 py-4 sm:px-6"
                   >
-                    {cityCentres.map((centre) => {
-                      const centreVisible =
-                        !needle || matchesCentre(centre, needle) || matchesCity(city, needle);
-                      const telHref = centre.phone
-                        ? `tel:${centre.phone.replace(/[^\d+]/g, '').split('/')[0]}`
-                        : null;
+                    <span className="min-w-0 text-left">
+                      <span className="block font-display text-[19px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[21px]">
+                        {state}
+                      </span>
+                      <span className="mt-0.5 block text-[11px] font-bold tracking-[0.08em] text-[var(--centres-ink-muted)] uppercase">
+                        {count} {count === 1 ? 'centre' : 'centres'}
+                      </span>
+                    </span>
+                    <ChevronDown
+                      className="centres-accordion-chevron h-5 w-5"
+                      strokeWidth={2.25}
+                      aria-hidden="true"
+                    />
+                  </button>
 
-                      return (
-                        <li
-                          key={centre.slug}
-                          id={`centre-${centre.slug}`}
+                  <div
+                    id={`state-panel-${state}`}
+                    className="centres-accordion-panel"
+                  >
+                    <div
+                      className={
+                        stateOpen
+                          ? 'divide-y divide-[var(--centres-hairline)] border-t border-[var(--centres-hairline)]'
+                          : 'divide-y divide-[var(--centres-hairline)]'
+                      }
+                    >
+                      {stateCities.length === 1 ? (
+                        // A state with exactly one city has nothing to group by — a
+                        // city-level accordion here would just repeat the state name
+                        // right back at the visitor (e.g. "Delhi" state containing a
+                        // single "Delhi" city row). Skip straight to its centres.
+                        <ul
                           className={
-                            centreVisible
-                              ? 'centres-card flex h-full flex-col scroll-mt-28 rounded-[20px] p-5 xs:rounded-[22px] sm:p-6'
-                              : 'hidden'
+                            stateOpen
+                              ? 'divide-y divide-[var(--centres-hairline)]'
+                              : ''
                           }
                         >
-                          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-x-4 sm:gap-y-2">
-                            <div className="min-w-0">
-                              <h4 className="font-display text-[17px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[18px] lg:text-[20px]">
-                                <Link
-                                  href={centrePath(centre.slug) as Route}
-                                  className="transition-colors hover:text-[var(--centres-accent-soft)]"
-                                >
-                                  {centre.name}
-                                </Link>
-                              </h4>
-                              <p className="mt-1 text-[13px] font-semibold text-[var(--centres-accent-soft)]">
-                                {centre.locality}, {city.name}
-                              </p>
-                            </div>
-                            <div className="flex shrink-0 flex-wrap items-center gap-2">
-                              <Link
-                                href={centrePath(centre.slug) as Route}
-                                className="inline-flex min-h-10 items-center justify-center rounded-full border border-white/20 px-3.5 py-2 text-[12.5px] font-bold text-[var(--centres-ink)] transition-colors hover:border-white/40 hover:bg-white/5 sm:px-4 sm:text-[13px]"
-                              >
-                                View details
-                              </Link>
-                              <Link
-                                href={`/enquiry?centre=${centre.slug}` as Route}
-                                className="inline-flex min-h-10 items-center justify-center rounded-full bg-[var(--centres-accent)] px-3.5 py-2 text-[12.5px] font-bold text-white transition-colors hover:bg-jk-700 sm:px-4 sm:text-[13px]"
-                              >
-                                Enquire
-                              </Link>
-                            </div>
-                          </div>
-
-                          <address className="mt-4 flex-1 text-[13.5px] leading-relaxed text-[var(--centres-ink-secondary)] not-italic sm:text-[14px]">
-                            {centre.addressLine}
-                            <br />
-                            {centre.locality}, {city.name}
-                            <br />
-                            {centre.state} {centre.pincode}
-                          </address>
-
-                          {centre.phone ? (
-                            <p className="mt-3 flex flex-wrap items-center gap-2 text-[14px]">
-                              <Phone
-                                className="h-3.5 w-3.5 text-[var(--centres-accent-soft)]"
-                                strokeWidth={2}
-                                aria-hidden="true"
+                          {centres
+                            .filter((c) => c.citySlug === stateCities[0]!.slug)
+                            .map((centre) => (
+                              <CentreCard
+                                key={centre.slug}
+                                centre={centre}
+                                city={stateCities[0]!}
+                                needle={needle}
                               />
-                              <span className="text-[12px] font-bold tracking-[0.08em] text-[var(--centres-ink-muted)] uppercase">
-                                Phone
-                              </span>
-                              {telHref ? (
-                                <a
-                                  href={telHref}
-                                  className="numeral font-semibold text-[var(--centres-ink)] transition-colors hover:text-[var(--centres-accent-soft)]"
-                                  onClick={() =>
-                                    track('phone_clicked', { centre_slug: centre.slug })
+                            ))}
+                        </ul>
+                      ) : (
+                        stateCities.map((city) => {
+                          const cityCentres = centres.filter(
+                            (c) => c.citySlug === city.slug,
+                          );
+                          const cityVisible = cityMatchesFilters(
+                            city,
+                            cityCentres,
+                            needle,
+                            activeState,
+                            activeCity,
+                          );
+                          const cityOpen =
+                            hasActiveFilters ||
+                            Boolean(openResultCities[city.slug]);
+
+                          return (
+                            <div
+                              key={city.slug}
+                              id={`city-${city.slug}`}
+                              className={`centres-accordion scroll-mt-28${cityVisible ? '' : ' hidden'}`}
+                              data-open={cityOpen}
+                            >
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setOpenResultCities((prev) => ({
+                                    ...prev,
+                                    [city.slug]: !prev[city.slug],
+                                  }))
+                                }
+                                aria-expanded={cityOpen}
+                                aria-controls={`city-panel-${city.slug}`}
+                                className="centres-accordion-trigger px-5 py-4 sm:px-6"
+                              >
+                                <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                                  <span
+                                    id={`city-heading-${city.slug}`}
+                                    className="font-display text-[16px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[17px]"
+                                  >
+                                    {city.name}
+                                  </span>
+                                  <span className="text-[11px] font-bold tracking-[0.08em] text-[var(--centres-ink-muted)] uppercase">
+                                    {cityCentres.length}{' '}
+                                    {cityCentres.length === 1
+                                      ? 'centre'
+                                      : 'centres'}
+                                  </span>
+                                </span>
+                                <ChevronDown
+                                  className="centres-accordion-chevron h-4 w-4"
+                                  strokeWidth={2.25}
+                                  aria-hidden="true"
+                                />
+                              </button>
+
+                              <div
+                                id={`city-panel-${city.slug}`}
+                                className="centres-accordion-panel"
+                              >
+                                <ul
+                                  className={
+                                    cityOpen
+                                      ? 'divide-y divide-[var(--centres-hairline)] border-t border-[var(--centres-hairline)]'
+                                      : 'divide-y divide-[var(--centres-hairline)]'
                                   }
                                 >
-                                  {centre.phone}
-                                </a>
-                              ) : (
-                                <span className="numeral font-semibold text-[var(--centres-ink)]">
-                                  {centre.phone}
-                                </span>
-                              )}
-                            </p>
-                          ) : null}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </section>
+                                  {cityCentres.map((centre) => (
+                                    <CentreCard
+                                      key={centre.slug}
+                                      centre={centre}
+                                      city={city}
+                                      needle={needle}
+                                    />
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -460,6 +586,145 @@ export function CentresIndex({
         </div>
       </div>
     </section>
+  );
+}
+
+function CentreCard({
+  centre,
+  city,
+  needle,
+}: {
+  centre: CentreSummary;
+  city: CitySummary;
+  needle: string;
+}) {
+  const centreVisible =
+    !needle || matchesCentre(centre, needle) || matchesCity(city, needle);
+  const telHref = centre.phone
+    ? `tel:${centre.phone.replace(/[^\d+]/g, '').split('/')[0]}`
+    : null;
+  // A few centres (Balasore, Orai) sit in a city of the same name — collapse
+  // "Balasore, Balasore" down to the one distinct value.
+  const localityCityLabel =
+    centre.locality.trim().toLowerCase() === city.name.trim().toLowerCase()
+      ? city.name
+      : `${centre.locality}, ${city.name}`;
+
+  return (
+    <li
+      id={`centre-${centre.slug}`}
+      className={
+        centreVisible ? 'flex scroll-mt-28 flex-col p-5 xs:p-6' : 'hidden'
+      }
+    >
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-x-4 sm:gap-y-2">
+        <div className="min-w-0">
+          <h4 className="font-display text-[17px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[18px] lg:text-[20px]">
+            <Link
+              href={centrePath(centre.slug) as Route}
+              className="transition-colors hover:text-[var(--centres-accent-soft)]"
+            >
+              {centre.name}
+            </Link>
+          </h4>
+          <p className="mt-1 text-[13px] font-semibold text-[var(--centres-accent-soft)]">
+            {localityCityLabel}
+          </p>
+        </div>
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
+          <Link
+            href={centrePath(centre.slug) as Route}
+            className="inline-flex min-h-10 items-center justify-center rounded-full border border-[var(--centres-hairline)] px-3.5 py-2 text-[12.5px] font-bold text-[var(--centres-ink)] transition-colors hover:border-[var(--centres-accent-soft)]/60 hover:bg-[var(--centres-accent-tint)] sm:px-4 sm:text-[13px]"
+          >
+            View details
+          </Link>
+          <Link
+            href={`/enquiry?centre=${centre.slug}` as Route}
+            className="inline-flex min-h-10 items-center justify-center rounded-full bg-[var(--centres-accent)] px-3.5 py-2 text-[12.5px] font-bold text-white transition-colors hover:bg-jk-700 sm:px-4 sm:text-[13px]"
+          >
+            Enquire
+          </Link>
+        </div>
+      </div>
+
+      <address className="mt-4 flex-1 text-[13.5px] leading-relaxed text-[var(--centres-ink-secondary)] not-italic sm:text-[14px]">
+        {centre.addressLine}
+        <br />
+        {localityCityLabel}
+        <br />
+        {centre.state} {centre.pincode}
+      </address>
+
+      {centre.phone ? (
+        <p className="mt-3 flex flex-wrap items-center gap-2 text-[14px]">
+          <Phone
+            className="h-3.5 w-3.5 text-[var(--centres-accent-soft)]"
+            strokeWidth={2}
+            aria-hidden="true"
+          />
+          <span className="text-[12px] font-bold tracking-[0.08em] text-[var(--centres-ink-muted)] uppercase">
+            Phone
+          </span>
+          {telHref ? (
+            <a
+              href={telHref}
+              className="numeral font-semibold text-[var(--centres-ink)] transition-colors hover:text-[var(--centres-accent-soft)]"
+              onClick={() =>
+                track('phone_clicked', { centre_slug: centre.slug })
+              }
+            >
+              {centre.phone}
+            </a>
+          ) : (
+            <span className="numeral font-semibold text-[var(--centres-ink)]">
+              {centre.phone}
+            </span>
+          )}
+        </p>
+      ) : null}
+    </li>
+  );
+}
+
+function FilterGroup({
+  label,
+  className,
+  open,
+  onToggle,
+  children,
+}: {
+  label: string;
+  className?: string;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  const panelId = useId();
+  return (
+    <div
+      className={`centres-accordion${className ? ` ${className}` : ''}`}
+      data-open={open}
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="centres-accordion-trigger"
+      >
+        <span className="text-[11px] font-bold tracking-[0.12em] text-[var(--centres-ink-muted)] uppercase">
+          {label}
+        </span>
+        <ChevronDown
+          className="centres-accordion-chevron h-4 w-4"
+          strokeWidth={2.25}
+          aria-hidden="true"
+        />
+      </button>
+      <div id={panelId} className="centres-accordion-panel">
+        <ul className="mt-2.5 flex flex-col gap-1">{children}</ul>
+      </div>
+    </div>
   );
 }
 
@@ -493,7 +758,9 @@ function FilterButton({
           <Icon
             className={[
               'h-3.5 w-3.5 shrink-0',
-              active ? 'text-[var(--centres-accent-soft)]' : 'text-[var(--centres-ink-muted)]',
+              active
+                ? 'text-[var(--centres-accent-soft)]'
+                : 'text-[var(--centres-ink-muted)]',
             ].join(' ')}
             strokeWidth={2}
             aria-hidden="true"

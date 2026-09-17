@@ -93,6 +93,13 @@ async function CityPageContent({ city }: { city: City }) {
     { name: city.name, path: `/centres/${city.slug}` },
   ];
 
+  // Delhi is both a city and its own state — "Delhi, Delhi" would just repeat
+  // itself, so fall back to the state alone when the two names coincide.
+  const cityStateLabel =
+    city.name.trim().toLowerCase() === city.state.trim().toLowerCase()
+      ? city.state
+      : `${city.name}, ${city.state}`;
+
   return (
     <>
       <JsonLd data={breadcrumbSchema(trail)} />
@@ -101,7 +108,7 @@ async function CityPageContent({ city }: { city: City }) {
         <div className="shell py-12 lg:py-16">
           <Breadcrumbs trail={trail} />
           <div className="mt-8 max-w-3xl">
-            <p className="label-mono text-jk-600">{city.state}</p>
+            <p className="label-mono text-[var(--accent-ink)]">{cityStateLabel}</p>
             <h1 className="mt-5 text-3xl sm:text-4xl lg:text-5xl">
               IT courses in {city.name}
             </h1>

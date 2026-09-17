@@ -34,11 +34,11 @@ function CentresBottomCta() {
               </p>
               <h2
                 id="centres-cta"
-                className="mt-3 font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
+                className="mt-3 font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] xs:text-[28px] sm:text-[32px]"
               >
                 Talk to a counsellor about your nearest centre
               </h2>
-              <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-white/75 sm:text-[15.5px]">
+              <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-[var(--centres-ink-secondary)] sm:text-[15.5px]">
                 A short conversation about your goals, background and nearest {siteConfig.name} centre
                 — no obligation, no scripted pitch.
               </p>
@@ -46,7 +46,7 @@ function CentresBottomCta() {
                 <li>
                   <a
                     href={ENQUIRY_PHONE.tel}
-                    className="flex items-center gap-2 text-[13px] font-semibold text-white/75 transition-colors hover:text-white"
+                    className="flex items-center gap-2 text-[13px] font-semibold text-[var(--centres-ink-secondary)] transition-colors hover:text-[var(--centres-ink)]"
                   >
                     <Phone
                       className="h-4 w-4 text-[var(--centres-accent-soft)]"
@@ -56,7 +56,7 @@ function CentresBottomCta() {
                     {ENQUIRY_PHONE.display}
                   </a>
                 </li>
-                <li className="flex items-center gap-2 text-[13px] font-semibold text-white/75">
+                <li className="flex items-center gap-2 text-[13px] font-semibold text-[var(--centres-ink-secondary)]">
                   <MessageCircle
                     className="h-4 w-4 text-[var(--centres-accent-soft)]"
                     strokeWidth={2}
@@ -64,7 +64,7 @@ function CentresBottomCta() {
                   />
                   Free career counselling
                 </li>
-                <li className="flex items-center gap-2 text-[13px] font-semibold text-white/75">
+                <li className="flex items-center gap-2 text-[13px] font-semibold text-[var(--centres-ink-secondary)]">
                   <Building2
                     className="h-4 w-4 text-[var(--centres-accent-soft)]"
                     strokeWidth={2}
@@ -78,7 +78,7 @@ function CentresBottomCta() {
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
               <Link
                 href={'/enquiry' as Route}
-                className="group/enq inline-flex min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--centres-accent)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.35)] transition-colors hover:bg-jk-700 xs:text-[15px]"
+                className="group/enq inline-flex min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--centres-accent)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white transition-colors hover:bg-jk-700 xs:text-[15px]"
               >
                 <span>Enquire now</span>
                 <span
@@ -90,7 +90,7 @@ function CentresBottomCta() {
               </Link>
               <Link
                 href={'/courses' as Route}
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/25 px-6 py-3 text-[14.5px] font-bold text-white transition-colors hover:border-white/45 hover:bg-white/5 xs:text-[15px]"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[var(--centres-hairline)] px-6 py-3 text-[14.5px] font-bold text-[var(--centres-ink)] transition-colors hover:border-[var(--centres-accent-soft)]/60 hover:bg-[var(--centres-accent-tint)] xs:text-[15px]"
               >
                 Browse programmes
               </Link>

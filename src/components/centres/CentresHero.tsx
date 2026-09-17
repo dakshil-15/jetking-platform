@@ -26,7 +26,7 @@ export function CentresHero({
 
         <div className="relative z-[1] flex h-full min-h-[inherit] flex-col justify-center px-6 py-10 xs:px-8 xs:py-12 sm:px-10 sm:py-14 lg:max-w-[52%] lg:px-12 lg:py-16 xl:px-14">
           <p className="text-[12px] font-bold tracking-[0.18em] text-[var(--centres-accent-soft)] uppercase sm:text-[13px]">
-            100+ Centres · Nationwide
+            {centreCount} Centres · Nationwide
           </p>
 
           <h1 className="mt-4 font-display text-[34px] leading-[1.05] font-extrabold tracking-[-0.035em] text-[var(--centres-ink)] xs:text-[40px] sm:mt-5 sm:text-[48px] md:text-[52px] lg:text-[54px] xl:text-[58px]">

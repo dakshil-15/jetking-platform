@@ -126,6 +126,21 @@ export async function buildCorpus(): Promise<Chunk[]> {
 
   const cityNames = new Map(cities.map((c) => [c.slug, c.name]));
 
+  // A few place names coincide with their own city/state (Balasore, Orai,
+  // Delhi) — join only the distinct ones so the corpus text never reads
+  // "Balasore, Balasore, Odisha" or "...in Delhi, Delhi."
+  const joinPlace = (...parts: string[]) => {
+    const seen = new Set<string>();
+    const unique: string[] = [];
+    for (const part of parts) {
+      const key = part.trim().toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      unique.push(part);
+    }
+    return unique.join(', ');
+  };
+
   for (const centre of centres) {
     const cityName = cityNames.get(centre.citySlug) ?? centre.citySlug;
     chunks.push({
@@ -134,7 +149,7 @@ export async function buildCorpus(): Promise<Chunk[]> {
       title: centre.name,
       url: centrePath(centre.slug),
       sourceSlug: centre.slug,
-      text: `${centre.name} is a Jetking centre in ${centre.locality}, ${cityName}, ${centre.state}. It offers these programmes: ${centre.coursesOffered.join(', ')}.`,
+      text: `${centre.name} is a Jetking centre in ${joinPlace(centre.locality, cityName, centre.state)}. It offers these programmes: ${centre.coursesOffered.join(', ')}.`,
     });
   }
 
@@ -145,7 +160,7 @@ export async function buildCorpus(): Promise<Chunk[]> {
       title: `Jetking centres in ${city.name}`,
       url: `/centres/${city.slug}`,
       sourceSlug: city.slug,
-      text: `${city.intro} Jetking has centres in ${city.name}, ${city.state}.`,
+      text: `${city.intro} Jetking has centres in ${joinPlace(city.name, city.state)}.`,
     });
   }
 

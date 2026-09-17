@@ -26,12 +26,14 @@ import { CentreCatalogueProgrammes, CentreFeaturedProgrammes } from '@/component
 import { CentreTestimonialSlider } from '@/components/centres/CentreTestimonialSlider';
 import { TrackedAnchor } from '@/components/TrackedAnchor';
 
-const LEGACY_STATS = [
-  { icon: Award, value: '80', label: 'Years of Legacy' },
-  { icon: Users, value: '12L+', label: 'Students trained' },
-  { icon: Building2, value: '5000+', label: 'Recruiters' },
-  { icon: ShieldCheck, value: '100+', label: 'Training centres' },
-] as const;
+function legacyStats() {
+  return [
+    { icon: Award, value: '80', label: 'Years of Legacy' },
+    { icon: Users, value: '12L+', label: 'Students trained' },
+    { icon: Building2, value: '5000+', label: 'Recruiters' },
+    { icon: ShieldCheck, value: '50+', label: 'Training centres' },
+  ] as const;
+}
 
 /**
  * Centre detail — flat `/centres/{slug}` page.
@@ -68,12 +70,24 @@ export function CentreDetail({
   const faqs = centre.faqs ?? [];
   const testimonials = centre.testimonials ?? [];
   const showStats = featured.length > 0 || Boolean(centre.headline) || Boolean(centre.body);
+  /*
+   * A handful of centres (Balasore, Orai) sit in a city of the same name — and
+   * Delhi is both a city and its own state — so `locality`/`city.name` (and
+   * sometimes `city.name`/`city.state`) can be identical strings. Anywhere
+   * those two would otherwise print back to back (e.g. "Balasore, Balasore"),
+   * collapse to the one distinct value instead.
+   */
+  const localitySameAsCity =
+    centre.locality.trim().toLowerCase() === city.name.trim().toLowerCase();
+  const localityCityLabel = localitySameAsCity
+    ? city.name
+    : `${centre.locality}, ${city.name}`;
   const introCopy =
     centre.body ??
     centre.intro ??
-    `IT training centre in ${centre.locality}, ${city.name}. Cloud, cyber security and BCA programmes with placement support.`;
+    `IT training centre in ${localityCityLabel}. Cloud, cyber security and BCA programmes with placement support.`;
   const heroAccent = centre.name.toLowerCase().includes(centre.locality.toLowerCase())
-    ? city.name
+    ? (localitySameAsCity ? null : city.name)
     : centre.locality;
   const cleanFaculty = faculty.filter(
     (m) =>
@@ -150,9 +164,11 @@ export function CentreDetail({
 
             <h1 className="centres-reveal centres-reveal-delay-1 mt-4 font-display text-[32px] leading-[1.06] font-extrabold tracking-[-0.035em] text-[var(--centres-ink)] xs:text-[38px] sm:mt-5 sm:text-[46px] lg:text-[52px]">
               {centre.name}
-              <span className="mt-1 block text-[var(--centres-accent-soft)] sm:mt-1.5">
-                {heroAccent}
-              </span>
+              {heroAccent ? (
+                <span className="mt-1 block text-[var(--centres-accent-soft)] sm:mt-1.5">
+                  {heroAccent}
+                </span>
+              ) : null}
             </h1>
 
             {centre.headline ? (
@@ -168,7 +184,7 @@ export function CentreDetail({
             <div className="centres-reveal centres-reveal-delay-3 mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               <Link
                 href={`/enquiry?centre=${centre.slug}` as Route}
-                className="group/cta inline-flex min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--centres-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.4)] transition-colors hover:bg-jk-700"
+                className="group/cta inline-flex min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--centres-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white transition-colors hover:bg-jk-700"
               >
                 Enquire at this centre
                 <span
@@ -195,7 +211,7 @@ export function CentreDetail({
             <div className="centres-reveal centres-reveal-delay-3 mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] font-semibold text-[var(--centres-ink-muted)] sm:mt-7">
               <span className="inline-flex items-center gap-1.5">
                 <MapPin className="h-3.5 w-3.5 text-[var(--centres-accent-soft)]" strokeWidth={2} aria-hidden="true" />
-                {centre.locality}, {city.name}
+                {localityCityLabel}
               </span>
               <span className="hidden h-3.5 w-px bg-white/20 sm:block" aria-hidden="true" />
               <span className="inline-flex items-center gap-1.5">
@@ -213,20 +229,20 @@ export function CentreDetail({
 
       {/* Why / legacy stats */}
       {showStats ? (
-        <section className="shell pt-8 pb-10 sm:pt-10 sm:pb-12" aria-label="Jetking at a glance">
+        <section className="shell py-10 sm:py-12 lg:py-14" aria-label="Jetking at a glance">
           <div className="centres-why overflow-hidden rounded-[24px] px-5 py-8 xs:rounded-[28px] sm:px-8 sm:py-10 lg:px-10">
             <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
               <div className="max-w-md">
                 <p className="text-[12px] font-bold tracking-[0.16em] text-[var(--centres-accent-soft)] uppercase">
                   Why Jetking
                 </p>
-                <h2 className="mt-2 font-display text-[24px] font-extrabold tracking-[-0.02em] text-white sm:text-[28px]">
+                <h2 className="mt-2 font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[28px]">
                   Learn where industry{' '}
                   <span className="text-[var(--centres-accent-soft)]">actually trains</span>
                 </h2>
               </div>
               <dl className="grid grid-cols-2 gap-5 sm:grid-cols-4 sm:gap-6 lg:flex-1">
-                {LEGACY_STATS.map((stat) => (
+                {legacyStats().map((stat) => (
                   <div key={stat.label} className="text-center sm:text-left">
                     <stat.icon
                       className="mx-auto h-5 w-5 text-[var(--centres-accent-soft)] sm:mx-0"
@@ -235,10 +251,10 @@ export function CentreDetail({
                     />
                     <dt className="sr-only">{stat.label}</dt>
                     <dd>
-                      <span className="numeral mt-2 block font-display text-[22px] leading-none font-extrabold text-white sm:text-[26px]">
+                      <span className="numeral mt-2 block font-display text-[22px] leading-none font-extrabold text-[var(--centres-ink)] sm:text-[26px]">
                         {stat.value}
                       </span>
-                      <span className="mt-1.5 block text-[12px] leading-snug text-white/65">
+                      <span className="mt-1.5 block text-[12px] leading-snug text-[var(--centres-ink-secondary)]">
                         {stat.label}
                       </span>
                     </dd>
@@ -250,7 +266,7 @@ export function CentreDetail({
         </section>
       ) : null}
 
-      <section className="shell pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pb-20">
+      <section className="shell py-10 sm:py-12 lg:py-14">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,21rem)] lg:items-start lg:gap-10 xl:gap-12">
           <div className="min-w-0 space-y-8">
             {/* Featured programmes — student-style course cards */}
@@ -620,7 +636,7 @@ export function CentreDetail({
                 <span>
                   {centre.addressLine}
                   <br />
-                  {centre.locality}, {city.name}
+                  {localityCityLabel}
                   <br />
                   {centre.state} {centre.pincode}
                 </span>
@@ -707,7 +723,7 @@ export function CentreDetail({
 
               <Link
                 href={`/enquiry?centre=${centre.slug}` as Route}
-                className="group/enq mt-7 inline-flex min-h-12 w-full items-center justify-between gap-3 rounded-full bg-[var(--centres-accent)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.35)] transition-colors hover:bg-jk-700"
+                className="group/enq mt-7 inline-flex min-h-12 w-full items-center justify-between gap-3 rounded-full bg-[var(--centres-accent)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white transition-colors hover:bg-jk-700"
               >
                 <span>Enquire about this centre</span>
                 <span
@@ -730,7 +746,7 @@ export function CentreDetail({
       </section>
 
       {/* Bottom CTA band */}
-      <section className="shell py-16 sm:py-20 lg:py-24">
+      <section className="shell py-14 sm:py-16 lg:py-20">
         <div className="centres-cta-band relative overflow-hidden rounded-[24px] px-6 py-10 xs:rounded-[28px] sm:px-10 sm:py-12 lg:px-12">
           <span
             aria-hidden="true"
@@ -739,18 +755,18 @@ export function CentreDetail({
             <Sparkles className="h-3.5 w-3.5" strokeWidth={2} />
             Placement support
           </span>
-          <h2 className="max-w-[20ch] font-display text-[26px] font-extrabold tracking-[-0.02em] text-white sm:text-[32px]">
+          <h2 className="max-w-[20ch] font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[32px]">
             Ready to visit{' '}
             <span className="text-[var(--centres-accent-soft)]">{centre.locality}</span>?
           </h2>
-          <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-white/75">
+          <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-[var(--centres-ink-secondary)]">
             Talk to a counsellor about batches, fees and the right programme for your goals at this
             centre.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
               href={`/enquiry?centre=${centre.slug}` as Route}
-              className="group/cta inline-flex min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--centres-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.4)] transition-colors hover:bg-jk-700"
+              className="group/cta inline-flex min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--centres-accent)] py-3 pr-3 pl-6 text-[15px] font-bold text-white transition-colors hover:bg-jk-700"
             >
               Book a counselling call
               <span
@@ -765,7 +781,7 @@ export function CentreDetail({
                 href={phoneHref}
                 event="phone_clicked"
                 props={{ centre_slug: centre.slug, type: 'footer' }}
-                className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-[14.5px] font-bold text-white transition-colors hover:border-white/40 hover:bg-white/5"
+                className="inline-flex min-h-12 items-center gap-2 rounded-full border border-[var(--centres-hairline)] px-5 py-3 text-[14.5px] font-bold text-[var(--centres-ink)] transition-colors hover:border-[var(--centres-accent-soft)]/60 hover:bg-[var(--centres-accent-tint)]"
               >
                 <Phone className="h-4 w-4 text-[var(--centres-accent-soft)]" strokeWidth={2} aria-hidden="true" />
                 {centre.phone}
