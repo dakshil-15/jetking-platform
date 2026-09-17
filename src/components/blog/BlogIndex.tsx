@@ -195,7 +195,7 @@ export function BlogIndex({
                   href={categoryHref(null, query)}
                   className={
                     activeCategory === null
-                      ? 'inline-flex min-h-10 items-center rounded-full bg-[var(--blog-accent)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-white uppercase shadow-[0_0_18px_rgb(196_30_36/0.35)]'
+                      ? 'inline-flex min-h-10 items-center rounded-full bg-[var(--blog-accent)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-white uppercase'
                       : 'inline-flex min-h-10 items-center rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-[var(--blog-ink-muted)] uppercase transition-colors hover:border-[var(--blog-accent-soft)]/50 hover:text-[var(--blog-ink)]'
                   }
                   aria-current={activeCategory === null ? 'page' : undefined}
@@ -211,7 +211,7 @@ export function BlogIndex({
                       href={categoryHref(category, query)}
                       className={
                         selected
-                          ? 'inline-flex min-h-10 items-center rounded-full bg-[var(--blog-accent)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-white uppercase shadow-[0_0_18px_rgb(196_30_36/0.35)]'
+                          ? 'inline-flex min-h-10 items-center rounded-full bg-[var(--blog-accent)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-white uppercase'
                           : 'inline-flex min-h-10 items-center rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-[var(--blog-ink-muted)] uppercase transition-colors hover:border-[var(--blog-accent-soft)]/50 hover:text-[var(--blog-ink)]'
                       }
                       aria-current={selected ? 'page' : undefined}
@@ -329,7 +329,7 @@ export function BlogIndex({
                           }}
                           className={
                             item === currentPage
-                              ? 'grid h-10 min-w-10 place-items-center rounded-full bg-[var(--blog-accent)] px-3 text-[12.5px] font-bold text-white shadow-[0_0_18px_rgb(196_30_36/0.35)]'
+                              ? 'grid h-10 min-w-10 place-items-center rounded-full bg-[var(--blog-accent)] px-3 text-[12.5px] font-bold text-white'
                               : 'grid h-10 min-w-10 place-items-center rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] px-3 text-[12.5px] font-bold text-[var(--blog-ink-muted)] transition-colors hover:border-[var(--blog-accent-soft)]/50 hover:text-[var(--blog-ink)]'
                           }
                         >

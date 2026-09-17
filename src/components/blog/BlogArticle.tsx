@@ -241,11 +241,11 @@ export function BlogArticle({
                 </p>
                 <h2
                   id="blog-article-cta"
-                  className="mt-3 font-display text-[26px] font-extrabold tracking-[-0.02em] text-white xs:text-[28px] sm:text-[32px]"
+                  className="mt-3 font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--blog-ink)] xs:text-[28px] sm:text-[32px]"
                 >
                   Talk it through with a counsellor
                 </h2>
-                <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-white/75 sm:text-[15.5px]">
+                <p className="mt-3 max-w-[46ch] text-[14.5px] leading-relaxed text-[var(--blog-ink-secondary)] sm:text-[15.5px]">
                   A short conversation about your goals, background and nearest centre — no
                   obligation, no scripted pitch.
                 </p>
@@ -254,7 +254,7 @@ export function BlogArticle({
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
                 <Link
                   href={'/enquiry' as Route}
-                  className="group/book inline-flex min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--blog-accent)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white shadow-[0_0_24px_rgb(196_30_36/0.35)] transition-colors hover:bg-[var(--blog-accent-soft)] xs:text-[15px]"
+                  className="group/book inline-flex min-h-12 items-center justify-between gap-3 rounded-full bg-[var(--blog-accent)] py-3 pr-3 pl-5 text-[14.5px] font-bold text-white transition-colors hover:bg-[var(--blog-accent-soft)] xs:text-[15px]"
                 >
                   <span>Enquire now</span>
                   <span
@@ -266,7 +266,7 @@ export function BlogArticle({
                 </Link>
                 <Link
                   href={'/courses' as Route}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/25 px-6 py-3 text-[14.5px] font-bold text-white transition-colors hover:border-white/45 hover:bg-white/5 xs:text-[15px]"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-[var(--blog-hairline)] px-6 py-3 text-[14.5px] font-bold text-[var(--blog-ink)] transition-colors hover:border-[var(--blog-accent-soft)] hover:bg-[var(--blog-accent-tint)] xs:text-[15px]"
                 >
                   Browse programmes
                 </Link>
