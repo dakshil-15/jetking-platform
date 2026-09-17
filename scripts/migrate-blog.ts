@@ -130,6 +130,10 @@ function parsePost(html: string, legacyPath: string, slugOverride?: string): Mig
     extract(html, /<meta[^>]+name="description"[^>]+content="([^"]+)"/i) ??
     extract(html, /<meta[^>]+property="og:description"[^>]+content="([^"]+)"/i) ??
     '';
+  const ogImage =
+    extract(html, /<meta[^>]+property="og:image"[^>]+content="([^"]+)"/i) ??
+    extract(html, /<meta[^>]+name="twitter:image"[^>]+content="([^"]+)"/i) ??
+    undefined;
   const h1 = stripTags(extract(html, /<h1[^>]*>([\s\S]*?)<\/h1>/i) ?? cleanTitle);
   const body = htmlToBlocks(html);
   const slug = slugOverride || slugFromPath(legacyPath);
@@ -151,6 +155,7 @@ function parsePost(html: string, legacyPath: string, slugOverride?: string): Mig
     seo: {
       title: cleanTitle.slice(0, 60) || h1.slice(0, 60),
       description: excerpt.slice(0, 160),
+      ogImage,
     },
     legacyPath,
     kind: 'blog',
