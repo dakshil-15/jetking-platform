@@ -280,26 +280,32 @@ export const ACHIEVEMENTS: Achievement[] = [
 export type Partnership = {
   name: string;
   body: string;
+  logo: string;
 };
 
 export const PARTNERSHIPS: Partnership[] = [
   {
     name: 'NSDC',
     body: 'National Skill Development Corporation — skilling and certification alignment.',
+    logo: '/affiliations/nsdc.png',
   },
   {
     name: 'Lincoln University',
     body: 'Degree and certification tie-up for select programmes.',
+    logo: '/university-partners/lincoln-university.png',
   },
   {
     name: 'Yenepoya University',
     body: 'UGC-recognised postgraduate degrees, including the MCA in Cloud Computing & Cyber Security.',
+    logo: '/university-partners/yenepoya.png',
   },
 ];
 
-export const LEGACY_STATS = [
-  { value: '80', label: 'Years of Legacy' },
-  { value: '15,00,000', label: 'Students Placed' },
-  { value: '100+', label: 'Training centres' },
-  { value: '5000+', label: 'Recruiting partners' },
-] as const;
+export function legacyStats() {
+  return [
+    { value: '80', label: 'Years of Legacy' },
+    { value: '15,00,000', label: 'Students Placed' },
+    { value: '50+', label: 'Training centres' },
+    { value: '5000+', label: 'Recruiting partners' },
+  ] as const;
+}

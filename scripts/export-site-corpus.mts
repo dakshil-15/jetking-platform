@@ -20,7 +20,7 @@ import {
   ACHIEVEMENTS,
   DIRECTORS,
   INDEPENDENT_DIRECTOR,
-  LEGACY_STATS,
+  legacyStats,
   MANAGEMENT_TEAM,
   PURPOSE,
   TIMELINE,
@@ -103,7 +103,7 @@ const aboutItems = [
       `${ABOUT_HERO.lede} ` +
       `${PURPOSE.map((p) => `${p.title}: ${p.body}`).join(' ')} ` +
       `Values: ${VALUES.join(', ')}. ` +
-      `${LEGACY_STATS.map((s) => `${s.value} ${s.label}`).join(', ')}.`,
+      `${legacyStats().map((s) => `${s.value} ${s.label}`).join(', ')}.`,
     source: 'website-content-source' as const,
   },
   ...[...DIRECTORS, ...MANAGEMENT_TEAM, INDEPENDENT_DIRECTOR].map((leader) => ({

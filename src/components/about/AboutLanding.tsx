@@ -1,13 +1,9 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import type { Route } from 'next';
 import {
   ArrowUpRight,
   Award,
   Building2,
-  Handshake,
   ShieldCheck,
-  Sparkles,
   Users,
 } from 'lucide-react';
 import { Breadcrumbs, type Crumb } from '@/components/ui';
@@ -16,11 +12,10 @@ import {
   ACHIEVEMENTS,
   DIRECTORS,
   INDEPENDENT_DIRECTOR,
-  LEGACY_STATS,
+  legacyStats,
   MANAGEMENT_TEAM,
   PARTNERSHIPS,
   PURPOSE,
-  VALUES,
   type Leader,
 } from './data';
 import { AboutTimeline } from './AboutTimeline';
@@ -57,7 +52,7 @@ function LeaderCard({ leader }: { leader: Leader }) {
 
 export function AboutLanding() {
   return (
-    <div className="dark-canvas pb-16 sm:pb-20 lg:pb-24">
+    <div className="dark-canvas pb-14 sm:pb-16 lg:pb-20">
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section className="shell relative pt-6 sm:pt-8" data-reveal-skip>
         <Breadcrumbs trail={trail} />
@@ -88,15 +83,6 @@ export function AboutLanding() {
               <p className="mt-4 max-w-[46ch] text-[14.5px] leading-[1.65] text-[var(--dc-ink-secondary)] xs:text-[15.5px] sm:mt-5 sm:text-[16px]">
                 {ABOUT_HERO.lede}
               </p>
-
-              <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
-                <Link
-                  href={'/centres' as Route}
-                  className="dc-cta inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-bold sm:h-14 sm:px-7 sm:text-base"
-                >
-                  Find a centre
-                </Link>
-              </div>
             </div>
           </div>
         </div>
@@ -105,7 +91,7 @@ export function AboutLanding() {
       {/* ── Legacy stats ─────────────────────────────────────────────────── */}
       <section className="shell relative mt-8 sm:mt-10" aria-label="Legacy at a glance">
         <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-          {LEGACY_STATS.map((stat, index) => {
+          {legacyStats().map((stat, index) => {
             const Icon = STAT_ICONS[index] ?? Award;
             return (
               <div
@@ -134,7 +120,7 @@ export function AboutLanding() {
       </section>
 
       {/* ── Purpose & values ─────────────────────────────────────────────── */}
-      <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="about-purpose">
+      <section className="shell relative mt-10 sm:mt-12 lg:mt-14" aria-labelledby="about-purpose">
         <p className="dc-eyebrow label-mono">Purpose</p>
         <h2
           id="about-purpose"
@@ -166,21 +152,10 @@ export function AboutLanding() {
             </li>
           ))}
         </ol>
-
-        <ul className="mt-8 flex flex-wrap gap-2.5 sm:mt-10">
-          {VALUES.map((value) => (
-            <li
-              key={value}
-              className="rounded-full border border-[var(--dc-hairline)] bg-[var(--dc-card)] px-3.5 py-1.5 text-[12.5px] font-bold tracking-[0.04em] text-[var(--dc-ink-secondary)] uppercase"
-            >
-              {value}
-            </li>
-          ))}
-        </ul>
       </section>
 
       {/* ── Leadership ───────────────────────────────────────────────────── */}
-      <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="about-leaders">
+      <section className="shell relative mt-10 sm:mt-12 lg:mt-14" aria-labelledby="about-leaders">
         <p className="dc-eyebrow label-mono">Leadership</p>
         <h2
           id="about-leaders"
@@ -215,7 +190,7 @@ export function AboutLanding() {
       </section>
 
       {/* ── Legacy timeline ──────────────────────────────────────────────── */}
-      <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="about-timeline">
+      <section className="shell relative mt-10 sm:mt-12 lg:mt-14" aria-labelledby="about-timeline">
         <p className="dc-eyebrow label-mono">History</p>
         <h2
           id="about-timeline"
@@ -229,16 +204,12 @@ export function AboutLanding() {
           timeline of how our journey unfolded.
         </p>
 
-        {/*
-          Alternating curved-branch timeline (styles in styles/about.css). The
-          client component adds the GSAP scroll-scrubbed spine fill + per-milestone
-          reveals; it collapses to a left-spine stack on phones.
-        */}
+        {/* Decade tabs — click a range to see that era's milestones (AboutTimeline.tsx). */}
         <AboutTimeline />
       </section>
 
       {/* ── Achievements ─────────────────────────────────────────────────── */}
-      <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="about-awards">
+      <section className="shell relative mt-10 sm:mt-12 lg:mt-14" aria-labelledby="about-awards">
         <p className="dc-eyebrow label-mono">Recognition</p>
         <h2
           id="about-awards"
@@ -278,7 +249,7 @@ export function AboutLanding() {
       </section>
 
       {/* ── Partnerships ─────────────────────────────────────────────────── */}
-      <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="about-partnerships">
+      <section className="shell relative mt-10 sm:mt-12 lg:mt-14" aria-labelledby="about-partnerships">
         <p className="dc-eyebrow label-mono">Alliances</p>
         <h2
           id="about-partnerships"
@@ -292,12 +263,17 @@ export function AboutLanding() {
             <li key={partner.name} data-reveal>
               <article className="dc-card-shell h-full">
                 <div className="dc-card flex h-full flex-col p-5 sm:p-6">
-                  <Handshake
-                    className="h-5 w-5 text-[var(--dc-accent-soft)]"
-                    strokeWidth={1.75}
-                    aria-hidden="true"
-                  />
-                  <h3 className="mt-4 font-display text-[16px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)]">
+                  <div className="relative flex h-28 w-full items-center justify-center sm:h-32">
+                    <Image
+                      src={partner.logo}
+                      alt=""
+                      width={200}
+                      height={200}
+                      sizes="(min-width: 640px) 33vw, 90vw"
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                  <h3 className="mt-5 font-display text-[16px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)]">
                     {partner.name}
                   </h3>
                   <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--dc-ink-secondary)]">
@@ -310,56 +286,26 @@ export function AboutLanding() {
         </ul>
       </section>
 
-      {/* ── Close CTA ────────────────────────────────────────────────────── */}
-      <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="about-cta">
-        <div className="dc-panel overflow-hidden rounded-[24px] xs:rounded-[28px] sm:rounded-[32px]">
-          <div className="p-6 sm:p-8 lg:p-10 xl:px-12">
-            <div className="max-w-2xl">
-              <p className="dc-eyebrow label-mono">Next step</p>
-              <h2
-                id="about-cta"
-                className="dc-heading-glow mt-3 font-display text-[24px] font-extrabold tracking-[-0.025em] text-[var(--dc-ink)] xs:text-[26px] sm:text-[30px]"
-              >
-                See Jetking <span className="dc-accent-glow">near you</span>
-              </h2>
-              <p className="mt-3 text-[14.5px] leading-relaxed text-[var(--dc-ink-secondary)] sm:text-[15px]">
-                Visit a centre, speak with a counsellor, or explore programmes built around
-                practical, job-ready skills.
-              </p>
-              <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
-                {['Counselling', 'Centre visit', 'Programme fit'].map((label) => (
-                  <li
-                    key={label}
-                    className="flex items-center gap-2 text-[13px] font-semibold text-[var(--dc-ink-muted)]"
-                  >
-                    <Sparkles
-                      className="h-3.5 w-3.5 text-[var(--dc-accent-soft)]"
-                      strokeWidth={2}
-                      aria-hidden="true"
-                    />
-                    {label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── Toward the Future ───────────────────────────────────────────────
-         New venture announcement — deliberately its own section, below the
-         Close CTA, so it reads as a forward-looking postscript to the legacy
+         New venture announcement — deliberately its own section, closing the
+         page, so it reads as a forward-looking postscript to the legacy
          story above rather than being folded into it. */}
-      <section className="shell relative mt-10 sm:mt-12" aria-labelledby="about-future">
+      <section className="shell relative mt-14 sm:mt-16 lg:mt-20" aria-labelledby="about-future">
         <a
           href="https://www.jetking.org"
           target="_blank"
           rel="noopener noreferrer"
           className="dc-panel group flex flex-col items-start gap-3 rounded-[20px] p-6 transition-colors hover:border-[var(--dc-accent)]/40 sm:flex-row sm:items-center sm:justify-between sm:rounded-[24px] sm:p-8"
         >
-          <p id="about-future" className="text-[17px] font-extrabold text-[var(--dc-ink)] sm:text-[19px]">
-            Toward the Future – The First Bitcoin Treasury Company in India
-          </p>
+          <div>
+            <p id="about-future" className="text-[17px] font-extrabold text-[var(--dc-ink)] sm:text-[19px]">
+              First Bitcoin Company in India Listed on the Bombay Stock Exchange
+            </p>
+            <p className="mt-2 max-w-[56ch] text-[14px] leading-relaxed text-[var(--dc-ink-secondary)] sm:text-[15px]">
+              Secure your company&rsquo;s future with Bitcoin. Unparalleled transparency, unmatched
+              security, and proven value retention. Join the movement!
+            </p>
+          </div>
           <span className="flex shrink-0 items-center gap-1.5 text-[14px] font-semibold text-[var(--dc-accent)]">
             jetking.org
             <ArrowUpRight
