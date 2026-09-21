@@ -1,4 +1,5 @@
-import { pgTable, text, timestamp, uuid, index } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, uuid, index, jsonb } from 'drizzle-orm/pg-core';
+import type { StoredMessage } from '@/lib/chatbot/types';
 
 /**
  * Leads live in plain Postgres via Drizzle — reached directly through
@@ -97,3 +98,48 @@ export const adminAuditLog = pgTable(
 
 export type AdminAuditLogEntry = typeof adminAuditLog.$inferSelect;
 export type NewAdminAuditLogEntry = typeof adminAuditLog.$inferInsert;
+
+/**
+ * Public /chatbot accounts — deliberately separate from `admin_users`: these are
+ * visitors who log in to keep their chat history, with no role and no access to
+ * the admin panel. Same PBKDF2 hashing (`src/lib/auth/password.ts`).
+ */
+export const chatUsers = pgTable('chat_users', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: text('name').notNull(),
+  email: text('email').notNull().unique(),
+  /** Normalised mobile number (digits with an optional leading +). Not unique — family members share numbers. */
+  phone: text('phone').notNull(),
+  /** Where the person is, for personalisation: state name, city slug, preferred centre slug. Nullable so the form can evolve. */
+  state: text('state'),
+  city: text('city'),
+  centre: text('centre'),
+  passwordHash: text('password_hash').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
+/**
+ * One row per saved chat. The transcript is a single jsonb array rather than a
+ * messages table: the client model (chips, follow-ups, reasoning) round-trips as-is,
+ * and a chat is always read and written whole. `id` is client-generated so the first
+ * autosave needs no round trip; writes are always scoped to `user_id`, so a guessed
+ * id can never touch another user's chat.
+ */
+export const chatConversations = pgTable(
+  'chat_conversations',
+  {
+    id: uuid('id').primaryKey(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => chatUsers.id, { onDelete: 'cascade' }),
+    title: text('title').notNull(),
+    messages: jsonb('messages').$type<StoredMessage[]>().notNull(),
+    session: jsonb('session').$type<Record<string, unknown>>(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index('chat_conversations_user_updated_idx').on(table.userId, table.updatedAt)],
+);
+
+export type ChatUserRow = typeof chatUsers.$inferSelect;
+export type ChatConversationRow = typeof chatConversations.$inferSelect;

@@ -1,0 +1,49 @@
+import data from './disclosures.json';
+
+export interface DisclosureItem {
+  label: string;
+  href: string;
+}
+
+export interface DisclosureSection {
+  id: string;
+  title: string;
+  items: DisclosureItem[];
+}
+
+interface DisclosureData {
+  source: string;
+  /** ISO date the lists were last pulled from jetking.com/investors. */
+  syncedAt: string;
+  links: { stockLive?: string; latestNews?: string; boardOfDirectors?: string };
+  sections: DisclosureSection[];
+}
+
+/**
+ * Live-site pages that now exist on this site. The sync copies live URLs as they are; the live
+ * /board-of-directors page is placeholder text, so the row points at the real leadership section.
+ */
+const OWN_PAGES: Record<string, string> = {
+  'https://www.jetking.com/board-of-directors': '/about-us#about-leaders',
+};
+
+const own = (href: string) => OWN_PAGES[href] ?? href;
+const raw = data as DisclosureData;
+
+/** Document lists synced from jetking.com/investors — regenerate with `npm run sync:investors`. */
+export const disclosures: DisclosureData = {
+  ...raw,
+  links: { ...raw.links, boardOfDirectors: raw.links.boardOfDirectors ? own(raw.links.boardOfDirectors) : undefined },
+  sections: raw.sections.map((section) => ({
+    ...section,
+    items: section.items.map((item) => ({ ...item, href: own(item.href) })),
+  })),
+};
+
+/** What the button beside a row should say — the file type when the URL gives it away. */
+export function linkLabel(href: string): string {
+  if (href.startsWith('/')) return 'View Page';
+  if (/\.pdf($|\?)/i.test(href)) return 'PDF Download';
+  if (/drive\.google\.com\/file/i.test(href)) return 'View Document';
+  return 'View Link';
+}

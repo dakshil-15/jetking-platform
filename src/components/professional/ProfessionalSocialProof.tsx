@@ -2,14 +2,15 @@
 
 import Image from 'next/image';
 import { Carousel } from '@/components/Carousel';
-import { HIRING_PARTNERS, SUCCESS_STORIES } from './data';
+import { ProfessionalPartnerMarquee } from './ProfessionalPartnerMarquee';
+import { SUCCESS_STORIES } from './data';
 
 export function ProfessionalSocialProof() {
   return (
     <section className="bg-[var(--pro-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="pro-stories-heading">
       <div className="shell">
         <div className="pro-why overflow-hidden rounded-[28px] px-6 py-10 xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
-          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+          <div className="flex flex-col gap-12 lg:gap-14">
             <div>
               <p className="text-[13px] font-bold tracking-[0.06em] text-[var(--pro-accent-soft)] uppercase">
                 Success stories
@@ -79,24 +80,17 @@ export function ProfessionalSocialProof() {
               </Carousel>
             </div>
 
-            <div>
-              <h3 className="font-display text-[20px] font-extrabold tracking-[-0.02em] text-[var(--pro-ink)] sm:text-[22px]">
+            <div className="border-t border-[var(--pro-hairline)] pt-10 lg:pt-12">
+              <h3 className="font-display text-[22px] font-extrabold tracking-[-0.02em] text-[var(--pro-ink)] sm:text-[26px]">
                 Our Hiring Partners
               </h3>
-              <p className="mt-2 text-[14px] text-[var(--pro-ink-secondary)]">
-                Illustrative partners — introductions vary by centre and programme.
+              <p className="mt-2 max-w-[62ch] text-[14px] text-[var(--pro-ink-secondary)] sm:text-[15px]">
+                Recruiters featured on jetking.com. Placements are subject to recruitment norms —
+                Jetking does not guarantee placement in any organisation.
               </p>
-              <ul className="mt-6 grid grid-cols-2 gap-3 xs:grid-cols-3 sm:gap-4">
-                {HIRING_PARTNERS.map((partner) => (
-                  <li key={partner}>
-                    <div className="pro-card pro-partner-logo flex h-14 items-center justify-center rounded-[14px] px-3 sm:h-16">
-                      <span className="text-[13px] font-extrabold tracking-[0.04em] text-[var(--pro-ink)] uppercase sm:text-[14px]">
-                        {partner}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-7 sm:mt-8">
+                <ProfessionalPartnerMarquee />
+              </div>
             </div>
           </div>
         </div>

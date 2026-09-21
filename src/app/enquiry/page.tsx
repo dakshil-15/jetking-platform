@@ -25,7 +25,11 @@ const NEXT_STEPS = [
 ] as const;
 
 export default async function EnquiryPage() {
-  const [courses, cities] = await Promise.all([content.listCourses(), content.listCities()]);
+  const [courses, cities, centres] = await Promise.all([
+    content.listCourses(),
+    content.listCities(),
+    content.listCentres(),
+  ]);
 
   return (
     <div
@@ -62,6 +66,11 @@ export default async function EnquiryPage() {
                 <EnquiryForm
                   courses={courses.map((c) => ({ slug: c.slug, title: c.shortTitle }))}
                   cities={cities.map((c) => ({ slug: c.slug, name: c.name }))}
+                  centres={centres.map((c) => ({
+                    slug: c.slug,
+                    name: c.name,
+                    citySlug: c.citySlug,
+                  }))}
                 />
               </Suspense>
             </div>

@@ -11,6 +11,7 @@ import {
   Headphones,
   Mail,
   MapPin,
+  Navigation,
   Phone,
   ShieldCheck,
   Sparkles,
@@ -18,6 +19,7 @@ import {
 } from 'lucide-react';
 import type { Centre, City, Course } from '@/lib/content/types';
 import { centrePath } from '@/lib/centre-path';
+import { googleMapsUrl } from '@/lib/maps';
 import { siteConfig } from '@/lib/site';
 import { breadcrumbSchema, centreSchema } from '@/lib/seo';
 import { JsonLd, type Crumb } from '@/components/ui';
@@ -105,12 +107,29 @@ export function CentreDetail({
     return [bio.replace(/\s+/g, ' ').trim()];
   }
 
+  // Cities have no page of their own — the centres directory, filtered to the city, is the
+  // "all centres in {city}" view — so the trail goes straight from Centres to this centre.
   const trail: Crumb[] = [
     { name: 'Home', path: '/' },
     { name: 'Centres', path: '/centres' },
-    { name: city.name, path: `/centres/${city.slug}` },
     { name: centre.name, path: canonicalPath },
   ];
+  const cityDirectoryHref = `/centres?q=${encodeURIComponent(city.name)}` as Route;
+
+  /*
+   * The stored address line usually already ends in "…, Locality, City, State", so printing
+   * locality / city / state again underneath repeated them. Only add the parts it lacks.
+   */
+  const addressLower = centre.addressLine.toLowerCase();
+  const inAddress = (part: string) => addressLower.includes(part.trim().toLowerCase());
+  const missingPlace = [...new Set([centre.locality, city.name])].filter((part) => part && !inAddress(part));
+  const addressTail = [inAddress(centre.state) ? '' : centre.state, centre.pincode].filter(Boolean).join(' ');
+  const addressLines = [centre.addressLine];
+  if (missingPlace.length) addressLines.push(missingPlace.join(', '));
+  if (addressTail) {
+    if (addressLines.length === 1) addressLines[0] = `${addressLines[0]} ${addressTail}`;
+    else addressLines.push(addressTail);
+  }
 
   return (
     <div className="centres-page relative">
@@ -595,7 +614,7 @@ export function CentreDetail({
                   ))}
                 </ul>
                 <Link
-                  href={`/centres/${city.slug}` as Route}
+                  href={cityDirectoryHref}
                   className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-bold text-[var(--centres-accent-soft)]"
                 >
                   View all {city.name} centres
@@ -605,7 +624,7 @@ export function CentreDetail({
             ) : (
               <div>
                 <Link
-                  href={`/centres/${city.slug}` as Route}
+                  href={cityDirectoryHref}
                   className="inline-flex items-center gap-1.5 text-[14px] font-bold text-[var(--centres-accent-soft)]"
                 >
                   View all {city.name} centres
@@ -634,13 +653,25 @@ export function CentreDetail({
                   aria-hidden="true"
                 />
                 <span>
-                  {centre.addressLine}
-                  <br />
-                  {localityCityLabel}
-                  <br />
-                  {centre.state} {centre.pincode}
+                  {addressLines.map((line, index) => (
+                    <span key={line}>
+                      {index > 0 ? <br /> : null}
+                      {line}
+                    </span>
+                  ))}
                 </span>
               </address>
+
+              <a
+                href={googleMapsUrl(centre)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 ml-7 inline-flex items-center gap-1.5 rounded-full border border-[var(--centres-hairline)] px-3.5 py-1.5 text-[13px] font-bold text-[var(--centres-accent-soft)] transition-colors hover:border-[var(--centres-accent-soft)] hover:bg-[var(--centres-accent-tint)]"
+              >
+                <Navigation className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden="true" />
+                Open in Google Maps
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
 
               {centre.phone ? (
                 <div className="mt-5 flex gap-3 border-t border-[rgb(255_100_105/0.18)] pt-5">

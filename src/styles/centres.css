@@ -28,9 +28,11 @@
   --centres-network-tint: var(--theme-network-tint);
   --centres-ai-tint: var(--theme-ai-tint);
 
-  /* Chamfered placement cards — matches blog card clip language */
-  --centres-card-cut: 18px;
-  --centres-card-cut-inner: 16px;
+  /* Card corner radii — the same values as `.dc-card-shell` (--dc-cut / --dc-cut-inner),
+     so cards here match every other page. (The old chamfered clip-path corners were the
+     one place the site still cut corners instead of rounding them.) */
+  --centres-card-cut: 20px;
+  --centres-card-cut-inner: 18px;
 
   background: var(--centres-canvas);
   color: var(--centres-ink);
@@ -118,12 +120,13 @@
 
 @media (min-width: 640px) {
   .centres-page {
-    --centres-card-cut: 22px;
-    --centres-card-cut-inner: 20px;
+    --centres-card-cut: 24px;
+    --centres-card-cut-inner: 22px;
   }
 }
 
-/* Chamfered shell — top-left + bottom-right cut (blog card language) */
+/* Gradient-rim card shell + inner card — rounded like `.dc-card-shell` / `.dc-card`.
+   The "clip" in the class names is a leftover from the chamfered design. */
 .centres-clip-shell {
   display: block;
   height: 100%;
@@ -133,14 +136,8 @@
     rgb(255 107 112 / 0.55) 0%,
     rgb(139 0 20 / 0.4) 100%
   );
-  clip-path: polygon(
-    var(--centres-card-cut) 0,
-    100% 0,
-    100% calc(100% - var(--centres-card-cut)),
-    calc(100% - var(--centres-card-cut)) 100%,
-    0 100%,
-    0 var(--centres-card-cut)
-  );
+  border-radius: var(--centres-card-cut);
+  overflow: hidden;
   filter: drop-shadow(0 8px 24px rgb(0 0 0 / 0.3))
     drop-shadow(0 0 18px rgb(232 36 43 / 0.07));
   transition:
@@ -154,14 +151,7 @@
   background: var(--centres-card);
   border: none;
   box-shadow: none;
-  clip-path: polygon(
-    var(--centres-card-cut-inner) 0,
-    100% 0,
-    100% calc(100% - var(--centres-card-cut-inner)),
-    calc(100% - var(--centres-card-cut-inner)) 100%,
-    0 100%,
-    0 var(--centres-card-cut-inner)
-  );
+  border-radius: var(--centres-card-cut-inner);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -187,7 +177,29 @@
     drop-shadow(0 0 28px rgb(232 36 43 / 0.22));
 }
 
+/* Light mode: the dark-theme rim and shadow are too heavy on a light canvas — same soft values
+   as `.dc-card-shell` in light mode. Must stay AFTER the rules above (`:where()` adds no
+   specificity, so source order decides). */
+:where(html:not(.dark)) .centres-clip-shell {
+  background: linear-gradient(180deg, rgba(234, 28, 36, 0.15) 0%, rgba(234, 28, 36, 0.08) 100%);
+  filter: drop-shadow(0 4px 12px rgb(60 50 90 / 0.06)) drop-shadow(0 0 8px rgb(234 28 36 / 0.04));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(html:not(.dark)) .centres-clip-interactive:hover {
+    background: linear-gradient(180deg, rgba(234, 28, 36, 0.2) 0%, rgba(234, 28, 36, 0.12) 100%);
+    filter: drop-shadow(0 8px 20px rgb(60 50 90 / 0.1)) drop-shadow(0 0 12px rgb(234 28 36 / 0.1));
+  }
+}
+
+:where(html:not(.dark)) .centres-clip-interactive:focus-within {
+  background: linear-gradient(180deg, rgba(234, 28, 36, 0.2) 0%, rgba(234, 28, 36, 0.12) 100%);
+  filter: drop-shadow(0 8px 20px rgb(60 50 90 / 0.1)) drop-shadow(0 0 12px rgb(234 28 36 / 0.1));
+}
+
+/* Avatar tiles (faculty, placements): round, so no square backing tile shows behind the photo. */
 .centres-clip-media {
+  border-radius: 9999px;
   background: linear-gradient(145deg, #2a1618 0%, #14141c 55%, #1a1218 100%);
 }
 

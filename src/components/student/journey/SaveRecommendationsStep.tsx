@@ -106,7 +106,7 @@ export function SaveRecommendationsStep({
             required
             inputMode="tel"
             autoComplete="tel"
-            pattern="[\d\s+()-]{10,20}"
+            pattern="[\d\s+\(\)\-]{10,20}"
             className="border-[var(--stu-hairline)] bg-[var(--stu-surface)] text-[var(--stu-ink)]"
           />
         </Field>

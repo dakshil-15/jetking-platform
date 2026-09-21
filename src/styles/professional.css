@@ -245,21 +245,6 @@
     0 20px 44px rgb(0 0 0 / 0.45);
 }
 
-.pro-partner-logo {
-  filter: grayscale(1);
-  opacity: 0.55;
-  transition:
-    filter var(--duration-base) var(--ease-out-soft),
-    opacity var(--duration-base) var(--ease-out-soft);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .pro-partner-logo:hover {
-    filter: grayscale(0);
-    opacity: 1;
-  }
-}
-
 .pro-bottom-cta {
   background:
     radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.28) 0%, transparent 55%),

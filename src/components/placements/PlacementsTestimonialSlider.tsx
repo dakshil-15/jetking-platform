@@ -19,7 +19,7 @@ type Slide = Testimonial & { id: string };
  * `role` is free text mirrored from jetking.com — sometimes "Title, Company"
  * (e.g. "Support Engineer, Apple"), sometimes just the company on its own
  * (e.g. "Tata Consultancy Services"). Split on the last comma so the company
- * can stand out as its own chip without re-typing any of the source data.
+ * can be shown on its own line without re-typing any of the source data.
  */
 function splitRole(role: string): { title?: string; company: string } {
   const commaIndex = role.lastIndexOf(',');
@@ -37,6 +37,7 @@ export function PlacementsTestimonialSlider({ testimonials }: { testimonials: Te
     <Carousel
       items={items}
       label="Placement stories"
+      dots={false}
       itemKey={(item) => item.id}
       itemLabel={(item) => `${item.name}, ${item.role}`}
       classNames={{
@@ -52,7 +53,7 @@ export function PlacementsTestimonialSlider({ testimonials }: { testimonials: Te
         const { title, company } = splitRole(item.role);
         return (
           <blockquote className="dc-quote flex h-full min-h-[220px] flex-col gap-5 p-6 text-white sm:min-h-[200px] sm:flex-row sm:items-center sm:gap-6 sm:p-7">
-            <footer className="flex shrink-0 flex-col items-center gap-2 text-center sm:w-[160px]">
+            <footer className="flex shrink-0 flex-col items-center gap-2 text-center sm:w-[180px]">
               <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-white/40">
                 <Image
                   src={AVATARS[i % AVATARS.length] ?? AVATARS[0]}
@@ -65,6 +66,8 @@ export function PlacementsTestimonialSlider({ testimonials }: { testimonials: Te
               <cite className="not-italic">
                 <span className="block text-[14px] font-bold text-white">{item.name}</span>
                 {title ? <span className="mt-0.5 block text-[12px] text-white/75">{title}</span> : null}
+                {/* The employer sits with the person's details, under their name and role. */}
+                <span className="mt-1 block text-[12.5px] leading-snug font-bold text-white">{company}</span>
               </cite>
             </footer>
 
@@ -79,10 +82,6 @@ export function PlacementsTestimonialSlider({ testimonials }: { testimonials: Te
                 {item.quote}
               </p>
             </div>
-
-            <span className="shrink-0 self-center rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-[12.5px] font-bold text-white sm:self-auto">
-              {company}
-            </span>
           </blockquote>
         );
       }}

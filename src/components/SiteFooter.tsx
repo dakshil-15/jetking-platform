@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { content } from '@/lib/content';
 import { siteConfig } from '@/lib/site';
+import { SOCIAL_LINKS } from '@/lib/social';
+import { SocialIcon } from '@/components/SocialIcon';
+import { LEGAL_LINKS } from '@/lib/legal';
 
 /**
  * Registered-office contact details, as published on the Investors page
@@ -47,6 +50,7 @@ const company = [
   { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Enquire', href: '/enquiry' },
+  { label: 'Sitemap', href: '/sitemap' },
 ] as const;
 
 /**
@@ -110,6 +114,27 @@ export async function SiteFooter() {
                 </a>
               </li>
             </ul>
+
+            <nav aria-label="Jetking on social media" className="mt-8">
+              <h2 className="label-mono">Follow us</h2>
+              <ul className="mt-4 flex flex-wrap gap-3">
+                {SOCIAL_LINKS.map((social) => (
+                  <li key={social.network}>
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      title={social.label}
+                      className="grid h-11 w-11 place-items-center rounded-full border border-border bg-background text-foreground-secondary transition-colors hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-ink)]"
+                    >
+                      <SocialIcon network={social.network} className="h-[18px] w-[18px]" />
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
 
           <FooterNav label="Courses">
@@ -125,7 +150,7 @@ export async function SiteFooter() {
 
           <FooterNav label="Centres">
             {featuredCities.map((city) => (
-              <FooterLink key={city.slug} href={`/centres/${city.slug}`}>
+              <FooterLink key={city.slug} href={`/centres?q=${encodeURIComponent(city.name)}`}>
                 IT courses in {city.name}
               </FooterLink>
             ))}
@@ -145,10 +170,17 @@ export async function SiteFooter() {
       </div>
 
       <div className="border-t border-border">
-        <div className="shell flex flex-col gap-2 py-6 text-sm text-foreground-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="shell flex flex-col gap-2 py-6 text-sm text-foreground-muted lg:flex-row lg:items-center lg:justify-between">
           <p>
             © {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
           </p>
+          <nav aria-label="Legal" className="flex flex-wrap gap-x-5 gap-y-1">
+            {LEGAL_LINKS.map((l) => (
+              <Link key={l.href} href={l.href} className="transition-colors hover:text-foreground focus-visible:text-foreground">
+                {l.label}
+              </Link>
+            ))}
+          </nav>
           <p>India&rsquo;s No.1 Technology Training Institute</p>
         </div>
       </div>

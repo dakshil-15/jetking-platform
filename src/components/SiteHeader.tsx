@@ -5,9 +5,10 @@ import type { Route } from 'next';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Bot, Moon, Sun, X } from 'lucide-react';
+import { Bot, Moon, Sun, UserRound, X } from 'lucide-react';
 import { mainNav, siteConfig } from '@/lib/site';
 import { useTheme } from '@/components/providers/theme-provider';
+import { useAccount } from '@/components/account/AccountProvider';
 import { cx } from './ui';
 import { useDialog } from './useDialog';
 import { useHydrated } from './useHydrated';
@@ -20,6 +21,7 @@ import { useHydrated } from './useHydrated';
 export function SiteHeader() {
   const pathname = usePathname();
   const { resolvedTheme, toggleTheme } = useTheme();
+  const account = useAccount();
   const [scrolled, setScrolled] = useState(false);
   const mounted = useHydrated();
   const drawerRef = useRef<HTMLElement>(null);
@@ -126,6 +128,40 @@ export function SiteHeader() {
                   </Link>
                 );
               })}
+              {account.ready ? (
+                account.user ? (
+                  <div className="mt-2 flex items-center justify-between gap-3 border-b border-border py-4">
+                    <Link
+                      href={'/account' as Route}
+                      onClick={close}
+                      className="min-w-0 truncate text-[16px] font-bold tracking-[-0.01em] text-foreground hover:text-[var(--accent-ink)] sm:text-[17px]"
+                    >
+                      My account · {account.user.name}
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        close();
+                        void account.logout();
+                      }}
+                      className="shrink-0 cursor-pointer text-sm font-bold text-foreground-secondary hover:text-[var(--accent-ink)]"
+                    >
+                      Log out
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      close();
+                      account.openAuth('login');
+                    }}
+                    className="mt-2 flex cursor-pointer items-center gap-2 border-b border-border py-4 text-left text-[16px] font-bold tracking-[-0.01em] text-foreground transition-colors hover:text-[var(--accent-ink)] sm:text-[17px]"
+                  >
+                    Log in / Sign up
+                  </button>
+                )
+              ) : null}
               <Link
                 href="/enquiry"
                 onClick={close}
@@ -153,10 +189,10 @@ export function SiteHeader() {
          */
         onDarkLead
           ? scrolled
-            ? 'bg-background/92 shadow-[0_8px_24px_rgb(0_0_0/0.45)] backdrop-blur-md'
+            ? 'bg-background shadow-[0_1px_0_rgb(255_255_255/0.08),0_8px_24px_rgb(0_0_0/0.45)]'
             : 'bg-background'
           : scrolled
-            ? 'bg-background/92 shadow-[0_6px_20px_rgb(60_50_90/0.08)] backdrop-blur-md'
+            ? 'bg-background shadow-[0_1px_0_rgb(16_24_40/0.08),0_6px_20px_rgb(60_50_90/0.08)]'
             : 'bg-transparent',
       )}
     >
@@ -172,6 +208,37 @@ export function SiteHeader() {
         </Link>
 
         <div className="flex items-center gap-3 xs:gap-4 sm:gap-5 2xl:gap-[22px]">
+          {account.ready ? (
+            account.user ? (
+              <Link
+                href={'/account' as Route}
+                aria-label={`Your account (${account.user.name})`}
+                title={account.user.name}
+                className={cx(
+                  'hidden h-12 w-12 shrink-0 place-items-center rounded-full border text-base font-extrabold transition-[background-color,border-color,box-shadow] sm:grid sm:h-[52px] sm:w-[52px]',
+                  onDarkLead
+                    ? 'border-white/20 bg-white/10 text-white hover:bg-white/16'
+                    : 'border-jk-500/20 bg-white text-jk-600 shadow-[0_4px_14px_rgb(60_50_90/0.08)] hover:border-jk-500/35 hover:bg-surface',
+                )}
+              >
+                {account.user.name.trim().charAt(0).toUpperCase() || '?'}
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => account.openAuth('login')}
+                className={cx(
+                  'hidden h-[52px] cursor-pointer items-center justify-center gap-2 rounded-full border px-5 text-sm font-bold transition-[background-color,border-color,color,box-shadow] sm:inline-flex',
+                  onDarkLead
+                    ? 'border-white/20 bg-white/10 text-white hover:bg-white/16'
+                    : 'border-jk-500/20 bg-white text-foreground shadow-[0_4px_14px_rgb(60_50_90/0.08)] hover:border-jk-500/35 hover:bg-surface',
+                )}
+              >
+                <UserRound className="h-5 w-5 text-jk-500" aria-hidden="true" />
+                Log in
+              </button>
+            )
+          ) : null}
           <Link
             href={'/chatbot' as Route}
             className={cx(

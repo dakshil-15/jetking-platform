@@ -180,7 +180,7 @@ export function CounsellingStep({
             required
             inputMode="tel"
             autoComplete="tel"
-            pattern="[\d\s+()-]{10,20}"
+            pattern="[\d\s+\(\)\-]{10,20}"
             defaultValue={softPhone}
             className="border-[var(--stu-hairline)] bg-[var(--stu-surface)] text-[var(--stu-ink)]"
           />

@@ -124,17 +124,24 @@ export const BOTTOM_CTA_FEATURES = [
   { label: 'Course Recommendation', icon: GraduationCap },
 ] as const;
 
+/**
+ * Recruiters Jetking itself publishes on jetking.com. Logos are the site's own
+ * (cropped into /public/placements/recruiters); a company that is not listed there is not
+ * shown here, rather than being drawn from a generic "top IT employers" list.
+ */
 export const HIRING_PARTNERS = [
-  'TCS',
-  'Infosys',
-  'Wipro',
-  'Accenture',
-  'Amazon',
-  'Deloitte',
-  'IBM',
-  'Cognizant',
-  'HCL',
-  'Capgemini',
+  { name: 'Accenture', logo: '/placements/recruiters/accenture.png' },
+  { name: 'Amazon', logo: '/placements/recruiters/amazon.png' },
+  { name: 'Capgemini', logo: '/placements/recruiters/capgemini.png' },
+  { name: 'IBM', logo: '/placements/recruiters/ibm.png' },
+  { name: 'Infosys', logo: '/placements/recruiters/infosys.png' },
+  { name: 'Microsoft', logo: '/placements/recruiters/microsoft.png' },
+  { name: 'Samsung', logo: '/placements/recruiters/samsung.png' },
+  { name: 'SAP', logo: '/placements/recruiters/sap.png' },
+  { name: 'Tech Mahindra', logo: '/placements/recruiters/tech-mahindra.png' },
+  { name: 'Tikona', logo: '/placements/recruiters/tikona.png' },
+  { name: 'Vodafone', logo: '/placements/recruiters/vodafone.png' },
+  { name: 'Wipro', logo: '/placements/recruiters/wipro.png' },
 ] as const;
 
 export interface ProgramMeta {

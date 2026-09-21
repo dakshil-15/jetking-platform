@@ -706,3 +706,58 @@
       transparent 42%
     );
 }
+
+/* ── Logo marquee ─────────────────────────────────────────────────────────────
+   A row of logos that drifts sideways forever. The track holds two identical
+   lists; sliding it left by exactly half its width (one list + its trailing gap)
+   lands the second copy where the first began, so the loop has no visible seam.
+   It stops on hover / keyboard focus and via the Pause button (the `data-paused` attribute).
+   With reduced motion there is no animation at all: the second copy is hidden and
+   the logos wrap into a static, centred grid instead. */
+.dc-marquee {
+  overflow: hidden;
+  /* Fade the logos in and out at the edges instead of cutting them off. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+
+.dc-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: dc-marquee var(--dc-marquee-duration, 40s) linear infinite;
+}
+
+.dc-marquee:hover .dc-marquee-track,
+.dc-marquee:focus-within .dc-marquee-track,
+.dc-marquee[data-paused='true'] .dc-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes dc-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dc-marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .dc-marquee-track {
+    width: auto;
+    animation: none;
+    justify-content: center;
+  }
+
+  .dc-marquee-track > ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .dc-marquee-clone {
+    display: none;
+  }
+}

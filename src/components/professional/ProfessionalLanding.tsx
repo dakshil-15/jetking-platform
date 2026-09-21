@@ -9,10 +9,8 @@ import { ProfessionalSocialProof } from './ProfessionalSocialProof';
 
 export function ProfessionalLanding({
   courses,
-  video,
 }: {
   courses: Course[];
-  video?: { title: string; src: string };
   testimonials?: Testimonial[];
 }) {
   return (
@@ -38,7 +36,7 @@ export function ProfessionalLanding({
         ].join(' ')}
       >
         <div className="shell relative flex flex-col pt-8 pb-6 xs:pt-10 xs:pb-7 sm:pt-12 sm:pb-8 md:pt-14 md:pb-9 lg:pt-12 lg:pb-8 xl:pt-10 xl:pb-7 2xl:pt-8 2xl:pb-6 3xl:pt-10 3xl:pb-8">
-          <ProfessionalHero video={video} />
+          <ProfessionalHero />
 
           <div className="mt-8 shrink-0 xs:mt-10 lg:mt-12 3xl:mt-14">
             <ActionRail source="professional-rail" />

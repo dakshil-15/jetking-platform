@@ -22,6 +22,13 @@
       "when": 1788329644760,
       "tag": "0002_outstanding_shape",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1789962873590,
+      "tag": "0003_chatbot_accounts",
+      "breakpoints": true
     }
   ]
 }

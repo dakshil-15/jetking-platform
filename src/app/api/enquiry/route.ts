@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { clientKey, createRateLimiter } from '@/lib/rate-limit';
+import { getSessionUser } from '@/lib/chatbot/session';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -27,6 +28,10 @@ const EnquirySchema = z.object({
     .regex(/^[\d\s+()-]+$/, 'Phone may contain digits and + ( ) - only'),
   email: z.email().max(200).optional().or(z.literal('')),
   city: z.string().max(120).optional(),
+  /** State the visitor picked (quick-enquiry modal); the centre below belongs to it. */
+  state: z.string().max(120).optional(),
+  /** Slug of the centre the visitor picked within their city. */
+  centre: z.string().max(120).optional(),
   courseSlug: z.string().max(120).optional(),
   message: z.string().max(2000).optional(),
   /** Context attached by the client so counsellors see how the lead arrived. */
@@ -86,8 +91,13 @@ export async function POST(request: Request) {
     );
   }
 
+  // Tie the lead to the signed-in account, if any, so a counsellor can see it is a known user.
+  // Best-effort: a lookup failure must never cost the visitor their enquiry.
+  const account = await getSessionUser().catch(() => null);
+
   const enquiry = {
     ...parsed.data,
+    accountId: account?.id,
     receivedAt: new Date().toISOString(),
   };
 

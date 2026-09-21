@@ -7,6 +7,7 @@ import { linkVisitorIdentity } from '@/persona/visitor';
 import { clearHandoff, readHandoff, type GuideHandoffPayload } from '@/guide/handoff';
 import { track } from '@/lib/analytics';
 import { siteConfig } from '@/lib/site';
+import { useAccount } from '@/components/account/AccountProvider';
 import { Button, Field, Input, Notice, Select, Textarea } from '@/components/ui';
 
 /**
@@ -107,7 +108,21 @@ function useGuidePrefill(searchParams: URLSearchParams) {
   }, [handoff, base]);
 }
 
-export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Option[] }) {
+interface CentreOption {
+  slug: string;
+  name: string;
+  citySlug: string;
+}
+
+export function EnquiryForm({
+  courses,
+  cities,
+  centres,
+}: {
+  courses: Option[];
+  cities: Option[];
+  centres: CentreOption[];
+}) {
   const { classification, visitor, profile, record } = usePersona();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<Status>('idle');
@@ -117,6 +132,23 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
   const errorRef = useRef<HTMLParagraphElement>(null);
 
   const prefill = useGuidePrefill(searchParams);
+  const account = useAccount();
+  const accountUser = account.user;
+
+  // City is controlled so the centre list can follow it. `null` means "the visitor
+  // has not touched it", which lets the Guide/URL prefill (resolved after mount) show
+  // through without an effect; once they pick a city their choice wins.
+  // Defaults, in order: the Guide/URL handoff, then the signed-in account's saved location.
+  const [cityChoice, setCityChoice] = useState<string | null>(null);
+  const [centreChoice, setCentreChoice] = useState<string | null>(null);
+  const city = cityChoice ?? (prefill.city || accountUser?.city || '');
+  const cityCentres = useMemo(
+    () => (city ? centres.filter((c) => c.citySlug === city) : []),
+    [centres, city],
+  );
+  // A centre only stays selected while it belongs to the chosen city.
+  const wantedCentre = centreChoice ?? accountUser?.centre ?? '';
+  const centre = cityCentres.some((c) => c.slug === wantedCentre) ? wantedCentre : '';
 
   // Move the reading position onto whichever outcome panel just appeared.
   useEffect(() => {
@@ -151,6 +183,7 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
           phone: form.get('phone'),
           email: form.get('email') || undefined,
           city: form.get('city') || undefined,
+          centre: form.get('centre') || undefined,
           courseSlug: form.get('courseSlug') || undefined,
           message: form.get('message') || undefined,
           persona: classification.persona,
@@ -194,6 +227,7 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
         persona: classification.persona,
         confidence: classification.confidence,
         has_course: Boolean(form.get('courseSlug')),
+        has_centre: Boolean(form.get('centre')),
         from_guide: Boolean(prefill.handoff),
         visitor_id: visitor.id,
         stage: profile.stage,
@@ -253,6 +287,26 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
         {INTRO[classification.persona] ?? INTRO.unknown}
       </p>
 
+      {account.ready ? (
+        accountUser ? (
+          <p className="text-sm text-[var(--stu-ink-muted)]">
+            Signed in as {accountUser.name} — your details are filled in below.
+          </p>
+        ) : (
+          <p className="text-sm text-[var(--stu-ink-muted)]">
+            Have a Jetking account?{' '}
+            <button
+              type="button"
+              onClick={() => account.openAuth('login')}
+              className="cursor-pointer font-semibold text-[var(--accent-ink)] underline underline-offset-2"
+            >
+              Log in
+            </button>{' '}
+            to fill in your details.
+          </p>
+        )
+      ) : null}
+
       {prefill.handoff ? (
         <Notice tone="accent">
           Your Guide conversation will be shared with the counsellor so they have context.
@@ -263,6 +317,8 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
         <Input
           id="name"
           name="name"
+          key={`name-${accountUser?.id ?? 'guest'}`}
+          defaultValue={accountUser?.name}
           required
           minLength={2}
           maxLength={120}
@@ -280,11 +336,13 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
         <Input
           id="phone"
           name="phone"
+          key={`phone-${accountUser?.id ?? 'guest'}`}
+          defaultValue={accountUser?.phone}
           type="tel"
           required
           inputMode="tel"
           autoComplete="tel"
-          pattern="[\d\s+()-]{10,20}"
+          pattern="[\d\s+\(\)\-]{10,20}"
           className={fieldClass}
         />
       </Field>
@@ -293,6 +351,8 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
         <Input
           id="email"
           name="email"
+          key={`email-${accountUser?.id ?? 'guest'}`}
+          defaultValue={accountUser?.email}
           type="email"
           maxLength={200}
           autoComplete="email"
@@ -302,32 +362,56 @@ export function EnquiryForm({ courses, cities }: { courses: Option[]; cities: Op
 
       <div className="grid gap-7 sm:grid-cols-2">
         <Field label="Nearest city" htmlFor="city">
-          <Select id="city" name="city" defaultValue={prefill.city} className={fieldClass}>
+          <Select
+            id="city"
+            name="city"
+            value={city}
+            onChange={(event) => setCityChoice(event.target.value)}
+            className={fieldClass}
+          >
             <option value="">Select a city</option>
-            {cities.map((city) => (
-              <option key={city.slug} value={city.slug}>
-                {city.name}
+            {cities.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.name}
               </option>
             ))}
           </Select>
         </Field>
 
-        <Field label="Programme of interest" htmlFor="courseSlug">
+        <Field label="Preferred centre" htmlFor="centre">
           <Select
-            id="courseSlug"
-            name="courseSlug"
-            defaultValue={prefill.course}
+            id="centre"
+            name="centre"
+            value={centre}
+            onChange={(event) => setCentreChoice(event.target.value)}
+            disabled={cityCentres.length === 0}
             className={fieldClass}
           >
-            <option value="">Not sure yet</option>
-            {courses.map((course) => (
-              <option key={course.slug} value={course.slug}>
-                {course.title}
+            <option value="">{cityCentres.length > 0 ? 'No preference' : 'Select a city first'}</option>
+            {cityCentres.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.name}
               </option>
             ))}
           </Select>
         </Field>
       </div>
+
+      <Field label="Programme of interest" htmlFor="courseSlug">
+        <Select
+          id="courseSlug"
+          name="courseSlug"
+          defaultValue={prefill.course}
+          className={fieldClass}
+        >
+          <option value="">Not sure yet</option>
+          {courses.map((course) => (
+            <option key={course.slug} value={course.slug}>
+              {course.title}
+            </option>
+          ))}
+        </Select>
+      </Field>
 
       <Field label="Anything you would like to ask?" htmlFor="message">
         <Textarea

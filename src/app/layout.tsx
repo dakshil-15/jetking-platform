@@ -9,6 +9,7 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { PersonaInspector } from '@/components/PersonaInspector';
 import { Guide } from '@/components/Guide';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
+import { AccountProvider } from '@/components/account/AccountProvider';
 import { JsonLd } from '@/components/ui';
 import { AppProviders } from '@/components/providers/app-providers';
 import { themeScript } from '@/components/providers/theme-script';
@@ -74,19 +75,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </a>
 
           <PersonaProvider>
-            <SilentPersonaInfer />
-            <SiteChrome>
-              <SiteHeader />
-            </SiteChrome>
-            <main id="main">{children}</main>
-            <FooterChrome>
-              <SiteFooter />
-            </FooterChrome>
-            <SiteChrome>
-              <Guide />
-              <ExitIntentPopup />
-              {showInspector ? <PersonaInspector /> : null}
-            </SiteChrome>
+            <AccountProvider>
+              <SilentPersonaInfer />
+              <SiteChrome>
+                <SiteHeader />
+              </SiteChrome>
+              <main id="main">{children}</main>
+              <FooterChrome>
+                <SiteFooter />
+              </FooterChrome>
+              <SiteChrome>
+                <Guide />
+                <ExitIntentPopup />
+                {showInspector ? <PersonaInspector /> : null}
+              </SiteChrome>
+            </AccountProvider>
           </PersonaProvider>
         </AppProviders>
       </body>

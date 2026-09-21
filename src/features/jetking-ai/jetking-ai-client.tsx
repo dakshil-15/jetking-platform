@@ -23,15 +23,18 @@ import {
   IndianRupee,
   Loader2,
   LogIn,
+  LogOut,
   MapPin,
   Menu,
   MessageCircle,
+  MessageSquare,
   Moon,
   Newspaper,
   PanelRight,
   Send,
   Sparkles,
   Sun,
+  Trash2,
   User,
   Users,
   Wallet,
@@ -43,14 +46,20 @@ import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { JetkingShield } from '@/components/brand/jetking-shield';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { useTheme } from '@/components/providers/theme-provider';
 import { useMounted } from '@/hooks';
 import { cn } from '@/lib/utils';
+import { MAX_STORED_MESSAGES } from '@/lib/chatbot/limits';
+import type { ChatUser, ConversationSummary, StoredMessage } from '@/lib/chatbot/types';
 
+import { AuthDialog } from './account/auth-dialog';
+import { useChatAccount } from './account/use-chat-account';
+import { useLocations } from './account/use-locations';
 import { STARTERS, WHATSAPP_URL, type Chip, type IntentKey } from './conversation';
 import { AnswerBody } from './answer-html';
 import { JetkingLoader } from './jetking-loader';
-import type { CounsellingSession } from './session';
+import { EMPTY_SESSION, type CounsellingSession } from './session';
 import { smallTalk } from './small-talk';
 
 /* ------------------------------------------------------------------ */
@@ -130,6 +139,32 @@ type Message =
 const GATE_TEXT =
   "I don't have verified information about that in my Jetking knowledge base. I can help with Jetking courses, fees, placements, eligibility, or finding a centre near you — just ask.";
 
+/** Client-side UUID for a chat's saved id. `randomUUID` needs a secure context, so fall back for plain-http LAN testing. */
+function newConversationId(): string {
+  if (typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  const b = crypto.getRandomValues(new Uint8Array(16));
+  b[6] = (b[6]! & 0x0f) | 0x40;
+  b[8] = (b[8]! & 0x3f) | 0x80;
+  const h = Array.from(b, (x) => x.toString(16).padStart(2, '0')).join('');
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+}
+
+/** The transcript as it is saved: no "thinking" placeholders, text clipped to what the API accepts. */
+function toStoredMessages(messages: Message[]): StoredMessage[] {
+  return messages.flatMap((m): StoredMessage[] => {
+    if (m.role === 'user') return [{ ...m, text: m.text.slice(0, 4000) }];
+    if (m.kind === 'thinking') return [];
+    return [{ ...m, text: m.text.slice(0, 20_000) }];
+  });
+}
+
+/** Sidebar title for a saved chat — the visitor's first question. */
+function deriveChatTitle(messages: StoredMessage[]): string {
+  const first = messages.find((m) => m.role === 'user')?.text.replace(/\s+/g, ' ').trim() ?? '';
+  if (!first) return 'New chat';
+  return first.length > 60 ? `${first.slice(0, 57)}…` : first;
+}
+
 /** Flatten the transcript into the {role, content} history the local LLM receives. */
 function toApiMessages(
   history: Message[],
@@ -194,33 +229,6 @@ function UserAvatar() {
     <span className="grid size-9 shrink-0 place-items-center rounded-full bg-surface-sunken text-ink-subtle ring-1 ring-black/5 dark:ring-white/10">
       <User className="size-[18px]" />
     </span>
-  );
-}
-
-function SoundWave({ busy = false }: { busy?: boolean }) {
-  /** Base heights — animation scales each bar on Y so the waveform “breathes”. */
-  const bars = [
-    6, 10, 16, 22, 30, 22, 14, 24, 34, 24, 16, 10, 20, 28, 20, 12, 8, 14, 22, 14, 8, 12, 6,
-  ];
-  return (
-    <div
-      className={cn('jk-soundwave hidden h-9 items-center gap-[3px] sm:flex', busy && 'is-busy')}
-      aria-hidden
-    >
-      {bars.map((h, i) => (
-        <span
-          key={i}
-          className="jk-soundwave-bar w-[2.5px] rounded-full bg-jk-500/80"
-          style={
-            {
-              height: `${h}px`,
-              '--jk-bar-delay': `${(i * 0.07).toFixed(2)}s`,
-              '--jk-bar-duration': `${0.85 + (i % 5) * 0.12}s`,
-            } as React.CSSProperties
-          }
-        />
-      ))}
-    </div>
   );
 }
 
@@ -543,7 +551,22 @@ interface SidebarProps {
   onQuery: (query: string, label: string) => void;
 }
 
-function LeftSidebar({ activeKey, onIntent }: SidebarProps) {
+interface SidebarAccount {
+  user: ChatUser | null;
+  ready: boolean;
+  history: ConversationSummary[];
+  activeConversationId: string | null;
+  onLogin: () => void;
+  onLogout: () => void;
+  onOpenChat: (id: string) => void;
+  onDeleteChat: (id: string) => void;
+}
+
+function LeftSidebar({
+  activeKey,
+  onIntent,
+  account,
+}: SidebarProps & { account: SidebarAccount }) {
   const { resolvedTheme, toggleTheme } = useTheme();
   const mounted = useMounted();
   const isDark = mounted && resolvedTheme === 'dark';
@@ -585,6 +608,49 @@ function LeftSidebar({ activeKey, onIntent }: SidebarProps) {
             })}
           </div>
         ))}
+
+        {account.user ? (
+          <div className="mb-1">
+            <p className="px-3 pt-3 pb-1.5 text-[10px] font-semibold tracking-[0.18em] text-ink-subtle uppercase">
+              Recent chats
+            </p>
+            {account.history.length === 0 ? (
+              <p className="px-3 py-2 text-[12px] leading-snug text-ink-subtle">
+                Your saved chats will show up here.
+              </p>
+            ) : (
+              <ul className="flex flex-col gap-0.5">
+                {account.history.map((chat) => {
+                  const active = chat.id === account.activeConversationId;
+                  return (
+                    <li key={chat.id} className="group relative">
+                      <button
+                        onClick={() => account.onOpenChat(chat.id)}
+                        aria-current={active ? 'true' : undefined}
+                        className={cn(
+                          'flex w-full items-center gap-3 rounded-xl py-2.5 pr-10 pl-3 text-left text-[13px] font-medium transition-colors',
+                          active
+                            ? 'bg-surface-active text-ink'
+                            : 'text-ink-muted hover:bg-surface-hover hover:text-ink',
+                        )}
+                      >
+                        <MessageSquare className="size-[16px] shrink-0" />
+                        <span className="min-w-0 flex-1 truncate">{chat.title}</span>
+                      </button>
+                      <button
+                        onClick={() => account.onDeleteChat(chat.id)}
+                        aria-label={`Delete chat: ${chat.title}`}
+                        className="absolute top-1/2 right-2 grid size-7 -translate-y-1/2 place-items-center rounded-lg text-ink-subtle opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 hover:bg-surface-active hover:text-jk-500 focus-visible:opacity-100 max-md:opacity-100"
+                      >
+                        <Trash2 className="size-[15px]" />
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        ) : null}
       </nav>
 
       <div className="flex flex-col gap-2 border-t border-line p-3">
@@ -614,15 +680,45 @@ function LeftSidebar({ activeKey, onIntent }: SidebarProps) {
           </button>
         </div>
 
-        <button className="flex items-center gap-3 rounded-xl border border-line px-3 py-2.5 text-left transition-colors hover:bg-surface-hover">
-          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-active text-ink-muted">
-            <LogIn className="size-4" />
-          </span>
-          <span className="leading-tight">
-            <span className="block text-[12.5px] font-semibold text-ink">Login / Profile</span>
-            <span className="block text-[11px] text-ink-subtle">Save your chats</span>
-          </span>
-        </button>
+        {account.user ? (
+          <div className="flex items-center gap-3 rounded-xl border border-line px-3 py-2.5">
+            <span
+              aria-hidden="true"
+              className="grid size-8 shrink-0 place-items-center rounded-full bg-jk-500 text-[13px] font-bold text-white"
+            >
+              {account.user.name.trim().charAt(0).toUpperCase() || '?'}
+            </span>
+            <span className="min-w-0 flex-1 leading-tight">
+              <span className="block truncate text-[12.5px] font-semibold text-ink">
+                {account.user.name}
+              </span>
+              <span className="block truncate text-[11px] text-ink-subtle">{account.user.email}</span>
+            </span>
+            <button
+              onClick={account.onLogout}
+              aria-label="Log out"
+              title="Log out"
+              className="grid size-8 shrink-0 place-items-center rounded-lg text-ink-muted transition-colors hover:bg-surface-hover hover:text-jk-500"
+            >
+              <LogOut className="size-4" />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={account.onLogin}
+            // Disabled until the first "who am I" answer, so a signed-in visitor can't open Log in by mistake.
+            disabled={!account.ready}
+            className="flex items-center gap-3 rounded-xl border border-line px-3 py-2.5 text-left transition-colors hover:bg-surface-hover disabled:opacity-60"
+          >
+            <span className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-active text-ink-muted">
+              <LogIn className="size-4" />
+            </span>
+            <span className="leading-tight">
+              <span className="block text-[12.5px] font-semibold text-ink">Log in / Sign up</span>
+              <span className="block text-[11px] text-ink-subtle">Save your chats</span>
+            </span>
+          </button>
+        )}
       </div>
     </div>
   );
@@ -747,6 +843,39 @@ export function JetkingAiClient() {
   const [busy, setBusy] = useState(false);
   const [boot, setBoot] = useState<'show' | 'fade' | 'gone'>('show');
 
+  const account = useChatAccount();
+
+  // Personalisation from the account's saved location: resolve the home city's display name
+  // (the account stores the slug), then seed each new chat with it so answers start local.
+  const accountCity = account.user?.city ?? null;
+  const locationTree = useLocations(Boolean(accountCity));
+  const homeCityName =
+    (accountCity &&
+      locationTree?.states.flatMap((s) => s.cities).find((c) => c.slug === accountCity)?.name) ||
+    null;
+  const homeCityRef = useRef<string | null>(null);
+  useEffect(() => {
+    homeCityRef.current = homeCityName;
+  }, [homeCityName]);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [nudgeDismissed, setNudgeDismissed] = useState(false);
+  /** Set once the visitor closes (or completes) the login prompt that greets them on arrival. */
+  const [promptDismissed, setPromptDismissed] = useState(false);
+  // Greet a guest with the login dialog once the intro loader is out of the way and we
+  // know they aren't already signed in. Derived rather than an effect, so there is no flash.
+  const autoPrompt = boot === 'gone' && account.ready && !account.user && !promptDismissed;
+  /**
+   * Id this chat is saved under. Created lazily on the first save, and replaced by
+   * "new chat" / opening a saved one. The state copy only drives the sidebar highlight.
+   */
+  const conversationIdRef = useRef<string | null>(null);
+  const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
+  /** Fingerprint of the last transcript successfully saved, so an unchanged chat is never re-saved. */
+  const savedSigRef = useRef('');
+  /** How many leading messages were loaded from a saved chat — those render without the typing animation. */
+  const [restoredCount, setRestoredCount] = useState(0);
+
   const idRef = useRef(1);
   const nextId = () => `m${idRef.current++}`;
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -791,6 +920,90 @@ export function JetkingAiClient() {
     bottomRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   }, [messages]);
 
+  // Autosave for signed-in visitors. Waits for the answer to land (`busy` false) and
+  // debounces, so a turn is one save rather than one per state change. Logging in
+  // mid-chat runs this too, which is what saves a chat that began as a guest.
+  const { user, saveConversation } = account;
+  useEffect(() => {
+    if (!user || busy) return;
+    const stored = toStoredMessages(messages).slice(-MAX_STORED_MESSAGES);
+    const last = stored[stored.length - 1];
+    if (!last || !stored.some((m) => m.role === 'user')) return;
+    const signature = `${user.id}:${stored.length}:${last.id}:${last.text.length}`;
+    if (signature === savedSigRef.current) return;
+
+    const timer = setTimeout(() => {
+      const id = (conversationIdRef.current ??= newConversationId());
+      setActiveConversationId(id);
+      void saveConversation({
+        id,
+        title: deriveChatTitle(stored),
+        messages: stored,
+        session: sessionRef.current ? { ...sessionRef.current } : undefined,
+      }).then((ok) => {
+        // Only a successful save counts, so a failed one is retried on the next change.
+        if (ok && conversationIdRef.current === id) savedSigRef.current = signature;
+      });
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [messages, busy, user, saveConversation]);
+
+  const startNewChat = useCallback(() => {
+    awaitingCityRef.current = false;
+    conversationIdRef.current = null;
+    savedSigRef.current = '';
+    sessionRef.current = undefined;
+    setActiveConversationId(null);
+    setRestoredCount(0);
+    setMessages([
+      {
+        id: nextId(),
+        role: 'assistant',
+        kind: 'text',
+        text: STARTERS.welcome.message,
+        chips: STARTERS.welcome.chips,
+      },
+    ]);
+  }, []);
+
+  const openChat = useCallback(
+    async (id: string) => {
+      const chat = await account.openConversation(id);
+      if (!chat) return;
+      const loaded = chat.messages as Message[];
+      const highest = loaded.reduce((max, m) => Math.max(max, Number(/^m(\d+)$/.exec(m.id)?.[1] ?? 0)), 0);
+      // New ids must not collide with the restored ones.
+      idRef.current = highest + 1;
+      awaitingCityRef.current = false;
+      conversationIdRef.current = chat.id;
+      sessionRef.current = chat.session as CounsellingSession | undefined;
+      const last = chat.messages[chat.messages.length - 1];
+      savedSigRef.current = last
+        ? `${account.user?.id}:${chat.messages.length}:${last.id}:${last.text.length}`
+        : '';
+      setActiveConversationId(chat.id);
+      setRestoredCount(loaded.length);
+      setActiveKey('welcome');
+      setMessages(loaded);
+      setDrawerOpen(false);
+    },
+    [account],
+  );
+
+  const confirmDeleteChat = useCallback(async () => {
+    const id = pendingDeleteId;
+    if (!id) return;
+    const removed = await account.deleteConversation(id);
+    if (removed && conversationIdRef.current === id) startNewChat();
+  }, [account, pendingDeleteId, startNewChat]);
+
+  const handleLogout = useCallback(async () => {
+    await account.logout();
+    // Don't leave a signed-out visitor looking at the previous account's chat.
+    startNewChat();
+    setDrawerOpen(false);
+  }, [account, startNewChat]);
+
   const runLocal = useCallback(
     (query: string, prior: Message[], coords?: { lat: number; lng: number }) => {
       const thinkingId = nextId();
@@ -810,7 +1023,12 @@ export function JetkingAiClient() {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           messages: toApiMessages(prior, query),
-          session: sessionRef.current,
+          // A chat with no context yet is seeded with the signed-in visitor's city, so answers start local.
+          session:
+            sessionRef.current ??
+            (homeCityRef.current
+              ? { ...EMPTY_SESSION, lastCity: homeCityRef.current.toLowerCase() }
+              : undefined),
           ...coords,
         }),
       })
@@ -859,7 +1077,14 @@ export function JetkingAiClient() {
       .finally(() => setBusy(false));
   }, []);
 
-  const startIntent = useCallback((key: IntentKey) => {
+  const startIntent = useCallback(
+    (key: IntentKey) => {
+    // Signed in with a saved city: answer "nearest centre" for it straight away instead of asking again.
+    if (key === 'locations' && homeCityRef.current) {
+      awaitingCityRef.current = false;
+      runLocal(`Jetking centre in ${homeCityRef.current}`, messagesRef.current);
+      return;
+    }
     awaitingCityRef.current = key === 'locations';
     const starter = STARTERS[key];
     setMessages((m) => [
@@ -872,7 +1097,9 @@ export function JetkingAiClient() {
         chips: starter.chips,
       },
     ]);
-  }, []);
+  },
+    [runLocal],
+  );
 
   const ask = useCallback(
     (query: string, label?: string) => {
@@ -949,23 +1176,14 @@ export function JetkingAiClient() {
       setDrawerOpen(false);
       setInfoOpen(false);
       if (key === 'welcome') {
-        awaitingCityRef.current = false;
-        setMessages([
-          {
-            id: nextId(),
-            role: 'assistant',
-            kind: 'text',
-            text: STARTERS.welcome.message,
-            chips: STARTERS.welcome.chips,
-          },
-        ]);
+        startNewChat();
         return;
       }
       const item = MENU_GROUPS.flatMap((g) => g.items).find((i) => i.key === key);
       if (item) setMessages((m) => [...m, { id: nextId(), role: 'user', text: item.label }]);
       startIntent(key);
     },
-    [startIntent],
+    [startIntent, startNewChat],
   );
 
   const onQuery = useCallback(
@@ -1047,10 +1265,25 @@ export function JetkingAiClient() {
             ENQUIRE NOW
           </button>
           <button
+            onClick={() => {
+              if (account.user) {
+                setInfoOpen(false);
+                setDrawerOpen(true);
+              } else {
+                setAuthOpen(true);
+              }
+            }}
             className="grid size-8 shrink-0 place-items-center rounded-full border border-line text-ink hover:bg-surface-hover min-[360px]:size-9 sm:size-10"
-            aria-label="Account"
+            aria-label={account.user ? `Account: ${account.user.name}` : 'Log in or sign up'}
+            title={account.user ? account.user.name : 'Log in or sign up'}
           >
-            <User className="size-[15px] min-[360px]:size-4 sm:size-[18px]" />
+            {account.user ? (
+              <span className="text-[13px] font-bold text-jk-500 sm:text-[14px]">
+                {account.user.name.trim().charAt(0).toUpperCase() || '?'}
+              </span>
+            ) : (
+              <User className="size-[15px] min-[360px]:size-4 sm:size-[18px]" />
+            )}
           </button>
         </div>
       </header>
@@ -1071,7 +1304,24 @@ export function JetkingAiClient() {
               >
                 <X className="size-5" />
               </button>
-              <LeftSidebar activeKey={activeKey} onIntent={onIntent} onQuery={onQuery} />
+              <LeftSidebar
+                activeKey={activeKey}
+                onIntent={onIntent}
+                onQuery={onQuery}
+                account={{
+                  user: account.user,
+                  ready: account.ready,
+                  history: account.history,
+                  activeConversationId,
+                  onLogin: () => {
+                    setDrawerOpen(false);
+                    setAuthOpen(true);
+                  },
+                  onLogout: handleLogout,
+                  onOpenChat: openChat,
+                  onDeleteChat: setPendingDeleteId,
+                }}
+              />
             </div>
           </div>
         ) : null}
@@ -1109,10 +1359,13 @@ export function JetkingAiClient() {
               <h1 className="font-display text-[19px] font-extrabold tracking-tight text-ink sm:text-[21px]">
                 CHAT WITH JETKING AI
               </h1>
-              <p className="mt-0.5 text-[13px] text-ink-subtle">Hi! How can I help you today?</p>
+              <p className="mt-0.5 text-[13px] text-ink-subtle">
+                {account.user
+                  ? `Hi ${account.user.name.trim().split(/\s+/)[0]}! How can I help you today?`
+                  : 'Hi! How can I help you today?'}
+              </p>
             </div>
             <div className="ml-auto flex items-center gap-2">
-              <SoundWave busy={busy} />
               <button
                 type="button"
                 onClick={() => {
@@ -1155,7 +1408,7 @@ export function JetkingAiClient() {
                 <AssistantTextBubble
                   key={msg.id}
                   msg={msg}
-                  animate={isLatest}
+                  animate={isLatest && index >= restoredCount}
                   onAsk={(query) => ask(query)}
                   onChip={onChip}
                 />
@@ -1165,6 +1418,28 @@ export function JetkingAiClient() {
           </div>
 
           <div className="border-t border-line px-3 py-3 min-[360px]:px-4 min-[360px]:py-4 sm:px-8">
+            {account.ready && !account.user && !nudgeDismissed && messages.some((m) => m.role === 'user') ? (
+              <div className="mb-3 flex items-center gap-2 rounded-xl border border-line bg-brand-soft py-2 pr-2 pl-3.5">
+                <p className="min-w-0 flex-1 text-[12.5px] leading-snug text-ink-muted">
+                  Log in to save this chat and pick it up later.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setAuthOpen(true)}
+                  className="shrink-0 rounded-lg bg-jk-500 px-3 py-1.5 text-[12px] font-bold text-white transition-colors hover:bg-jk-600"
+                >
+                  Log in
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNudgeDismissed(true)}
+                  aria-label="Dismiss"
+                  className="grid size-7 shrink-0 place-items-center rounded-lg text-ink-subtle transition-colors hover:bg-surface-hover hover:text-ink"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+            ) : null}
             <form
               onSubmit={onSubmit}
               className="flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-2 shadow-[0_2px_10px_#10182814] focus-within:border-jk-300 focus-within:shadow-[0_2px_16px_#ea1c2422] min-[360px]:gap-2.5 min-[360px]:px-4 min-[360px]:py-2.5 sm:gap-3"
@@ -1199,6 +1474,26 @@ export function JetkingAiClient() {
           </div>
         </main>
       </div>
+
+      <AuthDialog
+        open={authOpen || autoPrompt}
+        onOpenChange={(open) => {
+          setAuthOpen(open);
+          if (!open) setPromptDismissed(true);
+        }}
+        account={account}
+      />
+      <ConfirmDialog
+        open={pendingDeleteId !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingDeleteId(null);
+        }}
+        title="Delete this chat?"
+        description="It will be removed from your saved chats. This can't be undone."
+        confirmLabel="Delete"
+        destructive
+        onConfirm={confirmDeleteChat}
+      />
     </div>
   );
 }

@@ -493,37 +493,6 @@
   animation: jk-draw-stroke 0.85s var(--ease-out-soft) forwards;
 }
 
-/* Chat header equalizer — staggered bar pulse. */
-@keyframes jk-soundwave {
-  0%,
-  100% {
-    transform: scaleY(0.35);
-    opacity: 0.55;
-  }
-  35% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-  65% {
-    transform: scaleY(0.55);
-    opacity: 0.75;
-  }
-}
-
-.jk-soundwave-bar {
-  display: block;
-  transform-origin: center center;
-  will-change: transform;
-  animation: jk-soundwave var(--jk-bar-duration, 1s) ease-in-out
-    var(--jk-bar-delay, 0s) infinite;
-}
-
-.jk-soundwave.is-busy .jk-soundwave-bar {
-  animation-duration: calc(var(--jk-bar-duration, 1s) * 0.55);
-  background-color: var(--color-jk-500);
-  opacity: 1;
-}
-
 /* Typing caret + bounce dots + message / step entrances. */
 @keyframes jk-caret {
   0%,

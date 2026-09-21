@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
 import type { Post } from '@/lib/content/types';
 import { track } from '@/lib/analytics';
 import { usePersona } from '@/persona/PersonaProvider';
@@ -41,7 +42,7 @@ function buildPageItems(current: number, total: number): Array<number | 'gap'> {
 }
 
 /**
- * Blog index — category chips + search + AdaptiveList + pagination.
+ * Blog index — category dropdown + search + AdaptiveList + pagination.
  *
  * Search filters the in-memory category list, then pagination shows
  * {@link BLOG_PAGE_SIZE} cards per page. Query / page sync to the URL via
@@ -63,6 +64,8 @@ export function BlogIndex({
   initialPage?: number;
 }) {
   const inputId = useId();
+  const categoryId = useId();
+  const router = useRouter();
   const { classification, hydrated } = usePersona();
   const [query, setQuery] = useState(initialQuery);
   const [page, setPage] = useState(initialPage);
@@ -188,41 +191,29 @@ export function BlogIndex({
         </label>
 
         {categories.length > 1 ? (
-          <nav aria-label="Filter by topic" className="min-w-0 flex-1">
-            <ul className="flex flex-nowrap gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <li className="shrink-0">
-                <Link
-                  href={categoryHref(null, query)}
-                  className={
-                    activeCategory === null
-                      ? 'inline-flex min-h-10 items-center rounded-full bg-[var(--blog-accent)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-white uppercase'
-                      : 'inline-flex min-h-10 items-center rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-[var(--blog-ink-muted)] uppercase transition-colors hover:border-[var(--blog-accent-soft)]/50 hover:text-[var(--blog-ink)]'
-                  }
-                  aria-current={activeCategory === null ? 'page' : undefined}
-                >
-                  All
-                </Link>
-              </li>
-              {categories.map((category) => {
-                const selected = activeCategory === category;
-                return (
-                  <li key={category} className="shrink-0">
-                    <Link
-                      href={categoryHref(category, query)}
-                      className={
-                        selected
-                          ? 'inline-flex min-h-10 items-center rounded-full bg-[var(--blog-accent)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-white uppercase'
-                          : 'inline-flex min-h-10 items-center rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] px-4 py-2 text-[12px] font-bold tracking-[0.06em] text-[var(--blog-ink-muted)] uppercase transition-colors hover:border-[var(--blog-accent-soft)]/50 hover:text-[var(--blog-ink)]'
-                      }
-                      aria-current={selected ? 'page' : undefined}
-                    >
-                      {category}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+          <div className="relative w-full lg:w-64 lg:shrink-0">
+            <label htmlFor={categoryId} className="sr-only">
+              Filter by topic
+            </label>
+            <select
+              id={categoryId}
+              value={activeCategory ?? ''}
+              onChange={(e) => router.push(categoryHref(e.target.value || null, query))}
+              className="w-full cursor-pointer appearance-none rounded-full border border-[var(--blog-hairline)] bg-[var(--blog-card)] py-3 pr-11 pl-5 text-[14.5px] font-semibold text-[var(--blog-ink)] transition-[border-color,box-shadow] duration-200 outline-none hover:border-[var(--blog-accent-soft)]/50 focus:border-[var(--blog-accent-soft)] focus:shadow-[0_0_0_3px_rgb(255_107_112/0.18)]"
+            >
+              <option value="">All topics</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <ChevronDown
+              className="pointer-events-none absolute top-1/2 right-4 h-4 w-4 -translate-y-1/2 text-[var(--blog-ink-muted)]"
+              strokeWidth={2}
+              aria-hidden="true"
+            />
+          </div>
         ) : null}
       </div>
 

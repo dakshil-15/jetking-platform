@@ -116,6 +116,12 @@ export function CentresLanding({
       <CentresHero
         cityCount={cities.length}
         centreCount={centres.length}
+        centres={centres.map((c) => ({
+          slug: c.slug,
+          name: c.name,
+          citySlug: c.citySlug,
+          state: c.state,
+        }))}
         initialQuery={initialQuery}
       />
 

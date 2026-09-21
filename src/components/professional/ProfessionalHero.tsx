@@ -4,15 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Route } from 'next';
 import { ArrowRight, ChevronRight } from 'lucide-react';
-import { WatchVideo } from '@/components/home/WatchVideo';
 import { siteConfig } from '@/lib/site';
 import { HERO_FEATURES } from './data';
 
-export function ProfessionalHero({
-  video,
-}: {
-  video?: { title: string; src: string };
-}) {
+export function ProfessionalHero() {
   return (
     <div
       className={[
@@ -86,8 +81,6 @@ export function ProfessionalHero({
               aria-hidden="true"
             />
           </Link>
-
-          <WatchVideo video={video} variant="inline" />
         </div>
 
         <Link

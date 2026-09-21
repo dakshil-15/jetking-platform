@@ -41,3 +41,8 @@ yarn-error.log*
 
 .vercel
 .env*
+
+# chatbot accounts + chats (file fallback when DATABASE_URL is unset — holds password hashes)
+/data/chatbot/
+# atomic-write leftovers from the admin CMS store
+/data/cms/*.tmp

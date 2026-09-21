@@ -56,7 +56,6 @@ export default async function ProfessionalPage() {
       <ScrollDepthTracker />
       <ProfessionalLanding
         courses={professionalCourses}
-        video={professionalVariant?.video}
         testimonials={testimonials}
       />
     </>

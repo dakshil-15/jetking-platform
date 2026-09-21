@@ -47,6 +47,8 @@ export interface CarouselProps<T> {
   label: string;
   /** Rotation interval in ms. `0` disables autoplay. */
   interval?: number;
+  /** Show the per-slide dot buttons. Prev/Next (and Pause) stay either way. Defaults to `true`. */
+  dots?: boolean;
   className?: string;
   /** Styling hook for the control row — the dark and light skins differ here. */
   classNames?: {
@@ -87,6 +89,7 @@ export function Carousel<T>({
   children,
   label,
   interval = 7000,
+  dots = true,
   className,
   classNames,
 }: CarouselProps<T>) {
@@ -152,31 +155,39 @@ export function Carousel<T>({
       </div>
 
       {count > 1 ? (
-        <div className={cx('mt-4 flex items-center justify-between gap-3', classNames?.controls)}>
-          <div className="flex items-center gap-0.5">
-            {items.map((item, i) => (
-              <button
-                key={itemKey(item, i)}
-                type="button"
-                aria-label={`Go to slide ${i + 1} of ${count}: ${itemLabel(item, i)}`}
-                aria-current={i === safeIndex ? 'true' : undefined}
-                aria-controls={viewportId}
-                onClick={() => setIndex(i)}
-                /* The button is 24×24 for WCAG 2.5.8; the visible dot is the span. */
-                className="grid h-6 w-6 cursor-pointer place-items-center rounded-full"
-              >
-                <span
-                  aria-hidden="true"
-                  className={cx(
-                    'block h-2 rounded-full transition-all duration-300 motion-reduce:transition-none',
-                    i === safeIndex
-                      ? cx('w-6', classNames?.dotActive ?? 'bg-white')
-                      : cx('w-2', classNames?.dotIdle ?? 'bg-white/35'),
-                  )}
-                />
-              </button>
-            ))}
-          </div>
+        <div
+          className={cx(
+            'mt-4 flex items-center gap-3',
+            dots ? 'justify-between' : 'justify-end',
+            classNames?.controls,
+          )}
+        >
+          {dots ? (
+            <div className="flex items-center gap-0.5">
+              {items.map((item, i) => (
+                <button
+                  key={itemKey(item, i)}
+                  type="button"
+                  aria-label={`Go to slide ${i + 1} of ${count}: ${itemLabel(item, i)}`}
+                  aria-current={i === safeIndex ? 'true' : undefined}
+                  aria-controls={viewportId}
+                  onClick={() => setIndex(i)}
+                  /* The button is 24×24 for WCAG 2.5.8; the visible dot is the span. */
+                  className="grid h-6 w-6 cursor-pointer place-items-center rounded-full"
+                >
+                  <span
+                    aria-hidden="true"
+                    className={cx(
+                      'block h-2 rounded-full transition-all duration-300 motion-reduce:transition-none',
+                      i === safeIndex
+                        ? cx('w-6', classNames?.dotActive ?? 'bg-white')
+                        : cx('w-2', classNames?.dotIdle ?? 'bg-white/35'),
+                    )}
+                  />
+                </button>
+              ))}
+            </div>
+          ) : null}
 
           <div className="flex gap-2">
             {autoplayable ? (

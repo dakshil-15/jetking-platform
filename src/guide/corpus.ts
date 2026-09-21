@@ -158,7 +158,7 @@ export async function buildCorpus(): Promise<Chunk[]> {
       id: `city:${city.slug}`,
       type: 'city',
       title: `Jetking centres in ${city.name}`,
-      url: `/centres/${city.slug}`,
+      url: `/centres?q=${encodeURIComponent(city.name)}`,
       sourceSlug: city.slug,
       text: `${city.intro} Jetking has centres in ${joinPlace(city.name, city.state)}.`,
     });

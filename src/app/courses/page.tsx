@@ -7,6 +7,7 @@ import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 import { Breadcrumbs, JsonLd, type Crumb } from '@/components/ui';
 import { AdaptiveNudge } from '@/persona/AdaptiveSlot';
 import { siteConfig } from '@/lib/site';
+import { HeroEnquiryCard } from '@/components/HeroEnquiryCard';
 import { CourseExplorer } from './CourseExplorer';
 
 export const metadata: Metadata = buildMetadata(
@@ -19,7 +20,7 @@ export const metadata: Metadata = buildMetadata(
 );
 
 export default async function CoursesPage() {
-  const courses = await content.listCourses();
+  const [courses, centres] = await Promise.all([content.listCourses(), content.listCentres()]);
   const levelCount = new Set(courses.map((c) => c.level)).size;
 
   const trail: Crumb[] = [
@@ -63,32 +64,52 @@ export default async function CoursesPage() {
                 className="dc-banner-wash pointer-events-none absolute inset-0"
               />
 
-              <div className="relative z-[1] flex h-full min-h-[inherit] flex-col justify-center px-6 py-10 xs:px-8 xs:py-12 sm:px-10 sm:py-14 lg:max-w-[56%] lg:px-12 lg:py-16 xl:px-14">
-                <p className="dc-eyebrow label-mono">Programmes</p>
+              <div className="relative z-[1] flex h-full min-h-[inherit] flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+                <div className="flex flex-1 flex-col justify-center px-6 py-10 xs:px-8 xs:py-12 sm:px-10 sm:py-14 lg:max-w-[56%] lg:px-12 lg:py-16 xl:px-14">
+                  <p className="dc-eyebrow label-mono">Programmes</p>
 
-                <h1 className="dc-heading-glow mt-4 font-display text-[34px] leading-[1.04] font-extrabold tracking-[-0.035em] text-balance text-[var(--dc-ink)] xs:text-[40px] sm:mt-5 sm:text-[48px] md:text-[52px] lg:text-[54px]">
-                  The Most In-Demand
-                  <span className="dc-accent-glow mt-1 block sm:mt-1.5">Job-Ready Courses.</span>
-                </h1>
+                  <h1 className="dc-heading-glow mt-4 font-display text-[34px] leading-[1.04] font-extrabold tracking-[-0.035em] text-balance text-[var(--dc-ink)] xs:text-[40px] sm:mt-5 sm:text-[48px] md:text-[52px] lg:text-[54px]">
+                    The Most In-Demand
+                    <span className="dc-accent-glow mt-1 block sm:mt-1.5">Job-Ready Courses.</span>
+                  </h1>
 
-                <p className="mt-4 max-w-[46ch] text-[14.5px] leading-[1.65] text-[var(--dc-ink-secondary)] xs:text-[15.5px] sm:mt-5 sm:text-[16px]">
-                  Cloud, cyber security, DevOps and networking — from a four-month
-                  foundation course to a three-year degree. Sorted by what suits you;
-                  every programme stays listed.
-                </p>
+                  <p className="mt-4 max-w-[46ch] text-[14.5px] leading-[1.65] text-[var(--dc-ink-secondary)] xs:text-[15.5px] sm:mt-5 sm:text-[16px]">
+                    Cloud, cyber security, DevOps and networking — from a four-month
+                    foundation course to a three-year degree. Sorted by what suits you;
+                    every programme stays listed.
+                  </p>
 
-                <p className="mt-6 numeral text-[11.5px] font-bold tracking-[0.12em] text-[var(--dc-ink-muted)] uppercase sm:mt-7">
-                  {siteConfig.name}
-                  {' · '}
-                  {courses.length} programmes
-                  {' · '}
-                  {levelCount} levels
-                </p>
+                  <p className="mt-6 numeral text-[11.5px] font-bold tracking-[0.12em] text-[var(--dc-ink-muted)] uppercase sm:mt-7">
+                    {siteConfig.name}
+                    {' · '}
+                    {courses.length} programmes
+                    {' · '}
+                    {levelCount} levels
+                  </p>
+                </div>
+
+                <HeroEnquiryCard
+                  centres={centres.map((c) => ({ slug: c.slug, name: c.name, citySlug: c.citySlug, state: c.state }))}
+                  source="courses-hero-form"
+                  tone="dc"
+                  titleId="courses-hero-form-title"
+                />
               </div>
             </div>
           </section>
 
-          <div className="mt-8 max-w-2xl">
+          {/*
+            The explorer is a client component, so Next server-renders it: every
+            course card and link is in the initial HTML. Its filter sidebar only
+            toggles visibility — nothing is hidden from crawlers, and every course
+            page stays linked. See the contract at the top of CourseExplorer.tsx.
+          */}
+          <div className="mt-10 lg:mt-12">
+            <CourseExplorer courses={courses} />
+          </div>
+
+          {/* Persona-adaptive next step, after the list rather than before it, so the programmes come first. */}
+          <div className="mt-10 max-w-2xl">
             <AdaptiveNudge
               id="courses-guidance-nudge"
               reserve="standard"
@@ -120,16 +141,6 @@ export default async function CoursesPage() {
                 },
               }}
             />
-          </div>
-
-          {/*
-            The explorer is a client component, so Next server-renders it: every
-            course card and link is in the initial HTML. Its filter sidebar only
-            toggles visibility — nothing is hidden from crawlers, and every course
-            page stays linked. See the contract at the top of CourseExplorer.tsx.
-          */}
-          <div className="mt-10 lg:mt-12">
-            <CourseExplorer courses={courses} />
           </div>
 
           {/* ── Closing CTA — the page's one consolidated enquiry prompt ───── */}

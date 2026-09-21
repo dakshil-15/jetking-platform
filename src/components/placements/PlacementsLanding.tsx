@@ -2,15 +2,18 @@ import { Fragment } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Route } from 'next';
-import { ArrowRight, Briefcase, Check } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { Breadcrumbs, type Crumb } from '@/components/ui';
-import { Disclosure } from '@/components/Disclosure';
-import type { Faq } from '@/lib/content/types';
+import { OfferLetterSlider } from './OfferLetterSlider';
 import { PlacementsTestimonialSlider } from './PlacementsTestimonialSlider';
+import { RecruiterMarquee } from './RecruiterMarquee';
 import {
   PLACEMENTS_HERO,
+  OFFER_LETTER_SAMPLES,
   PLACEMENT_DISCLAIMER,
   PROCESS_STEPS,
+  RECRUITERS,
+  RECRUITERS_DISCLAIMER,
   STUDENT_BENEFITS,
   TESTIMONIALS,
   PLACEMENTS_CONTACT,
@@ -53,9 +56,7 @@ const ICONS = {
   personalisedGuidance: '/placements/icons/16_personalised_guidance.svg',
   centreInformation: '/placements/icons/17_centre_information.svg',
   quickResponse: '/placements/icons/18_quick_response.svg',
-  rocketDoodle: '/placements/icons/24_rocket_doodle.svg',
   processArrow: '/placements/icons/25_process_arrow.svg',
-  futureStartsHere: '/placements/icons/32_future_starts_here_text.svg',
 } as const;
 
 const PROCESS_STEP_ICONS = [
@@ -95,55 +96,7 @@ const HERO_HIGHLIGHTS = [
 
 const HERO_CHECKLIST = ['Industry connected', 'Personalised support', 'Real career opportunities'];
 
-/**
- * "Skills today / A brighter tomorrow" doodle — inlined rather than
- * referenced as a static file because the source SVG hardcodes a navy fill
- * that reads fine on the mockup's light background but disappears on this
- * site's dark canvas; `var(--dc-ink)` keeps it legible (and theme-adaptive)
- * in both.
- */
-function SkillsTodayDoodle({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 460 260" className={className} aria-hidden="true">
-      <text x="0" y="96" fontFamily="cursive" fontSize="54" fontStyle="italic" fill="var(--dc-ink)">
-        Skills today
-      </text>
-      <text x="0" y="160" fontFamily="cursive" fontSize="54" fontStyle="italic" fill="var(--dc-ink)">
-        A brighter tomorrow
-      </text>
-      <path
-        d="M16 202 C110 174, 210 184, 330 214"
-        stroke="var(--dc-accent-soft)"
-        strokeWidth="10"
-        fill="none"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-/** Same reasoning as `SkillsTodayDoodle` — navy text recoloured for the dark canvas. */
-function BuildSkillsDoodle({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 460 260" className={className} aria-hidden="true">
-      <text x="0" y="96" fontFamily="cursive" fontSize="54" fontStyle="italic" fill="var(--dc-ink)">
-        Build Skills
-      </text>
-      <text x="0" y="160" fontFamily="cursive" fontSize="54" fontStyle="italic" fill="var(--dc-ink)">
-        Build Your Future
-      </text>
-      <path
-        d="M16 202 C110 174, 210 184, 330 214"
-        stroke="var(--dc-accent-soft)"
-        strokeWidth="10"
-        fill="none"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-export function PlacementsLanding({ faqs }: { faqs: Faq[] }) {
+export function PlacementsLanding() {
   return (
     <div className="dark-canvas pb-16 sm:pb-20 lg:pb-24">
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
@@ -204,7 +157,6 @@ export function PlacementsLanding({ faqs }: { faqs: Faq[] }) {
                 ))}
               </ul>
 
-              <SkillsTodayDoodle className="mt-6 hidden h-20 w-auto -rotate-2 sm:block" />
             </div>
 
             {/* Floating highlight cards — qualitative value props, no invented figures */}
@@ -249,15 +201,6 @@ export function PlacementsLanding({ faqs }: { faqs: Faq[] }) {
           Five steps from <span className="dc-accent-glow">classroom to offer</span>
         </h2>
 
-        {/* "Your future starts here!" + rocket — decorative, matches the source mock */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-2 right-4 hidden -rotate-6 items-end gap-1 lg:flex xl:right-8"
-        >
-          <IconGlyph src={ICONS.futureStartsHere} className="h-16 w-auto" />
-          <IconGlyph src={ICONS.rocketDoodle} className="h-10 w-10" />
-        </div>
-
         <ol className="mt-10 flex flex-col items-center gap-2 sm:mt-12 lg:flex-row lg:items-start lg:justify-center lg:gap-0">
           {PROCESS_STEPS.map((item, index) => {
             const isLast = index === PROCESS_STEPS.length - 1;
@@ -294,11 +237,28 @@ export function PlacementsLanding({ faqs }: { faqs: Faq[] }) {
         </ol>
       </section>
 
+      {/* ── Recruiters ────────────────────────────────────────────────────── */}
+      <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="placements-recruiters">
+        <div className="text-center">
+          <p className="dc-eyebrow label-mono">Our recruiters</p>
+          <h2
+            id="placements-recruiters"
+            className="dc-heading-glow mt-3 font-display text-[28px] font-extrabold tracking-[-0.03em] text-[var(--dc-ink)] xs:text-[32px] sm:text-[36px]"
+          >
+            Brands that are our <span className="dc-accent-glow">placement partners</span>
+          </h2>
+        </div>
+
+        <RecruiterMarquee items={RECRUITERS} />
+
+        <p className="mx-auto mt-6 max-w-[48rem] text-center text-[12.5px] leading-relaxed text-[var(--dc-ink-muted)] sm:text-[13px]">
+          {RECRUITERS_DISCLAIMER}
+        </p>
+      </section>
+
       {/* ── Student benefits ─────────────────────────────────────────────── */}
       <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="placements-benefits">
         <div className="dc-panel relative overflow-hidden rounded-[24px] px-6 py-10 xs:rounded-[28px] sm:px-10 sm:py-12">
-          <BuildSkillsDoodle className="pointer-events-none absolute right-6 bottom-6 hidden h-20 w-auto rotate-2 opacity-90 lg:block" />
-
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="dc-eyebrow label-mono">What you build</p>
@@ -336,6 +296,25 @@ export function PlacementsLanding({ faqs }: { faqs: Faq[] }) {
         </div>
       </section>
 
+      {/* ── Sample offer letters ──────────────────────────────────────────── */}
+      <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="placements-offers">
+        <p className="dc-eyebrow label-mono">What an offer looks like</p>
+        <h2
+          id="placements-offers"
+          className="dc-heading-glow mt-3 font-display text-[28px] font-extrabold tracking-[-0.03em] text-[var(--dc-ink)] xs:text-[32px] sm:text-[36px]"
+        >
+          Sample <span className="dc-accent-glow">offer letters</span>
+        </h2>
+        <p className="mt-3 max-w-[42rem] text-[15px] leading-relaxed text-[var(--dc-ink-secondary)]">
+          Illustrative samples across sectors and roles. They show the shape of a typical offer —
+          not a promise of any employer, role or package.
+        </p>
+
+        <div className="mt-6">
+          <OfferLetterSlider items={OFFER_LETTER_SAMPLES} label="Sample offer letters" />
+        </div>
+      </section>
+
       {/* ── Testimonials ──────────────────────────────────────────────────── */}
       <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="placements-testimonials">
         <div className="dc-panel overflow-hidden rounded-[24px] px-6 py-10 xs:rounded-[28px] sm:px-10 sm:py-12">
@@ -349,11 +328,6 @@ export function PlacementsLanding({ faqs }: { faqs: Faq[] }) {
                 What placed learners <span className="dc-accent-glow">say</span>
               </h2>
             </div>
-
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--dc-accent-border)] bg-[var(--dc-accent-tint)] px-4 py-2 text-[13px] font-extrabold tracking-[0.02em] text-[var(--dc-accent-soft)]">
-              <Briefcase className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
-              100+ Placements
-            </span>
           </div>
 
           <div className="mt-8 sm:mt-10">
@@ -361,33 +335,6 @@ export function PlacementsLanding({ faqs }: { faqs: Faq[] }) {
           </div>
         </div>
       </section>
-
-      {/* ── Questions ─────────────────────────────────────────────────────── */}
-      {faqs.length ? (
-        <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="placements-faq">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="dc-eyebrow label-mono">Questions</p>
-              <h2
-                id="placements-faq"
-                className="dc-heading-glow mt-3 font-display text-[24px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] sm:text-[28px]"
-              >
-                Placement and fees
-              </h2>
-            </div>
-            <p className="text-[13.5px] font-semibold text-[var(--dc-ink-muted)]">
-              Have more questions? We&rsquo;re here to help.
-            </p>
-          </div>
-          <div className="mt-8 sm:mt-10">
-            {faqs.map((faq) => (
-              <Disclosure key={faq.id} tone="flush" summary={faq.question}>
-                <p className="measure text-base">{faq.answer}</p>
-              </Disclosure>
-            ))}
-          </div>
-        </section>
-      ) : null}
 
       {/* ── Close CTA ─────────────────────────────────────────────────────── */}
       <section className="shell relative mt-16 sm:mt-20 lg:mt-24" aria-labelledby="placements-cta">

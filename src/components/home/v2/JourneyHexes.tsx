@@ -123,9 +123,10 @@ export function JourneyHexes() {
                 <span className="block text-[15px] leading-tight font-extrabold text-[color:var(--hex-ink)] xs:text-[15.5px] lg:text-[15px] lg:text-white lg2:text-[12.5px] lg2:leading-[1.15] 2xl:text-[16.5px] 2xl:leading-tight">
                   {journey.title}
                 </span>
-                {/* Compact band (1200–1535): sub-text removed — title + button only reads
-                    cleanly in the smaller hex; the detail returns at 2xl. */}
-                <span className="mt-1 block text-[12.5px] leading-snug text-[var(--v2-ink-muted)] xs:mt-1.5 lg:mt-1.5 lg:text-[12.5px] lg:text-white/80 lg2:hidden 2xl:mt-1 2xl:block 2xl:text-[13.5px] 2xl:leading-snug">
+                {/* Sub-text shows at every size. In the compact band (1200–1535) the hex is
+                    ~205px, so the detail steps down to 10.5px and tightens its spacing to sit
+                    between the title and the arrow without crowding the rim. */}
+                <span className="mt-1 block text-[12.5px] leading-snug text-[var(--v2-ink-muted)] xs:mt-1.5 lg:mt-1.5 lg:text-[12.5px] lg:text-white/80 lg2:mt-0.5 lg2:text-[10.5px] lg2:leading-[1.25] 2xl:mt-1 2xl:text-[13.5px] 2xl:leading-snug">
                   {journey.detail}
                 </span>
 

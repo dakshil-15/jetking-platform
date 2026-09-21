@@ -7,6 +7,8 @@ import type { HomeData } from '../data';
 import { ActionRail } from '../v1/ActionRail';
 import { ActionBar } from './ActionBar';
 import { JourneyHexes } from './JourneyHexes';
+import { HeroEnquireCta } from './HeroEnquireCta';
+import type { EnquiryCentre } from '@/components/EnquiryModal';
 
 /**
  * The homepage — "Future-Ready".
@@ -14,7 +16,14 @@ import { JourneyHexes } from './JourneyHexes';
  * Ask Jetking lives on the global Guide launcher, not on this page's floating
  * ActionRail (Find Center / Call / Book Counselling).
  */
-export function HomeV2({ data: _data }: { data: HomeData }) {
+export function HomeV2({
+  data: _data,
+  enquiryCentres,
+}: {
+  data: HomeData;
+  /** Centres offered in the hero's quick-enquiry modal (state → centre). */
+  enquiryCentres: EnquiryCentre[];
+}) {
   return (
     <section
       className={[
@@ -85,7 +94,7 @@ export function HomeV2({ data: _data }: { data: HomeData }) {
               <br className="hidden sm:inline" /> Placement support that delivers.
             </p>
 
-            <div className="mt-6 flex flex-col items-start gap-5 xs:mt-7 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-5 lg:mt-8 2xl:mt-[34px]">
+            <div className="mt-6 flex flex-col items-start gap-5 xs:mt-7 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-5 2xl:gap-x-6 lg:mt-8 2xl:mt-[34px]">
               <Link
                 href={'/courses' as Route}
                 className="v2-cta-glow group/explore inline-flex min-h-12 items-center gap-5 rounded-full py-3.5 pr-5 pl-6 text-[15px] font-bold text-white transition-[background-color,box-shadow] duration-200 sm:gap-6 sm:py-4 sm:pr-5.5 sm:pl-7 sm:text-[16px]"
@@ -97,6 +106,7 @@ export function HomeV2({ data: _data }: { data: HomeData }) {
                   aria-hidden="true"
                 />
               </Link>
+              <HeroEnquireCta centres={enquiryCentres} />
             </div>
           </div>
 

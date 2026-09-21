@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { buildMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/site';
 import { ScrollDepthTracker } from '@/components/ScrollDepthTracker';
+import { content } from '@/lib/content';
 import { loadHomeData } from '@/components/home/data';
 import { HomeV2 } from '@/components/home/v2/HomeV2';
 
@@ -23,12 +24,20 @@ export const metadata: Metadata = buildMetadata(
  * so its course, city and company links reach crawlers via sitemap.xml instead.
  */
 export default async function HomePage() {
-  const data = await loadHomeData();
+  const [data, centres] = await Promise.all([loadHomeData(), content.listCentres()]);
 
   return (
     <>
       <ScrollDepthTracker />
-      <HomeV2 data={data} />
+      <HomeV2
+        data={data}
+        enquiryCentres={centres.map((c) => ({
+          slug: c.slug,
+          name: c.name,
+          citySlug: c.citySlug,
+          state: c.state,
+        }))}
+      />
     </>
   );
 }

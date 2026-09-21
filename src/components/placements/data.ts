@@ -145,31 +145,28 @@ export const VIDEO_TESTIMONIALS: VideoTestimonial[] = [
     title: 'Placement testimonial — Jetking Blockchain',
     provider: 'youtube',
     videoId: 'Q4-k5emEc54',
-    thumbnail: 'https://i.ytimg.com/vi/Q4-k5emEc54/hqdefault.jpg',
+    thumbnail: '/media/video/youtube-Q4-k5emEc54.webp',
   },
   {
     name: 'Shivam Thakur',
     title: 'Placement testimonial — Jetking Blockchain',
     provider: 'vimeo',
     videoId: '662754940',
-    thumbnail:
-      'https://i.vimeocdn.com/video/1341047580-3829e2724a90143d5dc7e239eeb16cccf943574be18716b0b48e1f04c62b4225-d_640?region=us',
+    thumbnail: '/media/video/vimeo-662754940.webp',
   },
   {
     name: 'Srinivas Balaji',
     title: 'Placement testimonial — Jetking Blockchain',
     provider: 'vimeo',
     videoId: '662750796',
-    thumbnail:
-      'https://i.vimeocdn.com/video/1341040811-6a627a6d76667e374731f1df9fc5699e4ba0762b90ebaa6cdd1029935be461c3-d_640?region=us',
+    thumbnail: '/media/video/vimeo-662750796.webp',
   },
   {
     name: 'Anandhu Krishnan',
     title: 'Placement testimonial — Jetking Blockchain',
     provider: 'vimeo',
     videoId: '672638981',
-    thumbnail:
-      'https://i.vimeocdn.com/video/1363127547-b5dd990b44cceb59df4c32e23b81c412ca462ae5ce05a645ca6e0174ba60ba87-d_640?region=us',
+    thumbnail: '/media/video/vimeo-672638981.webp',
   },
 ];
 
@@ -178,3 +175,39 @@ export const PLACEMENTS_CONTACT = {
   tel: 'tel:07666830000',
   email: 'info@jetking.com',
 } as const;
+
+/**
+ * Illustrative offer letters, one per sector. They use a placeholder company ("Company Name"),
+ * carry a SAMPLE watermark and name no real employer, logo or salary — the same honesty rule as
+ * the rest of this page. To show a real letter, drop a consented image or PDF page under
+ * public/placements/offers and point `src` at it.
+ */
+export const OFFER_LETTER_SAMPLES = [
+  { src: '/placements/offers/sample-offer-it-services.svg', title: 'Associate Systems Engineer', sector: 'IT services & consulting' },
+  { src: '/placements/offers/sample-offer-cloud-hosting.svg', title: 'Cloud Support Engineer', sector: 'Cloud & hosting' },
+  { src: '/placements/offers/sample-offer-banking.svg', title: 'IT Support Executive', sector: 'Banking & financial services' },
+  { src: '/placements/offers/sample-offer-telecom.svg', title: 'Network Administrator', sector: 'Telecom & networking' },
+  { src: '/placements/offers/sample-offer-ecommerce.svg', title: 'Technical Support Engineer', sector: 'Retail & e-commerce' },
+  { src: '/placements/offers/sample-offer-security.svg', title: 'Junior Security Analyst', sector: 'Managed security services' },
+].map((letter) => ({ ...letter, alt: `Sample offer letter for a ${letter.title}, for illustration only` }));
+
+/**
+ * Recruiter logos, as shown under "Brands that are our placement partners" on the live
+ * jetking.com/placements page (cropped from that page's logo collage). Order follows the live page.
+ * Logos are the owners' trademarks, shown as published by Jetking; the disclaimer below is the
+ * note Jetking prints with its own recruiter collage.
+ */
+export const RECRUITERS = [
+  { name: 'Microsoft', src: '/placements/recruiters/microsoft.png' },
+  { name: 'Tech Mahindra', src: '/placements/recruiters/tech-mahindra.png' },
+  { name: 'IBM', src: '/placements/recruiters/ibm.png' },
+  { name: 'Amazon', src: '/placements/recruiters/amazon.png' },
+  { name: 'Samsung', src: '/placements/recruiters/samsung.png' },
+  { name: 'The Times of India', src: '/placements/recruiters/times-of-india.png' },
+  { name: 'Infosys', src: '/placements/recruiters/infosys.png' },
+  { name: 'Wipro', src: '/placements/recruiters/wipro.png' },
+  { name: 'Tikona Digital Networks', src: '/placements/recruiters/tikona.png' },
+] as const;
+
+export const RECRUITERS_DISCLAIMER =
+  'Placements are subject to recruitment norms. Jetking does not guarantee placements in the above organisations.';

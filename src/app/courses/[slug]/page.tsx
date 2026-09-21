@@ -11,6 +11,7 @@ import { Breadcrumbs, JsonLd, type Crumb } from '@/components/ui';
 import { AdaptiveNudge } from '@/persona/AdaptiveSlot';
 import { Disclosure } from '@/components/Disclosure';
 import { CourseViewTracker } from './CourseViewTracker';
+import { FeeDepthTracker } from './FeeDepthTracker';
 
 /*
  * Shared trust content — the same on every Jetking course page (mirrors the
@@ -67,10 +68,20 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const course = await content.getCourse(slug);
   if (!course) notFound();
 
-  const [allCourses, centres] = await Promise.all([
+  const [allCourses, centres, siteFaqs] = await Promise.all([
     content.listCourses(),
     content.listCentres(),
+    content.listFaqs(),
   ]);
+
+  // The course's own Q&A first, then the site-wide answers about fees and placement support that
+  // every prospective student asks (these used to sit on /placements). Skip any question the
+  // course already answers itself.
+  const ownQuestions = new Set((course.faqs ?? []).map((f) => f.question.trim().toLowerCase()));
+  const ownFaqs = course.faqs ?? [];
+  const feeFaqs = siteFaqs
+    .filter((f) => (f.topic === 'fees' || f.topic === 'placement') && !ownQuestions.has(f.question.trim().toLowerCase()))
+    .map((f) => ({ question: f.question, answer: f.answer }));
 
   const offeringCentres = centres.filter((c) => c.coursesOffered.includes(course.slug));
   const offeringCityCount = new Set(offeringCentres.map((c) => c.citySlug)).size;
@@ -488,17 +499,26 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   </section>
                 ) : null}
 
-                {/* FAQs — shown only when the live page has a Q&A section */}
-                {course.faqs?.length ? (
+                {/* FAQs — the course's own Q&A plus the site-wide fees and placement answers */}
+                {ownFaqs.length + feeFaqs.length ? (
                   <section>
                     <SectionHeading>Frequently asked questions</SectionHeading>
                     <div className="mt-6 border-t border-[var(--dc-hairline)]">
-                      {course.faqs.map((faq) => (
+                      {ownFaqs.map((faq) => (
                         <Disclosure key={faq.question} tone="flush" summary={faq.question}>
                           <p className="measure text-[15px]">{faq.answer}</p>
                         </Disclosure>
                       ))}
+                      {/* The fees / placement answers: reading this block is the `fee-depth` signal. */}
+                      <div id="course-fee-faqs">
+                        {feeFaqs.map((faq) => (
+                          <Disclosure key={faq.question} tone="flush" summary={faq.question}>
+                            <p className="measure text-[15px]">{faq.answer}</p>
+                          </Disclosure>
+                        ))}
+                      </div>
                     </div>
+                    {feeFaqs.length ? <FeeDepthTracker targetId="course-fee-faqs" courseSlug={course.slug} /> : null}
                   </section>
                 ) : null}
               </div>

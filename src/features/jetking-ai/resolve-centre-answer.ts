@@ -132,7 +132,7 @@ function websiteCentres(): CentreRecord[] {
     return {
       id: `website-${city.slug}`,
       city: city.name,
-      path: `/centres/${city.slug}`,
+      path: `/centres?q=${encodeURIComponent(city.name)}`,
       summary: city.intro,
       locations: branches.map((branch) => ({
         name: branch.name,

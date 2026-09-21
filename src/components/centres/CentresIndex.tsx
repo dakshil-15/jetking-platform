@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { ChevronDown, MapPin, Phone, Search, X } from 'lucide-react';
+import { Building2, ChevronDown, Map as MapIcon, MapPin, Phone, Search, X } from 'lucide-react';
 import { track } from '@/lib/analytics';
 import { centrePath } from '@/lib/centre-path';
 import { usePersona } from '@/persona/PersonaProvider';
@@ -290,6 +290,8 @@ export function CentresIndex({
           <div className="centres-filter-scroll min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
             <FilterGroup
               label="State"
+              icon={MapIcon}
+              value={activeState}
               open={openFacet === 'state'}
               onToggle={() =>
                 setOpenFacet((v) => (v === 'state' ? null : 'state'))
@@ -323,7 +325,9 @@ export function CentresIndex({
 
             <FilterGroup
               label="City"
-              className="mt-6"
+              icon={Building2}
+              value={activeCity ? (cities.find((c) => c.slug === activeCity)?.name ?? null) : null}
+              className="mt-4"
               open={openFacet === 'city'}
               onToggle={() =>
                 setOpenFacet((v) => (v === 'city' ? null : 'city'))
@@ -686,20 +690,32 @@ function CentreCard({
   );
 }
 
+/**
+ * A sidebar filter group (State, City). The header is a proper control rather than a small
+ * muted label: it reads as a button, takes the same accent highlight as a selected option while
+ * it is open or holds a selection, and shows the current pick as a chip — so a visitor can see
+ * which filters are applied without opening each group.
+ */
 function FilterGroup({
   label,
+  icon: Icon,
+  value,
   className,
   open,
   onToggle,
   children,
 }: {
   label: string;
+  icon: typeof MapPin;
+  /** The applied selection's name, or `null` when the group is on "All". */
+  value: string | null;
   className?: string;
   open: boolean;
   onToggle: () => void;
   children: React.ReactNode;
 }) {
   const panelId = useId();
+  const highlighted = open || Boolean(value);
   return (
     <div
       className={`centres-accordion${className ? ` ${className}` : ''}`}
@@ -710,11 +726,29 @@ function FilterGroup({
         onClick={onToggle}
         aria-expanded={open}
         aria-controls={panelId}
-        className="centres-accordion-trigger"
+        className={[
+          'centres-accordion-trigger rounded-[12px] border px-3.5 py-3 transition-[background-color,border-color,box-shadow] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--centres-accent-soft)]',
+          highlighted
+            ? 'border-[var(--centres-accent-soft)]/55 bg-[var(--centres-accent-tint)]'
+            : 'border-[var(--centres-hairline)] bg-[var(--centres-surface)] hover:border-[rgb(255_100_105/0.35)] hover:bg-[rgb(255_100_105/0.06)]',
+        ].join(' ')}
       >
-        <span className="text-[11px] font-bold tracking-[0.12em] text-[var(--centres-ink-muted)] uppercase">
+        <Icon
+          className={`h-4 w-4 shrink-0 ${highlighted ? 'text-[var(--centres-accent-soft)]' : 'text-[var(--centres-ink-muted)]'}`}
+          strokeWidth={2}
+          aria-hidden="true"
+        />
+        <span className="text-[12.5px] font-extrabold tracking-[0.1em] text-[var(--centres-ink)] uppercase">
           {label}
         </span>
+        {value ? (
+          <span className="ml-auto min-w-0 max-w-[9rem] truncate rounded-full border border-[var(--centres-accent-soft)]/50 bg-[var(--centres-card)] px-2.5 py-0.5 text-[11.5px] font-bold text-[var(--centres-accent-soft)]">
+            {value}
+            <span className="sr-only"> selected</span>
+          </span>
+        ) : (
+          <span className="ml-auto text-[11.5px] font-semibold text-[var(--centres-ink-muted)]">All</span>
+        )}
         <ChevronDown
           className="centres-accordion-chevron h-4 w-4"
           strokeWidth={2.25}

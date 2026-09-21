@@ -35,6 +35,8 @@ export type EventName =
   | 'enquiry_started'
   | 'enquiry_submitted'
   | 'exit_intent_shown'
+  | 'account_signup'
+  | 'account_login'
   | 'whatsapp_clicked'
   | 'course_viewed'
   | 'centre_viewed'
