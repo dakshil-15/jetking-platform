@@ -77,7 +77,88 @@ export const legacyCourseLandings: LegacyRedirect[] = [
   },
 ];
 
+const permanent = (pairs: [string, string][]): LegacyRedirect[] =>
+  pairs.map(([source, destination]) => ({ source, destination, permanent: true }));
+
+/**
+ * Live-site landing pages (some are ClickFunnels brochure sign-up funnels) that map cleanly to a
+ * programme in the new catalogue. Found by requesting every URL in the live sitemap.
+ */
+export const legacyProgrammeLandings: LegacyRedirect[] = permanent([
+  ['/bca-degree-in-cloud-computing-cyber-security', '/courses/bca-cloud-cyber-security'],
+  ['/bca-cloud-computing-cyber-security-brochure-signup', '/courses/bca-cloud-cyber-security'],
+  ['/bca-cloud-computing-cyber-security-brochure-mumbai-signup', '/courses/bca-cloud-cyber-security'],
+  ['/mca-in-cloud-computing-cyber-security-master-degree', '/courses/mca-cloud-cyber-security'],
+  ['/mca-in-cloud-computing-cyber-security-brochure-signup', '/courses/mca-cloud-cyber-security'],
+  ['/program/bca-in-multimedia-and-animation', '/courses/bca-multimedia-animation'],
+  ['/bca-multimedia-animation-brochure-signup-page', '/courses/bca-multimedia-animation'],
+  ['/animation-graphics-metaverse-design-course', '/courses/gaming-metaverse-design'],
+  ['/courses/masters-in-gaming-metaverse', '/courses/gaming-metaverse-design'],
+  ['/metaverse-course--67d25', '/courses/gaming-metaverse-design'],
+  ['/metaverse-course-brochure-signup', '/courses/gaming-metaverse-design'],
+  ['/courses/networking-essentials-specialist', '/courses/networking-essentials'],
+  ['/networking-essentials-specialist', '/courses/networking-essentials'],
+  ['/courses/digital-marketing-training', '/courses/digital-marketing'],
+  ['/courses/best-data-analytics-course', '/courses/data-analyst'],
+  ['/data-analyst-professional-program', '/courses/data-analyst'],
+  /*
+   * Judgement calls: the live page is a "Masters" or AI-branded cloud programme and the new
+   * catalogue has no page of that exact name. These go to the closest programme.
+   */
+  ['/masters-in-cloud-computing-cyber-security-brochure-signup', '/courses/cloud-cyber-security-engineer'],
+  ['/courses/master-cloud-computing-cyber-security', '/courses/cloud-cyber-security-engineer'],
+  ['/courses/masters-cloud-computing-artificial-intelligence-course', '/courses/cloud-computing-engineer-ai'],
+  ['/courses/cloud-computing-and-cloud-ai-certification-training', '/courses/cloud-computing-professional-ai'],
+  /* Programmes the new catalogue does not offer (yet): the catalogue is the honest landing page. */
+  ['/program/bca-in-data-science-degree', '/courses'],
+  ['/bca-data-science-brochure-signup-page', '/courses'],
+  ['/courses/best-semiconductor-chip-design-courses', '/courses'],
+  ['/diploma-in-fintech', '/courses'],
+  ['/graphics-design-and-audio-video-editor', '/courses'],
+  ['/motion-graphics-and-animation-professional', '/courses'],
+  ['/masters-in-blockchain-development--5da35', '/courses'],
+]);
+
+/** Company and utility pages that exist under another name on the new site. */
+export const legacyCompanyPages: LegacyRedirect[] = permanent([
+  ['/franchise-opportunities', '/franchise'],
+  ['/core-plus', '/franchise'],
+  ['/coreplus-brochure-signup', '/franchise'],
+  ['/corporate-training', '/franchise'],
+  ['/institution-alliance', '/franchise'],
+  ['/board-of-directors', '/about-us'],
+  ['/jetking-reviews', '/placements'],
+  ['/sitemap-html', '/sitemap'],
+]);
+
+/**
+ * The live blog had category archives at `/blog/{category}`. The new blog filters by category on
+ * `/blog` instead, so those URLs go to the blog index (never to the homepage).
+ */
+export const legacyBlogArchives: LegacyRedirect[] = [
+  'uncategorized',
+  'blockchain',
+  'cloud-computing',
+  'digital-marketing',
+  'ethical-hacking',
+  'emerging-technology',
+  'technology',
+  'getting-started-with-your-blog',
+].map((slug) => ({ source: `/blog/${slug}`, destination: '/blog', permanent: true }));
+
+/**
+ * `/centres/prayagraj` was a real centre page on the live site. The centre's slug here is
+ * `allahabad`, and `prayagraj` alone would otherwise be read as a city and sent to a search.
+ */
+export const legacyCentres: LegacyRedirect[] = [
+  { source: '/centres/prayagraj', destination: '/centres/allahabad', permanent: true },
+];
+
 export const legacyRedirects: LegacyRedirect[] = [
   ...legacyNavRedirects,
   ...legacyCourseLandings,
+  ...legacyProgrammeLandings,
+  ...legacyCompanyPages,
+  ...legacyBlogArchives,
+  ...legacyCentres,
 ];
