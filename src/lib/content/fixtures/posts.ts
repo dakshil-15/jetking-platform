@@ -1,11 +1,12 @@
 import type { Post } from '../types';
+import migratedPosts from './posts.migrated.json';
 
 /**
  * PLACEHOLDER CONTENT — stands in for the ~136 legacy blog posts migrated in Week 4.
  * `legacyPath` is populated by the migration script and is what
  * `scripts/verify-redirects.ts` asserts against.
  */
-export const posts: Post[] = [
+const placeholderPosts: Post[] = [
   {
     slug: 'cloud-computing-career-after-12th',
     title: 'Starting a cloud computing career after 12th: what the first three years look like',
@@ -271,3 +272,10 @@ export const posts: Post[] = [
     legacyPath: '/blog/it-training-franchise-india',
   },
 ];
+
+/**
+ * The blog: the placeholder posts above plus the posts migrated from jetking.com (410, kept under
+ * their live slugs, images already local under /media). posts.migrated.json is exported from the
+ * admin CMS store, so the deployed site has the same articles whichever CONTENT_SOURCE it runs.
+ */
+export const posts: Post[] = [...placeholderPosts, ...(migratedPosts as unknown as Post[])];
