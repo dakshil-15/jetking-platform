@@ -65,11 +65,12 @@ function slugFromPath(path: string): string {
   const cleaned = path.replace(/\/+$/, '').replace(/\.html?$/i, '');
   const parts = cleaned.split('/').filter(Boolean);
   const last = parts[parts.length - 1] ?? 'untitled';
+  // Keep the live slug exactly (no truncation, and a double hyphen stays a double hyphen), so the
+  // migrated post keeps its URL and needs no redirect.
   return last
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-    .slice(0, 80);
+    .replace(/[^a-z0-9-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 function htmlToBlocks(html: string): BodyBlock[] {

@@ -20,6 +20,8 @@
     "db:migrate": "tsx scripts/migrate-db.ts",
     "create:admin": "tsx scripts/create-admin-user.ts",
     "migrate:blog": "tsx scripts/migrate-blog.ts",
+    "sync:investors": "node scripts/sync-investor-disclosures.mjs",
+    "localize:media": "node scripts/localize-media.mjs",
     "sync:chatbot-content": "node scripts/sync-content.mts",
     "export:chatbot-content": "node --conditions=react-server --import tsx scripts/export-site-corpus.mts",
     "check:chatbot-answers": "node --conditions=react-server --import ./scripts/register-alias.mjs scripts/check-answers.mts",

@@ -66,9 +66,6 @@ const nextConfig: NextConfig = {
       // CMS asset host gets added here once the CMS is chosen.
       { protocol: 'https', hostname: '**.sanity.io' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
-      // Legacy Jetking / ClickFunnels covers used by migrated blog posts.
-      { protocol: 'https', hostname: 'images.clickfunnels.com' },
-      { protocol: 'https', hostname: 'statics.myclickfunnels.com' },
       { protocol: 'https', hostname: 'www.jetking.com' },
     ],
   },
