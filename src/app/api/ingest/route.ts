@@ -1,8 +1,16 @@
+import { timingSafeEqual } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { ingestCorpus } from '@/guide/vector';
 import { invalidateCorpus } from '@/guide/corpus';
 import { invalidateIndex } from '@/guide/retrieve';
 import { clientKey, createRateLimiter } from '@/lib/rate-limit';
+
+/** Constant-time compare — a fast-exit `!==` leaks the secret one byte at a time. */
+function secretMatches(provided: string, expected: string): boolean {
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
 
 /**
  * Re-chunk + embed the published CMS corpus into pgvector / local embeddings store.
@@ -21,8 +29,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Ingest is not configured.' }, { status: 503 });
     }
   } else {
-    const auth = req.headers.get('authorization');
-    if (auth !== `Bearer ${secret}`) {
+    const auth = req.headers.get('authorization') ?? '';
+    if (!secretMatches(auth, `Bearer ${secret}`)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
   }
