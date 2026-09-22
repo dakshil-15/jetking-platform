@@ -124,7 +124,7 @@ export function ExitIntentPopup() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="exit-intent-title"
-        className="relative w-full max-w-[440px] rounded-[20px] border border-border bg-background p-6 shadow-2xl sm:p-8"
+        className="relative w-full max-w-[440px] max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-[20px] border border-border bg-background p-6 shadow-2xl sm:p-8"
       >
         <button
           type="button"
