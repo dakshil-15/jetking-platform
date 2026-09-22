@@ -59,14 +59,14 @@ export function FranchiseTestimonialSliderLight({
       }}
     >
       {(item, i) => (
-        <blockquote className="stu-quote p-6 text-white sm:p-7">
+        <blockquote className="stu-quote flex h-full min-h-[220px] flex-col p-6 text-white sm:min-h-[240px] sm:p-7">
           <span
             aria-hidden="true"
             className="font-display text-[56px] leading-none font-extrabold text-white/30"
           >
             &ldquo;
           </span>
-          <p className="-mt-5 text-[15.5px] leading-relaxed font-medium sm:text-[16.5px]">
+          <p className="-mt-5 flex-1 text-[15.5px] leading-relaxed font-medium sm:text-[16.5px]">
             {item.quote}
           </p>
           <footer className="mt-6 flex items-center gap-3">
