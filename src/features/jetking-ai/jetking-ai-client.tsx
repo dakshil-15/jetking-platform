@@ -106,7 +106,7 @@ const WHY_JETKING: { label: string; icon: LucideIcon }[] = [
   { label: 'Industry Experienced Trainers', icon: Users },
   { label: 'Practical Training & Labs', icon: Cpu },
   { label: 'Placement Assistance', icon: BarChart3 },
-  { label: '35+ Years of Excellence', icon: Award },
+  { label: '80 Years of Excellence', icon: Award },
 ];
 
 const POPULAR_COURSES = [

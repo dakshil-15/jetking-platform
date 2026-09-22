@@ -482,7 +482,7 @@ export function ParentLanding({
                   <div className="absolute inset-[8%] overflow-hidden rounded-full border border-[var(--stu-hairline)] bg-[linear-gradient(160deg,var(--stu-card),var(--stu-surface),var(--stu-card))] shadow-[0_28px_70px_rgb(0_0_0/0.45)]">
                     <Image
                       src="/parent/hero.jpg"
-                      alt=""
+                      alt={`Parent researching ${siteConfig.name} career guidance for their child`}
                       fill
                       sizes="360px"
                       className="object-cover object-center opacity-90"

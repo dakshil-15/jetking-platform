@@ -145,9 +145,9 @@ export function ProfessionalImpact() {
                 <TrendingUp className="h-5 w-5" strokeWidth={1.75} />
               </span>
 
-              <h4 className="relative mt-4 font-display text-[22px] font-extrabold tracking-[-0.02em] text-[var(--pro-ink)] xs:mt-5 xs:text-[24px] sm:text-[26px]">
+              <h3 className="relative mt-4 font-display text-[22px] font-extrabold tracking-[-0.02em] text-[var(--pro-ink)] xs:mt-5 xs:text-[24px] sm:text-[26px]">
                 Ready to upgrade?
-              </h4>
+              </h3>
               <p className="relative mt-2.5 text-[14px] leading-relaxed text-[var(--pro-ink-secondary)] xs:mt-3 xs:text-[15px]">
                 Book a free career upgrade session — get a personalised plan without interrupting
                 your work week.
