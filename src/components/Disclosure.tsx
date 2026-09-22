@@ -53,7 +53,7 @@ export function Disclosure({
         aria-controls={id}
         onClick={() => setOpen((v) => !v)}
         className={cx(
-          'flex w-full cursor-pointer items-center gap-4 text-left transition-colors duration-200',
+          'flex w-full cursor-pointer items-center gap-4 text-left text-foreground transition-colors duration-200',
           tone === 'default' ? 'p-5' : 'py-5 hover:text-[var(--accent-ink)]',
         )}
       >
