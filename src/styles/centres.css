@@ -504,7 +504,8 @@
   }
 }
 
-.centres-hero-search-input::-webkit-search-cancel-button {
+.centres-hero-search-input::-webkit-search-cancel-button,
+.centres-sidebar-search-input::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
 }

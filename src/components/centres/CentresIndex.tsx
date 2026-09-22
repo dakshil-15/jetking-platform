@@ -267,7 +267,7 @@ export function CentresIndex({
                 onChange={(e) => onSearchChange(e.target.value)}
                 placeholder="Search cities, states..."
                 autoComplete="off"
-                className="w-full rounded-full border border-[var(--centres-hairline)] bg-[var(--centres-surface)] py-2.5 pr-10 pl-10 text-[13.5px] text-[var(--centres-ink)] placeholder:text-[var(--centres-ink-muted)] transition-[border-color,box-shadow] duration-200 outline-none focus:border-[var(--centres-accent-soft)]/70 focus:shadow-[0_0_0_3px_rgb(255_107_112/0.16)]"
+                className="centres-sidebar-search-input w-full rounded-full border border-[var(--centres-hairline)] bg-[var(--centres-surface)] py-2.5 pr-10 pl-10 text-[13.5px] text-[var(--centres-ink)] placeholder:text-[var(--centres-ink-muted)] transition-[border-color,box-shadow] duration-200 outline-none focus:border-[var(--centres-accent-soft)]/70 focus:shadow-[0_0_0_3px_rgb(255_107_112/0.16)]"
               />
               {query ? (
                 <button
@@ -623,14 +623,14 @@ function CentreCard({
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-x-4 sm:gap-y-2">
         <div className="min-w-0">
-          <h4 className="font-display text-[17px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[18px] lg:text-[20px]">
+          <h3 className="font-display text-[17px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[18px] lg:text-[20px]">
             <Link
               href={centrePath(centre.slug) as Route}
               className="transition-colors hover:text-[var(--centres-accent-soft)]"
             >
               {centre.name}
             </Link>
-          </h4>
+          </h3>
           <p className="mt-1 text-[13px] font-semibold text-[var(--centres-accent-soft)]">
             {localityCityLabel}
           </p>

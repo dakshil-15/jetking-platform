@@ -165,7 +165,8 @@
   }
 }
 
-.blog-hero-search-input::-webkit-search-cancel-button {
+.blog-hero-search-input::-webkit-search-cancel-button,
+.blog-search-input::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
 }
