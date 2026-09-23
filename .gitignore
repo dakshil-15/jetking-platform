@@ -35,6 +35,8 @@ yarn-error.log*
 
 # migration working files (large, regenerated)
 /scripts/.cache/
+# sync-content.mts's crawl response cache — actually written to <repo root>/.cache/crawl
+/.cache/
 /data/legacy-crawl/
 /data/cms/embeddings.json
 /data/cms/store.json

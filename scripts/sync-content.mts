@@ -180,6 +180,36 @@ function clean(value: string): string {
   return value.replace(/ /g, ' ').replace(/\s+/g, ' ').trim();
 }
 
+/**
+ * cheerio's `.text()` concatenates every descendant text node with zero
+ * separator — fine within one real run of text, but two adjacent elements
+ * with no whitespace text node between them in the source markup (a
+ * course-name span immediately followed by a locality span, a feature blurb
+ * glued straight into the next FAQ button's question, two certification
+ * names back to back) collapse into one glued run with no space at all.
+ * Confirmed live in three different shapes: "Jetking BhawaniporeBhawanipore"
+ * (centre name + locality), "...100% Placement What is the duration..." (a
+ * blurb glued to the next FAQ question), "...Animation Jetking Certified
+ * Data Analyst" (two certification names). Recursing over `.contents()` and
+ * forcing a space after every ELEMENT child — never after a plain text node
+ * — restores exactly the separator `.text()` drops; `clean()` right after
+ * collapses it back to a single space, so a genuine single text run ("New
+ * York") is untouched.
+ */
+function textWithGaps($: CheerioAPI, el: unknown): string {
+  let out = '';
+  $(el as never)
+    .contents()
+    .each((_, node) => {
+      if ((node as { type?: string }).type === 'text') {
+        out += (node as { data?: string }).data ?? '';
+      } else {
+        out += textWithGaps($, node) + ' ';
+      }
+    });
+  return out;
+}
+
 function stripChrome($: CheerioAPI): void {
   $('script, style, noscript, svg, iframe, template, link').remove();
   $('nav, footer, header[role="banner"]').remove();
@@ -242,7 +272,7 @@ function extractPage(url: string, html: string, index: number): ExtractedPage {
   // it, and keeps each FAQ question immediately before its answer.
   $('h1, h2, h3, h4, p, li, dt, dd, button').each((_, element) => {
     const tag = (element as { tagName?: string }).tagName?.toLowerCase() ?? '';
-    const text = clean($(element).text());
+    const text = clean(textWithGaps($, element));
 
     if (/^h[1-4]$/.test(tag)) {
       if (text && text.length <= 120 && !BOILERPLATE.test(text)) currentHeading = text;
@@ -264,8 +294,8 @@ function extractPage(url: string, html: string, index: number): ExtractedPage {
   $('dl').each((_, list) => {
     const terms = $(list).find('dt');
     terms.each((_, term) => {
-      const label = clean($(term).text());
-      const value = clean($(term).next('dd').text());
+      const label = clean(textWithGaps($, term));
+      const value = clean(textWithGaps($, $(term).next('dd').get(0)));
       if (label && value && !facts.has(label)) facts.set(label, value);
     });
   });
@@ -352,7 +382,11 @@ function extractCourse(extracted: ExtractedPage, html: string, index: number): C
 
 /** A centre entry renders as "Jetking Bhawanipore" + "Bhawanipore · 700020". */
 const CENTRE_ITEM = /^(Jetking\s.+?)\s*·\s*(\d{5,6})\s*→?$/;
-const PROGRAMME_ITEM = /^(.{4,60}?)((?:\d+(?:\.\d+)?)\s*(?:month|year)s?)$/i;
+// `\s*` between the groups tolerates both shapes: the glued
+// "BCA — Cloud & Cyber3 years" that .text() produced before textWithGaps,
+// and the correctly-spaced "BCA — Cloud & Cyber 3 years" it produces now —
+// existing corpus content and freshly-crawled content both still match.
+const PROGRAMME_ITEM = /^(.{4,60}?)\s*((?:\d+(?:\.\d+)?)\s*(?:month|year)s?)$/i;
 
 /**
  * Undoes the concatenation of adjacent inline elements.
@@ -365,7 +399,15 @@ function splitCentreName(blob: string): { name: string; locality: string } {
   for (let cut = blob.length - 1; cut > 8; cut--) {
     const head = blob.slice(0, cut);
     const tail = blob.slice(cut);
-    if (tail.length >= 3 && head.endsWith(tail)) return { name: head, locality: tail };
+    // textWithGaps (above) now inserts a real space at the name/locality
+    // boundary instead of gluing them with none, so the duplicate-suffix
+    // search can land the cut one character early and hand back a tail with
+    // a leading space (" Bhawanipore" instead of "Bhawanipore") — trim
+    // rather than adjust the search, since a trailing/leading space at a cut
+    // point is never meaningful either way.
+    if (tail.length >= 3 && head.endsWith(tail)) {
+      return { name: head.trim(), locality: tail.trim() };
+    }
   }
   return { name: blob, locality: '' };
 }
