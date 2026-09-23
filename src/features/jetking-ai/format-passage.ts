@@ -12,9 +12,32 @@ function cleanSpace(s: string): string {
   return s.replace(/\s+/g, ' ').trim();
 }
 
+/**
+ * Undoes two `.text()`-extraction glue artifacts that show up in scraped
+ * course content, the same class of bug CENTRE_ITEM below already patches
+ * for centre names:
+ *
+ *   1. A page's <title>/OG-title leaking in front of the real sentence that
+ *      follows it, with no separator — "IT Courses — Cloud, Cyber Security &
+ *      DevOps | Jetking Any graduate or 10+2 student…" is the SEO title
+ *      glued to the actual eligibility text.
+ *   2. A numbered step-badge glued to the accordion heading it labels —
+ *      "04Semester 4Machine learning…" is the "04" badge, "Semester 4", and
+ *      that panel's content with every separator dropped.
+ *
+ * Exported so route.ts can clean hit text once, before it's used either as
+ * LLM context or as input to the formatters below — cleaning only the
+ * formatted (fallback) output would leave the glue in the LLM's context.
+ */
+export function cleanPassageText(text: string): string {
+  return text
+    .replace(/^[A-Z][\w&,.\-–—' ]{4,70}?\|\s*Jetking\.?\s+(?=[A-Z])/, '')
+    .replace(/\b\d{1,2}((?:Semester|Module|Year|Phase|Level)\s*\d+)(?=[A-Z])/g, '$1: ');
+}
+
 /** Split "A. B. C." style module lists into bullets (keeps short sentences out). */
 function sentenceBullets(text: string): string[] {
-  return text
+  return cleanPassageText(text)
     .split(/(?<=\.)\s+(?=[A-Z0-9])/)
     .map((s) => s.replace(/\.$/, '').trim())
     .filter((s) => s.length >= 8 && s.length <= 160);
