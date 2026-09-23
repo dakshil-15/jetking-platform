@@ -7,7 +7,21 @@
  */
 
 const REFERENTIAL_RE =
-  /\b(it|its|it's|that|this|these|those|they|them|their|there|same|also|too|another|what about|how about|and|aur|iska|uska|isme|usme|kitni|kitna)\b/i;
+  /\b(it|its|it's|that|this|these|those|they|them|their|there|same|also|too|another|what about|how about|iska|uska|isme|usme|kitni|kitna)\b/i;
+
+/**
+ * A leading "and"/"aur" is a continuation particle ("and its fees", "aur
+ * pune mein centre hai kya") — but the same word used mid-sentence as an
+ * ordinary conjunction ("What is Jetking and why should I join", "AI aur
+ * data science course ke baare mein batao") isn't referential at all.
+ * REFERENTIAL_RE used to match "and"/"aur" anywhere in the message, so any
+ * standalone question that merely contained the word got misread as a
+ * follow-up and inherited the previous turn's topic instead of running
+ * fresh retrieval. Confirmed live: "What is Jetking and why should I join",
+ * asked right after an MCA-curriculum question, answered from that MCA
+ * context instead of Jetking's own overview.
+ */
+const LEADING_CONTINUATION_RE = /^(and|aur)\b/i;
 
 /**
  * A reactive continuation phrase — "sounds good, tell me more", "go on",
@@ -56,7 +70,12 @@ export function isFollowUpMessage(message: string, hasPrevUser: boolean): boolea
   if (!hasPrevUser) return false;
   const trimmed = message.trim();
   if (IMPERATIVE_TASK_RE.test(trimmed) && !SUBJECT_RE.test(message)) return false;
-  if (REFERENTIAL_RE.test(message) || CONTINUATION_RE.test(message)) return true;
+  if (
+    REFERENTIAL_RE.test(message) ||
+    CONTINUATION_RE.test(message) ||
+    LEADING_CONTINUATION_RE.test(trimmed)
+  )
+    return true;
   if (SUBJECT_RE.test(message)) return false;
   // No subject and no referential pronoun. A facet word ("fees", "eligibility",
   // "duration", ...) always means "of whatever we were just discussing", so it
@@ -107,6 +126,7 @@ export interface WantFlags {
   wantDuration: boolean;
   wantCourse: boolean;
   wantAbout: boolean;
+  wantDemo: boolean;
 }
 
 // Deliberately "centre(s)" only, not the American "center(s)" spelling: this
@@ -210,12 +230,31 @@ export function detectWants(message: string): WantFlags {
       /\b(founder|founded|company history|jetking'?s? history|legacy|\bceo\b|chairman|managing director|leadership|awards?|achievements?|about jetking)\b/i.test(
         message,
       ),
+    // "Book a free demo class" — a conversion/CTA ask, not a knowledge-base
+    // lookup. Nothing in the KB actually describes "how to book a demo", so
+    // without its own facet this fell through to generic semantic search,
+    // which had no real match and surfaced whatever weakly-scoring passage
+    // happened to score highest (confirmed live: an unrelated blog post about
+    // AI tools). Routed instead to a fixed, honest answer in route.ts — see
+    // the wantDemo branch there.
+    //
+    // Deliberately NOT a bare `\bdemo\b` — a genuine curriculum question can
+    // use that same word without asking to book anything ("is there a demo
+    // project at the end?", "does it include live demos of the tools?").
+    // Requiring "demo" to sit next to "class"/"free"/"book"/"session" keeps
+    // it to the actual booking phrasing while still matching "demo class",
+    // "free demo", "book a demo", "trial/sample class or session".
+    wantDemo:
+      /\b(demo class|free demo|book(ing)?.{0,15}demo|trial class|free class|free session|sample class|sample session|demo session)\b/i.test(
+        message,
+      ),
   };
 }
 
 export function detectAnsweredFacet(wants: WantFlags, isLocation: boolean): string {
   if (wants.wantFees) return 'fees';
   if (wants.wantEligibility) return 'eligibility';
+  if (wants.wantDemo) return 'demo';
   if (wants.wantCurriculum) return 'curriculum';
   if (wants.wantDuration) return 'duration';
   if (wants.wantPlacement) return 'placement';

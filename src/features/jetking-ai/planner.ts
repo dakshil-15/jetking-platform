@@ -33,7 +33,8 @@ export function needsPlanner(input: {
     input.wants.wantEligibility ||
     input.wants.wantCurriculum ||
     input.wants.wantDuration ||
-    input.wants.wantPlacement;
+    input.wants.wantPlacement ||
+    input.wants.wantDemo;
   return !input.subject && !explicitFacet;
 }
 

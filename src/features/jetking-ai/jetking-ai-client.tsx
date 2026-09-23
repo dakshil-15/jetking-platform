@@ -58,6 +58,8 @@ import { useChatAccount } from './account/use-chat-account';
 import { useLocations } from './account/use-locations';
 import { STARTERS, WHATSAPP_URL, type Chip, type IntentKey } from './conversation';
 import { AnswerBody } from './answer-html';
+import type { ContentBlock } from './answer-schema';
+import { LeadCaptureForm, type LeadFormContext } from './lead-form';
 import { JetkingLoader } from './jetking-loader';
 import { EMPTY_SESSION, type CounsellingSession } from './session';
 import { smallTalk } from './small-talk';
@@ -129,9 +131,13 @@ type Message =
       text: string;
       title?: string;
       source?: 'kb' | 'llm';
+      /** The model's own structured content, when its JSON reply parsed cleanly — see answer-schema.ts. */
+      blocks?: ContentBlock[];
       reasoning?: string[];
       followUps?: { label: string; query: string }[];
       chips?: Chip[];
+      /** Shows an inline lead-capture form under this answer (e.g. "book a demo"). */
+      leadForm?: LeadFormContext;
     }
   | { id: string; role: 'assistant'; kind: 'thinking' };
 
@@ -309,12 +315,14 @@ function ChatProse({ text }: { text: string }) {
 function TypedAnswer({
   text,
   title,
+  blocks,
   animate,
   structured,
   onDone,
 }: {
   text: string;
   title?: string;
+  blocks?: ContentBlock[];
   animate: boolean;
   /** True for KB / LLM answers; false for welcome / intent starters. */
   structured: boolean;
@@ -353,7 +361,11 @@ function TypedAnswer({
 
   return (
     <div className="jk-msg-in">
-      {structured ? <AnswerBody text={text} title={title} /> : <ChatProse text={text} />}
+      {structured ? (
+        <AnswerBody text={text} title={title} blocks={blocks} />
+      ) : (
+        <ChatProse text={text} />
+      )}
     </div>
   );
 }
@@ -472,11 +484,13 @@ function AssistantTextBubble({
   animate,
   onAsk,
   onChip,
+  user,
 }: {
   msg: AssistantTextMsg;
   animate: boolean;
   onAsk: (query: string) => void;
   onChip: (chip: Chip) => void;
+  user: ChatUser | null;
 }) {
   const [ready, setReady] = useState(!animate);
 
@@ -485,6 +499,7 @@ function AssistantTextBubble({
       <TypedAnswer
         text={msg.text}
         title={msg.title}
+        blocks={msg.blocks}
         animate={animate}
         structured={Boolean(msg.source)}
         onDone={() => setReady(true)}
@@ -498,6 +513,7 @@ function AssistantTextBubble({
         </div>
       ) : null}
       {ready && msg.reasoning?.length ? <Thoughts steps={msg.reasoning} /> : null}
+      {ready && msg.leadForm ? <LeadCaptureForm context={msg.leadForm} user={user} /> : null}
       {ready && msg.followUps?.length ? (
         <div className="jk-msg-in">
           <FollowUps items={msg.followUps} onAsk={onAsk} />
@@ -1038,6 +1054,7 @@ export function JetkingAiClient() {
           text?: string;
           title?: string;
           source?: 'kb' | 'llm';
+          blocks?: ContentBlock[];
           reasoning?: string[];
           followUps?: { label: string; query: string }[];
           session?: CounsellingSession;
@@ -1049,6 +1066,7 @@ export function JetkingAiClient() {
            * rather than rendering `data.text` as a flat, chip-less answer.
            */
           askLocation?: boolean;
+          leadForm?: LeadFormContext;
         }) => {
           if (data?.session) sessionRef.current = data.session;
           if (data?.askLocation) awaitingCityRef.current = true;
@@ -1062,9 +1080,11 @@ export function JetkingAiClient() {
                     text: data?.askLocation ? STARTERS.locations.message : (data?.text ?? GATE_TEXT),
                     title: data?.title,
                     source: data?.source,
+                    blocks: data?.askLocation ? undefined : data?.blocks,
                     reasoning: data?.reasoning,
                     followUps: data?.askLocation ? undefined : data?.followUps,
                     chips: data?.askLocation ? STARTERS.locations.chips : undefined,
+                    leadForm: data?.askLocation ? undefined : data?.leadForm,
                   }
                 : msg,
             ),
@@ -1411,6 +1431,7 @@ export function JetkingAiClient() {
                   animate={isLatest && index >= restoredCount}
                   onAsk={(query) => ask(query)}
                   onChip={onChip}
+                  user={account.user}
                 />
               );
             })}

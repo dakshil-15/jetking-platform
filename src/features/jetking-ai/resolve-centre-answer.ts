@@ -112,6 +112,110 @@ function cityMatches(centreCity: string, hint: string): boolean {
   return Boolean(aliases?.some((a) => city === a || city.includes(a)));
 }
 
+interface BranchRecord {
+  slug: string;
+  name: string;
+  cityName: string;
+  locality: string;
+  pincode: string;
+  addressLine: string;
+  phone: string;
+  intro: string;
+  programmes: string[];
+}
+
+function websiteBranches(): BranchRecord[] {
+  const courses = new Map(
+    websiteCorpus.structured.courses.map((course) => [course.slug, course.title]),
+  );
+  const cityNames = new Map(websiteCorpus.structured.cities.map((city) => [city.slug, city.name]));
+
+  return websiteCorpus.structured.centres.map((branch) => ({
+    slug: branch.slug,
+    name: branch.name,
+    cityName: cityNames.get(branch.citySlug) ?? branch.citySlug,
+    locality: branch.locality,
+    pincode: branch.pincode,
+    addressLine: branch.addressLine,
+    phone: branch.phone,
+    intro: branch.intro,
+    programmes: branch.coursesOffered.map((slug) => courses.get(slug) ?? slug.replace(/-/g, ' ')),
+  }));
+}
+
+/**
+ * Google's documented URL-based Maps API — no key needed, opens a pin/search
+ * for the query text.
+ *
+ * `encodeURIComponent` deliberately leaves `( ) ! ~ * '` unescaped (RFC 3986
+ * "unreserved" marks), but several branch addresses contain a literal
+ * `(W)`/`(E)` suffix (e.g. Borivali's "... Borivali (W), Mumbai,
+ * Maharashtra."). Left unescaped, that `)` closes the outer markdown
+ * `[text](url)` link early — richInline's link regex stops the URL capture
+ * at the first `)` — truncating the href and spilling the rest of the
+ * encoded query into the visible answer text as plain characters. Escaping
+ * parens ourselves keeps them out of the URL entirely.
+ */
+function mapsSearchUrl(query: string): string {
+  const encoded = encodeURIComponent(query).replace(/[()]/g, (c) =>
+    c === '(' ? '%28' : '%29',
+  );
+  return `https://www.google.com/maps/search/?api=1&query=${encoded}`;
+}
+
+/**
+ * A single named branch gets its own full detail — street address, phone,
+ * and a Maps link — rather than formatCentreRecords' compact
+ * name+locality+pincode line meant for listing several branches at once.
+ */
+function formatBranchAnswer(branch: BranchRecord): string {
+  const lines: string[] = [
+    `## ${branch.name}, ${branch.cityName}`,
+    '',
+    branch.intro,
+    '',
+    `Address: ${branch.addressLine}`,
+    `Phone: ${branch.phone}`,
+    '',
+    `[📍 Open ${branch.name} in Google Maps](${mapsSearchUrl(`${branch.name}, ${branch.addressLine}`)})`,
+    '',
+  ];
+
+  if (branch.programmes.length) {
+    lines.push('### Programmes commonly offered', '');
+    for (const p of branch.programmes.slice(0, 6)) {
+      lines.push(`- ${p.replace(/—|–/g, ' - ')}`);
+    }
+    lines.push('');
+  }
+
+  lines.push(
+    '_Tell me your locality and a Jetking counsellor can confirm the nearest centre and batch timings._',
+  );
+  return lines.join('\n').trim();
+}
+
+/**
+ * A location query can name one specific branch ("Jetking Borivali",
+ * "courses at the Wakad centre") rather than just the city. Answering with
+ * resolveCentreAnswer's usual city hub in that case is misleading — it
+ * merges every branch in the city into one record, so "what courses does
+ * Jetking Borivali offer" got back all 6 Mumbai branches and their pooled
+ * programme list instead of Borivali's own address. Only narrows to a
+ * single branch when exactly one branch's own name/locality/slug matches —
+ * an ambiguous hint or the city name itself (present in no branch's own
+ * name/locality) falls through to the existing hub behaviour untouched.
+ */
+function pickBranchForQuery(branches: BranchRecord[], query: string): BranchRecord | null {
+  const hint = extractCityHint(query);
+  if (!hint) return null;
+  const h = norm(hint);
+  const candidates = branches.filter(
+    (b) => norm(b.name).includes(h) || norm(b.locality).includes(h) || norm(b.slug) === h,
+  );
+  return candidates.length === 1 ? (candidates[0] ?? null) : null;
+}
+
 function websiteCentres(): CentreRecord[] {
   const courses = new Map(
     websiteCorpus.structured.courses.map((course) => [course.slug, course.title]),
@@ -187,6 +291,9 @@ export function pickCentresForQuery(
  * Returns null when the KB has no usable centre match.
  */
 export async function resolveCentreAnswer(query: string): Promise<string | null> {
+  const branch = pickBranchForQuery(websiteBranches(), query);
+  if (branch) return formatBranchAnswer(branch);
+
   const index = await loadIndex();
   const picked = pickCentresForQuery([...websiteCentres(), ...index.base.centres], query);
   if (!picked.length) {

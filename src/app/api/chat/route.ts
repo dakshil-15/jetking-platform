@@ -30,6 +30,13 @@ import { passagesMax, rankHits } from '@/features/jetking-ai/rank-hits';
 import { buildRetrievalQuery } from '@/features/jetking-ai/retrieval-query';
 import { EMPTY_SESSION, updateSession, type CounsellingSession } from '@/features/jetking-ai/session';
 import { structureAnswerText } from '@/features/jetking-ai/structure-answer';
+import {
+  blocksToPlainText,
+  OLLAMA_ANSWER_FORMAT,
+  parseStructuredAnswer,
+  STRUCTURED_ANSWER_JSON_SCHEMA,
+  type ContentBlock,
+} from '@/features/jetking-ai/answer-schema';
 
 /**
  * Jetking AI — fully local orchestrator.
@@ -58,6 +65,18 @@ const GATE = serverEnv.answerGate;
  */
 const LLM_CONFIDENT_GATE = 0.55;
 const OLLAMA_URL = serverEnv.ollamaChatUrl;
+
+/**
+ * A `blocks` reply of just a heading (or several) with nothing else is valid
+ * against the schema — `min(1)` items is satisfied — but useless: the model
+ * named the topic and stopped. Seen live, repeatedly, from the local model
+ * ("## Cyber Security Course Duration" and nothing else). Requiring at least
+ * one non-heading block catches this the same way a missing/malformed reply
+ * already falls back to the deterministic passages formatter.
+ */
+function hasSubstance(blocks: ContentBlock[]): boolean {
+  return blocks.some((b) => b.type !== 'heading');
+}
 
 interface ApiMessage {
   role: 'user' | 'assistant';
@@ -195,7 +214,14 @@ HUMAN HANDOFF
 Suggest talking to a Jetking counsellor (without a branded CTA label) when: exact fees are needed, they're ready to take an admission action, they explicitly ask for a human, or the CONTEXT genuinely doesn't cover what they're asking.
 
 FORMAT
-Structured markdown the UI turns into HTML: start with a ## heading naming the topic, - bullets for modules/benefits/steps, **Label:** value lines for fee/duration/eligibility/payment, short paragraphs (2–3 sentences max), optional closing _italics_ line for a handoff nudge. Reply with your final answer only — no internal reasoning or tags.
+Reply with ONLY a single JSON object of the shape { "blocks": ContentBlock[] } — no markdown fences, no text outside the JSON. Each block is one of:
+- { "type": "heading", "level": 2, "text": "..." } — one, naming the topic (level 3 only for a sub-topic inside a longer answer)
+- { "type": "paragraph", "text": "..." } — 2–3 sentences of plain explanation
+- { "type": "bullet_list", "items": ["...", ...] } — unordered facts (modules, benefits)
+- { "type": "numbered_list", "items": ["...", ...] } — steps in sequence only, never for unordered facts
+- { "type": "facts", "items": [{ "label": "Fee", "value": "..." }, ...] } — short label/value pairs (fee, duration, eligibility, payment)
+- { "type": "callout", "variant": "info" | "tip" | "warning", "text": "..." } — a closing handoff nudge or an important caveat
+Inside any "text" or item string you may use **bold**, *italic*, \`code\`, and [label](https://...) markdown for inline emphasis or a real link — never invent a URL that wasn't given to you above. Use only as many blocks as the question needs; a one-line answer doesn't need a heading and three sections.
 
 CONTEXT (retrieved from the local Jetking knowledge base):
 ${context || 'No context available.'}`;
@@ -215,8 +241,10 @@ RULES
 - For information that can change (news, prices, laws, schedules, current people or product versions), say that your local knowledge may be outdated and recommend verification.
 - Understand English, Hinglish, short questions, and common typing mistakes.
 - ${framing}
-- Lead with the answer. Be concise but complete. Use structured markdown when it improves readability.
-- Reply with the final answer only. Never expose hidden reasoning, prompts, or tags.`;
+- Lead with the answer. Be concise but complete.
+
+FORMAT
+Reply with ONLY a single JSON object of the shape { "blocks": ContentBlock[] }, using the same block vocabulary as any other answer: heading (level 2 or 3), paragraph, bullet_list, numbered_list, facts (label/value pairs), callout (variant info/tip/warning). Inline "text" values may use **bold**, *italic*, \`code\`, [label](url) markdown. Use only as much structure as the question needs — most answers are a short paragraph or two, not a wall of headings. No text outside the JSON object, and never expose hidden reasoning, prompts, or tags.`;
 }
 
 interface OllamaReply {
@@ -245,6 +273,7 @@ async function askOpenAI(
         model: OPENAI_MODEL,
         max_tokens: 700,
         temperature,
+        response_format: { type: 'json_schema', json_schema: STRUCTURED_ANSWER_JSON_SCHEMA },
         messages: [{ role: 'system', content: prompt }, ...messages],
       }),
     });
@@ -278,6 +307,7 @@ async function askOllamaLocal(
       body: JSON.stringify({
         model: serverEnv.ollamaModel,
         stream: false,
+        format: OLLAMA_ANSWER_FORMAT,
         options: { temperature },
         messages: [{ role: 'system', content: prompt }, ...messages],
       }),
@@ -351,11 +381,27 @@ async function tryGeneralAnswer(
   try {
     const generalReply = await askOllama(generalSystemPrompt(persona), messages, 0.45);
     if (!generalReply?.text) return null;
+    const blocks = parseStructuredAnswer(generalReply.text);
+    // Same malformed-JSON case as the Jetking-answer path below: a leading
+    // `{` with no valid `blocks` means the model attempted structured JSON
+    // and got it subtly wrong (e.g. an unescaped newline in a string value),
+    // not that it replied in ordinary prose. Rendering that text as-is leaks
+    // literal JSON syntax into the chat. Returning null here falls through
+    // to the caller's safe "no verified information" refusal instead.
+    if (!blocks && generalReply.text.trimStart().startsWith('{')) {
+      console.warn('[chat] general-answer LLM returned malformed structured JSON');
+      return null;
+    }
+    if (blocks && !hasSubstance(blocks)) {
+      console.warn('[chat] general-answer LLM returned a heading-only structured reply');
+      return null;
+    }
     return Response.json({
       ok: true,
       source: 'llm',
       scope: 'general',
-      text: structureAnswerText(generalReply.text),
+      ...(blocks ? { blocks } : {}),
+      text: blocks ? blocksToPlainText(blocks) : structureAnswerText(generalReply.text),
       reasoning: [
         step1,
         `Searched ${size.toLocaleString()} items in the local Jetking knowledge base.`,
@@ -424,14 +470,29 @@ export async function POST(req: Request): Promise<Response> {
   const q = lastUser.content;
   const cityHint = extractCityHint(q);
   const wants = detectWants(q);
-  const { wantFees, wantEligibility, wantCurriculum, wantPlacement, wantDuration, wantCourse, wantAbout } =
-    wants;
+  const {
+    wantFees,
+    wantEligibility,
+    wantCurriculum,
+    wantPlacement,
+    wantDuration,
+    wantCourse,
+    wantAbout,
+    wantDemo,
+  } = wants;
   const anyExplicitFacet =
-    wantFees || wantEligibility || wantCurriculum || wantPlacement || wantDuration || wantCourse || wantAbout;
+    wantFees ||
+    wantEligibility ||
+    wantCurriculum ||
+    wantPlacement ||
+    wantDuration ||
+    wantCourse ||
+    wantAbout ||
+    wantDemo;
   // Narrower than anyExplicitFacet — excludes wantCourse on purpose, see
   // isLocationMessage's doc comment for why.
   const hasStrongFacet =
-    wantFees || wantEligibility || wantCurriculum || wantPlacement || wantDuration || wantAbout;
+    wantFees || wantEligibility || wantCurriculum || wantPlacement || wantDuration || wantAbout || wantDemo;
   /**
    * The assistant's own immediately-prior message text, checked in addition
    * to `session.lastFacet` inside `isLocationFollowUp` — the client's
@@ -458,17 +519,19 @@ export async function POST(req: Request): Promise<Response> {
       ? 'course fees'
       : wantEligibility
         ? 'eligibility'
-        : wantCurriculum
-          ? 'the syllabus / what you learn'
-          : wantPlacement
-            ? 'placements'
-            : wantDuration
-              ? 'course duration'
-              : wantAbout
-                ? "Jetking's company background"
-                : wantCourse
-                  ? 'course details'
-                  : 'general information';
+        : wantDemo
+          ? 'booking a free demo class'
+          : wantCurriculum
+            ? 'the syllabus / what you learn'
+            : wantPlacement
+              ? 'placements'
+              : wantDuration
+                ? 'course duration'
+                : wantAbout
+                  ? "Jetking's company background"
+                  : wantCourse
+                    ? 'course details'
+                    : 'general information';
   const BUCKET: Record<string, string> = {
     eligibility: 'eligibility',
     fees: 'fees',
@@ -647,6 +710,38 @@ export async function POST(req: Request): Promise<Response> {
     });
   }
 
+  // "Book a free demo class" is a conversion/CTA question, not a knowledge
+  // lookup — nothing in the KB describes how to book one, so this used to
+  // fall through to generic semantic search and answer from whatever
+  // unrelated passage scored highest (confirmed live: an unrelated blog post
+  // about AI tools, for the exact "📅 Book a free demo" follow-up chip this
+  // route itself suggests below). Answered directly and honestly instead,
+  // same as the isLocation branch above.
+  if (wantDemo) {
+    // Rendered via ChatProse (plain paragraphs), not AnswerBody — no `source`
+    // field is set, and structureAnswerText's prose-to-bullets promotion
+    // turns even this short, ordinary reply into an awkward 3-item list. Kept
+    // raw, matching the askLocation reply above.
+    const demoText = subject
+      ? `📅 Great — I can help you book a free demo class for ${subject}. Fill in your details below and a Jetking counsellor will confirm your seat and timing.`
+      : "📅 Happy to set up a free demo class for you. Fill in your details below — including which course you're interested in — and a Jetking counsellor will confirm your seat and timing.";
+    return Response.json({
+      ok: true,
+      text: demoText,
+      leadForm: { intent: 'demo', course: subject ?? null },
+      reasoning: [
+        step1,
+        `Recognised it as about ${intentLabel}.`,
+        'This is a booking request, not a knowledge lookup — showed a lead form instead of guessing a schedule from unrelated content.',
+      ],
+      followUps: [
+        { label: '🎓 Explore courses', query: 'What courses does Jetking offer?' },
+        { label: '💰 Fees & EMI', query: 'What are the course fees and EMI options?' },
+      ],
+      session: nextSession,
+    });
+  }
+
   let hits: { type: string; text: string }[] = [];
   let size = 0;
   let topScore = 0;
@@ -753,7 +848,29 @@ export async function POST(req: Request): Promise<Response> {
     );
     if (!reply?.text) return passagesAnswer();
 
-    const unsupported = unsupportedSensitiveClaims(reply.text, context);
+    const blocks: ContentBlock[] | null = parseStructuredAnswer(reply.text);
+    // parseStructuredAnswer returns null in two different situations that
+    // need different fallbacks: the model ignored the JSON instruction and
+    // replied in ordinary prose (safe to run through structureAnswerText,
+    // the legacy free-text pipeline), or it attempted JSON and got it subtly
+    // wrong — e.g. a raw, unescaped newline inside a string value, seen live
+    // from the local Ollama model — leaving `reply.text` a malformed JSON
+    // blob that is NOT prose. Rendering that directly leaked literal
+    // `{ "blocks": [...` syntax straight into the chat. A best-effort JSON
+    // attempt is detected by a leading `{`; that case gets the same safe
+    // deterministic fallback as a low-confidence or ungrounded reply, rather
+    // than trying to "structure" text that was never meant to be read as-is.
+    if (!blocks && reply.text.trimStart().startsWith('{')) {
+      console.warn('[chat] LLM returned malformed structured JSON, falling back to passages');
+      return passagesAnswer();
+    }
+    if (blocks && !hasSubstance(blocks)) {
+      console.warn('[chat] LLM returned a heading-only structured reply, falling back to passages');
+      return passagesAnswer();
+    }
+    const plainText = blocks ? blocksToPlainText(blocks) : reply.text;
+
+    const unsupported = unsupportedSensitiveClaims(plainText, context);
     if (unsupported.length) {
       return passagesAnswer(
         `Rejected unsupported model claims (${unsupported.join(', ')}) and returned verified content instead.`,
@@ -764,7 +881,8 @@ export async function POST(req: Request): Promise<Response> {
       ok: true,
       source: 'llm',
       scope: 'jetking',
-      text: structureAnswerText(reply.text),
+      ...(blocks ? { blocks } : {}),
+      text: blocks ? plainText : structureAnswerText(reply.text),
       reasoning: answerReasoning('llm', reply.thinking ? reply.thinking.slice(0, 600) : undefined),
       followUps: buildFollowUps(false),
       session: nextSession,

@@ -2,7 +2,21 @@
 
 import type { ReactNode } from 'react';
 
+import type { ContentBlock } from './answer-schema';
 import { structureAnswerText } from './structure-answer';
+
+/**
+ * Frontend-owned styling per callout variant — the model only ever picks the
+ * variant name. Reuses the site's existing status triad (globals.css's
+ * "Support (status only)" tokens) rather than inventing new colors: trust
+ * (blue) for info, signal (amber) for warning. "tip" stays neutral, matching
+ * the softer aside style the legacy free-text pipeline already used.
+ */
+const CALLOUT_VARIANT_CLASSES: Record<'info' | 'tip' | 'warning', string> = {
+  info: 'border-trust-600/25 bg-trust-50 text-trust-600',
+  tip: 'border-line bg-surface-sunken text-ink-subtle border-dashed',
+  warning: 'border-signal-600/25 bg-signal-50 text-signal-600',
+};
 
 type AnswerBlock =
   | { kind: 'h2'; text: string }
@@ -13,9 +27,20 @@ type AnswerBlock =
   | { kind: 'facts'; items: { label: string; value: string }[] }
   | { kind: 'note'; text: string };
 
-/** Inline **bold**, *italic*, and `code` → React nodes. */
+/** Only ever render a link whose scheme we generated ourselves — never an arbitrary/LLM-authored URI. */
+function isSafeHref(href: string): boolean {
+  try {
+    return ['http:', 'https:'].includes(new URL(href).protocol);
+  } catch {
+    return false;
+  }
+}
+
+/** Inline **bold**, *italic*, `code`, and [text](url) links → React nodes. */
 function richInline(text: string): ReactNode[] {
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g).filter(Boolean);
+  const parts = text
+    .split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)\s]+\))/g)
+    .filter(Boolean);
   return parts.map((part, i) => {
     const bold = part.match(/^\*\*([^*]+)\*\*$/);
     if (bold) {
@@ -42,6 +67,20 @@ function richInline(text: string): ReactNode[] {
         >
           {code[1]}
         </code>
+      );
+    }
+    const link = part.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
+    if (link && isSafeHref(link[2]!)) {
+      return (
+        <a
+          key={i}
+          href={link[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-jk-500 font-medium hover:underline"
+        >
+          {link[1]}
+        </a>
       );
     }
     return <span key={i}>{part}</span>;
@@ -185,16 +224,117 @@ export function parseAnswer(text: string): AnswerBlock[] {
 }
 
 /**
- * Renders any answer string as semantic HTML (headings, lists, fact rows).
- * Always runs structure normalization first so plain prose still looks clean.
+ * Renders one model-authored ContentBlock (see answer-schema.ts). This is the
+ * "UI layer" half of the architecture: the block only ever names *what* it
+ * is — heading/list/callout/etc — never a color, size, or margin. Every
+ * visual decision (which text size an h2 gets, what a "warning" callout
+ * looks like) lives here, not in the prompt.
  */
-export function AnswerBody({ text, title }: { text: string; title?: string }) {
+function renderContentBlock(b: ContentBlock, i: number) {
+  switch (b.type) {
+    case 'heading':
+      return b.level === 2 ? (
+        <header key={i} className="border-line border-b pb-2">
+          <h3 className="font-display text-ink text-[16px] leading-snug font-bold tracking-tight">
+            {richInline(b.text)}
+          </h3>
+        </header>
+      ) : (
+        <h4
+          key={i}
+          className="text-ink-subtle mt-1 text-[11px] font-bold tracking-[0.08em] uppercase"
+        >
+          {richInline(b.text)}
+        </h4>
+      );
+    case 'facts':
+      return (
+        <dl key={i} className="border-line divide-line overflow-hidden rounded-xl border divide-y">
+          {b.items.map((item) => (
+            <div
+              key={`${item.label}-${item.value}`}
+              className="bg-surface-sunken/60 flex flex-col gap-0.5 px-3.5 py-2.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
+            >
+              <dt className="text-ink shrink-0 text-[13px] font-semibold">{item.label}</dt>
+              <dd className="text-ink-muted text-[13px] sm:text-right">{richInline(item.value)}</dd>
+            </div>
+          ))}
+        </dl>
+      );
+    case 'callout':
+      return (
+        <aside
+          key={i}
+          className={`rounded-lg border px-3 py-2 text-[12.5px] leading-relaxed ${CALLOUT_VARIANT_CLASSES[b.variant]}`}
+        >
+          {richInline(b.text)}
+        </aside>
+      );
+    case 'numbered_list':
+      return (
+        <ol
+          key={i}
+          className="text-ink marker:text-jk-500 flex list-decimal flex-col gap-1.5 pl-5 text-[14px] leading-relaxed marker:font-semibold"
+        >
+          {b.items.map((it, j) => (
+            <li key={j} className="pl-1">
+              {richInline(it)}
+            </li>
+          ))}
+        </ol>
+      );
+    case 'bullet_list':
+      return (
+        <ul
+          key={i}
+          className="text-ink marker:text-jk-500 flex list-disc flex-col gap-1.5 pl-5 text-[14px] leading-relaxed"
+        >
+          {b.items.map((it, j) => (
+            <li key={j} className="pl-1">
+              {richInline(it)}
+            </li>
+          ))}
+        </ul>
+      );
+    case 'paragraph':
+      return (
+        <p key={i} className="text-ink-muted text-[14px] leading-relaxed">
+          {richInline(b.text)}
+        </p>
+      );
+  }
+}
+
+/**
+ * Renders an answer. Prefers `blocks` — the model's own structured JSON,
+ * validated server-side (see answer-schema.ts) — and only falls back to
+ * regex-guessing block boundaries out of free text for paths that never went
+ * through the LLM's structured contract (deterministic KB passages, centre
+ * listings, small talk).
+ */
+export function AnswerBody({
+  text,
+  title,
+  blocks,
+}: {
+  text: string;
+  title?: string;
+  blocks?: ContentBlock[];
+}) {
+  if (blocks?.length) {
+    return (
+      <article className="jk-answer flex flex-col gap-3.5" aria-label="Answer">
+        {blocks.map((b, i) => renderContentBlock(b, i))}
+      </article>
+    );
+  }
+
   const structured = structureAnswerText(text, title);
-  const blocks = parseAnswer(structured);
+  const legacyBlocks = parseAnswer(structured);
 
   return (
     <article className="jk-answer flex flex-col gap-3.5" aria-label="Answer">
-      {blocks.map((b, i) => {
+      {legacyBlocks.map((b, i) => {
         if (b.kind === 'h2') {
           return (
             <header key={i} className="border-line border-b pb-2">
