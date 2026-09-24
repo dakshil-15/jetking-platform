@@ -92,7 +92,9 @@ src/
 │  ├─ cms/                   Admin file/Postgres store + publish hooks
 │  ├─ supabase.ts            Thin Supabase client
 │  ├─ analytics.ts           Vendor-neutral track()
-│  └─ seo.ts
+│  ├─ seo.ts
+│  └─ site.ts                Site constants, mainNav, coursesMenu
+├─ components/home/          Homepage: v2 hero, v3 section stack (see Homepage)
 ├─ app/
 │  ├─ (admin)/admin/         Staff CMS
 │  ├─ api/{guide,enquiry,revalidate,ingest}/
@@ -101,6 +103,81 @@ src/
 ```
 
 ---
+
+## Homepage (`/`)
+
+The homepage is a hero followed by a section stack, ending in the normal site footer.
+`src/app/page.tsx` loads one `loadHomeData()` (`src/components/home/data.ts`) and renders
+`HomeV2` (hero) then `HomeSections` (everything below).
+
+| Order | Section | Component (`src/components/home/v3/`) | Data |
+|---|---|---|---|
+| 0 | Hero: persona chooser, action bar, quick-action rail | `../v2/HomeV2.tsx` | static |
+| 1 | Trust stats | `TrustStats.tsx` | catalogue counts + verified trust signals (`figures.ts`) |
+| 2 | Certification and hiring-partner logos | `CredibilityMarquee.tsx` | `public/logos/`, `HIRING_PARTNERS` |
+| 3 | Programmes carousel with level tabs | `ProgramShowcase.tsx`, `CardTrack.tsx` | `content.listCourses()` |
+| 4 | Career paths | `CareerPaths.tsx` | static (`v3/data.ts`), links to `/courses?tech=` |
+| 5 | Placements slider | `PlacementProof.tsx` | published testimonials in `placements/data.ts` |
+| 6 | Recognition | `Recognitions.tsx` | About timeline and course fixtures |
+| 7 | India centre map | `CentreNetwork.tsx`, `india-map.ts` | centres and cities; city coordinates in `india-map.ts` |
+| 8 | Why Jetking (4 cards) | `WhyJetking.tsx` | static |
+| 9 | How it works | `HowItWorks.tsx` | static |
+| 10 | Blog teaser | `BlogTeaser.tsx` | latest 3 posts |
+| 11 | Franchise band | `FranchiseBand.tsx` | static |
+| 12 | Inline callback form | `FinalCta.tsx` | `QuickEnquiryForm` to `/api/enquiry` |
+
+Backgrounds alternate grey (`--dc-surface`) and white section by section; keep that when
+adding or reordering sections.
+
+**Design language.** Sections use the shared `.dark-canvas` token layer (`--dc-*`, in
+`src/styles/dark-canvas.css`) with `.no-orbs`, and the four global category hues
+(`--theme-network|cloud|cyber|ai-ink/tint`, exposed as `HUE_VARS` in `v3/data.ts`) for
+per-card icon chips. The hero keeps its own `.home-v2` skin (`src/styles/home.css`).
+
+**Rules specific to this page**
+- No unverified numbers or invented quotes. Stats come from `buildFigures()`; the placement
+  slider uses only Jetking's own published testimonials and always shows the placement
+  disclaimer. There is no placement guarantee claim in the new sections.
+- The quick-action rail (`ActionRail`) is `position: fixed`. It is contained to the hero by
+  the `[transform:translateZ(0)] overflow-hidden` wrapper around `HomeV2` in `page.tsx`, so
+  it scrolls away with the hero. Do not reserve a right-hand gutter in the sections.
+- The India map outline (`india-map.ts`) is the Datameet `india-composite` boundary
+  simplified to one SVG path (islands omitted). The content model has no coordinates, so
+  pins use per-city coordinates in `CITY_COORDS`; add an entry when a new city gets a
+  centre. Map pins are mouse-only duplicates; the city chips are the accessible control.
+- The `/courses` filters read `?tech=` (cloud, cyber-security, networking, data,
+  design-gaming, marketing, hardware-os) and `?level=`. Links must use `tech`, not `technology`.
+
+**Header.** From 1024px the header shows About Us, Courses, Centres and Placements as a
+link row. Courses has a category dropdown (`src/components/CoursesMenu.tsx`, entries in
+`coursesMenu` in `src/lib/site.ts`) that marks the current filter. The full nav stays in the
+drawer at every width.
+
+---
+
+## Accessibility and responsive checks
+
+Target: WCAG 2.2 AA. The public routes were scanned with axe-core (tags `wcag2a`, `wcag2aa`,
+`wcag21a`, `wcag21aa`, `wcag22aa`, `best-practice`) at 1280px and 375px wide, with no
+violations and no horizontal overflow (also checked at 320, 768 and 1024px on `/`).
+
+Conventions that keep it that way:
+- Brand red under light text uses `#c7141c` (5.9:1); `#ea1c24` is 4.36:1 and fails. `.dc-cta`
+  already does this.
+- Scrollable regions need `tabIndex={0}` and an accessible name.
+- Avoid `<aside>` inside `<main>`; decorative logos next to a visible caption use `alt=""`.
+- Interactive targets are at least 24px (40px for the map pins on touch widths).
+- Autoplay and marquees have a pause control and respect `prefers-reduced-motion`.
+
+Re-run the scan by loading axe-core on a page in a browser and calling `axe.run()`; disable
+CSS transitions first, or contrast checks can catch a colour mid-animation.
+
+---
+
+## Repository
+
+`origin` is `https://github.com/fe-techTeam/jetking-website-new.git` (the repository moved
+from `dakshil-15/jetking-platform`). The working branch for the redesign is `frontend`.
 
 ## Environment
 
