@@ -28,7 +28,6 @@ export function HomeV2({
     <section
       className={[
         'home-v2 home-v2-themeable relative flex flex-col overflow-hidden',
-        'min-h-dvh',
         /*
          * The header is sticky and transparent until scrolled, so pulling this
          * section's box up behind it (negative margin) and padding the same

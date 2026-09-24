@@ -75,7 +75,7 @@ export default async function EnquiryPage() {
               </Suspense>
             </div>
 
-            <aside className="border-t border-[var(--stu-hairline)] bg-[var(--stu-accent-tint)] p-6 xs:p-7 sm:p-8 lg:border-t-0 lg:border-l lg:p-10">
+            <div className="border-t border-[var(--stu-hairline)] bg-[var(--stu-accent-tint)] p-6 xs:p-7 sm:p-8 lg:border-t-0 lg:border-l lg:p-10">
               <h2 className="font-display text-[19px] font-extrabold tracking-[-0.02em] text-[var(--stu-ink)] xs:text-[20px]">
                 What happens next
               </h2>
@@ -115,7 +115,7 @@ export default async function EnquiryPage() {
                   <span className="sr-only">(opens in a new tab)</span>
                 </a>
               ) : null}
-            </aside>
+            </div>
           </div>
         </div>
       </section>

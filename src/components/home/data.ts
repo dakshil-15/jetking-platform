@@ -2,18 +2,17 @@ import 'server-only';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { content } from '@/lib/content';
-import type { HomepageVariant, TrustSignal } from '@/lib/content/types';
+import type { City, Course, HomepageVariant, Post, TrustSignal } from '@/lib/content/types';
 
 /**
- * One content read, shared by both homepage leads.
+ * One content read, shared by the hero (`HomeV2`) and the section stack below it
+ * (`HomeSections`, `v3/`).
  *
- * The homepage is now the lead and nothing else — no programme index, no city
- * list, no articles, no FAQ. So this loads only what a lead can actually show:
- * catalogue counts for the figures, verified trust signals, and the CMS variant
- * that supplies the hero image and video.
- *
- * Counts, not records. The leads never iterate the catalogue, so shipping the
- * whole of it into the render tree would be waste.
+ * The hero itself only ever needed counts — this is why the doc comment used to say
+ * "the leads never iterate the catalogue." That stopped being true once the homepage
+ * grew a programme showcase, a centre grid, and a blog teaser: each needs a
+ * bounded, curated slice of the catalogue (featured courses, cities, latest posts),
+ * not the whole of it and not arbitrary iteration.
  */
 export interface HomeData {
   counts: { courses: number; centres: number; cities: number };
@@ -22,6 +21,14 @@ export interface HomeData {
   variants: HomepageVariant[];
   /** Resolved lead photograph, or `undefined` to render the labelled frame. */
   heroImage?: string;
+  /** Full catalogue — `ProgramShowcase` filters to `featured`. */
+  courses: Course[];
+  /** Sorted by name — `CentreNetwork` shows a curated slice. */
+  cities: City[];
+  /** Most recent posts, already limited — `BlogTeaser`. */
+  posts: Post[];
+  /** Slim centre records for the map — `CentreNetwork`. */
+  centres: Array<{ slug: string; name: string; citySlug: string; locality: string }>;
 }
 
 /**
@@ -50,12 +57,13 @@ function droppedImage(basename: string): string | undefined {
 const heroPortrait = droppedImage('hero');
 
 export async function loadHomeData(): Promise<HomeData> {
-  const [courses, cities, centres, trust, variants] = await Promise.all([
+  const [courses, cities, centres, trust, variants, posts] = await Promise.all([
     content.listCourses(),
     content.listCities(),
     content.listCentres(),
     content.listTrustSignals(),
     content.listHomepageVariants(),
+    content.listPosts({ limit: 3 }),
   ]);
 
   const defaultVariant = variants.find((v) => v.id === 'default') ?? variants[0];
@@ -65,5 +73,9 @@ export async function loadHomeData(): Promise<HomeData> {
     trust,
     variants,
     heroImage: defaultVariant?.banner?.imageUrl ?? heroPortrait,
+    courses,
+    cities,
+    posts,
+    centres: centres.map((c) => ({ slug: c.slug, name: c.name, citySlug: c.citySlug, locality: c.locality })),
   };
 }

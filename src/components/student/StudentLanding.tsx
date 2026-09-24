@@ -167,7 +167,7 @@ export function StudentLanding({
               ))}
             </ul>
 
-            <aside className="min-w-0 lg:col-span-5 lg:row-start-2 lg:self-stretch xl:col-span-4">
+            <div className="min-w-0 lg:col-span-5 lg:row-start-2 lg:self-stretch xl:col-span-4">
               <div className="relative flex h-full flex-col justify-center overflow-hidden rounded-[22px] border border-[var(--stu-hairline)] bg-[var(--stu-card)] p-6 xs:rounded-[24px] xs:p-7 sm:rounded-[28px] sm:p-8 lg:p-7 xl:p-8">
                 <span
                   aria-hidden="true"
@@ -197,7 +197,7 @@ export function StudentLanding({
                   </span>
                 </a>
               </div>
-            </aside>
+            </div>
           </div>
         </div>
       </section>

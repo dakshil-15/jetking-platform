@@ -614,7 +614,7 @@ export function ExploreLanding({
               <li key={partner.name}>
                 <div className="stu-card flex h-full flex-col items-center gap-3 rounded-[18px] p-5 text-center">
                   <span className="relative h-16 w-full sm:h-20">
-                    <Image src={partner.src} alt={partner.name} fill sizes="200px" className="object-contain" />
+                    <Image src={partner.src} alt="" fill sizes="200px" className="object-contain" />
                   </span>
                   <span className="text-[12px] leading-snug font-semibold text-[var(--stu-ink-secondary)]">
                     {partner.name}
@@ -723,7 +723,7 @@ export function ExploreLanding({
               <li key={item.name}>
                 <div className="stu-card flex h-full flex-col items-center gap-3 rounded-[18px] p-5 text-center">
                   <span className="relative h-16 w-full sm:h-20">
-                    <Image src={item.src} alt={item.name} fill sizes="200px" className="object-contain" />
+                    <Image src={item.src} alt="" fill sizes="200px" className="object-contain" />
                   </span>
                   <span className="text-[12px] leading-snug font-semibold text-[var(--stu-ink-secondary)]">
                     {item.name}

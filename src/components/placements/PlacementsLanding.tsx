@@ -311,7 +311,7 @@ export function PlacementsLanding() {
         </p>
 
         <div className="mt-6">
-          <OfferLetterSlider items={OFFER_LETTER_SAMPLES} label="Sample offer letters" />
+          <OfferLetterSlider items={OFFER_LETTER_SAMPLES} label="Offer letter samples, carousel" />
         </div>
       </section>
 

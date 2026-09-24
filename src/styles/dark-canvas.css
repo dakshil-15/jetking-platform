@@ -539,8 +539,10 @@
 /* ── CTA button ─────────────────────────────────────────────────────────
    Accent fill with the signature red glow. Compose sizing/shape with
    utilities; this only owns colour + glow. */
+/* Fill is jk-600 (#c7141c), not `--dc-accent` (#ea1c24 / #e01e25): light text on the brand
+   red measures 4.36:1 and fails WCAG AA (4.5:1); jk-600 measures 5.9:1 in either theme. */
 .dc-cta {
-  background: var(--dc-accent);
+  background: #c7141c;
   color: var(--dc-ink);
   box-shadow: var(--dc-glow-red);
   transition:

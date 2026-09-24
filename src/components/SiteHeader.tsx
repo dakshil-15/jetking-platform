@@ -10,13 +10,21 @@ import { mainNav, siteConfig } from '@/lib/site';
 import { useTheme } from '@/components/providers/theme-provider';
 import { useAccount } from '@/components/account/AccountProvider';
 import { cx } from './ui';
+import { CoursesMenu } from './CoursesMenu';
 import { useDialog } from './useDialog';
 import { useHydrated } from './useHydrated';
 
 /**
  * Site header — matches the Jetking Landing Replica chrome:
  * red crest + wordmark + "Better Life", circular utility, dark hamburger.
- * Text nav lives in a right-side drawer (the mock has no desktop link row).
+ *
+ * The full text nav still lives in the right-side drawer (used at every width, and the
+ * only nav on phone/tablet). From `lg` (1024px) up, the header also shows the four most
+ * important destinations — About Us, Courses, Centres, Placements — as a direct link
+ * row: the site has grown into a full multi-section marketing surface (courses,
+ * centres, placements, franchise, blog…), and burying every one of those behind a
+ * hamburger on desktop, where there is plenty of room for a link row, costs
+ * discoverability for no real benefit at that width.
  */
 export function SiteHeader() {
   const pathname = usePathname();
@@ -206,6 +214,32 @@ export function SiteHeader() {
             className="block h-[28px] max-w-full select-none object-contain object-left xs:h-[32px] sm:h-[38px] 2xl:h-[42px]"
           />
         </Link>
+
+        <nav aria-label="Primary" className="hidden flex-1 items-center justify-center gap-1 lg:flex">
+          {mainNav.slice(0, 4).map((item) => {
+            if (item.href === '/courses') return <CoursesMenu key={item.href} onDarkLead={onDarkLead} />;
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
+              <Link
+                key={item.href}
+                href={item.href as Route}
+                aria-current={active ? 'page' : undefined}
+                className={cx(
+                  'rounded-full px-4 py-2.5 text-sm font-bold tracking-[-0.01em] transition-colors duration-200',
+                  active
+                    ? onDarkLead
+                      ? 'text-white'
+                      : 'text-[var(--accent-ink)]'
+                    : onDarkLead
+                      ? 'text-white/75 hover:bg-white/10 hover:text-white'
+                      : 'text-foreground-secondary hover:bg-surface hover:text-foreground',
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
 
         <div className="flex items-center gap-3 xs:gap-4 sm:gap-5 2xl:gap-[22px]">
           {account.ready ? (

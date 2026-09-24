@@ -17,14 +17,15 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 }
 
 /**
- * Footer-specific chrome gate — same admin/chatbot exclusion as SiteChrome,
- * plus `/`: the homepage lead is a full-viewport hero (see HomeV2) designed
- * to end at the fold, not hand off into a footer.
+ * Footer-specific chrome gate — same admin/chatbot exclusion as SiteChrome.
+ *
+ * `/` used to be excluded too: the homepage was a full-viewport hero (see HomeV2)
+ * designed to end at the fold. It now continues into a full section stack
+ * (`HomeSections`, `v3/`) below that hero, so it hands off into the footer like
+ * every other route.
  */
 export function FooterChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  if (pathname.startsWith('/admin') || pathname.startsWith('/chatbot') || pathname === '/') {
-    return null;
-  }
+  if (pathname.startsWith('/admin') || pathname.startsWith('/chatbot')) return null;
   return <>{children}</>;
 }

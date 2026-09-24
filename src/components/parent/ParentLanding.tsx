@@ -177,7 +177,7 @@ export function ParentLanding({
                 />
               </div>
 
-              <aside
+              <div
                 className={[
                   'par-trust-card static mt-4 rounded-[20px] p-4',
                   /*
@@ -216,7 +216,7 @@ export function ParentLanding({
                     </li>
                   ))}
                 </ul>
-              </aside>
+              </div>
             </div>
           </div>
         </div>

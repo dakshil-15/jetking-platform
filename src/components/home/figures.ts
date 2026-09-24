@@ -1,4 +1,4 @@
-import { Building2, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
+import { Building2, GraduationCap, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { TrustSignal } from '@/lib/content/types';
 
@@ -47,6 +47,6 @@ export function buildFigures({
     ? [...derived, ...verified]
     : [
         ...derived,
-        { icon: ShieldCheck, value: 'In person', label: 'Labs &\nassessment' },
+        { icon: GraduationCap, value: '1990', label: 'Training arm\nestablished' },
       ];
 }

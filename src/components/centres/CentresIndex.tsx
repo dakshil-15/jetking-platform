@@ -232,7 +232,8 @@ export function CentresIndex({
 
       <div className="mt-8 grid gap-8 lg:mt-10 lg:grid-cols-[minmax(0,17.5rem)_minmax(0,1fr)] lg:items-start lg:gap-10 xl:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] xl:gap-12">
         {/* ── Left: filters ─────────────────────────────────────────────── */}
-        <aside
+        <div
+          role="group"
           className="centres-card flex flex-col self-start rounded-[20px] xs:rounded-[22px] lg:sticky lg:top-[6.5rem] lg:z-[2] lg:max-h-[calc(100vh-7.5rem)] xl:top-28"
           aria-label="Filter centres"
         >
@@ -368,7 +369,7 @@ export function CentresIndex({
               })}
             </FilterGroup>
           </div>
-        </aside>
+        </div>
 
         {/* ── Right: full centre details ─────────────────────────────────── */}
         <div className="min-w-0">

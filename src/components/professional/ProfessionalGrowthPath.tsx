@@ -120,6 +120,7 @@ export function ProfessionalGrowthPath() {
           {/* Mobile / tablet — swipeable step cards */}
           <ol
             aria-label="Career growth milestones"
+            tabIndex={0}
             className="pro-path-track -mx-5 flex gap-4 overflow-x-auto px-5 pb-1 lg:hidden"
           >
             {GROWTH_STEPS.map((step, index) => {
