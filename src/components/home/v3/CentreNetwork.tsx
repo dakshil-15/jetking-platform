@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { Route } from 'next';
-import { ArrowRight, MapPin } from 'lucide-react';
+import { ArrowRight, MapPin, Search } from 'lucide-react';
 import type { City } from '@/lib/content/types';
 import { centrePath } from '@/lib/centre-path';
 import { CITY_COORDS, INDIA_MAP, projectPercent } from './india-map';
@@ -45,6 +45,9 @@ export function CentreNetwork({
   }, [cities, centres]);
 
   const [selected, setSelected] = useState(groups[0]?.city.slug ?? '');
+  const [query, setQuery] = useState('');
+  const needle = query.trim().toLowerCase();
+  const filtered = needle ? groups.filter((g) => g.city.name.toLowerCase().includes(needle)) : groups;
   const active = groups.find((g) => g.city.slug === selected) ?? groups[0];
 
   return (
@@ -60,7 +63,7 @@ export function CentreNetwork({
               {counts.centres} centres across {counts.cities} cities
             </h2>
             <p className="mt-3 text-[14px] leading-relaxed text-[var(--dc-ink-secondary)] sm:text-[15px]">
-              In-person classes and labs, not a remote-only course. Pick a pin to see the centres in that city.
+              In-person classes and labs, not a remote-only course. Find a Jetking centre near you and start your journey today.
             </p>
           </div>
           <Link
@@ -133,83 +136,121 @@ export function CentreNetwork({
             })}
           </div>
 
-          {/* Selected city + chips */}
-          <div className="min-w-0">
-            {active ? (
-              <div className="rounded-[22px] border border-[var(--dc-hairline)] bg-[var(--dc-card)] p-5 shadow-[var(--dc-shadow)] sm:p-6">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="label-mono text-[11px] text-[var(--dc-ink-muted)]">{active.city.state}</p>
-                    <h3 className="mt-1 font-display text-[22px] font-extrabold text-[var(--dc-ink)]">
-                      {active.city.name}
-                    </h3>
-                  </div>
-                  <span className="dc-chip px-3 py-1 text-[11px] uppercase">
-                    {active.centres.length} {active.centres.length === 1 ? 'centre' : 'centres'}
-                  </span>
-                </div>
-                <ul className="mt-4 border-t border-[var(--dc-hairline)]">
-                  {active.centres.map((c) => (
-                    <li key={c.slug}>
-                      <Link
-                        href={centrePath(c.slug) as Route}
-                        className="group/row flex items-center justify-between gap-3 border-b border-[var(--dc-hairline)]/60 py-3 text-[14px]"
+          {/* One card: search + city list on the left, the selected city's centres on the right */}
+          <div className="min-w-0 rounded-[22px] border border-[var(--dc-hairline)] bg-[var(--dc-card)] p-5 shadow-[var(--dc-shadow)] sm:p-6">
+            <label htmlFor="home-city-search" className="font-display text-[18px] font-extrabold text-[var(--dc-ink)]">
+              Find a centre near you
+            </label>
+            <div className="relative mt-3">
+              <Search
+                className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-[var(--dc-ink-muted)]"
+                strokeWidth={2}
+                aria-hidden="true"
+              />
+              <input
+                id="home-city-search"
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search city, e.g. Mumbai"
+                autoComplete="off"
+                className="h-11 w-full rounded-xl border border-[var(--dc-hairline-strong)] bg-[var(--dc-card)] pr-3 pl-10 text-[14px] text-[var(--dc-ink)] placeholder:text-[var(--dc-ink-muted)] focus-visible:outline-2 focus-visible:outline-[var(--dc-accent-soft)]"
+              />
+            </div>
+
+            <div className="mt-4 grid gap-5 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] sm:gap-6">
+              <ul
+                className="max-h-[340px] overflow-y-auto sm:border-r sm:border-[var(--dc-hairline)] sm:pr-4"
+                aria-label="Cities with a Jetking centre"
+                // Scroll container: focusable so keyboard users can scroll it with the arrow keys.
+                tabIndex={0}
+              >
+                {filtered.map(({ city, centres: list }) => {
+                  const isActive = active?.city.slug === city.slug;
+                  return (
+                    <li key={city.slug}>
+                      <button
+                        type="button"
+                        onClick={() => setSelected(city.slug)}
+                        aria-pressed={isActive}
+                        className={[
+                          'flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 border-b border-[var(--dc-hairline)]/60 px-1 text-left text-[14px] font-semibold transition-colors hover:text-[var(--dc-accent-soft)]',
+                          isActive ? 'text-[var(--dc-accent-soft)]' : 'text-[var(--dc-ink)]',
+                        ].join(' ')}
                       >
-                        <span className="flex min-w-0 items-center gap-2.5">
-                          <MapPin
-                            className="h-4 w-4 shrink-0 text-[var(--dc-accent-soft)]"
-                            strokeWidth={2}
+                        <span className="min-w-0 truncate">{city.name}</span>
+                        <span className="shrink-0 text-[12px] font-normal text-[var(--dc-ink-muted)]">{list.length}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+                {filtered.length === 0 ? (
+                  <li className="py-3 text-[13px] text-[var(--dc-ink-muted)]">No centre found for &ldquo;{query}&rdquo;.</li>
+                ) : null}
+              </ul>
+
+              {active ? (
+                <div className="min-w-0">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="label-mono text-[11px] text-[var(--dc-ink-muted)]">{active.city.state}</p>
+                      <h3 className="mt-1 font-display text-[22px] font-extrabold text-[var(--dc-ink)]">
+                        {active.city.name}
+                      </h3>
+                    </div>
+                    <span className="dc-chip px-3 py-1 text-[11px] uppercase">
+                      {active.centres.length} {active.centres.length === 1 ? 'centre' : 'centres'}
+                    </span>
+                  </div>
+                  <ul className="mt-3 border-t border-[var(--dc-hairline)]">
+                    {active.centres.map((c) => (
+                      <li key={c.slug}>
+                        <Link
+                          href={centrePath(c.slug) as Route}
+                          className="group/row flex items-center justify-between gap-3 border-b border-[var(--dc-hairline)]/60 py-3 text-[14px]"
+                        >
+                          <span className="flex min-w-0 items-center gap-2.5">
+                            <MapPin
+                              className="h-4 w-4 shrink-0 text-[var(--dc-accent-soft)]"
+                              strokeWidth={2}
+                              aria-hidden="true"
+                            />
+                            <span className="min-w-0">
+                              <span className="block truncate font-bold text-[var(--dc-ink)]">{c.name}</span>
+                              {c.locality ? (
+                                <span className="block truncate text-[12.5px] text-[var(--dc-ink-muted)]">
+                                  {c.locality}
+                                </span>
+                              ) : null}
+                            </span>
+                          </span>
+                          <ArrowRight
+                            className="h-4 w-4 shrink-0 text-[var(--dc-accent-soft)] transition-transform group-hover/row:translate-x-0.5"
+                            strokeWidth={2.25}
                             aria-hidden="true"
                           />
-                          <span className="min-w-0">
-                            <span className="block truncate font-bold text-[var(--dc-ink)]">{c.name}</span>
-                            {c.locality ? (
-                              <span className="block truncate text-[12.5px] text-[var(--dc-ink-muted)]">
-                                {c.locality}
-                              </span>
-                            ) : null}
-                          </span>
-                        </span>
-                        <ArrowRight
-                          className="h-4 w-4 shrink-0 text-[var(--dc-accent-soft)] transition-transform group-hover/row:translate-x-0.5"
-                          strokeWidth={2.25}
-                          aria-hidden="true"
-                        />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href={cityHref(active.city.name)}
-                  className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-bold text-[var(--dc-accent-soft)]"
-                >
-                  All centres in {active.city.name}
-                  <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden="true" />
-                </Link>
-              </div>
-            ) : null}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={cityHref(active.city.name)}
+                    className="mt-3 inline-flex items-center gap-1.5 text-[13px] font-bold text-[var(--dc-accent-soft)]"
+                  >
+                    All centres in {active.city.name}
+                    <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden="true" />
+                  </Link>
+                </div>
+              ) : null}
+            </div>
 
-            <ul className="mt-5 flex flex-wrap gap-2" aria-label="Cities with a Jetking centre">
-              {groups.map(({ city, centres: list }) => {
-                const isActive = active?.city.slug === city.slug;
-                return (
-                  <li key={city.slug}>
-                    <button
-                      type="button"
-                      onClick={() => setSelected(city.slug)}
-                      aria-pressed={isActive}
-                      className={[
-                        'dc-chip px-3 py-1.5 text-[12.5px]',
-                        isActive ? '!bg-jk-600 !text-white' : '',
-                      ].join(' ')}
-                    >
-                      {city.name}
-                      {list.length > 1 ? <span className={isActive ? 'ml-1.5 text-white' : 'ml-1.5 text-[var(--dc-ink-muted)]'}>{list.length}</span> : null}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
+            <Link
+              href={'/centres' as Route}
+              className="mt-5 inline-flex min-h-10 items-center gap-1.5 rounded-full border-2 border-[var(--dc-hairline-strong)] px-4 text-[13px] font-bold text-[var(--dc-ink)] transition-colors hover:border-[var(--dc-accent-soft)]"
+            >
+              View all {counts.centres} centres
+              <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </div>

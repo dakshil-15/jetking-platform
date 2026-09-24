@@ -15,7 +15,7 @@ const POINTS = [
 /** Inline lead form (same `QuickEnquiryForm` and `/api/enquiry` as the hero modal), so the closing CTA captures a lead without opening anything. */
 export function FinalCta({ centres }: { centres: EnquiryCentre[] }) {
   return (
-    <section className="py-14 sm:py-16 lg:py-20" aria-labelledby="home-final-cta-heading">
+    <section className="border-y border-[var(--dc-hairline)] bg-[var(--dc-surface)] py-14 sm:py-16 lg:py-20" aria-labelledby="home-final-cta-heading">
       <div className="shell">
         <div className="dc-banner relative grid gap-8 overflow-hidden rounded-[28px] px-6 py-10 xs:rounded-[32px] sm:px-10 sm:py-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:items-center lg:gap-12">
           <div>

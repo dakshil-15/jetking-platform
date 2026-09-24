@@ -17,7 +17,7 @@ export function BlogTeaser({ posts }: { posts: Post[] }) {
   if (posts.length === 0) return null;
 
   return (
-    <section className="py-12 sm:py-14 lg:py-16" aria-labelledby="home-blog-heading">
+    <section className="border-y border-[var(--dc-hairline)] bg-[var(--dc-surface)] py-12 sm:py-14 lg:py-16" aria-labelledby="home-blog-heading">
       <div className="shell">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">

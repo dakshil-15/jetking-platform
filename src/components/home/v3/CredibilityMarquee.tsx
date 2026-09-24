@@ -20,12 +20,11 @@ export function CredibilityMarquee() {
     <section className="py-12 sm:py-14 lg:py-16" aria-labelledby="home-credibility-heading">
       <div className="shell">
         <div className="max-w-2xl">
-          <p className="dc-eyebrow text-[13px] font-bold tracking-[0.06em] uppercase">Credibility</p>
           <h2
             id="home-credibility-heading"
-            className="dc-heading-glow mt-2 font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] xs:text-[28px] sm:text-[32px]"
+            className="dc-heading-glow font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] xs:text-[28px] sm:text-[32px]"
           >
-            Certifications we train for, companies our alumni work at
+            Trusted by top companies. Our learners work at
           </h2>
         </div>
 

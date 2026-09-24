@@ -1,7 +1,13 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { ArrowRight } from 'lucide-react';
-import { HUE_VARS, WHY_JETKING } from './data';
+import { REASONS } from '@/components/explore/content';
+import { HUE_VARS, type Hue } from './data';
+
+/** Website content: the "10 reasons why Jetking is every student's choice" already published on jetking.com (see `explore/content.ts`). Five are shown; the rest live on /explore. */
+const SHOWN = ['Trained & Certified Faculty', 'Practical Foundation through Labs', 'Scenario Based Learning', 'SmartLabPlus Teaching Methodology', 'Placement Support'];
+const HUES: Hue[] = ['ai', 'network', 'cloud', 'cyber', 'network'];
+const ITEMS = SHOWN.map((t, i) => ({ ...REASONS.find((r) => r.title === t)!, hue: HUES[i]! }));
 
 export function WhyJetking() {
   return (
@@ -14,7 +20,7 @@ export function WhyJetking() {
               id="home-why-heading"
               className="dc-heading-glow mt-2 font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] xs:text-[28px] sm:text-[32px]"
             >
-              What decades of IT training actually built
+              What makes Jetking different?
             </h2>
           </div>
           <Link
@@ -26,12 +32,12 @@ export function WhyJetking() {
           </Link>
         </div>
 
-        <ul className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
-          {WHY_JETKING.map((item) => {
+        <ul className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5">
+          {ITEMS.map((item) => {
             const { accent, tint } = HUE_VARS[item.hue];
             return (
               <li key={item.title}>
-                <article className="flex h-full flex-col gap-3.5 rounded-[22px] border border-[var(--dc-hairline)] bg-[var(--dc-card)] p-5 shadow-[var(--dc-shadow)] transition-[box-shadow,transform] duration-200 hover:shadow-[var(--dc-shadow-hover)] hover:-translate-y-0.5 sm:p-6">
+                <article className="flex h-full flex-col gap-3.5 p-1 sm:p-2">
                   <span
                     aria-hidden="true"
                     className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl ring-1 ring-[color-mix(in_srgb,var(--dc-hairline)_80%,transparent)]"

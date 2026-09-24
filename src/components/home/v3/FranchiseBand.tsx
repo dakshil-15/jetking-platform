@@ -4,7 +4,7 @@ import { ArrowRight, Handshake } from 'lucide-react';
 
 export function FranchiseBand() {
   return (
-    <section className="border-y border-[var(--dc-hairline)] bg-[var(--dc-surface)] py-8 sm:py-10" aria-labelledby="home-franchise-heading">
+    <section className="py-8 sm:py-10" aria-labelledby="home-franchise-heading">
       <div className="shell">
         <div className="flex flex-col gap-5 rounded-[22px] border border-[var(--dc-hairline)] bg-[var(--dc-card)] p-6 shadow-[var(--dc-shadow)] sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <div className="flex items-start gap-4">
@@ -23,8 +23,7 @@ export function FranchiseBand() {
                 Run a Jetking centre in your city
               </h2>
               <p className="mt-1.5 max-w-[56ch] text-[14px] leading-relaxed text-[var(--dc-ink-muted)]">
-                Partner with a brand in electronics since 1947 and in IT training since 1990 — with an
-                established curriculum, training and centre support.
+                Partner with India&rsquo;s most trusted brand &mdash; 78 years of brand equity, a countrywide network and end-to-end support.
               </p>
             </div>
           </div>

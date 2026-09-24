@@ -2,18 +2,10 @@ import type { LucideIcon } from 'lucide-react';
 import {
   Award,
   BadgeCheck,
-  Cloud,
-  GraduationCap,
   Handshake,
   Landmark,
-  Network,
-  PhoneCall,
-  ScanSearch,
-  ServerCog,
   ShieldCheck,
   Trophy,
-  Users,
-  Wrench,
 } from 'lucide-react';
 
 /**
@@ -41,125 +33,7 @@ export const HUE_VARS: Record<Hue, { accent: string; tint: string }> = {
   ai: { accent: 'var(--theme-ai-ink)', tint: 'var(--theme-ai-tint)' },
 };
 
-export interface Differentiator {
-  icon: LucideIcon;
-  hue: Hue;
-  title: string;
-  detail: string;
-}
-
-export const WHY_JETKING: Differentiator[] = [
-  {
-    icon: Wrench,
-    hue: 'network',
-    title: 'Lab time, not just lecture time',
-    detail:
-      'Programmes are built around configuring networks, hardening systems and working through real scenarios in a lab — the same discipline the hardware-and-networking courses were built on.',
-  },
-  {
-    icon: Cloud,
-    hue: 'cloud',
-    title: 'Hardware fundamentals into cloud and cyber',
-    detail:
-      'Short courses in PC hardware, networking and Windows feed the same curriculum logic that the cloud, cyber security and data tracks build on — one continuous ladder, not disconnected subjects.',
-  },
-  {
-    icon: Users,
-    hue: 'cyber',
-    title: 'A counsellor before a checkout page',
-    detail:
-      'Admissions are handled centre by centre: a counsellor checks eligibility and walks through the right track before you enrol, not an automated cart.',
-  },
-  {
-    icon: ShieldCheck,
-    hue: 'cloud',
-    title: 'Placement support, honestly framed',
-    detail:
-      'Resume workshops, mock interviews and hiring-partner introductions where available. Outcomes depend on the student, the market and the programme — no placement is guaranteed.',
-  },
-];
-
 /** One of the site's four global category hues (`--theme-{hue}-ink` / `-tint` in globals.css) — the same set `PROGRAM_META` uses on the Professional page, reused here rather than inventing a fifth. */
-export type CareerHue = 'network' | 'cloud' | 'cyber' | 'ai';
-
-export interface CareerPath {
-  icon: LucideIcon;
-  hue: CareerHue;
-  title: string;
-  detail: string;
-  skills: string[];
-  href: string;
-}
-
-export const CAREER_PATHS: CareerPath[] = [
-  {
-    icon: Network,
-    hue: 'network',
-    title: 'Network & Systems Engineer',
-    detail: 'Design, configure and maintain the networks organisations run on.',
-    skills: ['Routing & switching (CCNA)', 'Windows & Linux server admin', 'Network security basics'],
-    href: '/courses?tech=networking',
-  },
-  {
-    icon: Cloud,
-    hue: 'cloud',
-    title: 'Cloud Administrator',
-    detail: 'Provision, monitor and secure infrastructure on AWS, Azure and Google Cloud.',
-    skills: ['AWS & Azure fundamentals', 'Cloud architecture', 'Hybrid infrastructure'],
-    href: '/courses?tech=cloud',
-  },
-  {
-    icon: ScanSearch,
-    hue: 'cyber',
-    title: 'Cybersecurity Analyst',
-    detail: 'Find, report and help close the security gaps attackers look for.',
-    skills: ['Ethical hacking (CEH)', 'Security operations', 'Incident response basics'],
-    href: '/courses?tech=cyber-security',
-  },
-  {
-    icon: ServerCog,
-    hue: 'ai',
-    title: 'Data Analyst',
-    detail: 'Turn spreadsheets and databases into decisions a business can act on.',
-    skills: ['SQL & Excel', 'Power BI & Tableau', 'Python for data'],
-    href: '/courses?tech=data',
-  },
-];
-
-export interface JourneyStep {
-  icon: LucideIcon;
-  title: string;
-  detail: string;
-}
-
-export const HOW_IT_WORKS: JourneyStep[] = [
-  {
-    icon: PhoneCall,
-    title: 'Enquire',
-    detail: 'Tell us where you are and what you want to study — takes under a minute.',
-  },
-  {
-    icon: Users,
-    title: 'Talk to a counsellor',
-    detail: 'A counsellor at your nearest centre checks eligibility and fees with you.',
-  },
-  {
-    icon: GraduationCap,
-    title: 'Enrol',
-    detail: 'Pick your track and batch — degree, diploma or short certification.',
-  },
-  {
-    icon: Wrench,
-    title: 'Train in the lab',
-    detail: 'Hands-on classes and lab work, not just slides and video.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Get placement support',
-    detail: 'Resume help, mock interviews and hiring-partner introductions where available.',
-  },
-];
-
 /** Real cert/vendor logos already in `public/logos/`, limited to certifications Jetking's own course fixtures actually cite. */
 export const CERT_LOGOS = [
   { name: 'Cisco', file: '/logos/cisco.svg' },

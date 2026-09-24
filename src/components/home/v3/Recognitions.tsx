@@ -1,3 +1,4 @@
+import { UNIVERSITY_PARTNERS } from '@/components/explore/content';
 import { HUE_VARS, RECOGNITIONS } from './data';
 
 export function Recognitions() {
@@ -44,6 +45,21 @@ export function Recognitions() {
             );
           })}
         </ul>
+
+        <div className="mt-10">
+          <p className="label-mono text-[11px] text-[var(--dc-ink-muted)]">Collaboration with top universities &amp; learning entities</p>
+          <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+            {UNIVERSITY_PARTNERS.map((partner) => (
+              <li key={partner.name}>
+                <div className="flex h-full flex-col items-center gap-2 rounded-[18px] border border-[var(--dc-hairline)] bg-white p-4 text-center shadow-[var(--dc-shadow)]">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- small static partner logos */}
+                  <img src={partner.src} alt="" draggable={false} className="h-14 w-full object-contain" />
+                  <span className="text-[12px] leading-snug font-semibold text-[#475467]">{partner.name}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

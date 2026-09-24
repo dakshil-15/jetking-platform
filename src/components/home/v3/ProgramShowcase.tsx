@@ -15,26 +15,34 @@ const LEVEL_LABEL: Record<CourseLevel, string> = {
   short: 'Short course',
 };
 
-type TabId = 'featured' | CourseLevel;
+type TabId = 'featured' | 'networking' | 'cloud' | 'cyber-security' | 'data' | 'hardware-os' | 'design-gaming' | 'marketing';
 
-const TABS: Array<{ id: TabId; label: string }> = [
+/** Same keyword facets as the /courses filter (`CourseExplorer` TECHNOLOGY_KEYWORDS). */
+const TABS: Array<{ id: TabId; label: string; match?: RegExp }> = [
   { id: 'featured', label: 'Featured' },
-  { id: 'degree', label: 'Degree' },
-  { id: 'diploma', label: 'Diploma' },
-  { id: 'certification', label: 'Certification' },
-  { id: 'short', label: 'Short courses' },
+  { id: 'networking', label: 'Networking', match: /network|routing|switching|cisco/ },
+  { id: 'cloud', label: 'Cloud', match: /cloud|\baws\b|azure/ },
+  { id: 'cyber-security', label: 'Cyber security', match: /cyber|hacking|security/ },
+  { id: 'data', label: 'Data', match: /\bdata\b/ },
+  { id: 'hardware-os', label: 'Hardware & OS', match: /hardware|windows|server|red hat/ },
+  { id: 'design-gaming', label: 'Design & gaming', match: /multimedia|animation|gaming|metaverse|design/ },
+  { id: 'marketing', label: 'Marketing', match: /marketing/ },
 ];
 
-/** Featured programmes first, then the full catalogue by level — tabs only for levels that have courses. */
+function inTab(course: Course, tab: (typeof TABS)[number]): boolean {
+  if (tab.id === 'featured') return Boolean(course.featured);
+  return Boolean(tab.match?.test(`${course.slug} ${course.title}`.toLowerCase().replace(/-/g, ' ')));
+}
+
+/** Featured programmes first, then the catalogue by technology — tabs only for technologies that have courses. */
 export function ProgramShowcase({ courses }: { courses: Course[] }) {
   const [tab, setTab] = useState<TabId>('featured');
 
-  const tabs = TABS.filter((t) =>
-    t.id === 'featured' ? courses.some((c) => c.featured) : courses.some((c) => c.level === t.id),
-  );
+  const tabs = TABS.filter((t) => courses.some((c) => inTab(c, t)));
   if (tabs.length === 0) return null;
 
-  const visible = courses.filter((c) => (tab === 'featured' ? c.featured : c.level === tab));
+  const activeTab = tabs.find((t) => t.id === tab) ?? tabs[0]!;
+  const visible = courses.filter((c) => inTab(c, activeTab));
 
   return (
     <section
@@ -49,11 +57,10 @@ export function ProgramShowcase({ courses }: { courses: Course[] }) {
               id="home-programs-heading"
               className="dc-heading-glow mt-2 font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] xs:text-[28px] sm:text-[32px]"
             >
-              Degree, diploma and certification tracks
+              Explore our programmes
             </h2>
             <p className="mt-3 text-[14px] leading-relaxed text-[var(--dc-ink-secondary)] sm:text-[15px]">
-              Cloud computing, cyber security and IT infrastructure — from a first certification to a full degree, all
-              built around industry credentials.
+              Industry-aligned, certification-focused courses for real-world careers — from a first certification to a full degree.
             </p>
           </div>
           <Link
@@ -65,7 +72,7 @@ export function ProgramShowcase({ courses }: { courses: Course[] }) {
           </Link>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Filter programmes by level">
+        <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Filter programmes by technology">
           {tabs.map((t) => (
             <button
               key={t.id}

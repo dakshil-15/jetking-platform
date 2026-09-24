@@ -289,6 +289,12 @@ export function SiteHeader() {
             />
             <span className="hidden sm:inline">Jetking AI</span>
           </Link>
+          <Link
+            href={'/enquiry' as Route}
+            className="hidden h-[52px] items-center justify-center rounded-full bg-jk-600 px-6 text-sm font-bold text-white shadow-[0_8px_20px_rgb(199_20_28/0.25)] transition-colors hover:bg-jk-700 lg:inline-flex"
+          >
+            Enquire Now
+          </Link>
           <button
             type="button"
             onClick={toggleTheme}

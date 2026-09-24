@@ -1,92 +1,113 @@
-import { HOW_IT_WORKS } from './data';
+import { ArrowRight, BookOpen, BriefcaseBusiness, Check, Cpu, Trophy } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { HUE_VARS, type Hue } from './data';
 
-export function HowItWorks() {
-  const finalIndex = HOW_IT_WORKS.length - 1;
-
-  return (
-    <section className="border-y border-[var(--dc-hairline)] bg-[var(--dc-surface)] py-12 sm:py-14 lg:py-16" aria-labelledby="home-how-heading">
-      <div className="shell">
-        <div className="max-w-2xl">
-          <p className="dc-eyebrow text-[13px] font-bold tracking-[0.06em] uppercase">How it works</p>
-          <h2
-            id="home-how-heading"
-            className="dc-heading-glow mt-2 font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] xs:text-[28px] sm:text-[32px]"
-          >
-            From enquiry to placement support
-          </h2>
-        </div>
-
-        {/* Mobile / tablet — swipeable step cards */}
-        <ol
-          aria-label="Enrolment steps"
-          // Scroll container: focusable so keyboard users can scroll it with the arrow keys.
-          tabIndex={0}
-          className="mt-8 -mx-4 flex gap-4 overflow-x-auto px-4 pb-1 sm:mt-10 lg:hidden"
-        >
-          {HOW_IT_WORKS.map((step, index) => (
-            <li
-              key={step.title}
-              className="dc-panel flex w-[min(78vw,280px)] shrink-0 flex-col rounded-[20px] p-5"
-            >
-              <StepNode step={step} index={index} isFinal={index === finalIndex} />
-              <h3 className="mt-4 font-display text-[16px] font-extrabold text-[var(--dc-ink)]">{step.title}</h3>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--dc-ink-muted)]">{step.detail}</p>
-            </li>
-          ))}
-        </ol>
-        <p className="mt-3 text-center text-[11px] font-semibold tracking-[0.04em] text-[var(--dc-ink-muted)] uppercase lg:hidden">
-          Swipe to see all {HOW_IT_WORKS.length} steps
-        </p>
-
-        {/* Desktop — node rail */}
-        <div className="relative mt-10 hidden lg:block">
-          <span
-            aria-hidden="true"
-            className="absolute inset-x-[8%] top-6 z-0 h-px bg-[var(--dc-hairline)]"
-          />
-          <ol aria-label="Enrolment steps" className="relative z-10 grid grid-cols-5 gap-x-4">
-            {HOW_IT_WORKS.map((step, index) => (
-              <li key={step.title} className="flex flex-col items-center text-center">
-                <StepNode step={step} index={index} isFinal={index === finalIndex} />
-                <h3 className="mt-4 font-display text-[15px] font-extrabold text-[var(--dc-ink)]">{step.title}</h3>
-                <p className="mt-1.5 max-w-[20ch] text-[13px] leading-relaxed text-[var(--dc-ink-muted)]">
-                  {step.detail}
-                </p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
-    </section>
-  );
+interface Step {
+  icon: LucideIcon;
+  hue: Hue;
+  title: string;
+  points: string[];
 }
 
-function StepNode({
-  step,
-  index,
-  isFinal,
-}: {
-  step: (typeof HOW_IT_WORKS)[number];
-  index: number;
-  isFinal: boolean;
-}) {
+/** Wording taken from the site's own content: `placements/data.ts` (process steps, student benefits), the live "reasons" (`explore/content.ts`) and the course certifications. */
+const STEPS: Step[] = [
+  {
+    icon: BookOpen,
+    hue: 'network',
+    title: 'Learn',
+    points: ['Learn practically with real-world tools', 'Trained & certified faculty', 'Scenario based learning'],
+  },
+  {
+    icon: Cpu,
+    hue: 'cloud',
+    title: 'Practice',
+    points: ['One computer per student in the lab', 'Mock interviews', 'AI bot interviews and presentation practice'],
+  },
+  {
+    icon: Trophy,
+    hue: 'cyber',
+    title: 'Get certified',
+    points: ['Industry certifications such as CCNA, AWS and CEH', 'Jetking certificates for every programme', 'Partnership with NSDC'],
+  },
+  {
+    icon: BriefcaseBusiness,
+    hue: 'ai',
+    title: 'Get placement support',
+    points: ['Biodata preparation', 'Student interviews with hiring partners', 'Appointment letter'],
+  },
+];
+
+export function HowItWorks() {
   return (
-    <span
-      aria-hidden="true"
-      className={[
-        'relative grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 bg-[var(--dc-card)]',
-        isFinal ? 'border-[var(--dc-accent-soft)] text-[var(--dc-accent-soft)]' : 'border-[var(--dc-hairline)] text-[var(--dc-accent-soft)]',
-      ].join(' ')}
+    <section
+      className="py-12 sm:py-14 lg:py-16"
+      aria-labelledby="home-how-heading"
     >
-      <step.icon className="h-5 w-5" strokeWidth={1.75} />
-      <span
-        className={[
-          'absolute -top-1.5 -right-1.5 grid h-5 w-5 place-items-center rounded-full text-[10px] font-extrabold',
-          isFinal ? 'bg-[var(--dc-accent)] text-white' : 'border border-[var(--dc-hairline)] bg-[var(--dc-surface)] text-[var(--dc-ink-muted)]',
-        ].join(' ')}
-      >
-        {index + 1}
-      </span>
-    </span>
+      <div className="shell">
+        <div className="max-w-2xl">
+          <h2
+            id="home-how-heading"
+            className="dc-heading-glow font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] xs:text-[28px] sm:text-[32px]"
+          >
+            Build your career, step by step
+          </h2>
+          <p className="mt-3 text-[14px] leading-relaxed text-[var(--dc-ink-secondary)] sm:text-[15px]">
+            From beginner to job-ready professional &mdash; we guide you at every stage.
+          </p>
+        </div>
+
+        <ol className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          {STEPS.map((step, index) => {
+            const { accent, tint } = HUE_VARS[step.hue];
+            return (
+              <li key={step.title} className="relative">
+                <div
+                  className="h-full rounded-[22px] border border-[var(--dc-hairline)] p-5 shadow-[var(--dc-shadow)] sm:p-6"
+                  style={{ background: `linear-gradient(160deg, ${tint}, var(--dc-card) 70%)` }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[var(--dc-card)]"
+                      style={{ color: accent }}
+                    >
+                      <step.icon className="h-5 w-5" strokeWidth={1.75} />
+                    </span>
+                    <h3 className="font-display text-[17px] font-extrabold text-[var(--dc-ink)]">
+                      <span className="numeral mr-1.5">{index + 1}</span>
+                      {step.title}
+                    </h3>
+                  </div>
+                  <ul className="mt-4 space-y-2">
+                    {step.points.map((point) => (
+                      <li
+                        key={point}
+                        className="flex items-start gap-2 text-[13px] leading-snug text-[var(--dc-ink-secondary)]"
+                      >
+                        <Check
+                          className="mt-0.5 h-3.5 w-3.5 shrink-0"
+                          style={{ color: accent }}
+                          strokeWidth={2.5}
+                          aria-hidden="true"
+                        />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {index < STEPS.length - 1 ? (
+                  <span
+                    aria-hidden="true"
+                    className="absolute top-1/2 -right-[18px] z-10 hidden h-6 w-6 -translate-y-1/2 place-items-center rounded-full bg-[var(--dc-card)] text-[var(--dc-accent-soft)] shadow-[var(--dc-shadow)] lg:grid"
+                  >
+                    <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  </span>
+                ) : null}
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
   );
 }

@@ -108,23 +108,26 @@ src/
 
 The homepage is a hero followed by a section stack, ending in the normal site footer.
 `src/app/page.tsx` loads one `loadHomeData()` (`src/components/home/data.ts`) and renders
-`HomeV2` (hero) then `HomeSections` (everything below).
+`Hero` then `HomeSections` (everything below). `v2/HomeV2.tsx` and its persona hexagons are no longer used on `/`.
 
 | Order | Section | Component (`src/components/home/v3/`) | Data |
 |---|---|---|---|
-| 0 | Hero: persona chooser, action bar, quick-action rail | `../v2/HomeV2.tsx` | static |
-| 1 | Trust stats | `TrustStats.tsx` | catalogue counts + verified trust signals (`figures.ts`) |
-| 2 | Certification and hiring-partner logos | `CredibilityMarquee.tsx` | `public/logos/`, `HIRING_PARTNERS` |
-| 3 | Programmes carousel with level tabs | `ProgramShowcase.tsx`, `CardTrack.tsx` | `content.listCourses()` |
-| 4 | Career paths | `CareerPaths.tsx` | static (`v3/data.ts`), links to `/courses?tech=` |
-| 5 | Placements slider | `PlacementProof.tsx` | published testimonials in `placements/data.ts` |
-| 6 | Recognition | `Recognitions.tsx` | About timeline and course fixtures |
-| 7 | India centre map | `CentreNetwork.tsx`, `india-map.ts` | centres and cities; city coordinates in `india-map.ts` |
-| 8 | Why Jetking (4 cards) | `WhyJetking.tsx` | static |
-| 9 | How it works | `HowItWorks.tsx` | static |
-| 10 | Blog teaser | `BlogTeaser.tsx` | latest 3 posts |
-| 11 | Franchise band | `FranchiseBand.tsx` | static |
-| 12 | Inline callback form | `FinalCta.tsx` | `QuickEnquiryForm` to `/api/enquiry` |
+| 0 | Hero: headline, CTAs, photo with benefit chips, persona links, dark action bar | `Hero.tsx`, `HeroCtas.tsx` | website copy from the previous hero and `ActionBar` |
+| 1 | "Trusted by top companies": certification and hiring-partner logos | `CredibilityMarquee.tsx` | `public/logos/`, `HIRING_PARTNERS` |
+| 2 | Explore our programmes: technology tabs and carousel | `ProgramShowcase.tsx`, `CardTrack.tsx` | `content.listCourses()` |
+| 3 | Build your career, step by step (Learn / Practice / Get certified / Placement support) | `HowItWorks.tsx` | `placements/data.ts`, `explore/content.ts`, course certifications |
+| 4 | "Our learners, our pride" red banner with testimonial carousel | `PlacementProof.tsx` | published testimonials in `placements/data.ts` |
+| 5 | Recognition and university partners | `Recognitions.tsx` | About timeline, course fixtures, `explore/content.ts` |
+| 6 | India centre map with "Find a centre near you" search | `CentreNetwork.tsx`, `india-map.ts` | centres and cities; city coordinates in `india-map.ts` |
+| 7 | What makes Jetking different? | `WhyJetking.tsx` | the live site's "reasons" in `explore/content.ts` |
+| 8 | Blog teaser | `BlogTeaser.tsx` | latest 3 posts |
+| 9 | Franchise band | `FranchiseBand.tsx` | static |
+| 10 | Inline callback form | `FinalCta.tsx` | `QuickEnquiryForm` to `/api/enquiry` |
+
+The layout follows the approved design mock and the copy comes from content already on the site (`explore/content.ts` is shared with `/explore`). Claims in the mock that the data does not back
+up (for example NASSCOM membership, "100% job guarantee", star ratings) are deliberately
+not shown. The hero photo is a placeholder (`public/student/hero.png`); swap in the final
+cut-out and keep its alt text.
 
 Backgrounds alternate grey (`--dc-surface`) and white section by section; keep that when
 adding or reordering sections.
@@ -138,9 +141,7 @@ per-card icon chips. The hero keeps its own `.home-v2` skin (`src/styles/home.cs
 - No unverified numbers or invented quotes. Stats come from `buildFigures()`; the placement
   slider uses only Jetking's own published testimonials and always shows the placement
   disclaimer. There is no placement guarantee claim in the new sections.
-- The quick-action rail (`ActionRail`) is `position: fixed`. It is contained to the hero by
-  the `[transform:translateZ(0)] overflow-hidden` wrapper around `HomeV2` in `page.tsx`, so
-  it scrolls away with the hero. Do not reserve a right-hand gutter in the sections.
+- The old quick-action rail is no longer on the homepage; the hero persona links and header "Enquire Now" replace it.
 - The India map outline (`india-map.ts`) is the Datameet `india-composite` boundary
   simplified to one SVG path (islands omitted). The content model has no coordinates, so
   pins use per-city coordinates in `CITY_COORDS`; add an entry when a new city gets a
@@ -159,7 +160,7 @@ drawer at every width.
 
 Target: WCAG 2.2 AA. The public routes were scanned with axe-core (tags `wcag2a`, `wcag2aa`,
 `wcag21a`, `wcag21aa`, `wcag22aa`, `best-practice`) at 1280px and 375px wide, with no
-violations and no horizontal overflow (also checked at 320, 768 and 1024px on `/`).
+violations and no horizontal overflow (also checked at 320, 768 and 1024px on `/`). The homepage supports both light and dark themes: use theme tokens (`bg-background`, `text-foreground`, `--dc-*`), never hard-coded white.
 
 Conventions that keep it that way:
 - Brand red under light text uses `#c7141c` (5.9:1); `#ea1c24` is 4.36:1 and fails. `.dc-cta`
