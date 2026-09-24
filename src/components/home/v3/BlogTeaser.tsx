@@ -38,11 +38,11 @@ export function BlogTeaser({ posts }: { posts: Post[] }) {
           </Link>
         </div>
 
-        <ul className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
+        <ul tabIndex={0} aria-label="Latest articles" className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 -mx-[var(--gutter)] px-[var(--gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:overflow-visible sm:px-0 sm:pb-0 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
           {posts.map((post) => {
             const cover = postCover(post);
             return (
-              <li key={post.slug} className="min-w-0">
+              <li key={post.slug} className="min-w-0 w-[80%] shrink-0 snap-start sm:w-auto">
                 <Link
                   href={`/blog/${post.slug}` as Route}
                   className="flex h-full flex-col overflow-hidden rounded-[22px] border border-[var(--dc-hairline)] bg-[var(--dc-card)] shadow-[var(--dc-shadow)] transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-[var(--dc-shadow-hover)]"

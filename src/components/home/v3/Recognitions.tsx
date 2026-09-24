@@ -15,11 +15,11 @@ export function Recognitions() {
           </h2>
         </div>
 
-        <ul className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+        <ul tabIndex={0} aria-label="Recognitions" className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 -mx-[var(--gutter)] px-[var(--gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:overflow-visible sm:px-0 sm:pb-0 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
           {RECOGNITIONS.map((item) => {
             const { accent, tint } = HUE_VARS[item.hue];
             return (
-              <li key={item.title}>
+              <li key={item.title} className="w-[80%] shrink-0 snap-start sm:w-auto">
                 <article className="flex h-full flex-col gap-3.5 rounded-[22px] border border-[var(--dc-hairline)] bg-[var(--dc-card)] p-5 shadow-[var(--dc-shadow)] sm:p-6">
                   <div className="flex items-center justify-between gap-3">
                     <span

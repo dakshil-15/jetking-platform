@@ -108,11 +108,11 @@ src/
 
 The homepage is a hero followed by a section stack, ending in the normal site footer.
 `src/app/page.tsx` loads one `loadHomeData()` (`src/components/home/data.ts`) and renders
-`Hero` then `HomeSections` (everything below). `v2/HomeV2.tsx` and its persona hexagons are no longer used on `/`.
+`HomeV2` (the original hero) then `HomeSections` (everything below).
 
 | Order | Section | Component (`src/components/home/v3/`) | Data |
 |---|---|---|---|
-| 0 | Hero: headline, CTAs, photo with benefit chips, persona links, dark action bar | `Hero.tsx`, `HeroCtas.tsx` | website copy from the previous hero and `ActionBar` |
+| 0 | Hero: headline, persona chooser, action bar, quick-action rail | `../v2/HomeV2.tsx` | website copy, static |
 | 1 | "Trusted by top companies": certification and hiring-partner logos | `CredibilityMarquee.tsx` | `public/logos/`, `HIRING_PARTNERS` |
 | 2 | Explore our programmes: technology tabs and carousel | `ProgramShowcase.tsx`, `CardTrack.tsx` | `content.listCourses()` |
 | 3 | Build your career, step by step (Learn / Practice / Get certified / Placement support) | `HowItWorks.tsx` | `placements/data.ts`, `explore/content.ts`, course certifications |
@@ -126,9 +126,7 @@ The homepage is a hero followed by a section stack, ending in the normal site fo
 
 The layout follows the approved design mock and the copy comes from content already on the site (`explore/content.ts` is shared with `/explore`). Claims in the mock that the data does not back
 up (for example NASSCOM membership, "100% job guarantee", star ratings) are deliberately
-not shown. The hero photo is a placeholder (`public/student/hero.png`); swap in the final
-cut-out and keep its alt text.
-
+not shown. 
 Backgrounds alternate grey (`--dc-surface`) and white section by section; keep that when
 adding or reordering sections.
 
@@ -141,7 +139,7 @@ per-card icon chips. The hero keeps its own `.home-v2` skin (`src/styles/home.cs
 - No unverified numbers or invented quotes. Stats come from `buildFigures()`; the placement
   slider uses only Jetking's own published testimonials and always shows the placement
   disclaimer. There is no placement guarantee claim in the new sections.
-- The old quick-action rail is no longer on the homepage; the hero persona links and header "Enquire Now" replace it.
+- The quick-action rail (`ActionRail`) is `position: fixed`. It is contained to the hero by the `[transform:translateZ(0)] overflow-hidden` wrapper around `HomeV2` in `page.tsx`, so it scrolls away with the hero. Do not reserve a right-hand gutter in the sections.
 - The India map outline (`india-map.ts`) is the Datameet `india-composite` boundary
   simplified to one SVG path (islands omitted). The content model has no coordinates, so
   pins use per-city coordinates in `CITY_COORDS`; add an entry when a new city gets a

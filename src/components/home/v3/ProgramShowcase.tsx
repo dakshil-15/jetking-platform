@@ -72,7 +72,7 @@ export function ProgramShowcase({ courses }: { courses: Course[] }) {
           </Link>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Filter programmes by technology">
+        <div className="mt-6 -mx-[var(--gutter)] flex gap-2 overflow-x-auto px-[var(--gutter)] pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0" role="group" aria-label="Filter programmes by technology">
           {tabs.map((t) => (
             <button
               key={t.id}
@@ -80,7 +80,7 @@ export function ProgramShowcase({ courses }: { courses: Course[] }) {
               onClick={() => setTab(t.id)}
               aria-pressed={tab === t.id}
               className={[
-                'dc-chip px-4 py-2 text-[13px]',
+                'dc-chip shrink-0 px-4 py-2 text-[13px]',
                 tab === t.id ? '!bg-jk-600 !text-white' : '',
               ].join(' ')}
             >

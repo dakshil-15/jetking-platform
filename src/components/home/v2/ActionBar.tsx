@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import type { Route } from 'next';
-import { Download, MessageSquareQuote, ShieldCheck } from 'lucide-react';
+import { Building2, MessageSquareQuote, Target } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { usePersona } from '@/persona/PersonaProvider';
 import { track } from '@/lib/analytics';
@@ -13,9 +13,9 @@ import type { EventName } from '@/lib/analytics';
  *
  * "Find Center", "Call a Center" and "Book Counselling" already live in the
  * ActionRail right beside this bar — this bar covers what the rail doesn't:
- * the brochure, the placement pitch and social proof. "Download Brochure"
- * points at /courses (no PDF yet); the other two point at /placements,
- * which carries the placement-support content and its testimonials.
+ * the network size (a live catalogue count, not a hard-coded figure), the
+ * job-focus pitch and social proof. Follows the approved design: centres,
+ * job-oriented training, student testimonials.
  */
 
 interface Action {
@@ -26,26 +26,26 @@ interface Action {
   event?: EventName;
 }
 
-export function ActionBar() {
+export function ActionBar({ centreCount }: { centreCount: number }) {
   const { classification } = usePersona();
 
   const actions: Action[] = [
     {
-      icon: Download,
-      label: 'Download Brochure',
-      detail: 'Courses, fees & more',
-      href: '/courses',
+      icon: Building2,
+      label: `${centreCount} Training Centres`,
+      detail: 'Across India',
+      href: '/centres',
     },
     {
-      icon: ShieldCheck,
-      label: '100% Job Guarantee',
-      detail: 'See how placement support works',
+      icon: Target,
+      label: '100% Job-Oriented',
+      detail: 'Practical training, industry curriculum',
       href: '/placements',
     },
     {
       icon: MessageSquareQuote,
       label: 'Student Testimonials',
-      detail: 'Hear from Jetking alumni',
+      detail: 'Real stories. Real success.',
       href: '/placements#placements-testimonials',
     },
   ];

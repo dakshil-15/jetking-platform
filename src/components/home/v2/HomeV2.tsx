@@ -17,7 +17,7 @@ import type { EnquiryCentre } from '@/components/EnquiryModal';
  * ActionRail (Find Center / Call / Book Counselling).
  */
 export function HomeV2({
-  data: _data,
+  data,
   enquiryCentres,
 }: {
   data: HomeData;
@@ -128,7 +128,7 @@ export function HomeV2({
 
         {/* ── Action bar ───────────────────────────────────────────────── */}
         <div className="mt-8 shrink-0 xs:mt-10 lg:mt-12 3xl:mt-14">
-          <ActionBar />
+          <ActionBar centreCount={data.counts.centres} />
         </div>
 
         {/* Same quick-action rail as v1 — inline while stacked, fixed vertical on the

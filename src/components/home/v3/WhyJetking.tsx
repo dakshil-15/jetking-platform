@@ -32,11 +32,11 @@ export function WhyJetking() {
           </Link>
         </div>
 
-        <ul className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5">
+        <ul tabIndex={0} aria-label="Reasons to choose Jetking" className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 -mx-[var(--gutter)] px-[var(--gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:overflow-visible sm:px-0 sm:pb-0 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5">
           {ITEMS.map((item) => {
             const { accent, tint } = HUE_VARS[item.hue];
             return (
-              <li key={item.title}>
+              <li key={item.title} className="w-[80%] shrink-0 snap-start sm:w-auto">
                 <article className="flex h-full flex-col gap-3.5 p-1 sm:p-2">
                   <span
                     aria-hidden="true"

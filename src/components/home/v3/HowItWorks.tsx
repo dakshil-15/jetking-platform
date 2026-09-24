@@ -56,11 +56,11 @@ export function HowItWorks() {
           </p>
         </div>
 
-        <ol className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        <ol aria-label="Steps" tabIndex={0} className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 -mx-[var(--gutter)] px-[var(--gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:overflow-visible sm:px-0 sm:pb-0 sm:mt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {STEPS.map((step, index) => {
             const { accent, tint } = HUE_VARS[step.hue];
             return (
-              <li key={step.title} className="relative">
+              <li key={step.title} className="relative w-[80%] shrink-0 snap-start sm:w-auto">
                 <div
                   className="h-full rounded-[22px] border border-[var(--dc-hairline)] p-5 shadow-[var(--dc-shadow)] sm:p-6"
                   style={{ background: `linear-gradient(160deg, ${tint}, var(--dc-card) 70%)` }}
