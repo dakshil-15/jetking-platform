@@ -143,7 +143,7 @@ type Message =
 
 /** Shown when nothing in the local Jetking knowledge base matches — never invent. */
 const GATE_TEXT =
-  "I don't have verified information about that in my Jetking knowledge base. I can help with Jetking courses, fees, placements, eligibility, or finding a centre near you — just ask.";
+  "I don't have verified information about that, so I'd rather not guess. A Jetking counsellor can answer it properly — and meanwhile I can help with courses, fees, eligibility, placements, or finding a centre near you. What would you like to know?";
 
 /** Client-side UUID for a chat's saved id. `randomUUID` needs a secure context, so fall back for plain-http LAN testing. */
 function newConversationId(): string {

@@ -31,6 +31,8 @@ function cleanSpace(s: string): string {
  */
 export function cleanPassageText(text: string): string {
   return text
+    // Un-serialised JS objects that leaked into scraped/indexed content.
+    .replace(/(?:What students gain:\s*)?(?:\[object Object\](?:,\s*)?)+/g, '')
     .replace(/^[A-Z][\w&,.\-–—' ]{4,70}?\|\s*Jetking\.?\s+(?=[A-Z])/, '')
     .replace(/\b\d{1,2}((?:Semester|Module|Year|Phase|Level)\s*\d+)(?=[A-Z])/g, '$1: ');
 }

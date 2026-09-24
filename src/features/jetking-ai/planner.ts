@@ -195,7 +195,9 @@ async function callOllamaPlanner(prompt: string): Promise<string | null> {
     const response = await fetch(serverEnv.ollamaChatUrl, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      signal: AbortSignal.timeout(serverEnv.ollamaTimeoutMs),
+      // The planner only widens retrieval — never worth a full answer-sized wait
+      // on a slow local CPU model; on timeout the turn proceeds ungrounded.
+      signal: AbortSignal.timeout(Math.min(serverEnv.ollamaTimeoutMs, 8_000)),
       body: JSON.stringify({
         model: serverEnv.ollamaModel,
         stream: false,

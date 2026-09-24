@@ -71,5 +71,5 @@ export const serverEnv = {
   /** Absolute override for the embedding index location. */
   indexPath: envText(process.env.JK_INDEX_PATH, ''),
 
-  ollamaTimeoutMs: envNumber(process.env.OLLAMA_TIMEOUT_MS, 20_000),
+  ollamaTimeoutMs: envNumber(process.env.OLLAMA_TIMEOUT_MS, 40_000),
 } as const;

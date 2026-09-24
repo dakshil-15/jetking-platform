@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { semanticSearch } from '@/features/knowledge/lib/embeddings';
 import { serverEnv } from '@/lib/config/env.server';
 import { clientKey, createRateLimiter } from '@/lib/rate-limit';
-import { formatPassagesAnswer } from '@/features/jetking-ai/format-passage';
+import { cleanPassageText, formatPassagesAnswer } from '@/features/jetking-ai/format-passage';
 import { unsupportedSensitiveClaims } from '@/features/jetking-ai/grounding';
 import {
   PERSONA_FRAMING,
@@ -30,6 +30,7 @@ import { passagesMax, rankHits } from '@/features/jetking-ai/rank-hits';
 import { buildRetrievalQuery } from '@/features/jetking-ai/retrieval-query';
 import { EMPTY_SESSION, updateSession, type CounsellingSession } from '@/features/jetking-ai/session';
 import { structureAnswerText } from '@/features/jetking-ai/structure-answer';
+import { GUARD_FOLLOW_UPS, guardMessage } from '@/features/jetking-ai/conversation-guard';
 import {
   blocksToPlainText,
   OLLAMA_ANSWER_FORMAT,
@@ -127,7 +128,7 @@ const ChatRequestSchema = z.object({
 const limiter = createRateLimiter({ windowMs: 60_000, max: 20 });
 
 const GATE_TEXT =
-  "I don't have verified information about that in my Jetking knowledge base. I can help with Jetking courses, fees, placements, eligibility, or finding a centre near you — just ask.";
+  "I don't have verified information about that, so I'd rather not guess. A Jetking counsellor can answer it properly — and meanwhile I can help with courses, fees, eligibility, placements, or finding a centre near you. What would you like to know?";
 
 /** Natural-language framing for planner.ts's coarse nextBestQuestion key — the model phrases it, the planner only picks the topic. */
 const NEXT_QUESTION_HINT: Record<string, string> = {
@@ -221,7 +222,7 @@ Reply with ONLY a single JSON object of the shape { "blocks": ContentBlock[] } �
 - { "type": "numbered_list", "items": ["...", ...] } — steps in sequence only, never for unordered facts
 - { "type": "facts", "items": [{ "label": "Fee", "value": "..." }, ...] } — short label/value pairs (fee, duration, eligibility, payment)
 - { "type": "callout", "variant": "info" | "tip" | "warning", "text": "..." } — a closing handoff nudge or an important caveat
-Inside any "text" or item string you may use **bold**, *italic*, \`code\`, and [label](https://...) markdown for inline emphasis or a real link — never invent a URL that wasn't given to you above. Use only as many blocks as the question needs; a one-line answer doesn't need a heading and three sections.
+Inside any "text" or item string you may use **bold**, *italic*, \`code\`, and [label](https://...) markdown for inline emphasis or a real link — never invent a URL that wasn't given to you above. Always open with a paragraph block that directly answers the question in one or two plain sentences, then add a list or facts block only if there is more to say. Finish with one short, helpful next step or question (a paragraph or a tip callout). Use only as many blocks as the question needs; a one-line answer doesn't need a heading and three sections.
 
 CONTEXT (retrieved from the local Jetking knowledge base):
 ${context || 'No context available.'}`;
@@ -308,7 +309,8 @@ async function askOllamaLocal(
         model: serverEnv.ollamaModel,
         stream: false,
         format: OLLAMA_ANSWER_FORMAT,
-        options: { temperature },
+        keep_alive: '30m',
+        options: { temperature, num_predict: 450 },
         messages: [{ role: 'system', content: prompt }, ...messages],
       }),
     });
@@ -447,6 +449,21 @@ export async function POST(req: Request): Promise<Response> {
   const userMsgs = messages.filter((m) => m.role === 'user');
   const lastUser = userMsgs[userMsgs.length - 1];
   if (!lastUser) return Response.json({ ok: false, reason: 'empty' });
+
+  // Greetings, prompt-injection, abuse and clearly off-topic asks are answered
+  // deterministically — they must never reach retrieval (which would surface
+  // whichever passage shares a word) or the LLM.
+  const guard = guardMessage(lastUser.content);
+  if (guard.kind === 'reply') {
+    return Response.json({
+      ok: true,
+      text: guard.text,
+      reasoning: ['Read the message.', `Handled directly (${guard.reason}) — no knowledge-base lookup needed.`],
+      followUps: GUARD_FOLLOW_UPS,
+      session: parsed.data.session ?? EMPTY_SESSION,
+    });
+  }
+  if (guard.message && guard.message !== lastUser.content) lastUser.content = guard.message;
 
   const prevUser = userMsgs[userMsgs.length - 2];
   const inferred = inferPersonaFromQuestion(lastUser.content, prevUser?.content);
@@ -656,6 +673,17 @@ export async function POST(req: Request): Promise<Response> {
     // jetking-ai-client.tsx); `askLocation` lets a *typed* "what's my nearest
     // centre" question reuse that same flow instead of a plain-text dead end.
     if (!cityHint && !useCoords) {
+      const place = q.match(/\b(?:in|near|at|around)\s+([A-Z][A-Za-z]{2,}(?:\s[A-Z][A-Za-z]{2,})?)/)?.[1];
+      if (place && !/^(India|Jetking|Me|My|The)$/i.test(place)) {
+        return Response.json({
+          ok: true,
+          gated: true,
+          text: `I couldn't find a Jetking centre listed in ${place}. Jetking has centres in cities like Mumbai, Delhi, Pune, Bengaluru, Hyderabad and Ahmedabad — tell me the nearest big city (or share your location) and I'll show the closest branch with contact details.`,
+          reasoning: [step1, `Recognised it as about ${intentLabel}.`, `"${place}" isn't a city with a Jetking branch in the records — said so instead of guessing.`],
+          followUps: buildFollowUps(false),
+          session: nextSession,
+        });
+      }
       return Response.json({
         ok: true,
         askLocation: true,
@@ -772,7 +800,7 @@ export async function POST(req: Request): Promise<Response> {
       });
     }
     // Never lead non-location answers with centre SEO pages.
-    hits = rankHits(result.hits, wants);
+    hits = rankHits(result.hits, wants, q);
   } catch (error) {
     console.warn(
       '[chat] retrieval/gate branch failed:',
@@ -783,8 +811,12 @@ export async function POST(req: Request): Promise<Response> {
 
   // Small local models follow grounding instructions more reliably when the
   // context is focused. The remaining hits still inform fallback composition.
-  const contextHits = hits.slice(0, 6);
-  const context = contextHits.map((h) => `[${h.type}] ${h.text}`).join('\n');
+  // Capped per-passage: a long SEO blob dominates prompt-eval time on a local
+  // CPU model (20s timeouts fell back to raw passages) without adding facts.
+  const contextHits = hits.slice(0, 5);
+  const context = contextHits
+    .map((h) => `[${h.type}] ${cleanPassageText(h.text).slice(0, 700)}`)
+    .join('\n');
   const present = (hit?: { type: string; text: string }): { title: string; body: string } => {
     if (!hit) return { title: '', body: '' };
     const nl = hit.text.indexOf('\n');

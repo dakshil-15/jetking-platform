@@ -18,7 +18,13 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/enquiry'],
+        // /enquiry is kept out of the index via its own `noindex` meta tag
+        // (see src/app/enquiry/page.tsx), not disallowed here — a disallowed
+        // URL is never crawled at all, so Google never sees that noindex
+        // tag and can't act on it. Blocking the crawl instead of letting the
+        // tag do its job is also how an already-indexed URL gets stuck
+        // showing as a bare, description-less listing in search results.
+        disallow: ['/api/'],
       },
     ],
     sitemap: absoluteUrl('/sitemap.xml'),

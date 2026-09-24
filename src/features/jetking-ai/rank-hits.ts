@@ -22,10 +22,18 @@ export interface RankedHit {
  * Re-ranks retrieved chunks by relevance to the detected want* facet, and
  * demotes centre SEO pages so they never lead a non-location answer.
  */
-export function rankHits(searchHits: SearchHit[], wants: WantFlags): RankedHit[] {
+export function rankHits(searchHits: SearchHit[], wants: WantFlags, question = ''): RankedHit[] {
+  const wantsFranchise = /franchis|partner|invest|dealership|own centre|open a centre/i.test(question);
+  const wantsContact = /contact|phone|call|email|address|reach|whatsapp|corporate|alliance/i.test(question);
   const nonCentre = searchHits.filter((h) => h.type !== 'centre');
   const pool = nonCentre.length === 0 ? searchHits : nonCentre;
-  const weight = (t: string) => {
+  const weight = (t: string, text: string) => {
+    // Franchise sales pages share course words ("Best Cloud Computing Courses…") and
+    // otherwise outrank the real course page for a learner's question.
+    if (!wantsFranchise && /^\s*franchise\b/i.test(text)) return -0.35;
+    // Site-chrome sections (footer contact block, corporate/alliance menu) whose page title
+    // is a course name — never the answer to a learner's course question.
+    if (!wantsContact && /^\s*(contact us|jetking connect|institutional alliance|careers?|login|sign ?in|privacy|terms)\b/i.test(text)) return -0.35;
     if (t === 'centre') return 0;
     if (t === 'home') return -0.1;
     let w = 0;
@@ -44,7 +52,7 @@ export function rankHits(searchHits: SearchHit[], wants: WantFlags): RankedHit[]
     return w;
   };
   return pool
-    .map((h) => ({ h, adj: h.score + weight(h.type) }))
+    .map((h) => ({ h, adj: h.score + weight(h.type, h.text) }))
     .sort((a, b) => b.adj - a.adj)
     .map(({ h }) => ({ type: h.type, text: h.text }));
 }
