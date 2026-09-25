@@ -1,3 +1,4 @@
+import { toEnquiryCentres } from '@/lib/enquiry-centres';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { Clock3, MessageCircle, PhoneCall, ShieldCheck } from 'lucide-react';
@@ -65,12 +66,7 @@ export default async function EnquiryPage() {
               <Suspense fallback={<p className="text-sm text-[var(--stu-ink-muted)]">Loading form…</p>}>
                 <EnquiryForm
                   courses={courses.map((c) => ({ slug: c.slug, title: c.shortTitle }))}
-                  cities={cities.map((c) => ({ slug: c.slug, name: c.name }))}
-                  centres={centres.map((c) => ({
-                    slug: c.slug,
-                    name: c.name,
-                    citySlug: c.citySlug,
-                  }))}
+                  centres={toEnquiryCentres(centres, cities)}
                 />
               </Suspense>
             </div>

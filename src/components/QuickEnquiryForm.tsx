@@ -1,29 +1,26 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { useAccount } from '@/components/account/AccountProvider';
 import { Button, Field, Input, Select } from '@/components/ui';
 import { usePersona } from '@/persona/PersonaProvider';
 import { linkVisitorIdentity } from '@/persona/visitor';
 import { track } from '@/lib/analytics';
+import { QUALIFICATIONS } from '@/lib/enquiry-fields';
+import { useEnquiryLocation, type LocatedCentre } from '@/components/useEnquiryLocation';
 
-export interface EnquiryCentre {
-  slug: string;
-  name: string;
-  citySlug: string;
-  state: string;
-}
+export type EnquiryCentre = LocatedCentre;
 
 export type QuickEnquiryStatus = 'idle' | 'submitting' | 'done' | 'error';
 
 /**
- * The short lead form: name, mobile, state, centre. Shared by the "Enquire now" modal and the
+ * The short lead form: name, mobile, State → City → Centre, highest qualification. Shared by the "Enquire now" modal and the
  * card on the centres banner, so both collect the same fields, validate the same way and reach
  * the same `/api/enquiry` — `source` records which surface it came from.
  *
- * The centre list follows the chosen state, and a centre that no longer belongs to the state is
- * dropped, so the submitted pair is always consistent. A signed-in visitor's name, phone, state
- * and centre are pre-filled from their account.
+ * The city list follows the chosen state and the centre list follows the chosen city; a choice
+ * that no longer belongs to its parent is dropped, so the submitted triple is always consistent.
+ * A signed-in visitor's name, phone, state, city and centre are pre-filled from their account.
  */
 export function QuickEnquiryForm({
   centres,
@@ -45,21 +42,11 @@ export function QuickEnquiryForm({
   const { user } = useAccount();
   const [status, setStatus] = useState<QuickEnquiryStatus>('idle');
   const [error, setError] = useState('');
-  // `null` = untouched, so the signed-in account's saved state/centre show through as defaults.
-  const [stateChoice, setStateChoice] = useState<string | null>(null);
-  const [centreChoice, setCentreChoice] = useState<string | null>(null);
-  const state = stateChoice ?? user?.state ?? '';
-
-  const states = useMemo(
-    () => [...new Set(centres.map((c) => c.state).filter(Boolean))].sort((a, b) => a.localeCompare(b)),
-    [centres],
-  );
-  const stateCentres = useMemo(
-    () => (state ? centres.filter((c) => c.state === state) : []),
-    [centres, state],
-  );
-  const wantedCentre = centreChoice ?? user?.centre ?? '';
-  const centre = stateCentres.some((c) => c.slug === wantedCentre) ? wantedCentre : '';
+  const loc = useEnquiryLocation(centres, {
+    state: user?.state,
+    city: user?.city,
+    centre: user?.centre,
+  });
 
   function updateStatus(next: QuickEnquiryStatus) {
     setStatus(next);
@@ -75,7 +62,7 @@ export function QuickEnquiryForm({
     event.preventDefault();
     if (status === 'submitting') return;
     const form = new FormData(event.currentTarget);
-    const chosen = stateCentres.find((c) => c.slug === centre);
+    const chosen = loc.chosenCentre;
     const phone = String(form.get('phone') ?? '');
 
     updateStatus('submitting');
@@ -88,9 +75,10 @@ export function QuickEnquiryForm({
         body: JSON.stringify({
           name: String(form.get('name') ?? ''),
           phone,
-          state: state || undefined,
-          city: chosen?.citySlug,
+          state: loc.state || undefined,
+          city: loc.city || undefined,
           centre: chosen?.slug,
+          qualification: String(form.get('qualification') ?? '') || undefined,
           persona: classification.persona,
           confidence: classification.confidence,
           source,
@@ -163,14 +151,12 @@ export function QuickEnquiryForm({
         <Field label="State" htmlFor={`${id}-state`} required>
           <Select
             id={`${id}-state`}
-            value={state}
-            onChange={(e) => {
-              setStateChoice(e.target.value);
-              setCentreChoice('');
-            }}
+            value={loc.state}
+            required
+            onChange={(e) => loc.onState(e.target.value)}
           >
             <option value="">Select state</option>
-            {states.map((s) => (
+            {loc.states.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
@@ -178,15 +164,16 @@ export function QuickEnquiryForm({
           </Select>
         </Field>
 
-        <Field label="Centre" htmlFor={`${id}-centre`} required>
+        <Field label="City" htmlFor={`${id}-city`} required>
           <Select
-            id={`${id}-centre`}
-            value={centre}
-            onChange={(e) => setCentreChoice(e.target.value)}
-            disabled={stateCentres.length === 0}
+            id={`${id}-city`}
+            value={loc.city}
+            required
+            onChange={(e) => loc.onCity(e.target.value)}
+            disabled={loc.cities.length === 0}
           >
-            <option value="">{stateCentres.length > 0 ? 'Select centre' : 'Select state first'}</option>
-            {stateCentres.map((c) => (
+            <option value="">{loc.cities.length > 0 ? 'Select city' : 'Select state first'}</option>
+            {loc.cities.map((c) => (
               <option key={c.slug} value={c.slug}>
                 {c.name}
               </option>
@@ -194,6 +181,34 @@ export function QuickEnquiryForm({
           </Select>
         </Field>
       </div>
+
+      <Field label="Centre" htmlFor={`${id}-centre`} required>
+        <Select
+          id={`${id}-centre`}
+          value={loc.centre}
+          required
+          onChange={(e) => loc.onCentre(e.target.value)}
+          disabled={loc.centres.length === 0}
+        >
+          <option value="">{loc.centres.length > 0 ? 'Select centre' : 'Select city first'}</option>
+          {loc.centres.map((c) => (
+            <option key={c.slug} value={c.slug}>
+              {c.name}
+            </option>
+          ))}
+        </Select>
+      </Field>
+
+      <Field label="Highest qualification" htmlFor={`${id}-qualification`} required>
+        <Select id={`${id}-qualification`} name="qualification" defaultValue="" required>
+          <option value="">Select qualification</option>
+          {QUALIFICATIONS.map((q) => (
+            <option key={q.value} value={q.value}>
+              {q.label}
+            </option>
+          ))}
+        </Select>
+      </Field>
 
       {error ? (
         <p role="alert" className="text-sm font-medium text-[var(--accent-ink)]">

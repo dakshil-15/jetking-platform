@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { content } from '@/lib/content';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
+import { toEnquiryCentres } from '@/lib/enquiry-centres';
 import { Breadcrumbs, JsonLd, type Crumb } from '@/components/ui';
 import { AdaptiveNudge } from '@/persona/AdaptiveSlot';
 import { siteConfig } from '@/lib/site';
@@ -20,7 +21,11 @@ export const metadata: Metadata = buildMetadata(
 );
 
 export default async function CoursesPage() {
-  const [courses, centres] = await Promise.all([content.listCourses(), content.listCentres()]);
+  const [courses, centres, cities] = await Promise.all([
+    content.listCourses(),
+    content.listCentres(),
+    content.listCities(),
+  ]);
   const levelCount = new Set(courses.map((c) => c.level)).size;
 
   const trail: Crumb[] = [
@@ -89,7 +94,7 @@ export default async function CoursesPage() {
                 </div>
 
                 <HeroEnquiryCard
-                  centres={centres.map((c) => ({ slug: c.slug, name: c.name, citySlug: c.citySlug, state: c.state }))}
+                  centres={toEnquiryCentres(centres, cities)}
                   source="courses-hero-form"
                   tone="dc"
                   titleId="courses-hero-form-title"

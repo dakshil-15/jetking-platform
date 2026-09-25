@@ -418,3 +418,14 @@ html:not(.dark) .home-v2-themeable .v2-accent-glow {
       drop-shadow(0 0 16px rgb(232 36 43 / 0.13));
   }
 }
+
+/* Light theme: the primary hero button gets a small, soft drop shadow — no red halo, no pulse.
+   (The wide glow suits the dark canvas only.) */
+html:not(.dark) .v2-cta-glow {
+  animation: none;
+  box-shadow: 0 4px 12px rgb(199 20 28 / 0.2);
+}
+
+html:not(.dark) .v2-cta-glow:hover {
+  box-shadow: 0 6px 16px rgb(199 20 28 / 0.28);
+}

@@ -5,6 +5,7 @@ import { siteConfig } from '@/lib/site';
 import { JsonLd, type Crumb } from '@/components/ui';
 import { ScrollDepthTracker } from '@/components/ScrollDepthTracker';
 import { loadHomeData } from '@/components/home/data';
+import { toEnquiryCentres } from '@/lib/enquiry-centres';
 import { ExploreLanding } from '@/components/explore/ExploreLanding';
 
 export const metadata: Metadata = buildMetadata(
@@ -17,10 +18,12 @@ export const metadata: Metadata = buildMetadata(
 );
 
 export default async function ExplorePage() {
-  const [courses, home, posts] = await Promise.all([
+  const [courses, home, posts, centres, cities] = await Promise.all([
     content.listCourses(),
     loadHomeData(),
     content.listPosts({ limit: 3 }),
+    content.listCentres(),
+    content.listCities(),
   ]);
 
   const trail: Crumb[] = [
@@ -32,7 +35,12 @@ export default async function ExplorePage() {
     <>
       <JsonLd data={breadcrumbSchema(trail)} />
       <ScrollDepthTracker />
-      <ExploreLanding courses={courses} counts={home.counts} posts={posts} />
+      <ExploreLanding
+        courses={courses}
+        counts={home.counts}
+        posts={posts}
+        enquiryCentres={toEnquiryCentres(centres, cities)}
+      />
     </>
   );
 }

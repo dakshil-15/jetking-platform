@@ -1,3 +1,4 @@
+import { toEnquiryCentres } from '@/lib/enquiry-centres';
 import type { Metadata } from 'next';
 import { buildMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/site';
@@ -24,13 +25,12 @@ export const metadata: Metadata = buildMetadata(
  * (see `FooterChrome`).
  */
 export default async function HomePage() {
-  const [data, centres] = await Promise.all([loadHomeData(), content.listCentres()]);
-  const enquiryCentres = centres.map((c) => ({
-    slug: c.slug,
-    name: c.name,
-    citySlug: c.citySlug,
-    state: c.state,
-  }));
+  const [data, centres, cities] = await Promise.all([
+    loadHomeData(),
+    content.listCentres(),
+    content.listCities(),
+  ]);
+  const enquiryCentres = toEnquiryCentres(centres, cities);
 
   return (
     <>

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Route } from 'next';
 import { ArrowRight, Building2, MessageCircle, Phone } from 'lucide-react';
 import { siteConfig } from '@/lib/site';
+import { toEnquiryCentres } from '@/lib/enquiry-centres';
 import { CentresHero } from './CentresHero';
 import { CentresIndex } from './CentresIndex';
 
@@ -116,12 +117,7 @@ export function CentresLanding({
       <CentresHero
         cityCount={cities.length}
         centreCount={centres.length}
-        centres={centres.map((c) => ({
-          slug: c.slug,
-          name: c.name,
-          citySlug: c.citySlug,
-          state: c.state,
-        }))}
+        centres={toEnquiryCentres(centres, cities)}
         initialQuery={initialQuery}
       />
 

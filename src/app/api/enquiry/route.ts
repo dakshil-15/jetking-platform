@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { clientKey, createRateLimiter } from '@/lib/rate-limit';
 import { getSessionUser } from '@/lib/chatbot/session';
+import { QUALIFICATION_VALUES } from '@/lib/enquiry-fields';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -32,6 +33,8 @@ const EnquirySchema = z.object({
   state: z.string().max(120).optional(),
   /** Slug of the centre the visitor picked within their city. */
   centre: z.string().max(120).optional(),
+  /** Highest qualification: `10+2` or `graduate` (graduate and above). */
+  qualification: z.enum(QUALIFICATION_VALUES).optional(),
   courseSlug: z.string().max(120).optional(),
   message: z.string().max(2000).optional(),
   /** Context attached by the client so counsellors see how the lead arrived. */

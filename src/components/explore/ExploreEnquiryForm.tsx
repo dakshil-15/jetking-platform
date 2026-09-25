@@ -2,7 +2,9 @@
 
 import { useRef, useState } from 'react';
 import { Clock3 } from 'lucide-react';
-import { Field, Input } from '@/components/ui';
+import { Field, Input, Select } from '@/components/ui';
+import { QUALIFICATIONS } from '@/lib/enquiry-fields';
+import { useEnquiryLocation, type LocatedCentre } from '@/components/useEnquiryLocation';
 import { usePersona } from '@/persona/PersonaProvider';
 import { linkVisitorIdentity } from '@/persona/visitor';
 import { track } from '@/lib/analytics';
@@ -12,11 +14,12 @@ type Status = 'idle' | 'submitting' | 'done' | 'error';
 const fieldClass =
   'h-11 border-[var(--stu-hairline)] bg-[var(--stu-surface)] text-[var(--stu-ink)] placeholder:text-[var(--stu-ink-muted)] hover:border-[var(--stu-accent-soft)]/50 focus:border-[var(--stu-accent-soft)] focus:ring-[var(--stu-accent)]/20';
 
-export function ExploreEnquiryForm() {
+export function ExploreEnquiryForm({ centres }: { centres: LocatedCentre[] }) {
   const { classification, visitor, record } = usePersona();
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
   const startedRef = useRef(false);
+  const loc = useEnquiryLocation(centres);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -30,7 +33,10 @@ export function ExploreEnquiryForm() {
       name: String(data.get('name') ?? ''),
       phone: String(data.get('phone') ?? ''),
       email: String(data.get('email') ?? ''),
-      city: String(data.get('city') ?? ''),
+      state: loc.state || undefined,
+      city: loc.city || undefined,
+      centre: loc.centre || undefined,
+      qualification: String(data.get('qualification') ?? '') || undefined,
       message: 'Enquiry from the "Just Exploring" landing page form.',
       persona: 'unknown' as const,
       confidence: classification.confidence,
@@ -124,14 +130,74 @@ export function ExploreEnquiryForm() {
           />
         </Field>
 
-        <Field label="City" htmlFor="exp-city">
-          <Input
-            id="exp-city"
-            name="city"
-            type="text"
-            placeholder="Your city"
+        <Field label="State" required htmlFor="exp-state">
+          <Select
+            id="exp-state"
+            value={loc.state}
+            required
+            onChange={(e) => loc.onState(e.target.value)}
             className={fieldClass}
-          />
+          >
+            <option value="">Select state</option>
+            {loc.states.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </Select>
+        </Field>
+
+        <Field label="City" required htmlFor="exp-city">
+          <Select
+            id="exp-city"
+            value={loc.city}
+            required
+            disabled={loc.cities.length === 0}
+            onChange={(e) => loc.onCity(e.target.value)}
+            className={fieldClass}
+          >
+            <option value="">{loc.cities.length > 0 ? 'Select city' : 'Select state first'}</option>
+            {loc.cities.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.name}
+              </option>
+            ))}
+          </Select>
+        </Field>
+
+        <Field label="Centre" required htmlFor="exp-centre">
+          <Select
+            id="exp-centre"
+            value={loc.centre}
+            required
+            disabled={loc.centres.length === 0}
+            onChange={(e) => loc.onCentre(e.target.value)}
+            className={fieldClass}
+          >
+            <option value="">{loc.centres.length > 0 ? 'Select centre' : 'Select city first'}</option>
+            {loc.centres.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.name}
+              </option>
+            ))}
+          </Select>
+        </Field>
+
+        <Field label="Highest qualification" required htmlFor="exp-qualification">
+          <Select
+            id="exp-qualification"
+            name="qualification"
+            defaultValue=""
+            required
+            className={fieldClass}
+          >
+            <option value="">Select qualification</option>
+            {QUALIFICATIONS.map((q) => (
+              <option key={q.value} value={q.value}>
+                {q.label}
+              </option>
+            ))}
+          </Select>
         </Field>
       </div>
 

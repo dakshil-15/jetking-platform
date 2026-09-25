@@ -22,6 +22,7 @@ import { brandMark } from '@/lib/course-logos';
 import { ExploreTestimonialSlider } from './ExploreTestimonialSlider';
 import { REASONS, UNIVERSITY_PARTNERS } from './content';
 import { ExploreEnquiryForm } from './ExploreEnquiryForm';
+import type { LocatedCentre } from '@/components/useEnquiryLocation';
 
 /** Certifications students train toward — real brand marks, kept off white ('unity'/'tcs'/'x'). */
 const CERTIFICATIONS = [
@@ -195,7 +196,9 @@ export function ExploreLanding({
   courses,
   counts,
   posts,
+  enquiryCentres,
 }: {
+  enquiryCentres: LocatedCentre[];
   courses: Course[];
   counts: { courses: number; centres: number; cities: number };
   posts: Post[];
@@ -355,7 +358,7 @@ export function ExploreLanding({
               </div>
 
               <div className="p-6 sm:p-8 lg:p-10">
-                <ExploreEnquiryForm />
+                <ExploreEnquiryForm centres={enquiryCentres} />
               </div>
             </div>
           </div>

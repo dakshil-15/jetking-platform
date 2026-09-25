@@ -9,6 +9,8 @@ import { track } from '@/lib/analytics';
 import { siteConfig } from '@/lib/site';
 import { useAccount } from '@/components/account/AccountProvider';
 import { Button, Field, Input, Notice, Select, Textarea } from '@/components/ui';
+import { QUALIFICATIONS } from '@/lib/enquiry-fields';
+import { useEnquiryLocation, type LocatedCentre } from '@/components/useEnquiryLocation';
 
 /**
  * Enquiry form.
@@ -108,20 +110,12 @@ function useGuidePrefill(searchParams: URLSearchParams) {
   }, [handoff, base]);
 }
 
-interface CentreOption {
-  slug: string;
-  name: string;
-  citySlug: string;
-}
-
 export function EnquiryForm({
   courses,
-  cities,
   centres,
 }: {
   courses: Option[];
-  cities: Option[];
-  centres: CentreOption[];
+  centres: LocatedCentre[];
 }) {
   const { classification, visitor, profile, record } = usePersona();
   const searchParams = useSearchParams();
@@ -135,20 +129,13 @@ export function EnquiryForm({
   const account = useAccount();
   const accountUser = account.user;
 
-  // City is controlled so the centre list can follow it. `null` means "the visitor
-  // has not touched it", which lets the Guide/URL prefill (resolved after mount) show
-  // through without an effect; once they pick a city their choice wins.
-  // Defaults, in order: the Guide/URL handoff, then the signed-in account's saved location.
-  const [cityChoice, setCityChoice] = useState<string | null>(null);
-  const [centreChoice, setCentreChoice] = useState<string | null>(null);
-  const city = cityChoice ?? (prefill.city || accountUser?.city || '');
-  const cityCentres = useMemo(
-    () => (city ? centres.filter((c) => c.citySlug === city) : []),
-    [centres, city],
-  );
-  // A centre only stays selected while it belongs to the chosen city.
-  const wantedCentre = centreChoice ?? accountUser?.centre ?? '';
-  const centre = cityCentres.some((c) => c.slug === wantedCentre) ? wantedCentre : '';
+  // State → City → Centre. Defaults, in order: the Guide/URL handoff, then the signed-in
+  // account's saved location; once the visitor picks, their choice wins.
+  const loc = useEnquiryLocation(centres, {
+    state: accountUser?.state,
+    city: prefill.city || accountUser?.city,
+    centre: accountUser?.centre,
+  });
 
   // Move the reading position onto whichever outcome panel just appeared.
   useEffect(() => {
@@ -182,8 +169,10 @@ export function EnquiryForm({
           name: form.get('name'),
           phone: form.get('phone'),
           email: form.get('email') || undefined,
-          city: form.get('city') || undefined,
-          centre: form.get('centre') || undefined,
+          state: loc.state || undefined,
+          city: loc.city || undefined,
+          centre: loc.centre || undefined,
+          qualification: form.get('qualification') || undefined,
           courseSlug: form.get('courseSlug') || undefined,
           message: form.get('message') || undefined,
           persona: classification.persona,
@@ -361,16 +350,57 @@ export function EnquiryForm({
       </Field>
 
       <div className="grid gap-7 sm:grid-cols-2">
-        <Field label="Nearest city" htmlFor="city">
+        <Field label="State" htmlFor="state" required>
+          <Select
+            id="state"
+            name="state"
+            value={loc.state}
+            required
+            onChange={(event) => loc.onState(event.target.value)}
+            className={fieldClass}
+          >
+            <option value="">Select state</option>
+            {loc.states.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </Select>
+        </Field>
+
+        <Field label="City" htmlFor="city" required>
           <Select
             id="city"
             name="city"
-            value={city}
-            onChange={(event) => setCityChoice(event.target.value)}
+            value={loc.city}
+            required
+            onChange={(event) => loc.onCity(event.target.value)}
+            disabled={loc.cities.length === 0}
             className={fieldClass}
           >
-            <option value="">Select a city</option>
-            {cities.map((c) => (
+            <option value="">{loc.cities.length > 0 ? 'Select city' : 'Select state first'}</option>
+            {loc.cities.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.name}
+              </option>
+            ))}
+          </Select>
+        </Field>
+      </div>
+
+      <div className="grid gap-7 sm:grid-cols-2">
+        <Field label="Centre" htmlFor="centre" required>
+          <Select
+            id="centre"
+            name="centre"
+            value={loc.centre}
+            required
+            onChange={(event) => loc.onCentre(event.target.value)}
+            disabled={loc.centres.length === 0}
+            className={fieldClass}
+          >
+            <option value="">{loc.centres.length > 0 ? 'Select centre' : 'Select city first'}</option>
+            {loc.centres.map((c) => (
               <option key={c.slug} value={c.slug}>
                 {c.name}
               </option>
@@ -378,19 +408,12 @@ export function EnquiryForm({
           </Select>
         </Field>
 
-        <Field label="Preferred centre" htmlFor="centre">
-          <Select
-            id="centre"
-            name="centre"
-            value={centre}
-            onChange={(event) => setCentreChoice(event.target.value)}
-            disabled={cityCentres.length === 0}
-            className={fieldClass}
-          >
-            <option value="">{cityCentres.length > 0 ? 'No preference' : 'Select a city first'}</option>
-            {cityCentres.map((c) => (
-              <option key={c.slug} value={c.slug}>
-                {c.name}
+        <Field label="Highest qualification" htmlFor="qualification" required>
+          <Select id="qualification" name="qualification" defaultValue="" required className={fieldClass}>
+            <option value="">Select qualification</option>
+            {QUALIFICATIONS.map((q) => (
+              <option key={q.value} value={q.value}>
+                {q.label}
               </option>
             ))}
           </Select>
