@@ -203,3 +203,23 @@ See `.env.example`. Critical keys:
 1. **Fees are never model-generated** — structured CMS lookup or counsellor handoff only.
 2. **`AdaptiveList` reorders, never filters** — indexable links stay in the DOM.
 3. **Unverified trust claims cannot render** — filtered at the content source.
+
+## Campaign tracking (UTM)
+
+Landing pages accept the four standard campaign parameters:
+
+| Parameter | Example | Meaning |
+| --- | --- | --- |
+| `utm_source` | `google`, `facebook`, `newsletter` | Where the click came from |
+| `utm_medium` | `cpc`, `paid_social`, `email` | Channel type |
+| `utm_campaign` | `bca-admissions-2026` | Campaign name |
+| `utm_content` | `ad-a`, `video-1` | Ad / creative variant |
+
+Example: `https://jetking-panel.vercel.app/student?utm_source=google&utm_medium=cpc&utm_campaign=bca-admissions-2026&utm_content=ad-a`
+
+How it works (`src/lib/utm.ts`, `src/proxy.ts`):
+
+- `proxy.ts` stores the parameters in the readable first-party `jk_utm` cookie (30 days) on the first request — before any client script runs — together with the landing path. A visit with new UTM parameters replaces the stored set (last campaign click wins); a visit without any leaves it alone. Crawlers are skipped. Values are trimmed and capped at 100 characters.
+- `/api/enquiry` merges `utm_source`, `utm_medium`, `utm_campaign`, `utm_content` and `landing_page` into **every** lead from the cookie, whichever form sent it, and forwards them to the CRM (`CRM_ENDPOINT`) or the `[enquiry:unrouted]` log. No per-form wiring is needed.
+- `track()` (`src/lib/analytics.ts`) adds the same keys to every analytics event (GA4 dataLayer / PostHog).
+- The persona classifier still reads the same parameters to choose an acquisition channel (`src/persona/channel.ts`) — that is independent of this attribution store.

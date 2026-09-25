@@ -1,3 +1,4 @@
+import { UTM_COOKIE, UTM_MAX_AGE, encodeUtm, utmFromParams } from '@/lib/utm';
 import { NextResponse, type NextRequest } from 'next/server';
 import { classify } from '@/persona/classify';
 import {
@@ -94,6 +95,19 @@ export async function proxy(req: NextRequest) {
   const params = url.searchParams;
   const geo = readGeo(req);
   const now = new Date();
+
+  // Campaign attribution: remember utm_source / medium / campaign / content for the lead forms
+  // and analytics (see src/lib/utm.ts). Only overwritten when new UTM parameters arrive.
+  const utm = utmFromParams(params, url.pathname);
+  if (utm) {
+    response.cookies.set(UTM_COOKIE, encodeUtm(utm), {
+      httpOnly: false, // read back by track() in the browser
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+      maxAge: UTM_MAX_AGE,
+    });
+  }
 
   const firstTouch: FirstTouchInput = {
     path: url.pathname,

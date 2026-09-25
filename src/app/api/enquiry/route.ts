@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { clientKey, createRateLimiter } from '@/lib/rate-limit';
 import { getSessionUser } from '@/lib/chatbot/session';
 import { QUALIFICATION_VALUES } from '@/lib/enquiry-fields';
+import { UTM_COOKIE, cookieValue, decodeUtm, utmToFlat } from '@/lib/utm';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -98,8 +99,13 @@ export async function POST(request: Request) {
   // Best-effort: a lookup failure must never cost the visitor their enquiry.
   const account = await getSessionUser().catch(() => null);
 
+  // Campaign attribution stored by the proxy (utm_source / utm_medium / utm_campaign /
+  // utm_content + landing page) rides along on every lead, whichever form sent it.
+  const attribution = utmToFlat(decodeUtm(cookieValue(request.headers.get('cookie'), UTM_COOKIE)));
+
   const enquiry = {
     ...parsed.data,
+    ...attribution,
     accountId: account?.id,
     receivedAt: new Date().toISOString(),
   };
