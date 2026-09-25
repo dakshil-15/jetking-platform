@@ -198,14 +198,14 @@ export const OFFER_LETTER_SAMPLES = [
  * note Jetking prints with its own recruiter collage.
  */
 export const RECRUITERS = [
-  { name: 'Microsoft', src: '/placements/recruiters/microsoft.png' },
-  { name: 'Tech Mahindra', src: '/placements/recruiters/tech-mahindra.png' },
-  { name: 'IBM', src: '/placements/recruiters/ibm.png' },
-  { name: 'Amazon', src: '/placements/recruiters/amazon.png' },
-  { name: 'Samsung', src: '/placements/recruiters/samsung.png' },
-  { name: 'The Times of India', src: '/placements/recruiters/times-of-india.png' },
-  { name: 'Infosys', src: '/placements/recruiters/infosys.png' },
-  { name: 'Wipro', src: '/placements/recruiters/wipro.png' },
+  { name: 'Microsoft', src: '/logos/employers/microsoft.svg' },
+  { name: 'Tech Mahindra', src: '/logos/employers/tech-mahindra.svg' },
+  { name: 'IBM', src: '/logos/employers/ibm.svg' },
+  { name: 'Amazon', src: '/logos/employers/amazon.svg' },
+  { name: 'Samsung', src: '/logos/employers/samsung.svg' },
+  { name: 'The Times of India', src: '/logos/employers/times-of-india.svg' },
+  { name: 'Infosys', src: '/logos/employers/infosys.svg' },
+  { name: 'Wipro', src: '/placements/partners/wipro.svg' },
   { name: 'Tikona Digital Networks', src: '/placements/recruiters/tikona.png' },
 ] as const;
 

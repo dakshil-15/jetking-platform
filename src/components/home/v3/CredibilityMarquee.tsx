@@ -3,7 +3,12 @@
 import { useState } from 'react';
 import { Pause, Play } from 'lucide-react';
 import { HIRING_PARTNERS } from '@/components/professional/data';
-import { CERT_LOGOS } from './data';
+import { CERT_LOGOS, MORE_EMPLOYER_LOGOS } from './data';
+
+const EMPLOYER_LOGOS: ReadonlyArray<{ name: string; file: string; dark?: boolean }> = [
+  ...HIRING_PARTNERS.map((p) => ({ name: p.name, file: p.logo })),
+  ...MORE_EMPLOYER_LOGOS,
+];
 
 /**
  * Two auto-scrolling logo rows — certifications the curriculum prepares students for, and
@@ -17,7 +22,10 @@ export function CredibilityMarquee() {
   const [paused, setPaused] = useState(false);
 
   return (
-    <section className="py-12 sm:py-14 lg:py-16" aria-labelledby="home-credibility-heading">
+    <section
+      className="border-t border-[var(--dc-hairline)] py-12 sm:py-14 lg:py-16"
+      aria-labelledby="home-credibility-heading"
+    >
       <div className="shell">
         <div className="max-w-2xl">
           <h2
@@ -42,8 +50,8 @@ export function CredibilityMarquee() {
           <p className="label-mono text-[11px] text-[var(--dc-ink-muted)]">Where alumni work</p>
           <div className="mt-3 dc-marquee" data-paused={paused} style={{ ['--dc-marquee-duration' as string]: '40s' }}>
             <div className="dc-marquee-track">
-              <LogoList items={HIRING_PARTNERS.map((p) => ({ name: p.name, file: p.logo }))} />
-              <LogoList items={HIRING_PARTNERS.map((p) => ({ name: p.name, file: p.logo }))} clone />
+              <LogoList items={EMPLOYER_LOGOS} />
+              <LogoList items={EMPLOYER_LOGOS} clone />
             </div>
           </div>
         </div>
@@ -73,7 +81,7 @@ function LogoList({
   items,
   clone = false,
 }: {
-  items: ReadonlyArray<{ name: string; file: string }>;
+  items: ReadonlyArray<{ name: string; file: string; dark?: boolean }>;
   clone?: boolean;
 }) {
   return (
@@ -84,7 +92,7 @@ function LogoList({
       {items.map((item, index) => (
         <li
           key={`${item.name}-${index}`}
-          className="flex h-16 w-32 shrink-0 items-center justify-center rounded-[14px] bg-white px-4 py-3 shadow-[0_0_0_1px_rgb(0_0_0/0.06)] sm:h-20 sm:w-40"
+          className={`flex h-16 w-32 shrink-0 items-center justify-center rounded-[14px] px-4 py-3 shadow-[0_0_0_1px_rgb(0_0_0/0.06)] sm:h-20 sm:w-40 ${'dark' in item && item.dark ? 'bg-[#14141f]' : 'bg-white'}`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- small static logos; nothing for the image optimiser to do */}
           <img

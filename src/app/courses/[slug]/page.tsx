@@ -605,7 +605,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                 <SectionHeading>Similar programmes</SectionHeading>
                 <Link
                   href="/courses"
-                  className="inline-flex items-center gap-1.5 text-[13.5px] font-bold text-[var(--dc-accent-soft)] transition-colors hover:text-[var(--dc-ink)]"
+                  className="inline-flex min-h-6 items-center gap-1.5 text-[13.5px] font-bold text-[var(--dc-accent-soft)] transition-colors hover:text-[var(--dc-ink)]"
                 >
                   Full catalogue
                   <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />

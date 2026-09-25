@@ -1,39 +1,59 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import type { Route } from 'next';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { ChevronDown } from 'lucide-react';
-import { coursesMenu } from '@/lib/site';
+import { ArrowRight, ChevronDown, ChevronRight } from 'lucide-react';
+import type { CourseLevel } from '@/lib/content/types';
+import { COURSE_CATEGORIES, type CourseCategoryId } from '@/lib/course-categories';
 import { cx } from './ui';
 
+export interface MenuCourse {
+  slug: string;
+  title: string;
+  level: CourseLevel;
+  duration: string;
+  featured: boolean;
+  categories: CourseCategoryId[];
+}
+
+const LEVEL_LABEL: Record<CourseLevel, string> = {
+  degree: 'Degree',
+  diploma: 'Diploma',
+  certification: 'Certification',
+  short: 'Short course',
+};
+
 /**
- * "Courses" header item with a category dropdown (desktop header only). Opens on hover
- * and on keyboard focus (`group-focus-within`), so the panel's links are reachable by
- * Tab. The trigger is still a real link to /courses. An entry is marked current when the
- * URL is /courses with exactly that filter (or no filter, for "All courses").
+ * "Courses" header item with a mega menu (desktop header only): categories on the left,
+ * the real courses in the highlighted category on the right — hover, focus or click a
+ * category to switch. Opens on hover and on keyboard focus (`group-focus-within`), so every
+ * link is reachable by Tab. The trigger is still a real link to /courses. A category is
+ * marked current when the URL is /courses with exactly that filter, and a course when
+ * its own page is open.
  */
-function Inner({ onDarkLead }: { onDarkLead: boolean }) {
+function Inner({ onDarkLead, courses }: { onDarkLead: boolean; courses: MenuCourse[] }) {
   const pathname = usePathname();
   const search = useSearchParams();
   const onCourses = pathname === '/courses' || pathname.startsWith('/courses/');
 
-  const isCurrent = (params: Record<string, string>) => {
-    if (pathname !== '/courses') return false;
-    const keys = Object.keys(params);
-    if (keys.length === 0) return !search.get('tech') && !search.get('level');
-    return keys.every((k) => search.get(k) === params[k]);
-  };
+  const categories = COURSE_CATEGORIES.filter((c) => courses.some((course) => course.categories.includes(c.id)));
+  const [activeId, setActiveId] = useState<CourseCategoryId>(categories[0]?.id ?? 'degree');
+  const active = categories.find((c) => c.id === activeId) ?? categories[0];
+  const list = active ? courses.filter((c) => c.categories.includes(active.id)) : [];
+
+  const isCurrent = (params: Record<string, string>) =>
+    pathname === '/courses' && Object.keys(params).every((k) => search.get(k) === params[k]);
 
   return (
-    <div className="group relative">
+    <div className="group">
       <Link
         href={'/courses' as Route}
         aria-current={pathname === '/courses' ? 'page' : undefined}
         aria-haspopup="true"
         className={cx(
-          'inline-flex items-center gap-1 rounded-full px-4 py-2.5 text-sm font-bold tracking-[-0.01em] transition-colors duration-200',
+          'inline-flex items-center gap-1 rounded-full px-3 py-2.5 text-sm font-bold tracking-[-0.01em] transition-colors duration-200 min-[1400px]:px-4',
           onCourses
             ? onDarkLead
               ? 'text-white'
@@ -51,38 +71,101 @@ function Inner({ onDarkLead }: { onDarkLead: boolean }) {
         />
       </Link>
 
-      <div className="invisible absolute top-full left-1/2 z-[60] w-[260px] -translate-x-1/2 pt-2 opacity-0 transition-[opacity,visibility] duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-        <ul className="rounded-2xl border border-border bg-background p-2 shadow-[0_18px_40px_rgb(16_24_40/0.16)]">
-          {coursesMenu.map((item) => {
-            const active = isCurrent(item.params);
-            return (
-              <li key={item.href}>
+      {/* Positioned against the (sticky) header, so it is centred on the page, not on the trigger. */}
+      <div className="invisible absolute top-full left-1/2 z-[60] w-[min(960px,calc(100vw-48px))] -translate-x-1/2 pt-2 opacity-0 transition-[opacity,visibility] duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+        <div className="grid overflow-hidden rounded-2xl border border-border bg-background shadow-[0_24px_60px_rgb(16_24_40/0.18)] lg:grid-cols-[260px_minmax(0,1fr)]">
+          <ul className="border-r border-border bg-surface p-3" aria-label="Course categories">
+            {categories.map((cat) => {
+              const highlighted = cat.id === active?.id;
+              const current = isCurrent(cat.params);
+              return (
+                <li key={cat.id}>
+                  <Link
+                    href={cat.href as Route}
+                    aria-current={current ? 'page' : undefined}
+                    onMouseEnter={() => setActiveId(cat.id)}
+                    onFocus={() => setActiveId(cat.id)}
+                    className={cx(
+                      'flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors',
+                      highlighted
+                        ? 'bg-background text-[var(--accent-ink)] shadow-[0_1px_2px_rgb(16_24_40/0.08)]'
+                        : 'text-foreground-secondary hover:text-foreground',
+                    )}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span
+                        aria-hidden="true"
+                        className={cx('h-1.5 w-1.5 shrink-0 rounded-full', current ? 'bg-[var(--accent-ink)]' : 'bg-transparent')}
+                      />
+                      {cat.label}
+                    </span>
+                    <ChevronRight className="h-4 w-4 shrink-0 opacity-60" strokeWidth={2} aria-hidden="true" />
+                  </Link>
+                </li>
+              );
+            })}
+            <li className="mt-2 border-t border-border pt-2">
+              <Link
+                href={'/courses' as Route}
+                aria-current={pathname === '/courses' && !search.get('tech') && !search.get('level') ? 'page' : undefined}
+                className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-bold text-[var(--accent-ink)] hover:bg-background"
+              >
+                All courses
+                <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
+              </Link>
+            </li>
+          </ul>
+
+          <div className="p-5">
+            {active ? (
+              <>
+                <p className="label-mono text-[11px] text-foreground-muted">{active.label}</p>
+                <ul className="mt-3 grid gap-x-6 sm:grid-cols-2" aria-label={`${active.label} courses`}>
+                  {list.map((course) => {
+                    const here = pathname === `/courses/${course.slug}`;
+                    return (
+                      <li key={course.slug}>
+                        <Link
+                          href={`/courses/${course.slug}` as Route}
+                          aria-current={here ? 'page' : undefined}
+                          className={cx(
+                            'block rounded-xl px-3 py-2.5 transition-colors hover:bg-surface',
+                            here && 'bg-jk-50',
+                          )}
+                        >
+                          <span
+                            className={cx(
+                              'block text-sm font-semibold',
+                              here ? 'text-[var(--accent-ink)]' : 'text-foreground',
+                            )}
+                          >
+                            {course.title}
+                          </span>
+                          <span className="mt-0.5 block text-xs text-foreground-muted">
+                            {LEVEL_LABEL[course.level]} · {course.duration}
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
                 <Link
-                  href={item.href as Route}
-                  aria-current={active ? 'page' : undefined}
-                  className={cx(
-                    'flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors',
-                    active
-                      ? 'bg-jk-50 text-[var(--accent-ink)]'
-                      : 'text-foreground-secondary hover:bg-surface hover:text-foreground',
-                  )}
+                  href={active.href as Route}
+                  className="mt-3 inline-flex items-center gap-1.5 px-3 text-sm font-bold text-[var(--accent-ink)]"
                 >
-                  <span
-                    aria-hidden="true"
-                    className={cx('h-1.5 w-1.5 shrink-0 rounded-full', active ? 'bg-[var(--accent-ink)]' : 'bg-transparent')}
-                  />
-                  {item.label}
+                  View all {active.label.toLowerCase()} courses
+                  <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
                 </Link>
-              </li>
-            );
-          })}
-        </ul>
+              </>
+            ) : null}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export function CoursesMenu({ onDarkLead }: { onDarkLead: boolean }) {
+export function CoursesMenu({ onDarkLead, courses }: { onDarkLead: boolean; courses: MenuCourse[] }) {
   return (
     <Suspense
       fallback={
@@ -94,7 +177,7 @@ export function CoursesMenu({ onDarkLead }: { onDarkLead: boolean }) {
         </Link>
       }
     >
-      <Inner onDarkLead={onDarkLead} />
+      <Inner onDarkLead={onDarkLead} courses={courses} />
     </Suspense>
   );
 }

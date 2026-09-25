@@ -73,7 +73,7 @@
  * are purpose-built dark landing sections and keep the original palette above.
  */
 html:not(.dark) .home-v2-themeable {
-  --v2-canvas: radial-gradient(120% 100% at 88% 4%, #fff1f2 0%, #faf8fb 42%, #f1edf5 100%);
+  --v2-canvas: #ffffff;
   --v2-card: #ffffff;
   --v2-card-warm: #fff7f4;
   --v2-hairline: rgb(20 20 31 / 0.12);

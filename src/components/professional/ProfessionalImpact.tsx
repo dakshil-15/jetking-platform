@@ -93,11 +93,7 @@ export function ProfessionalImpact() {
           className={[
             'mt-10 grid gap-6 xs:gap-7 sm:mt-12 sm:gap-8',
             'lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-6 xl:gap-x-10',
-            /* The quick-action rail (ActionRail) goes `fixed` to the viewport's
-               right edge from lg2 (1200px) — see its own breakpoint. This
-               grid's right-hand card reaches far enough right to sit under it
-               without this gutter; same fix as ProfessionalHero's grid. */
-            'lg2:pr-[130px] 2xl:pr-[160px]',
+            
           ].join(' ')}
           aria-labelledby="pro-benefits-heading"
         >

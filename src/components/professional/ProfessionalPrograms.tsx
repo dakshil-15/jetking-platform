@@ -120,7 +120,7 @@ export function ProfessionalPrograms({ courses }: { courses: Course[] }) {
       aria-labelledby="pro-programs-heading"
     >
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-[1_1_18rem]">
           <h2
             id="pro-programs-heading"
             className="inline-flex items-center gap-2.5 font-display text-[26px] font-extrabold tracking-[-0.02em] text-[var(--pro-ink)] xs:text-[28px] sm:text-[32px]"

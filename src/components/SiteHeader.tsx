@@ -10,9 +10,11 @@ import { mainNav, siteConfig } from '@/lib/site';
 import { useTheme } from '@/components/providers/theme-provider';
 import { useAccount } from '@/components/account/AccountProvider';
 import { cx } from './ui';
-import { CoursesMenu } from './CoursesMenu';
+import { CoursesMenu, type MenuCourse } from './CoursesMenu';
 import { useDialog } from './useDialog';
 import { useHydrated } from './useHydrated';
+
+export type { MenuCourse };
 
 /**
  * Site header — matches the Jetking Landing Replica chrome:
@@ -26,7 +28,7 @@ import { useHydrated } from './useHydrated';
  * hamburger on desktop, where there is plenty of room for a link row, costs
  * discoverability for no real benefit at that width.
  */
-export function SiteHeader() {
+export function SiteHeader({ menuCourses }: { menuCourses: MenuCourse[] }) {
   const pathname = usePathname();
   const { resolvedTheme, toggleTheme } = useTheme();
   const account = useAccount();
@@ -204,7 +206,7 @@ export function SiteHeader() {
             : 'bg-transparent',
       )}
     >
-      <div className="shell flex h-[72px] items-center justify-between gap-4 xs:h-[80px] sm:h-[88px] 2xl:h-[96px]">
+      <div className="shell flex h-[72px] items-center justify-between gap-4 xs:h-[80px] sm:h-[88px] min-[1400px]:grid min-[1400px]:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] 2xl:h-[96px]">
         <Link href="/" className="group flex items-center" aria-label={`${siteConfig.name} home`}>
           {/* eslint-disable-next-line @next/next/no-img-element -- brand asset; sized by caller */}
           <img
@@ -215,9 +217,9 @@ export function SiteHeader() {
           />
         </Link>
 
-        <nav aria-label="Primary" className="hidden flex-1 items-center justify-center gap-1 lg:flex">
+        <nav aria-label="Primary" className="hidden flex-1 items-center justify-center gap-0.5 lg:flex min-[1400px]:flex-none min-[1400px]:gap-1">
           {mainNav.slice(0, 4).map((item) => {
-            if (item.href === '/courses') return <CoursesMenu key={item.href} onDarkLead={onDarkLead} />;
+            if (item.href === '/courses') return <CoursesMenu key={item.href} onDarkLead={onDarkLead} courses={menuCourses} />;
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
@@ -225,7 +227,7 @@ export function SiteHeader() {
                 href={item.href as Route}
                 aria-current={active ? 'page' : undefined}
                 className={cx(
-                  'rounded-full px-4 py-2.5 text-sm font-bold tracking-[-0.01em] transition-colors duration-200',
+                  'rounded-full px-3 py-2.5 text-sm font-bold tracking-[-0.01em] transition-colors duration-200 min-[1400px]:px-4',
                   active
                     ? onDarkLead
                       ? 'text-white'
@@ -241,7 +243,26 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <div className="flex items-center gap-3 xs:gap-4 sm:gap-5 2xl:gap-[22px]">
+        <div className="flex items-center gap-3 xs:gap-4 sm:gap-5 lg:gap-3 min-[1400px]:justify-self-end min-[1700px]:gap-4">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
+            aria-pressed={resolvedTheme === 'dark'}
+            title={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
+            className={cx(
+              'group grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-full border transition-[background-color,transform,border-color,color,box-shadow] duration-200 hover:scale-[1.04] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-jk-500 active:scale-[0.96] motion-reduce:transform-none xs:h-12 xs:w-12 sm:h-[52px] sm:w-[52px]',
+              onDarkLead
+                ? 'border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/16'
+                : 'border-jk-500/20 bg-jk-50 text-jk-500 shadow-[0_4px_14px_rgb(60_50_90/0.08)] hover:border-jk-500/35 hover:bg-jk-100',
+            )}
+          >
+            {resolvedTheme === 'dark' ? (
+              <Sun className="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" aria-hidden="true" />
+            ) : (
+              <Moon className="h-5 w-5 transition-transform duration-300 group-hover:-rotate-12" aria-hidden="true" />
+            )}
+          </button>
           {account.ready ? (
             account.user ? (
               <Link
@@ -262,14 +283,15 @@ export function SiteHeader() {
                 type="button"
                 onClick={() => account.openAuth('login')}
                 className={cx(
-                  'hidden h-[52px] cursor-pointer items-center justify-center gap-2 rounded-full border px-5 text-sm font-bold transition-[background-color,border-color,color,box-shadow] sm:inline-flex',
+                  'hidden h-[52px] cursor-pointer items-center justify-center gap-2 rounded-full border px-3.5 text-sm font-bold whitespace-nowrap transition-[background-color,border-color,color,box-shadow] sm:inline-flex min-[1700px]:px-5',
                   onDarkLead
                     ? 'border-white/20 bg-white/10 text-white hover:bg-white/16'
                     : 'border-jk-500/20 bg-white text-foreground shadow-[0_4px_14px_rgb(60_50_90/0.08)] hover:border-jk-500/35 hover:bg-surface',
                 )}
               >
                 <UserRound className="h-5 w-5 text-jk-500" aria-hidden="true" />
-                Log in
+                <span className="hidden min-[1700px]:inline">Log in</span>
+                <span className="sr-only min-[1700px]:hidden">Log in</span>
               </button>
             )
           ) : null}
@@ -287,33 +309,14 @@ export function SiteHeader() {
               className="h-5 w-5 text-jk-500"
               aria-hidden="true"
             />
-            <span className="hidden sm:inline">Jetking AI</span>
+            <span className="hidden sm:inline lg:hidden min-[1700px]:inline">Jetking AI</span>
           </Link>
           <Link
             href={'/enquiry' as Route}
-            className="hidden h-[52px] items-center justify-center rounded-full bg-jk-600 px-6 text-sm font-bold text-white shadow-[0_8px_20px_rgb(199_20_28/0.25)] transition-colors hover:bg-jk-700 lg:inline-flex"
+            className="hidden h-[52px] items-center justify-center rounded-full bg-jk-600 px-5 text-sm font-bold whitespace-nowrap text-white shadow-[0_8px_20px_rgb(199_20_28/0.25)] transition-colors hover:bg-jk-700 lg:inline-flex"
           >
             Enquire Now
           </Link>
-          <button
-            type="button"
-            onClick={toggleTheme}
-            aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
-            aria-pressed={resolvedTheme === 'dark'}
-            title={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
-            className={cx(
-              'group grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-full border transition-[background-color,transform,border-color,color,box-shadow] duration-200 hover:scale-[1.04] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-jk-500 active:scale-[0.96] motion-reduce:transform-none xs:h-12 xs:w-12 sm:h-[52px] sm:w-[52px]',
-              onDarkLead
-                ? 'border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/16'
-                : 'border-jk-500/20 bg-jk-50 text-jk-500 shadow-[0_4px_14px_rgb(60_50_90/0.08)] hover:border-jk-500/35 hover:bg-jk-100',
-            )}
-          >
-            {resolvedTheme === 'dark' ? (
-              <Sun className="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" aria-hidden="true" />
-            ) : (
-              <Moon className="h-5 w-5 transition-transform duration-300 group-hover:-rotate-12" aria-hidden="true" />
-            )}
-          </button>
           <button
             type="button"
             onClick={() => setOpen(!open)}

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import type { Route } from 'next';
 import { ArrowRight } from 'lucide-react';
 import type { Course, CourseLevel } from '@/lib/content/types';
+import { COURSE_CATEGORIES, categoriesOf, type CourseCategoryId } from '@/lib/course-categories';
 import { CardTrack } from './CardTrack';
 
 const LEVEL_LABEL: Record<CourseLevel, string> = {
@@ -15,23 +16,16 @@ const LEVEL_LABEL: Record<CourseLevel, string> = {
   short: 'Short course',
 };
 
-type TabId = 'featured' | 'networking' | 'cloud' | 'cyber-security' | 'data' | 'hardware-os' | 'design-gaming' | 'marketing';
+type TabId = 'featured' | CourseCategoryId;
 
-/** Same keyword facets as the /courses filter (`CourseExplorer` TECHNOLOGY_KEYWORDS). */
-const TABS: Array<{ id: TabId; label: string; match?: RegExp }> = [
+const TABS: Array<{ id: TabId; label: string }> = [
   { id: 'featured', label: 'Featured' },
-  { id: 'networking', label: 'Networking', match: /network|routing|switching|cisco/ },
-  { id: 'cloud', label: 'Cloud', match: /cloud|\baws\b|azure/ },
-  { id: 'cyber-security', label: 'Cyber security', match: /cyber|hacking|security/ },
-  { id: 'data', label: 'Data', match: /\bdata\b/ },
-  { id: 'hardware-os', label: 'Hardware & OS', match: /hardware|windows|server|red hat/ },
-  { id: 'design-gaming', label: 'Design & gaming', match: /multimedia|animation|gaming|metaverse|design/ },
-  { id: 'marketing', label: 'Marketing', match: /marketing/ },
+  ...COURSE_CATEGORIES.filter((c) => c.id !== 'degree').map((c) => ({ id: c.id, label: c.label })),
 ];
 
 function inTab(course: Course, tab: (typeof TABS)[number]): boolean {
   if (tab.id === 'featured') return Boolean(course.featured);
-  return Boolean(tab.match?.test(`${course.slug} ${course.title}`.toLowerCase().replace(/-/g, ' ')));
+  return categoriesOf(course).includes(tab.id);
 }
 
 /** Featured programmes first, then the catalogue by technology — tabs only for technologies that have courses. */

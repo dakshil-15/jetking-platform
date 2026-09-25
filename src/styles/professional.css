@@ -273,7 +273,7 @@
 
 /* Light counterpart for the professional landing's local token system. */
 html:not(.dark) .professional-page {
-  --v2-canvas: #fbfafc;
+  --v2-canvas: #ffffff;
   --v2-card: #ffffff;
   --v2-hairline: rgb(20 20 31 / 0.14);
   --v2-ink: #14141f;
@@ -294,8 +294,8 @@ html:not(.dark) .professional-page {
   --pro-accent: #c41e24;
   --pro-accent-soft: #a50d13;
   --pro-accent-tint: #fff0f1;
-  --pro-canvas: #fbfafc;
-  --pro-surface: #f3f1f5;
+  --pro-canvas: #ffffff;
+  --pro-surface: #fff5f4;
   --pro-card: #ffffff;
   --pro-navy: #c41e24;
   --pro-hairline: rgb(20 20 31 / 0.14);
@@ -329,22 +329,15 @@ html:not(.dark) .professional-page .pro-float {
 }
 
 html:not(.dark) .professional-page .pro-journey-panel {
-  background:
-    radial-gradient(80% 60% at 10% 20%, rgb(232 36 43 / 0.08) 0%, transparent 55%),
-    radial-gradient(70% 50% at 90% 80%, rgb(95 58 168 / 0.07) 0%, transparent 50%),
-    linear-gradient(180deg, #ffffff 0%, #f8f6fa 100%);
+  background: #ffffff;
 }
 
 html:not(.dark) .professional-page .pro-why {
-  background:
-    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.12) 0%, transparent 55%),
-    linear-gradient(155deg, #fff5f5 0%, #ffffff 55%, #fef8f8 100%);
+  background: #fff5f4;
 }
 
 html:not(.dark) .professional-page .pro-bottom-cta {
-  background:
-    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.1) 0%, transparent 55%),
-    linear-gradient(155deg, #fef8f8 0%, #ffffff 100%);
+  background: #fff5f4;
 }
 
 html:not(.dark) .professional-page .pro-path-step-card {

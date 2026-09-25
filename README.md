@@ -93,7 +93,8 @@ src/
 │  ├─ supabase.ts            Thin Supabase client
 │  ├─ analytics.ts           Vendor-neutral track()
 │  ├─ seo.ts
-│  └─ site.ts                Site constants, mainNav, coursesMenu
+│  └─ site.ts                Site constants, mainNav
+│  ├─ course-categories.ts   Course category rules (header menu, homepage tabs)
 ├─ components/home/          Homepage: v2 hero, v3 section stack (see Homepage)
 ├─ app/
 │  ├─ (admin)/admin/         Staff CMS
@@ -112,7 +113,7 @@ The homepage is a hero followed by a section stack, ending in the normal site fo
 
 | Order | Section | Component (`src/components/home/v3/`) | Data |
 |---|---|---|---|
-| 0 | Hero: headline, persona chooser, action bar, quick-action rail | `../v2/HomeV2.tsx` | website copy, static |
+| 0 | Hero: headline, persona chooser, action bar (Get Skills / Get a Degree / 100% Placement) | `../v2/HomeV2.tsx` | website copy, static |
 | 1 | "Trusted by top companies": certification and hiring-partner logos | `CredibilityMarquee.tsx` | `public/logos/`, `HIRING_PARTNERS` |
 | 2 | Explore our programmes: technology tabs and carousel | `ProgramShowcase.tsx`, `CardTrack.tsx` | `content.listCourses()` |
 | 3 | Build your career, step by step (Learn / Practice / Get certified / Placement support) | `HowItWorks.tsx` | `placements/data.ts`, `explore/content.ts`, course certifications |
@@ -126,8 +127,9 @@ The homepage is a hero followed by a section stack, ending in the normal site fo
 
 The layout follows the approved design mock and the copy comes from content already on the site (`explore/content.ts` is shared with `/explore`). Claims in the mock that the data does not back
 up (for example NASSCOM membership, "100% job guarantee", star ratings) are deliberately
-not shown. 
-Backgrounds alternate grey (`--dc-surface`) and white section by section; keep that when
+not shown.
+
+Sections are all white in the light theme and are divided by a single thin brand-red line (`.home-sections` in `dark-canvas.css`); keep that when
 adding or reordering sections.
 
 **Design language.** Sections use the shared `.dark-canvas` token layer (`--dc-*`, in
@@ -139,7 +141,9 @@ per-card icon chips. The hero keeps its own `.home-v2` skin (`src/styles/home.cs
 - No unverified numbers or invented quotes. Stats come from `buildFigures()`; the placement
   slider uses only Jetking's own published testimonials and always shows the placement
   disclaimer. There is no placement guarantee claim in the new sections.
-- The quick-action rail (`ActionRail`) is `position: fixed`. It is contained to the hero by the `[transform:translateZ(0)] overflow-hidden` wrapper around `HomeV2` in `page.tsx`, so it scrolls away with the hero. Do not reserve a right-hand gutter in the sections.
+- There is no floating quick-action rail any more (the `ActionRail` component was removed from every page).
+- Light-theme canvas is pure white (`--theme-canvas`); blush (`#fff5f4`) is the surface/band colour. Landing pages alternate white/blush bands (see the last rule in `globals.css`), so do not stack two blush sections back to back.
+- Logos: `public/logos/brands/` (certification/tool marks), `public/logos/employers/` (big-brand recruiters, vector) and `public/logos/partners/` (fetched from each company's own site or Wikimedia Commons). A company with no verifiable logo renders as a plain name tile, never a guessed mark. The `/explore` partner grid is driven by `src/components/explore/partners.ts`.
 - The India map outline (`india-map.ts`) is the Datameet `india-composite` boundary
   simplified to one SVG path (islands omitted). The content model has no coordinates, so
   pins use per-city coordinates in `CITY_COORDS`; add an entry when a new city gets a
@@ -148,8 +152,10 @@ per-card icon chips. The hero keeps its own `.home-v2` skin (`src/styles/home.cs
   design-gaming, marketing, hardware-os) and `?level=`. Links must use `tech`, not `technology`.
 
 **Header.** From 1024px the header shows About Us, Courses, Centres and Placements as a
-link row. Courses has a category dropdown (`src/components/CoursesMenu.tsx`, entries in
-`coursesMenu` in `src/lib/site.ts`) that marks the current filter. The full nav stays in the
+link row. Courses opens a mega menu (`src/components/CoursesMenu.tsx`): categories on the left, the real
+courses in the highlighted category on the right, like a typical edtech course menu. Courses are
+loaded by `SiteHeaderServer.tsx`; category rules live in `src/lib/course-categories.ts` (shared
+with the homepage programme tabs). The current category and course are marked. The full nav stays in the
 drawer at every width.
 
 ---

@@ -103,9 +103,7 @@
    the toggle like every other surface on the page. Must stay AFTER the
    unconditional rule above; see the note on `.blog-hero-wash` below. */
 :where(html:not(.dark)) .blog-cta-band {
-  background:
-    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.12) 0%, transparent 55%),
-    linear-gradient(155deg, #fff5f5 0%, #ffffff 55%, #fef8f8 100%);
+  background: #fff5f4;
   border: 1px solid var(--blog-hairline);
 }
 
@@ -129,7 +127,7 @@
     linear-gradient(to top, rgb(7 7 12 / 0.55) 0%, transparent 42%);
 }
 
-@media (max-width: 639px) {
+@media (max-width: 1023px) {
   .blog-hero-wash {
     background:
       linear-gradient(to top, rgb(7 7 12 / 0.94) 0%, rgb(7 7 12 / 0.72) 42%, rgb(7 7 12 / 0.35) 100%),
@@ -157,7 +155,7 @@
     linear-gradient(to top, rgb(255 255 255 / 0.55) 0%, transparent 42%);
 }
 
-@media (max-width: 639px) {
+@media (max-width: 1023px) {
   :where(html:not(.dark)) .blog-hero-wash {
     background:
       linear-gradient(to top, rgb(255 255 255 / 0.94) 0%, rgb(255 255 255 / 0.72) 42%, rgb(255 255 255 / 0.35) 100%),
@@ -324,8 +322,8 @@ html:not(.dark) .blog-page {
      text contrast (~2.5:1) — same fix as --stu-accent-soft/--dc-accent-soft. */
   --blog-accent-soft: #a50d13;
   --blog-accent-tint: #fef3f2;
-  --blog-canvas: radial-gradient(120% 100% at 88% 4%, #fff1f2 0%, #faf8fb 42%, #f1edf5 100%);
-  --blog-surface: #f8f9fb;
+  --blog-canvas: #ffffff;
+  --blog-surface: #fff5f4;
   --blog-card: #ffffff;
   --blog-hairline: rgb(20 20 31 / 0.12);
   --blog-shadow:

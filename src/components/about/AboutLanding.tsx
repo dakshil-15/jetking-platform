@@ -29,19 +29,20 @@ const trail: Crumb[] = [
 
 const STAT_ICONS = [Award, Users, Building2, ShieldCheck] as const;
 
-function LeaderCard({ leader }: { leader: Leader }) {
+/** `compact` (no-bio team members): two per row on phones with a smaller avatar, full size from `sm`. */
+function LeaderCard({ leader, compact = false }: { leader: Leader; compact?: boolean }) {
   return (
     <li data-reveal>
       <article className="dc-card-shell h-full">
-        <div className="dc-card flex h-full flex-col p-5 sm:p-6">
-          <div className="relative mx-auto h-28 w-28 shrink-0 overflow-hidden rounded-full bg-[var(--dc-surface)] ring-1 ring-[var(--dc-hairline)] sm:h-32 sm:w-32">
+        <div className={`dc-card flex h-full flex-col sm:p-6 ${compact ? 'p-3.5' : 'p-5'}`}>
+          <div className={`relative mx-auto shrink-0 overflow-hidden rounded-full bg-[var(--dc-surface)] ring-1 ring-[var(--dc-hairline)] sm:h-32 sm:w-32 ${compact ? 'h-16 w-16' : 'h-28 w-28'}`}>
             <LeaderAvatar leader={leader} />
           </div>
-          <div className="mt-5 flex flex-1 flex-col text-center">
-            <h3 className="font-display text-[18px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] sm:text-[20px]">
+          <div className={`flex flex-1 flex-col text-center sm:mt-5 ${compact ? 'mt-3' : 'mt-5'}`}>
+            <h3 className={`font-display font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] sm:text-[20px] ${compact ? 'text-[15px]' : 'text-[18px]'}`}>
               {leader.name}
             </h3>
-            <p className="mt-1 text-[13px] font-bold text-[var(--dc-accent-soft)]">{leader.role}</p>
+            <p className={`mt-1 font-bold text-[var(--dc-accent-soft)] sm:text-[13px] ${compact ? 'text-[11.5px] leading-snug' : 'text-[13px]'}`}>{leader.role}</p>
             {leader.bio ? <LeaderDetailModal leader={leader} /> : null}
           </div>
         </div>
@@ -169,7 +170,7 @@ export function AboutLanding() {
           methodologies.
         </p>
 
-        <ul className="mt-10 grid gap-5 sm:mt-12 lg:grid-cols-4 lg:gap-6">
+        <ul className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {DIRECTORS.map((leader) => (
             <LeaderCard key={leader.name} leader={leader} />
           ))}
@@ -178,9 +179,9 @@ export function AboutLanding() {
         <h3 className="mt-14 font-display text-[20px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] sm:mt-16 sm:text-[22px]">
           Management team
         </h3>
-        <ul className="mt-8 grid gap-5 sm:mt-9 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        <ul className="mt-8 grid grid-cols-2 gap-3 sm:mt-9 sm:gap-5 lg:grid-cols-4 lg:gap-6">
           {MANAGEMENT_TEAM.map((leader) => (
-            <LeaderCard key={leader.name} leader={leader} />
+            <LeaderCard key={leader.name} leader={leader} compact />
           ))}
         </ul>
 
@@ -222,9 +223,14 @@ export function AboutLanding() {
           showcases how our journey has evolved.
         </p>
 
-        <ul className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+        <ul
+          // Phones: a swipeable row (12 tall cards stacked was a very long scroll). sm+: the grid.
+          className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-4 lg:gap-5 [&::-webkit-scrollbar]:hidden"
+          aria-label="Awards and achievements"
+          tabIndex={0}
+        >
           {ACHIEVEMENTS.map((item) => (
-            <li key={item.title} data-reveal>
+            <li key={item.title} data-reveal className="w-[78%] shrink-0 snap-start sm:w-auto sm:shrink">
               <article className="dc-panel flex h-full flex-col rounded-[20px] p-5 sm:rounded-[22px] sm:p-6">
                 <div className="relative flex h-36 w-full items-center justify-center sm:h-40 lg:h-44">
                   <Image

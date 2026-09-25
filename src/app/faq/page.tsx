@@ -129,7 +129,7 @@ export default async function FaqPage() {
                 key={topic}
                 id={`faq-${topic}`}
                 aria-labelledby={`faq-${topic}-heading`}
-                className="dc-panel mx-auto max-w-[56rem] scroll-mt-28 rounded-[24px] px-5 py-7 xs:rounded-[28px] sm:px-8 sm:py-9"
+                className="dc-panel scroll-mt-28 rounded-[24px] px-5 py-7 xs:rounded-[28px] sm:px-8 sm:py-9"
               >
                 <div className="flex items-center gap-4">
                   <span
@@ -145,9 +145,6 @@ export default async function FaqPage() {
                     >
                       {label}
                     </h2>
-                    <p className="dc-eyebrow label-mono mt-1">
-                      {topicFaqs.length} {topicFaqs.length === 1 ? 'question' : 'questions'}
-                    </p>
                   </div>
                 </div>
 
@@ -181,7 +178,7 @@ export default async function FaqPage() {
 
         {/* ── Still have a question ─────────────────────────────────────── */}
         <section className="shell relative mt-10 sm:mt-12" aria-labelledby="faq-more">
-          <div className="dc-panel mx-auto flex max-w-[56rem] flex-col gap-6 rounded-[24px] px-6 py-8 xs:rounded-[28px] sm:flex-row sm:items-center sm:justify-between sm:px-10 sm:py-10">
+          <div className="dc-panel flex flex-col gap-6 rounded-[24px] px-6 py-8 xs:rounded-[28px] sm:flex-row sm:items-center sm:justify-between sm:px-10 sm:py-10">
             <div>
               <p className="dc-eyebrow label-mono">Need more help?</p>
               <h2

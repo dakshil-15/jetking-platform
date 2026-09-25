@@ -160,7 +160,7 @@ export function CentreNetwork({
 
             <div className="mt-4 grid gap-5 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] sm:gap-6">
               <ul
-                className="max-h-[340px] overflow-y-auto sm:border-r sm:border-[var(--dc-hairline)] sm:pr-4"
+                className="flex gap-2 overflow-x-auto pb-1 sm:block sm:max-h-[340px] sm:overflow-x-hidden sm:overflow-y-auto sm:border-r sm:border-[var(--dc-hairline)] sm:pr-4 sm:pb-0"
                 aria-label="Cities with a Jetking centre"
                 // Scroll container: focusable so keyboard users can scroll it with the arrow keys.
                 tabIndex={0}
@@ -168,14 +168,17 @@ export function CentreNetwork({
                 {filtered.map(({ city, centres: list }) => {
                   const isActive = active?.city.slug === city.slug;
                   return (
-                    <li key={city.slug}>
+                    <li key={city.slug} className="shrink-0 sm:shrink">
                       <button
                         type="button"
                         onClick={() => setSelected(city.slug)}
                         aria-pressed={isActive}
                         className={[
-                          'flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 border-b border-[var(--dc-hairline)]/60 px-1 text-left text-[14px] font-semibold transition-colors hover:text-[var(--dc-accent-soft)]',
-                          isActive ? 'text-[var(--dc-accent-soft)]' : 'text-[var(--dc-ink)]',
+                          /* Mobile: a swipeable chip row (no nested vertical scroll to trap the page). sm+: the vertical list. */
+                          'flex min-h-11 cursor-pointer items-center justify-between gap-2 rounded-full border px-4 text-left text-[14px] font-semibold whitespace-nowrap transition-colors hover:text-[var(--dc-accent-soft)] sm:w-full sm:rounded-none sm:border-0 sm:border-b sm:border-[var(--dc-hairline)]/60 sm:px-1',
+                          isActive
+                            ? 'border-[var(--dc-accent-soft)] text-[var(--dc-accent-soft)]'
+                            : 'border-[var(--dc-hairline-strong)] text-[var(--dc-ink)]',
                         ].join(' ')}
                       >
                         <span className="min-w-0 truncate">{city.name}</span>

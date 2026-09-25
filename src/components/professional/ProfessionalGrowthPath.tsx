@@ -110,11 +110,7 @@ export function ProfessionalGrowthPath() {
         <div
           className={[
             'pro-journey-panel mt-8 overflow-hidden rounded-[28px] px-5 py-8 xs:rounded-[32px] xs:px-6 sm:mt-10 sm:px-8 sm:py-10',
-            /* The quick-action rail (ActionRail) goes `fixed` to the viewport's
-               right edge from lg2 (1200px) — the final, wider step card in the
-               5-column grid below reaches far enough right to sit under it
-               without this gutter; same fix as ProfessionalHero's grid. */
-            'lg2:pr-[130px] 2xl:pr-[160px]',
+            
           ].join(' ')}
         >
           {/* Mobile / tablet — swipeable step cards */}

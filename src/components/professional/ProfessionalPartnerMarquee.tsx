@@ -55,7 +55,7 @@ function PartnerList({ clone = false }: { clone?: boolean }) {
       {HIRING_PARTNERS.map((partner) => (
         <li
           key={partner.name}
-          // White tiles in both themes: the logos are raster artwork drawn for a white ground.
+          // White tiles in both themes: the logos are artwork drawn for a white ground.
           className="flex h-20 w-40 shrink-0 items-center justify-center rounded-[14px] bg-white px-5 py-3.5 shadow-[0_0_0_1px_rgb(0_0_0/0.06)] sm:h-24 sm:w-48"
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- small static logos; nothing for the image optimiser to do */}

@@ -259,8 +259,8 @@ html:not(.dark) .student-page {
   --stu-accent: #c41e24;
   --stu-accent-soft: #a50d13;
   --stu-accent-tint: #fff0f1;
-  --stu-canvas: #fbfafc;
-  --stu-surface: #f3f1f5;
+  --stu-canvas: #ffffff;
+  --stu-surface: #fff5f4;
   --stu-card: #ffffff;
   --stu-navy: #c41e24;
   --stu-hairline: rgb(20 20 31 / 0.14);
@@ -289,7 +289,7 @@ html:not(.dark) .student-page::after {
 
 html:not(.dark) .student-page .stu-orbit-ring {
   background:
-    linear-gradient(#fbfafc, #fbfafc) padding-box,
+    linear-gradient(#ffffff, #ffffff) padding-box,
     conic-gradient(
         from 200deg,
         rgb(196 30 36 / 0.55),
@@ -310,16 +310,11 @@ html:not(.dark) .student-page .stu-float {
 }
 
 html:not(.dark) .student-page .stu-journey-panel {
-  background:
-    radial-gradient(80% 60% at 10% 20%, rgb(232 36 43 / 0.08) 0%, transparent 55%),
-    radial-gradient(70% 50% at 90% 80%, rgb(95 58 168 / 0.07) 0%, transparent 50%),
-    linear-gradient(180deg, #ffffff 0%, #f8f6fa 100%);
+  background: #ffffff;
 }
 
 html:not(.dark) .student-page .stu-why {
-  background:
-    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.12) 0%, transparent 55%),
-    linear-gradient(155deg, #fff5f5 0%, #ffffff 55%, #fef8f8 100%);
+  background: #fff5f4;
 }
 
 /*

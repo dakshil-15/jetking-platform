@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import type { Route } from 'next';
-import { Building2, MessageSquareQuote, Target } from 'lucide-react';
+import { GraduationCap, Target, Wrench } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { usePersona } from '@/persona/PersonaProvider';
 import { track } from '@/lib/analytics';
@@ -11,11 +11,7 @@ import type { EventName } from '@/lib/analytics';
 /**
  * The dark three-up action bar that closes the v2 lead.
  *
- * "Find Center", "Call a Center" and "Book Counselling" already live in the
- * ActionRail right beside this bar — this bar covers what the rail doesn't:
- * the network size (a live catalogue count, not a hard-coded figure), the
- * job-focus pitch and social proof. Follows the approved design: centres,
- * job-oriented training, student testimonials.
+ * Carries the hero promise: Get Skills. Get a Degree. 100% Placement — only at Jetking.
  */
 
 interface Action {
@@ -26,27 +22,27 @@ interface Action {
   event?: EventName;
 }
 
-export function ActionBar({ centreCount }: { centreCount: number }) {
+export function ActionBar() {
   const { classification } = usePersona();
 
   const actions: Action[] = [
     {
-      icon: Building2,
-      label: `${centreCount} Training Centres`,
-      detail: 'Across India',
-      href: '/centres',
+      icon: Wrench,
+      label: 'Get Skills',
+      detail: 'Practical, industry-relevant training',
+      href: '/courses',
+    },
+    {
+      icon: GraduationCap,
+      label: 'Get a Degree',
+      detail: 'University-recognised programmes',
+      href: '/courses?level=degree',
     },
     {
       icon: Target,
-      label: '100% Job-Oriented',
-      detail: 'Practical training, industry curriculum',
+      label: '100% Placement',
+      detail: 'Only at Jetking',
       href: '/placements',
-    },
-    {
-      icon: MessageSquareQuote,
-      label: 'Student Testimonials',
-      detail: 'Real stories. Real success.',
-      href: '/placements#placements-testimonials',
     },
   ];
 

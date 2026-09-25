@@ -53,7 +53,7 @@
 
   /* ── Surfaces ──────────────────────────────────────────────────────────── */
   --color-background: #ffffff;
-  --color-surface: #f8f9fb;
+  --color-surface: #fff5f4;
   --color-elevated: #ffffff;
   --color-card: #ffffff;
 
@@ -196,7 +196,7 @@
   --color-ink-950: #0b111e;
 
   --color-background: #ffffff;
-  --color-surface: #f8f9fb;
+  --color-surface: #fff5f4;
   --color-elevated: #ffffff;
   --color-card: #ffffff;
 
@@ -254,8 +254,10 @@
   /* ── Global Theme Colors (for all pages) ────────────────────────────────── */
   /* Canvas & Surfaces */
   --theme-canvas: #ffffff;
-  --theme-surface: #f8f9fb;
-  --theme-card: #f1f3f7;
+  /* Warm surfaces: the sunken bands and cards are tinted from the brand red (jk-50) rather than
+     the old cool blue-greys; light ink on them stays above 4.5:1. */
+  --theme-surface: #fff5f4;
+  --theme-card: #fff8f7;
   --theme-card-warm: #faf5f0;
   --theme-elevated: #ffffff;
 
@@ -948,4 +950,23 @@
   ::view-transition-group(*) {
     animation: none !important;
   }
+}
+
+/* ── No decorative glow orbs in the light theme ─────────────────────────────
+   Every page skin paints blurred red radial "orbs" behind its content. They suit the dark
+   theme, but on the white theme they read as pink smudges. Switched off there only (the
+   dark theme keeps them). Placed last so it wins over each skin's own rules. */
+html:not(.dark) :is(.dark-canvas, .blog-page, .centres-page, .professional-page, .student-page, .home-v2, .dc-orbs, .v2-hero-stage)::before,
+html:not(.dark) :is(.dark-canvas, .blog-page, .centres-page, .professional-page, .student-page, .home-v2, .dc-orbs, .v2-hero-stage)::after {
+  content: none !important;
+}
+
+
+/* ── Alternate white / blush bands on the persona landing pages (light theme) ─────────────
+   Student, parent, franchise and professional stack full-width sections that all use the
+   blush surface, which read as one endless pink slab now that the page canvas is white.
+   Every second top-level block goes back to white so bands alternate like the homepage.
+   (Cards inside keep their own white fill + hairline border, so they stay legible.) */
+html:not(.dark) :is(.student-page, .professional-page) > :nth-child(even) {
+  background-color: #ffffff;
 }

@@ -10,11 +10,6 @@ export function ProfessionalBottomCta() {
         <div
           className={[
             'flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10',
-            /* The quick-action rail (ActionRail) goes `fixed` to the viewport's
-               right edge from lg2 (1200px) — this row's button is
-               right-aligned via `justify-between`, so without this gutter it
-               sits under the rail; same fix as ProfessionalHero's grid. */
-            'lg2:pr-[130px] 2xl:pr-[160px]',
           ].join(' ')}
         >
           <div className="max-w-2xl">

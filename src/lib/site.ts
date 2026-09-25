@@ -38,20 +38,3 @@ export const mainNav = [
   { label: 'Investors', href: '/investors' },
   { label: 'Blog', href: '/blog' },
 ] as const;
-
-/**
- * Courses dropdown in the desktop header. Each entry is a real filter on /courses
- * (`?tech=` / `?level=`, the same params `CourseExplorer` reads), so the menu
- * can never link to a category the page does not understand.
- */
-export const coursesMenu = [
-  { label: 'All courses', href: '/courses', params: {} },
-  { label: 'Degree programmes', href: '/courses?level=degree', params: { level: 'degree' } },
-  { label: 'Cloud computing', href: '/courses?tech=cloud', params: { tech: 'cloud' } },
-  { label: 'Cyber security', href: '/courses?tech=cyber-security', params: { tech: 'cyber-security' } },
-  { label: 'Networking', href: '/courses?tech=networking', params: { tech: 'networking' } },
-  { label: 'Data & analytics', href: '/courses?tech=data', params: { tech: 'data' } },
-  { label: 'Design & gaming', href: '/courses?tech=design-gaming', params: { tech: 'design-gaming' } },
-  { label: 'Digital marketing', href: '/courses?tech=marketing', params: { tech: 'marketing' } },
-  { label: 'Hardware & OS', href: '/courses?tech=hardware-os', params: { tech: 'hardware-os' } },
-] as const;

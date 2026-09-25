@@ -35,12 +35,6 @@ export default async function HomePage() {
   return (
     <>
       <ScrollDepthTracker />
-      {/*
-       * `ActionRail` inside `HomeV2` (Find Center / Call / Book Counselling) is
-       * `position: fixed`. `[transform:translateZ(0)]` makes this wrapper the containing
-       * block for it and `overflow-hidden` clips it, so the rail scrolls away with the hero
-       * instead of floating over every section below.
-       */}
       <div className="relative overflow-hidden [transform:translateZ(0)]">
         <HomeV2 data={data} enquiryCentres={enquiryCentres} />
       </div>

@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { PersonaProvider } from '@/persona/PersonaProvider';
 import { SilentPersonaInfer } from '@/persona/SilentPersonaInfer';
 import { SiteChrome, FooterChrome } from '@/components/SiteShell';
-import { SiteHeader } from '@/components/SiteHeader';
+import { SiteHeaderServer } from '@/components/SiteHeaderServer';
 import { SiteFooter } from '@/components/SiteFooter';
 import { PersonaInspector } from '@/components/PersonaInspector';
 import { Guide } from '@/components/Guide';
@@ -78,7 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <AccountProvider>
               <SilentPersonaInfer />
               <SiteChrome>
-                <SiteHeader />
+                <SiteHeaderServer />
               </SiteChrome>
               <main id="main">{children}</main>
               <FooterChrome>

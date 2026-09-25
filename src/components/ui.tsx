@@ -447,7 +447,7 @@ export function Breadcrumbs({ trail }: { trail: Crumb[] }) {
                   {item.name}
                 </span>
               ) : (
-                <Link href={href} className="link-underline hover:text-[var(--accent-ink)]">
+                <Link href={href} className="link-underline inline-flex min-h-6 items-center hover:text-[var(--accent-ink)]">
                   {item.name}
                 </Link>
               )}

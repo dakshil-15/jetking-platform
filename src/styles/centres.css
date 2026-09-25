@@ -224,9 +224,7 @@
 }
 
 :where(html:not(.dark)) .centres-cta-band {
-  background:
-    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.12) 0%, transparent 55%),
-    linear-gradient(155deg, #fff5f5 0%, #ffffff 55%, #fef8f8 100%);
+  background: #fff5f4;
 }
 
 .centres-why {
@@ -241,9 +239,7 @@
 }
 
 :where(html:not(.dark)) .centres-why {
-  background:
-    radial-gradient(90% 80% at 15% 0%, rgb(232 36 43 / 0.12) 0%, transparent 55%),
-    linear-gradient(155deg, #fff5f5 0%, #ffffff 55%, #fef8f8 100%);
+  background: #fff5f4;
 }
 
 .centres-detail-hero {
@@ -270,7 +266,7 @@
     );
 }
 
-@media (max-width: 639px) {
+@media (max-width: 1023px) {
   .centres-detail-wash {
     background:
       linear-gradient(
@@ -308,7 +304,7 @@
     );
 }
 
-@media (max-width: 639px) {
+@media (max-width: 1023px) {
   :where(html:not(.dark)) .centres-detail-wash {
     background:
       linear-gradient(
@@ -458,7 +454,7 @@
     linear-gradient(to top, rgb(7 7 12 / 0.55) 0%, transparent 42%);
 }
 
-@media (max-width: 639px) {
+@media (max-width: 1023px) {
   .centres-hero-wash {
     background:
       linear-gradient(
@@ -491,7 +487,7 @@
     linear-gradient(to top, rgb(255 255 255 / 0.55) 0%, transparent 42%);
 }
 
-@media (max-width: 639px) {
+@media (max-width: 1023px) {
   :where(html:not(.dark)) .centres-hero-wash {
     background:
       linear-gradient(
@@ -613,13 +609,8 @@ html:not(.dark) .centres-page {
      text contrast (~2.5:1) — same fix as --stu-accent-soft/--dc-accent-soft. */
   --centres-accent-soft: #a50d13;
   --centres-accent-tint: #fef3f2;
-  --centres-canvas: radial-gradient(
-    120% 100% at 88% 4%,
-    #fff1f2 0%,
-    #faf8fb 42%,
-    #f1edf5 100%
-  );
-  --centres-surface: #f8f9fb;
+  --centres-canvas: #ffffff;
+  --centres-surface: #fff5f4;
   --centres-card: #ffffff;
   --centres-hairline: rgb(20 20 31 / 0.12);
   --centres-shadow:

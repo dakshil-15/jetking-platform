@@ -4,7 +4,6 @@ import { ArrowRight } from 'lucide-react';
 import { siteConfig } from '@/lib/site';
 import { WelcomeBack } from '@/persona/WelcomeBack';
 import type { HomeData } from '../data';
-import { ActionRail } from '../v1/ActionRail';
 import { ActionBar } from './ActionBar';
 import { JourneyHexes } from './JourneyHexes';
 import { HeroEnquireCta } from './HeroEnquireCta';
@@ -13,8 +12,8 @@ import type { EnquiryCentre } from '@/components/EnquiryModal';
 /**
  * The homepage — "Future-Ready".
  *
- * Ask Jetking lives on the global Guide launcher, not on this page's floating
- * ActionRail (Find Center / Call / Book Counselling).
+ * Ask Jetking lives on the global Guide launcher. There is no floating quick-action
+ * rail here (Find Center / Call / Book Counselling) — the Professional page still uses it.
  */
 export function HomeV2({
   data,
@@ -54,8 +53,8 @@ export function HomeV2({
                ~240px so labels never clip. At 2xl the column widens, the rail goes fixed,
                and the hero reserves its gutter. */
             'lg:gap-8',
-            'lg2:grid-cols-[minmax(0,420px)_minmax(0,1fr)] lg2:gap-6 lg2:pr-[130px]',
-            '2xl:grid-cols-[minmax(0,470px)_minmax(0,1fr)] 2xl:gap-6 2xl:pr-[160px]',
+            'lg2:grid-cols-[minmax(0,420px)_minmax(0,1fr)] lg2:gap-6',
+            '2xl:grid-cols-[minmax(0,470px)_minmax(0,1fr)] 2xl:gap-6',
             '3xl:grid-cols-[minmax(0,520px)_minmax(0,1fr)] 3xl:gap-10',
             '4xl:grid-cols-[minmax(0,560px)_minmax(0,1fr)] 4xl:gap-12',
           ].join(' ')}
@@ -84,11 +83,7 @@ export function HomeV2({
               <span className="v2-accent-glow text-[var(--v2-accent)]">{siteConfig.name}</span>
             </h1>
 
-            <p className="mt-2.5 max-w-[42ch] text-[15px] leading-[1.6] font-bold text-[var(--v2-ink)] xs:text-[15.5px] sm:text-[16px] lg:text-[17px] 3xl:text-[18px]">
-              Get Skills. Get a Degree. 100% Placement — only at Jetking.
-            </p>
-
-            <p className="mt-3 max-w-[42ch] text-[15px] leading-[1.6] text-[var(--v2-ink-secondary)] xs:mt-3.5 xs:text-[15.5px] sm:text-[16px] lg:text-[17px] 3xl:text-[18px]">
+            <p className="mt-4 max-w-[42ch] text-[15px] leading-[1.6] text-[var(--v2-ink-secondary)] xs:mt-4 xs:text-[15.5px] sm:text-[16px] lg:text-[17px] 3xl:text-[18px]">
               Industry-relevant training. Real-world projects.
               <br className="hidden sm:inline" /> Placement support that delivers.
             </p>
@@ -128,13 +123,7 @@ export function HomeV2({
 
         {/* ── Action bar ───────────────────────────────────────────────── */}
         <div className="mt-8 shrink-0 xs:mt-10 lg:mt-12 3xl:mt-14">
-          <ActionBar centreCount={data.counts.centres} />
-        </div>
-
-        {/* Same quick-action rail as v1 — inline while stacked, fixed vertical on the
-            right from lg2 (1200px) where the hero becomes two-column. */}
-        <div className="mt-8 xs:mt-9 lg2:mt-0">
-          <ActionRail source="home-v2-rail" />
+          <ActionBar />
         </div>
       </div>
     </section>

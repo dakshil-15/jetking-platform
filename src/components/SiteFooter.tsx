@@ -59,7 +59,7 @@ const company = [
  * SEO — the course and city links here are how crawl equity reaches those
  * pages — so it stays fully static and identical for every visitor.
  *
- * `bg-surface` follows the site's own light/dark toggle rather than forcing a
+ * `bg-background` (white in light, the dark canvas in dark) follows the site's own light/dark toggle rather than forcing a
  * permanently dark panel, so the utilities below are the same ones used on
  * every other themed section. There is no separate dark-mode branch.
  */
@@ -78,9 +78,9 @@ export async function SiteFooter() {
   const phoneLabel = siteConfig.phone || COMPANY_CONTACT.phone;
 
   return (
-    <footer className="border-t border-border bg-surface">
-      <div className="shell py-16 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_repeat(3,minmax(0,1fr))] lg:gap-8">
+    <footer className="border-t border-border bg-background">
+      <div className="shell py-12 sm:py-16 lg:py-20">
+        <div className="grid gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1.2fr)_repeat(3,minmax(0,1fr))] lg:gap-8">
           <div>
             <Image
               src="/brand/jetking-wordmark.png"
@@ -95,12 +95,15 @@ export async function SiteFooter() {
 
             <ul className="mt-6 space-y-3 text-sm text-foreground-secondary">
               <li className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-foreground-muted" aria-hidden="true" />
+                <MapPin
+                  className="mt-0.5 h-4 w-4 shrink-0 text-foreground-muted"
+                  aria-hidden="true"
+                />
                 <span>{COMPANY_CONTACT.address}</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="h-4 w-4 shrink-0 text-foreground-muted" aria-hidden="true" />
-                <a href={`tel:${phoneHref}`} className="link-underline hover:text-foreground">
+                <a href={`tel:${phoneHref}`} className="link-underline inline-flex min-h-6 items-center hover:text-foreground">
                   {phoneLabel}
                 </a>
               </li>
@@ -108,7 +111,7 @@ export async function SiteFooter() {
                 <Mail className="h-4 w-4 shrink-0 text-foreground-muted" aria-hidden="true" />
                 <a
                   href={`mailto:${COMPANY_CONTACT.email}`}
-                  className="link-underline hover:text-foreground"
+                  className="link-underline inline-flex min-h-6 items-center hover:text-foreground"
                 >
                   {COMPANY_CONTACT.email}
                 </a>
@@ -137,35 +140,42 @@ export async function SiteFooter() {
             </nav>
           </div>
 
-          <FooterNav label="Courses">
-            {featuredCourses.map((course) => (
-              <FooterLink key={course.slug} href={`/courses/${course.slug}`}>
-                {course.shortTitle}
+          {/* Phones: link lists sit two-up (a single 30-row column was a very long scroll). lg: `contents` hands them back to the parent grid. */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:contents">
+            <FooterNav label="Courses">
+              {featuredCourses.map((course) => (
+                <FooterLink key={course.slug} href={`/courses/${course.slug}`}>
+                  {course.shortTitle}
+                </FooterLink>
+              ))}
+              <FooterLink href="/courses" emphasis>
+                View all courses
               </FooterLink>
-            ))}
-            <FooterLink href="/courses" emphasis>
-              View all courses
-            </FooterLink>
-          </FooterNav>
+            </FooterNav>
 
-          <FooterNav label="Centres">
-            {featuredCities.map((city) => (
-              <FooterLink key={city.slug} href={`/centres?q=${encodeURIComponent(city.name)}`}>
-                IT courses in {city.name}
+            <FooterNav label="Centres">
+              {featuredCities.map((city) => (
+                <FooterLink key={city.slug} href={`/centres?q=${encodeURIComponent(city.name)}`}>
+                  IT courses in {city.name}
+                </FooterLink>
+              ))}
+              <FooterLink href="/centres" emphasis>
+                View all centres
               </FooterLink>
-            ))}
-            <FooterLink href="/centres" emphasis>
-              View all centres
-            </FooterLink>
-          </FooterNav>
+            </FooterNav>
 
-          <FooterNav label="Company">
-            {company.map((item) => (
-              <FooterLink key={item.href} href={item.href}>
-                {item.label}
-              </FooterLink>
-            ))}
-          </FooterNav>
+            <FooterNav
+              label="Company"
+              className="col-span-2 sm:col-span-1"
+              listClassName="grid grid-cols-2 gap-x-6 sm:block sm:space-y-3"
+            >
+              {company.map((item) => (
+                <FooterLink key={item.href} href={item.href}>
+                  {item.label}
+                </FooterLink>
+              ))}
+            </FooterNav>
+          </div>
         </div>
       </div>
 
@@ -176,7 +186,11 @@ export async function SiteFooter() {
           </p>
           <nav aria-label="Legal" className="flex flex-wrap gap-x-5 gap-y-1">
             {LEGAL_LINKS.map((l) => (
-              <Link key={l.href} href={l.href} className="transition-colors hover:text-foreground focus-visible:text-foreground">
+              <Link
+                key={l.href}
+                href={l.href}
+                className="inline-flex min-h-6 items-center transition-colors hover:text-foreground focus-visible:text-foreground"
+              >
                 {l.label}
               </Link>
             ))}
@@ -188,11 +202,21 @@ export async function SiteFooter() {
   );
 }
 
-function FooterNav({ label, children }: { label: string; children: React.ReactNode }) {
+function FooterNav({
+  label,
+  children,
+  className,
+  listClassName,
+}: {
+  label: string;
+  children: React.ReactNode;
+  className?: string;
+  listClassName?: string;
+}) {
   return (
-    <nav aria-label={label}>
+    <nav aria-label={label} className={className}>
       <h2 className="label-mono">{label}</h2>
-      <ul className="mt-5 space-y-3">{children}</ul>
+      <ul className={`mt-5 ${listClassName ?? 'space-y-3'}`}>{children}</ul>
     </nav>
   );
 }

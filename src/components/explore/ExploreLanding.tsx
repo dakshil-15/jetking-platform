@@ -12,6 +12,7 @@ import {
   Zap,
 } from 'lucide-react';
 import type { Course, CourseLevel, Post } from '@/lib/content/types';
+import { PLACEMENT_PARTNERS } from './partners';
 import { siteConfig } from '@/lib/site';
 import { ABOUT_HERO, ACHIEVEMENTS, legacyStats, PURPOSE } from '@/components/about/data';
 import { PLACED_CANDIDATES, PLACEMENT_DISCLAIMER } from '@/components/placements/data';
@@ -53,8 +54,9 @@ const PARTNER_LOGOS: Record<string, { src: string; dark?: boolean }> = {
   Wipro: { src: '/placements/partners/wipro.svg' },
   'Bharti Airtel Limited': { src: '/placements/partners/bharti-airtel.svg' },
   'Birla Corp': { src: '/placements/partners/birla-corp.jpg' },
-  Laundryheap: { src: '/placements/partners/laundryheap.svg', dark: true },
-  Futwork: { src: '/placements/partners/futwork.svg' },
+  Laundryheap: { src: '/placements/partners/laundryheap.svg' },
+  Futwork: { src: '/placements/partners/futwork.svg', dark: true },
+  'Oraiyan Groups': { src: '/placements/partners/oraiyan-groups.png' },
   Reisnet: { src: '/placements/partners/reisnet.png', dark: true },
 };
 
@@ -145,23 +147,32 @@ function initialsOf(name: string): string {
     .slice(0, 4);
 }
 
+/**
+ * Shared logo-card recipe: every tile is the same fixed rem height and fills its grid column,
+ * and the logo is contained (never stretched or cropped), so cards stay equal and reflow
+ * instead of breaking when the browser zoom or viewport changes.
+ */
+const LOGO_TILE =
+  'flex h-16 w-full items-center justify-center overflow-hidden rounded-2xl border border-[var(--stu-hairline)] p-3 sm:h-[4.5rem]';
+const LOGO_IMG = 'max-h-full max-w-full object-contain';
+/** Auto-fit columns: as many equal cards per row as fit at >= 7.5rem each. */
+const LOGO_GRID = 'grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] gap-x-4 gap-y-5';
+
 function LogoTile({ name }: { name: string }) {
   const partner = PARTNER_LOGOS[name];
   const mark = partner ? null : brandMark(name);
   return (
-    <div className="flex flex-col items-center gap-2.5 text-center">
+    <div className="flex h-full min-w-0 flex-col items-center gap-2.5 text-center">
       <span
         aria-hidden="true"
-        className={`grid h-14 w-14 place-items-center overflow-hidden rounded-2xl border border-[var(--stu-hairline)] sm:h-16 sm:w-16 ${
-          partner?.dark ? 'bg-[#14141f]' : 'bg-[var(--stu-card)]'
-        }`}
+        className={`${LOGO_TILE} ${partner?.dark ? 'bg-[#14141f]' : 'bg-white'}`}
       >
         {partner ? (
           // eslint-disable-next-line @next/next/no-img-element -- real company logo, fetched from its official site/Wikimedia
-          <img src={partner.src} alt="" className="h-full w-full object-contain p-2" />
+          <img src={partner.src} alt="" className={LOGO_IMG} />
         ) : mark?.painted ? (
           // eslint-disable-next-line @next/next/no-img-element -- local painted SVG badge
-          <img src={mark.src} alt="" className="h-full w-full object-cover" />
+          <img src={mark.src} alt="" className="max-h-full max-w-full rounded-lg object-cover" />
         ) : mark ? (
           <span
             className="dc-logo !h-8 !w-8 sm:!h-9 sm:!w-9"
@@ -173,7 +184,7 @@ function LogoTile({ name }: { name: string }) {
           </span>
         )}
       </span>
-      <span className="max-w-[8.5rem] text-[12px] leading-snug font-semibold text-[var(--stu-ink-secondary)]">
+      <span className="min-h-[2.5em] max-w-full text-[12px] leading-snug font-semibold text-[var(--stu-ink-secondary)] [overflow-wrap:anywhere]">
         {name}
       </span>
     </div>
@@ -420,7 +431,7 @@ export function ExploreLanding({
       </div>
 
       {/* ── Why Jetking + testimonial slider ─────────────────────────────── */}
-      <section className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="exp-why">
+      <section className="py-10 sm:py-12 lg:py-14" aria-labelledby="exp-why">
         <div className="shell">
           <div className="stu-why overflow-hidden rounded-[28px] px-6 py-10 text-[var(--stu-ink)] xs:rounded-[32px] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
             <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-12">
@@ -493,7 +504,7 @@ export function ExploreLanding({
       </section>
 
       {/* ── 10 reasons why Jetking is every student's choice ─────────────── */}
-      <section className="bg-[var(--stu-surface)] py-10 sm:py-12 lg:py-14" aria-labelledby="exp-benefits">
+      <section className="py-10 sm:py-12 lg:py-14" aria-labelledby="exp-benefits">
         <div className="shell">
           <h2
             id="exp-benefits"
@@ -562,7 +573,7 @@ export function ExploreLanding({
           <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-[var(--stu-ink-muted)] sm:text-[15px]">
             Industry-recognised technologies built into Jetking&rsquo;s curriculum.
           </p>
-          <ul className="mt-7 grid grid-cols-3 gap-5 xs:grid-cols-4 sm:grid-cols-6">
+          <ul className={`mt-7 ${LOGO_GRID}`}>
             {CERTIFICATIONS.map((name) => (
               <li key={name}>
                 <LogoTile name={name} />
@@ -593,7 +604,7 @@ export function ExploreLanding({
           <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-[var(--stu-ink-muted)] sm:text-[15px]">
             Companies from Jetking&rsquo;s own published placement records.
           </p>
-          <ul className="mt-7 grid grid-cols-3 gap-5 xs:grid-cols-4 sm:grid-cols-6">
+          <ul className={`mt-7 ${LOGO_GRID}`}>
             {ALUMNI_COMPANIES.map((company) => (
               <li key={company}>
                 <LogoTile name={company} />
@@ -606,7 +617,7 @@ export function ExploreLanding({
         </div>
       </section>
 
-      {/* ── Our Placement Partners (real collage from jetking.com) ───────── */}
+      {/* ── Our Placement Partners (individual logos; same list as jetking.com's collage) ───────── */}
       <section className="py-10 sm:py-12 lg:py-14" aria-labelledby="exp-partners">
         <div className="shell">
           <h2
@@ -615,17 +626,24 @@ export function ExploreLanding({
           >
             Our Placement Partners
           </h2>
-          <div className="stu-card mt-7 overflow-hidden rounded-[20px] p-4 sm:p-6">
-            <span className="relative block aspect-[1000/868] w-full">
-              <Image
-                src="/placements/partners-collage.png"
-                alt="Logos of organisations Jetking students have been placed with, including Walmart, Accenture, Wipro, Microsoft, IBM, SAP, Vodafone, JPMorgan Chase, Capgemini, Tech Mahindra, PayPal and Infosys"
-                fill
-                sizes="(min-width: 640px) 700px, 100vw"
-                className="object-contain"
-              />
-            </span>
-          </div>
+          <ul className={`mt-7 ${LOGO_GRID}`}>
+            {PLACEMENT_PARTNERS.map((partner) => (
+              <li key={partner.name} className="min-w-0">
+                <span
+                  className={`${LOGO_TILE} ${partner.dark ? 'bg-[#14141f]' : 'bg-white'}`}
+                >
+                  {partner.file ? (
+                    // eslint-disable-next-line @next/next/no-img-element -- small static logos; nothing for the image optimiser to do
+                    <img src={partner.file} alt={partner.name} loading="lazy" className={LOGO_IMG} />
+                  ) : (
+                    <span className="text-center font-display text-[14px] leading-tight font-extrabold text-[var(--stu-ink-secondary)] [overflow-wrap:anywhere]">
+                      {partner.name}
+                    </span>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
           <p className="mt-4 max-w-2xl text-[12.5px] leading-relaxed text-[var(--stu-ink-muted)]">
             Note: Placements are subject to recruitment norms. Jetking does not guarantee
             placements in the above organisations.

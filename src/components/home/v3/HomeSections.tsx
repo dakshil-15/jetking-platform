@@ -15,7 +15,7 @@ import { FinalCta } from './FinalCta';
  * Everything below the hero, in the order of the approved design: partner logos ->
  * programmes -> career steps -> placements -> recognition -> centre map -> why Jetking ->
  * blog -> franchise -> lead form, ending in the site's normal footer (see `FooterChrome`).
- * Backgrounds alternate white / grey section by section.
+ * Backgrounds alternate white / blush section by section (the light theme's `--theme-surface`).
  *
  * `.dark-canvas.no-orbs` opts into the shared token/card system the rest of the site uses.
  */

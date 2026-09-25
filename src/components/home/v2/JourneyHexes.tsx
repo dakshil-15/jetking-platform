@@ -52,7 +52,8 @@ export function JourneyHexes() {
     <ul
       className={[
         'flex flex-col gap-3',
-        'sm:grid sm:grid-cols-2 sm:gap-3',
+        /* One centred column of row cards up to lg — a 2-col grid orphaned the third card. */
+        'sm:mx-auto sm:w-full sm:max-w-[560px]',
         'lg:mx-auto lg:grid lg:w-full lg:max-w-[min(100%,960px)] lg:grid-cols-6 lg:gap-x-3 lg:gap-y-0',
         /* Two-column band (1200–1535): tighter column gap buys the hexes a little more width. */
         'lg2:gap-x-2',
