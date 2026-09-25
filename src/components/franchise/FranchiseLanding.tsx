@@ -175,7 +175,7 @@ export function FranchiseLanding({
         <div className="shell">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
             <div>
-              <p className="v2-eyebrow-glow text-[11px] font-bold tracking-[0.16em] text-[var(--v2-eyebrow)] uppercase sm:text-[12px]">
+              <p className="v2-eyebrow-glow text-[12px] font-bold tracking-[0.16em] text-[var(--v2-eyebrow)] uppercase sm:text-[12px]">
                 Become A Franchise Partner
               </p>
 
@@ -248,7 +248,7 @@ export function FranchiseLanding({
                     <p className="font-display text-[15px] font-extrabold text-white sm:text-[17px]">
                       {stat.value}
                     </p>
-                    <p className="mt-0.5 text-[10px] leading-tight text-[var(--v2-ink-bar-muted)] sm:text-[11px]">
+                    <p className="mt-0.5 text-[12px] leading-tight text-[var(--v2-ink-bar-muted)] sm:text-[12px]">
                       {stat.label}
                     </p>
                   </div>
@@ -539,7 +539,7 @@ export function FranchiseLanding({
                 Calculate Your ROI
                 <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
               </Link>
-              <p className="mt-4 text-[11px] text-white/70">*Indicative figures. Subject to territory.</p>
+              <p className="mt-4 text-[12px] text-white/70">*Indicative figures. Subject to territory.</p>
             </div>
 
             <div id="testimonials">

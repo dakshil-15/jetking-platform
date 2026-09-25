@@ -79,7 +79,7 @@ export default async function CoursesPage() {
                     every programme stays listed.
                   </p>
 
-                  <p className="mt-6 numeral text-[11.5px] font-bold tracking-[0.12em] text-[var(--dc-ink-muted)] uppercase sm:mt-7">
+                  <p className="mt-6 numeral text-[12px] font-bold tracking-[0.12em] text-[var(--dc-ink-muted)] uppercase sm:mt-7">
                     {siteConfig.name}
                     {' · '}
                     {courses.length} programmes

@@ -122,7 +122,7 @@ export function BlogArticle({
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <Link
               href={categoryHref(post.category)}
-              className="inline-flex rounded-full border border-[var(--blog-accent-soft)]/35 bg-[var(--blog-accent-tint)] px-2.5 py-1 text-[11px] font-bold tracking-[0.06em] text-[var(--blog-accent-soft)] uppercase transition-colors hover:border-[var(--blog-accent-soft)]/60"
+              className="inline-flex rounded-full border border-[var(--blog-accent-soft)]/35 bg-[var(--blog-accent-tint)] px-2.5 py-1 text-[12px] font-bold tracking-[0.06em] text-[var(--blog-accent-soft)] uppercase transition-colors hover:border-[var(--blog-accent-soft)]/60"
             >
               {post.category}
             </Link>

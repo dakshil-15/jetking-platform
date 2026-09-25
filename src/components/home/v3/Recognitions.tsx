@@ -30,7 +30,7 @@ export function Recognitions() {
                       <item.icon className="h-5 w-5" strokeWidth={1.75} />
                     </span>
                     <span
-                      className="rounded-full px-2.5 py-1 text-[11px] font-bold tracking-[0.04em] text-[var(--dc-ink)] uppercase"
+                      className="rounded-full px-2.5 py-1 text-[12px] font-bold tracking-[0.04em] text-[var(--dc-ink)] uppercase"
                       style={{ background: tint }}
                     >
                       {item.badge}
@@ -47,7 +47,7 @@ export function Recognitions() {
         </ul>
 
         <div className="mt-10">
-          <p className="label-mono text-[11px] text-[var(--dc-ink-muted)]">Collaboration with top universities &amp; learning entities</p>
+          <p className="label-mono text-[12px] text-[var(--dc-ink-muted)]">Collaboration with top universities &amp; learning entities</p>
           <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
             {UNIVERSITY_PARTNERS.map((partner) => (
               <li key={partner.name}>

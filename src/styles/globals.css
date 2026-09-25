@@ -85,7 +85,7 @@
   --font-mono: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', monospace;
 
   /* Body sizes hold a reading line-height; display sizes hold a tight one. */
-  --text-2xs: 0.6875rem;
+  --text-2xs: 0.75rem;
   --text-2xs--line-height: 1.45;
   --text-xs: 0.75rem;
   --text-xs--line-height: 1.5;
@@ -269,7 +269,7 @@
   --theme-ink-muted: #5f6b7d;
 
   /* Accent & Highlights */
-  --theme-accent: #ea1c24;
+  --theme-accent: #dc1a22;
   --theme-accent-hover: #c7141c;
   --theme-accent-soft: #f97066;
   --theme-accent-soft-light: #fda29b;

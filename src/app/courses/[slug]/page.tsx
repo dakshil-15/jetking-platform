@@ -129,10 +129,10 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-center lg:gap-12">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex rounded-full border border-[var(--dc-accent-border)] bg-[var(--dc-accent-tint)] px-3 py-1 text-[11px] font-bold tracking-[0.08em] text-[var(--dc-accent-soft)] uppercase">
+                <span className="inline-flex rounded-full border border-[var(--dc-accent-border)] bg-[var(--dc-accent-tint)] px-3 py-1 text-[12px] font-bold tracking-[0.08em] text-[var(--dc-accent-soft)] uppercase">
                   {course.level}
                 </span>
-                <span className="inline-flex rounded-full border border-[var(--dc-hairline)] px-3 py-1 text-[11px] font-bold tracking-[0.08em] text-[var(--dc-ink-secondary)] uppercase">
+                <span className="inline-flex rounded-full border border-[var(--dc-hairline)] px-3 py-1 text-[12px] font-bold tracking-[0.08em] text-[var(--dc-ink-secondary)] uppercase">
                   {course.duration}
                 </span>
               </div>
@@ -180,7 +180,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                 <p className="dc-accent-glow numeral font-display text-2xl font-extrabold sm:text-3xl">
                   {stat.value}
                 </p>
-                <p className="mt-1 text-[11px] font-semibold tracking-[0.04em] text-[var(--dc-ink-muted)] uppercase sm:text-[12.5px]">
+                <p className="mt-1 text-[12px] font-semibold tracking-[0.04em] text-[var(--dc-ink-muted)] uppercase sm:text-[12.5px]">
                   {stat.label}
                 </p>
               </li>
@@ -637,7 +637,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
 
                         <div className="flex flex-1 flex-col p-5 sm:p-6">
                           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                            <span className="inline-flex rounded-full border border-[var(--dc-accent-border)] bg-[var(--dc-accent-tint)] px-2.5 py-1 text-[11px] font-bold tracking-[0.06em] text-[var(--dc-accent-soft)] uppercase">
+                            <span className="inline-flex rounded-full border border-[var(--dc-accent-border)] bg-[var(--dc-accent-tint)] px-2.5 py-1 text-[12px] font-bold tracking-[0.06em] text-[var(--dc-accent-soft)] uppercase">
                               {item.level}
                             </span>
                             <span className="numeral text-[12.5px] font-semibold text-[var(--dc-ink-muted)]">

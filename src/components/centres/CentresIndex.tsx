@@ -438,7 +438,7 @@ export function CentresIndex({
                       <span className="block font-display text-[19px] font-extrabold tracking-[-0.02em] text-[var(--centres-ink)] sm:text-[21px]">
                         {state}
                       </span>
-                      <span className="mt-0.5 block text-[11px] font-bold tracking-[0.08em] text-[var(--centres-ink-muted)] uppercase">
+                      <span className="mt-0.5 block text-[12px] font-bold tracking-[0.08em] text-[var(--centres-ink-muted)] uppercase">
                         {count} {count === 1 ? 'centre' : 'centres'}
                       </span>
                     </span>
@@ -525,7 +525,7 @@ export function CentresIndex({
                                   >
                                     {city.name}
                                   </span>
-                                  <span className="text-[11px] font-bold tracking-[0.08em] text-[var(--centres-ink-muted)] uppercase">
+                                  <span className="text-[12px] font-bold tracking-[0.08em] text-[var(--centres-ink-muted)] uppercase">
                                     {cityCentres.length}{' '}
                                     {cityCentres.length === 1
                                       ? 'centre'
@@ -743,12 +743,12 @@ function FilterGroup({
           {label}
         </span>
         {value ? (
-          <span className="ml-auto min-w-0 max-w-[9rem] truncate rounded-full border border-[var(--centres-accent-soft)]/50 bg-[var(--centres-card)] px-2.5 py-0.5 text-[11.5px] font-bold text-[var(--centres-accent-soft)]">
+          <span className="ml-auto min-w-0 max-w-[9rem] truncate rounded-full border border-[var(--centres-accent-soft)]/50 bg-[var(--centres-card)] px-2.5 py-0.5 text-[12px] font-bold text-[var(--centres-accent-soft)]">
             {value}
             <span className="sr-only"> selected</span>
           </span>
         ) : (
-          <span className="ml-auto text-[11.5px] font-semibold text-[var(--centres-ink-muted)]">All</span>
+          <span className="ml-auto text-[12px] font-semibold text-[var(--centres-ink-muted)]">All</span>
         )}
         <ChevronDown
           className="centres-accordion-chevron h-4 w-4"
@@ -803,7 +803,7 @@ function FilterButton({
         ) : null}
         <span className="truncate">{label}</span>
       </span>
-      <span className="numeral shrink-0 text-[11px] font-bold tracking-[0.06em] text-[var(--centres-ink-muted)]">
+      <span className="numeral shrink-0 text-[12px] font-bold tracking-[0.06em] text-[var(--centres-ink-muted)]">
         {count}
       </span>
     </button>

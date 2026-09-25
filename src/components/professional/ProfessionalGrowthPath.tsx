@@ -28,7 +28,7 @@ function StepNode({
       <step.icon className={iconSize} strokeWidth={1.75} />
       <span
         className={[
-          'absolute -top-1.5 -right-1.5 grid h-5 w-5 place-items-center rounded-full text-[10px] font-extrabold',
+          'absolute -top-1.5 -right-1.5 grid h-5 w-5 place-items-center rounded-full text-[12px] font-extrabold',
           isFinal
             ? 'bg-[var(--pro-accent)] text-white'
             : 'border border-[var(--pro-hairline)] bg-[var(--pro-surface)] text-[var(--pro-ink-muted)]',
@@ -55,7 +55,7 @@ function StepCopy({
     <div className={align === 'center' ? 'text-center' : 'min-w-0'}>
       <p
         className={[
-          'text-[11px] font-bold tracking-[0.06em] uppercase',
+          'text-[12px] font-bold tracking-[0.06em] uppercase',
           isFinal ? 'text-[var(--pro-accent-soft)]' : 'text-[var(--pro-ink-muted)]',
         ].join(' ')}
       >
@@ -142,7 +142,7 @@ export function ProfessionalGrowthPath() {
             })}
           </ol>
 
-          <p className="mt-3 text-center text-[11px] font-semibold tracking-[0.04em] text-[var(--pro-ink-muted)] uppercase lg:hidden">
+          <p className="mt-3 text-center text-[12px] font-semibold tracking-[0.04em] text-[var(--pro-ink-muted)] uppercase lg:hidden">
             Swipe to see all {stepCount} milestones
           </p>
 

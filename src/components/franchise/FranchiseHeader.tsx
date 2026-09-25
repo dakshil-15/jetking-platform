@@ -131,9 +131,9 @@ export function FranchiseHeader() {
           <span className="flex flex-col">
             <span className="font-display text-[20px] leading-none font-extrabold tracking-[-0.02em] text-jk-500 sm:text-[24px]">
               {siteConfig.name}
-              <sup className="ml-0.5 text-[8px] font-bold sm:text-[10px]">®</sup>
+              <sup className="ml-0.5 text-[8px] font-bold sm:text-[12px]">®</sup>
             </span>
-            <span className="mt-0.5 text-[10px] font-semibold tracking-[0.06em] text-jk-500 sm:text-[11px]">
+            <span className="mt-0.5 text-[12px] font-semibold tracking-[0.06em] text-jk-500 sm:text-[12px]">
               Better Life
             </span>
           </span>

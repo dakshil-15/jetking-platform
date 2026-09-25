@@ -399,7 +399,7 @@ export function CourseExplorer({ courses }: { courses: Course[] }) {
 
                     <div className="flex flex-1 flex-col p-6 sm:p-7">
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <span className="inline-flex rounded-full border border-[var(--dc-accent-border)] bg-[var(--dc-accent-tint)] px-2.5 py-1 text-[11px] font-bold tracking-[0.06em] text-[var(--dc-accent-soft)] uppercase">
+                      <span className="inline-flex rounded-full border border-[var(--dc-accent-border)] bg-[var(--dc-accent-tint)] px-2.5 py-1 text-[12px] font-bold tracking-[0.06em] text-[var(--dc-accent-soft)] uppercase">
                         {levelLabel}
                       </span>
                       <span className="numeral text-[12.5px] font-semibold text-[var(--dc-ink-muted)]">
@@ -484,7 +484,7 @@ function FilterGroup({
         aria-controls={panelId}
         className="dc-filter-group-trigger"
       >
-        <span className="text-[11px] font-bold tracking-[0.12em] text-[var(--dc-ink-muted)] uppercase">
+        <span className="text-[12px] font-bold tracking-[0.12em] text-[var(--dc-ink-muted)] uppercase">
           {label}
         </span>
         <ChevronDown
@@ -520,7 +520,7 @@ function FilterRow({
         className="dc-filter-row text-[13.5px]"
       >
         <span className="truncate">{label}</span>
-        <span className="numeral shrink-0 text-[11px] font-bold tracking-[0.06em] text-[var(--dc-ink-muted)]">
+        <span className="numeral shrink-0 text-[12px] font-bold tracking-[0.06em] text-[var(--dc-ink-muted)]">
           {count}
         </span>
       </button>

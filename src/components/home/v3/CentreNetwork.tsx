@@ -125,7 +125,7 @@ export function CentreNetwork({
                   <span
                     aria-hidden="true"
                     className={[
-                      'relative grid place-items-center rounded-full border-2 border-white bg-[var(--dc-accent)] text-[9px] font-extrabold text-white shadow-[0_2px_6px_rgb(0_0_0/0.3)] transition-transform duration-200 group-hover:scale-125',
+                      'relative grid place-items-center rounded-full border-2 border-white bg-[var(--dc-accent)] text-[12px] font-extrabold text-white shadow-[0_2px_6px_rgb(0_0_0/0.3)] transition-transform duration-200 group-hover:scale-125',
                       isActive ? 'h-5 w-5 scale-110' : list.length > 1 ? 'h-4 w-4' : 'h-3 w-3',
                     ].join(' ')}
                   >
@@ -196,12 +196,12 @@ export function CentreNetwork({
                 <div className="min-w-0">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="label-mono text-[11px] text-[var(--dc-ink-muted)]">{active.city.state}</p>
+                      <p className="label-mono text-[12px] text-[var(--dc-ink-muted)]">{active.city.state}</p>
                       <h3 className="mt-1 font-display text-[22px] font-extrabold text-[var(--dc-ink)]">
                         {active.city.name}
                       </h3>
                     </div>
-                    <span className="dc-chip px-3 py-1 text-[11px] uppercase">
+                    <span className="dc-chip px-3 py-1 text-[12px] uppercase">
                       {active.centres.length} {active.centres.length === 1 ? 'centre' : 'centres'}
                     </span>
                   </div>

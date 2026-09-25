@@ -51,7 +51,7 @@ export function CentresHero({
               <CentresHeroSearch initialQuery={initialQuery} />
             </div>
 
-            <p className="mt-5 numeral text-[11.5px] font-bold tracking-[0.12em] text-[var(--centres-ink-muted)] uppercase sm:mt-6">
+            <p className="mt-5 numeral text-[12px] font-bold tracking-[0.12em] text-[var(--centres-ink-muted)] uppercase sm:mt-6">
               {siteConfig.name}
               {' · '}
               {cityCount} {cityCount === 1 ? 'city' : 'cities'}

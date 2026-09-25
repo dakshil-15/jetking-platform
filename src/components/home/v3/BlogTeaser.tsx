@@ -68,7 +68,7 @@ export function BlogTeaser({ posts }: { posts: Post[] }) {
                   </div>
                   <div className="flex flex-1 flex-col p-5 sm:p-6">
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <span className="dc-chip px-2.5 py-1 text-[11px] tracking-[0.04em] uppercase">
+                      <span className="dc-chip px-2.5 py-1 text-[12px] tracking-[0.04em] uppercase">
                         {post.category}
                       </span>
                       <time dateTime={post.publishedAt} className="numeral text-[12px] text-[var(--dc-ink-muted)]">

@@ -106,7 +106,7 @@ export function ProgramShowcase({ courses }: { courses: Course[] }) {
                     ) : null}
                   </div>
                   <div className="flex flex-1 flex-col p-5 sm:p-6">
-                    <span className="dc-chip w-fit px-3 py-1 text-[11px] tracking-[0.04em] uppercase">
+                    <span className="dc-chip w-fit px-3 py-1 text-[12px] tracking-[0.04em] uppercase">
                       {LEVEL_LABEL[course.level]} · {course.duration}
                     </span>
                     <h3 className="mt-3.5 font-display text-[17px] leading-snug font-extrabold text-[var(--dc-ink)] sm:text-[18px]">

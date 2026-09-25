@@ -198,7 +198,7 @@ function Accordion({
           {title}
         </span>
         {count ? (
-          <span className="shrink-0 rounded-full bg-white/20 px-2.5 py-0.5 text-[12px] font-bold tabular-nums">
+          <span className="shrink-0 rounded-full bg-black/25 px-2.5 py-0.5 text-[12px] font-bold tabular-nums">
             {count}
           </span>
         ) : null}

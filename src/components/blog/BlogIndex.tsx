@@ -288,7 +288,7 @@ export function BlogIndex({
                     Prev
                   </Link>
                 ) : (
-                  <span className="inline-flex min-h-10 cursor-not-allowed items-center gap-1 rounded-full border border-[var(--blog-hairline)]/40 px-3.5 py-2 text-[12.5px] font-bold text-[var(--blog-ink-muted)]/50">
+                  <span role="link" aria-disabled="true" className="inline-flex min-h-10 cursor-not-allowed items-center gap-1 rounded-full border border-[var(--blog-hairline)]/40 px-3.5 py-2 text-[12.5px] font-bold text-[var(--blog-ink-muted)]/50">
                     <ChevronLeft className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
                     Prev
                   </span>
@@ -348,7 +348,7 @@ export function BlogIndex({
                     <ChevronRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
                   </Link>
                 ) : (
-                  <span className="inline-flex min-h-10 cursor-not-allowed items-center gap-1 rounded-full border border-[var(--blog-hairline)]/40 px-3.5 py-2 text-[12.5px] font-bold text-[var(--blog-ink-muted)]/50">
+                  <span role="link" aria-disabled="true" className="inline-flex min-h-10 cursor-not-allowed items-center gap-1 rounded-full border border-[var(--blog-hairline)]/40 px-3.5 py-2 text-[12.5px] font-bold text-[var(--blog-ink-muted)]/50">
                     Next
                     <ChevronRight className="h-4 w-4" strokeWidth={2.25} aria-hidden="true" />
                   </span>

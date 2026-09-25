@@ -95,7 +95,7 @@ export function ProfessionalImpact() {
             'lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-6 xl:gap-x-10',
             
           ].join(' ')}
-          aria-labelledby="pro-benefits-heading"
+          role="group" aria-labelledby="pro-benefits-heading"
         >
           <div className="max-w-xl lg:col-span-7 xl:col-span-8">
             <h3

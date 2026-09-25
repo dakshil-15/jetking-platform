@@ -52,7 +52,7 @@ export function Tooltip({
           )}
         >
           {label}
-          {shortcut ? <span className="text-[0.6875rem] opacity-60">{shortcut}</span> : null}
+          {shortcut ? <span className="text-xs opacity-60">{shortcut}</span> : null}
         </TooltipPrimitive.Content>
       </TooltipPrimitive.Portal>
     </TooltipPrimitive.Root>

@@ -42,7 +42,7 @@ function LeaderCard({ leader, compact = false }: { leader: Leader; compact?: boo
             <h3 className={`font-display font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] sm:text-[20px] ${compact ? 'text-[15px]' : 'text-[18px]'}`}>
               {leader.name}
             </h3>
-            <p className={`mt-1 font-bold text-[var(--dc-accent-soft)] sm:text-[13px] ${compact ? 'text-[11.5px] leading-snug' : 'text-[13px]'}`}>{leader.role}</p>
+            <p className={`mt-1 font-bold text-[var(--dc-accent-soft)] sm:text-[13px] ${compact ? 'text-[12px] leading-snug' : 'text-[13px]'}`}>{leader.role}</p>
             {leader.bio ? <LeaderDetailModal leader={leader} /> : null}
           </div>
         </div>

@@ -457,14 +457,14 @@ function Thoughts({ steps }: { steps: string[] }) {
     <div className="jk-msg-in mt-3">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 text-[11px] font-medium text-ink-subtle transition-colors hover:text-ink-muted"
+        className="flex items-center gap-1.5 text-[12px] font-medium text-ink-subtle transition-colors hover:text-ink-muted"
       >
         <BrainCircuit className="size-3.5 text-jk-500" />
         {open ? 'Hide thinking' : 'Show thinking'}
         <ChevronDown className={cn('size-3 transition-transform', open && 'rotate-180')} />
       </button>
       {open ? (
-        <ol className="mt-2 flex list-decimal flex-col gap-1.5 border-l border-line pl-6 text-[12.5px] leading-relaxed text-ink-muted marker:text-[10px]">
+        <ol className="mt-2 flex list-decimal flex-col gap-1.5 border-l border-line pl-6 text-[12.5px] leading-relaxed text-ink-muted marker:text-[12px]">
           {steps.map((s, i) => (
             <li key={i} className="jk-step-in" style={{ animationDelay: `${i * 50}ms` }}>
               {s}
@@ -505,7 +505,7 @@ function AssistantTextBubble({
         onDone={() => setReady(true)}
       />
       {ready && msg.source ? (
-        <div className="jk-msg-in mt-3 flex items-center gap-1.5 border-t border-line pt-2.5 text-[11px] text-ink-subtle">
+        <div className="jk-msg-in mt-3 flex items-center gap-1.5 border-t border-line pt-2.5 text-[12px] text-ink-subtle">
           <Sparkles className="size-3 text-jk-500" />
           {msg.source === 'llm'
             ? 'Jetking AI · grounded in the knowledge base'
@@ -538,7 +538,7 @@ function FollowUps({
 }) {
   return (
     <div className="mt-3.5 border-t border-line pt-3">
-      <p className="mb-2 flex items-center gap-1.5 text-[11px] font-semibold tracking-wide text-ink-subtle uppercase">
+      <p className="mb-2 flex items-center gap-1.5 text-[12px] font-semibold tracking-wide text-ink-subtle uppercase">
         <Sparkles className="size-3 text-jk-500" /> Continue exploring
       </p>
       <div className="flex flex-wrap gap-2">
@@ -592,14 +592,14 @@ function LeftSidebar({
       <div className="flex flex-col items-center px-6 pt-6 pb-4">
         <ReactorMark />
         <p className="mt-3 font-display text-base font-extrabold tracking-wide">JETKING AI</p>
-        <p className="mt-0.5 text-[11.5px] text-ink-subtle">Your Learning Assistant</p>
+        <p className="mt-0.5 text-[12px] text-ink-subtle">Your Learning Assistant</p>
       </div>
 
       <nav className="flex scrollbar-subtle flex-1 flex-col gap-0.5 overflow-y-auto px-3 pb-3">
         {MENU_GROUPS.map((group) => (
           <div key={group.heading ?? 'main'} className="mb-1">
             {group.heading ? (
-              <p className="px-3 pt-3 pb-1.5 text-[10px] font-semibold tracking-[0.18em] text-ink-subtle uppercase">
+              <p className="px-3 pt-3 pb-1.5 text-[12px] font-semibold tracking-[0.18em] text-ink-subtle uppercase">
                 {group.heading}
               </p>
             ) : null}
@@ -627,7 +627,7 @@ function LeftSidebar({
 
         {account.user ? (
           <div className="mb-1">
-            <p className="px-3 pt-3 pb-1.5 text-[10px] font-semibold tracking-[0.18em] text-ink-subtle uppercase">
+            <p className="px-3 pt-3 pb-1.5 text-[12px] font-semibold tracking-[0.18em] text-ink-subtle uppercase">
               Recent chats
             </p>
             {account.history.length === 0 ? (
@@ -708,7 +708,7 @@ function LeftSidebar({
               <span className="block truncate text-[12.5px] font-semibold text-ink">
                 {account.user.name}
               </span>
-              <span className="block truncate text-[11px] text-ink-subtle">{account.user.email}</span>
+              <span className="block truncate text-[12px] text-ink-subtle">{account.user.email}</span>
             </span>
             <button
               onClick={account.onLogout}
@@ -731,7 +731,7 @@ function LeftSidebar({
             </span>
             <span className="leading-tight">
               <span className="block text-[12.5px] font-semibold text-ink">Log in / Sign up</span>
-              <span className="block text-[11px] text-ink-subtle">Save your chats</span>
+              <span className="block text-[12px] text-ink-subtle">Save your chats</span>
             </span>
           </button>
         )}
@@ -763,7 +763,7 @@ function CardTitle({
       {action ? (
         <button
           onClick={onAction}
-          className="text-[11px] font-bold tracking-wide text-jk-500 hover:underline"
+          className="text-[12px] font-bold tracking-wide text-jk-500 hover:underline"
         >
           {action}
         </button>
@@ -1280,7 +1280,7 @@ export function JetkingAiClient() {
           </Link>
           <button
             onClick={() => onIntent('enquire')}
-            className="shrink-0 rounded-md bg-jk-500 px-1.5 py-2 text-[8px] font-bold tracking-normal whitespace-nowrap text-white transition-colors hover:bg-jk-600 min-[360px]:px-2 min-[360px]:text-[9px] sm:px-5 sm:py-2.5 sm:text-[12px] sm:tracking-wide"
+            className="shrink-0 rounded-md bg-jk-500 px-1.5 py-2 text-[8px] font-bold tracking-normal whitespace-nowrap text-white transition-colors hover:bg-jk-600 min-[360px]:px-2 min-[360px]:text-[12px] sm:px-5 sm:py-2.5 sm:text-[12px] sm:tracking-wide"
           >
             ENQUIRE NOW
           </button>
@@ -1409,7 +1409,7 @@ export function JetkingAiClient() {
                   <div key={msg.id} className="jk-msg-in flex items-end justify-end gap-2.5">
                     <div className="max-w-[80%] rounded-2xl rounded-br-md bg-jk-500 px-4 py-3 text-white shadow-[0_4px_14px_#ea1c2433]">
                       <p className="text-[14px] leading-relaxed">{msg.text}</p>
-                      <div className="mt-1 flex items-center justify-end gap-1 text-[11px] text-white/75">
+                      <div className="mt-1 flex items-center justify-end gap-1 text-[12px] text-white/75">
                         {'11:30 AM'} <CheckCheck className="size-3.5" />
                       </div>
                     </div>
@@ -1469,7 +1469,7 @@ export function JetkingAiClient() {
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
                 placeholder="Ask Jetking AI… English or Hinglish"
-                className="min-w-0 flex-1 bg-transparent text-[12px] text-ink outline-none placeholder:text-[10px] placeholder:text-ink-subtle min-[360px]:text-[13px] min-[360px]:placeholder:text-[11px] sm:text-[14.5px] sm:placeholder:text-[14.5px]"
+                className="min-w-0 flex-1 bg-transparent text-[12px] text-ink outline-none placeholder:text-[12px] placeholder:text-ink-subtle min-[360px]:text-[13px] min-[360px]:placeholder:text-[12px] sm:text-[14.5px] sm:placeholder:text-[14.5px]"
                 disabled={busy}
               />
               <button
@@ -1485,7 +1485,7 @@ export function JetkingAiClient() {
                 )}
               </button>
             </form>
-            <div className="mt-2.5 flex items-start justify-center gap-1.5 px-1 text-center text-[11px] leading-4 text-ink-subtle sm:items-center sm:text-[12px]">
+            <div className="mt-2.5 flex items-start justify-center gap-1.5 px-1 text-center text-[12px] leading-4 text-ink-subtle sm:items-center sm:text-[12px]">
               <Bot className="mt-px size-3.5 shrink-0 sm:mt-0" />
               <p className="max-w-full min-w-0 text-balance">
                 Powered by <span className="font-semibold text-jk-500">Jetking AI</span> · answers

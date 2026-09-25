@@ -53,7 +53,7 @@ export function BlogHero({
             <BlogHeroSearch initialQuery={initialQuery} activeCategory={activeCategory} />
           </div>
 
-          <p className="mt-5 numeral text-[11.5px] font-bold tracking-[0.12em] text-[var(--blog-ink-muted)] uppercase sm:mt-6">
+          <p className="mt-5 numeral text-[12px] font-bold tracking-[0.12em] text-[var(--blog-ink-muted)] uppercase sm:mt-6">
             {siteConfig.name}
             {' · '}
             {articleCount} {articleCount === 1 ? 'article' : 'articles'}

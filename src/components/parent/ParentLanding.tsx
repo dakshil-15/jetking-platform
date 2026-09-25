@@ -209,7 +209,7 @@ export function ParentLanding({
                         <span className="block text-[13px] font-extrabold text-[var(--stu-ink)] sm:text-[13.5px]">
                           {stat.value}
                         </span>
-                        <span className="block text-[11.5px] leading-snug text-[var(--stu-ink-muted)] sm:text-[12px]">
+                        <span className="block text-[12px] leading-snug text-[var(--stu-ink-muted)] sm:text-[12px]">
                           {stat.label}
                         </span>
                       </span>

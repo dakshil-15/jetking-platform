@@ -41,12 +41,12 @@ function ProgramCard({
       ) : null}
 
       <div className={`flex flex-wrap items-center gap-2 ${featured ? 'max-w-[72%]' : ''}`}>
-        <span className="inline-flex items-center gap-1 rounded-full border border-[var(--pro-hairline)] bg-[var(--pro-surface)] px-2 py-0.5 text-[11px] font-semibold text-[var(--pro-ink-muted)]">
+        <span className="inline-flex items-center gap-1 rounded-full border border-[var(--pro-hairline)] bg-[var(--pro-surface)] px-2 py-0.5 text-[12px] font-semibold text-[var(--pro-ink-muted)]">
           <Clock3 className="h-3 w-3 shrink-0" strokeWidth={2.25} aria-hidden="true" />
           {course.duration || visual.durationLabel}
         </span>
         <span
-          className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold"
+          className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[12px] font-bold"
           style={{ background: visual.accentTint, color: visual.accent }}
         >
           <Briefcase className="h-3 w-3 shrink-0" strokeWidth={2.25} aria-hidden="true" />

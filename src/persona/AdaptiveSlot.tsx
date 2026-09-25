@@ -215,7 +215,7 @@ const NUDGE_SKINS: Record<
   blog: {
     aside:
       'nudge-enter flex flex-col gap-4 rounded-[20px] border border-[var(--blog-hairline)] bg-[var(--blog-card)] p-5 shadow-[var(--blog-shadow)] sm:flex-row sm:items-center sm:justify-between sm:gap-6',
-    eyebrow: 'text-[11px] font-bold tracking-[0.12em] text-[var(--blog-accent-soft)] uppercase',
+    eyebrow: 'text-[12px] font-bold tracking-[0.12em] text-[var(--blog-accent-soft)] uppercase',
     headline: 'mt-1.5 font-semibold text-[var(--blog-ink)]',
     body: 'mt-1 text-sm text-[var(--blog-ink-muted)]',
     cta: 'inline-flex h-11 shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-[var(--blog-accent)] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#a81820]',
@@ -223,7 +223,7 @@ const NUDGE_SKINS: Record<
   dark: {
     aside:
       'nudge-enter flex flex-col gap-4 rounded-[20px] border border-[var(--dc-hairline)] bg-[var(--dc-card)] p-5 shadow-[var(--dc-shadow)] sm:flex-row sm:items-center sm:justify-between sm:gap-6',
-    eyebrow: 'text-[11px] font-bold tracking-[0.12em] text-[var(--dc-accent-soft)] uppercase',
+    eyebrow: 'text-[12px] font-bold tracking-[0.12em] text-[var(--dc-accent-soft)] uppercase',
     headline: 'mt-1.5 font-semibold text-[var(--dc-ink)]',
     body: 'mt-1 text-sm text-[var(--dc-ink-muted)]',
     cta: 'dc-cta inline-flex h-11 shrink-0 cursor-pointer items-center gap-1.5 rounded-full px-5 text-sm font-semibold',

@@ -201,7 +201,7 @@ export function DonutChartCard({
           <div className="absolute inset-0 grid place-items-center">
             <div className="text-center">
               <p className="numeral font-display text-2xl font-bold text-foreground">{total}</p>
-              <p className="text-[11px] text-foreground-muted">total</p>
+              <p className="text-[12px] text-foreground-muted">total</p>
             </div>
           </div>
         </div>

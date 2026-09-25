@@ -113,11 +113,11 @@ export default async function SitemapPage() {
             {PAGE_GROUPS.map((group) => (
               <section
                 key={group.title}
-                aria-labelledby={`sm-${group.title}`}
+                aria-labelledby={`sm-${group.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                 className="dc-panel rounded-[24px] px-5 py-6 xs:rounded-[28px] sm:px-7 sm:py-8"
               >
                 <h2
-                  id={`sm-${group.title}`}
+                  id={`sm-${group.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                   className="dc-heading-glow font-display text-[20px] font-extrabold tracking-[-0.02em] text-[var(--dc-ink)] sm:text-[22px]"
                 >
                   {group.title}

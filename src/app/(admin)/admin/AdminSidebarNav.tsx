@@ -55,7 +55,7 @@ export function AdminSidebarNav({
         return (
           <Fragment key={item.href}>
             {showGroupHeading ? (
-              <p className="mt-3 px-3 pb-1.5 text-[10px] font-semibold tracking-wider text-foreground-muted/70 uppercase first:mt-0">
+              <p className="mt-3 px-3 pb-1.5 text-[12px] font-semibold tracking-wider text-foreground-muted/70 uppercase first:mt-0">
                 {item.group}
               </p>
             ) : null}

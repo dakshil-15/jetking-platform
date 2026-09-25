@@ -119,7 +119,7 @@ function Inner({ onDarkLead, courses }: { onDarkLead: boolean; courses: MenuCour
           <div className="p-5">
             {active ? (
               <>
-                <p className="label-mono text-[11px] text-foreground-muted">{active.label}</p>
+                <p className="label-mono text-[12px] text-foreground-muted">{active.label}</p>
                 <ul className="mt-3 grid gap-x-6 sm:grid-cols-2" aria-label={`${active.label} courses`}>
                   {list.map((course) => {
                     const here = pathname === `/courses/${course.slug}`;

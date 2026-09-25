@@ -37,7 +37,7 @@ export function CredibilityMarquee() {
         </div>
 
         <div className="mt-8 sm:mt-10">
-          <p className="label-mono text-[11px] text-[var(--dc-ink-muted)]">Certification tracks</p>
+          <p className="label-mono text-[12px] text-[var(--dc-ink-muted)]">Certification tracks</p>
           <div className="mt-3 dc-marquee" data-paused={paused} style={{ ['--dc-marquee-duration' as string]: '32s' }}>
             <div className="dc-marquee-track">
               <LogoList items={CERT_LOGOS} />
@@ -47,7 +47,7 @@ export function CredibilityMarquee() {
         </div>
 
         <div className="mt-8 sm:mt-10">
-          <p className="label-mono text-[11px] text-[var(--dc-ink-muted)]">Where alumni work</p>
+          <p className="label-mono text-[12px] text-[var(--dc-ink-muted)]">Where alumni work</p>
           <div className="mt-3 dc-marquee" data-paused={paused} style={{ ['--dc-marquee-duration' as string]: '40s' }}>
             <div className="dc-marquee-track">
               <LogoList items={EMPLOYER_LOGOS} />

@@ -95,9 +95,9 @@ export function PostCard({ post, badge }: { post: Post; badge?: 'latest' }) {
                 <span className="flex flex-col">
                   <span className="font-display text-[20px] leading-none font-extrabold tracking-[-0.02em] text-jk-400 sm:text-[22px]">
                     {siteConfig.name}
-                    <sup className="ml-0.5 text-[9px] font-bold sm:text-[10px]">®</sup>
+                    <sup className="ml-0.5 text-[12px] font-bold sm:text-[12px]">®</sup>
                   </span>
-                  <span className="mt-0.5 text-[9px] font-semibold tracking-[0.06em] text-jk-300 sm:text-[10px]">
+                  <span className="mt-0.5 text-[12px] font-semibold tracking-[0.06em] text-jk-300 sm:text-[12px]">
                     Better Life
                   </span>
                 </span>
@@ -108,7 +108,7 @@ export function PostCard({ post, badge }: { post: Post; badge?: 'latest' }) {
 
         <div className="flex flex-1 flex-col p-5 xs:p-6 sm:p-7">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-            <span className="inline-flex rounded-full border border-[var(--blog-accent-soft)]/35 bg-[var(--blog-accent-tint)] px-2.5 py-1 text-[11px] font-bold tracking-[0.06em] text-[var(--blog-accent-soft)] uppercase">
+            <span className="inline-flex rounded-full border border-[var(--blog-accent-soft)]/35 bg-[var(--blog-accent-tint)] px-2.5 py-1 text-[12px] font-bold tracking-[0.06em] text-[var(--blog-accent-soft)] uppercase">
               {post.category}
             </span>
             <time

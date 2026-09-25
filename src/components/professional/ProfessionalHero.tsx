@@ -18,10 +18,10 @@ export function ProfessionalHero() {
         '2xl:grid-cols-[minmax(0,1.35fr)_minmax(0,0.65fr)] 2xl:gap-10',
         '3xl:grid-cols-[minmax(0,1.4fr)_minmax(0,0.6fr)] 3xl:gap-12',
       ].join(' ')}
-      aria-labelledby="pro-hero-heading"
+      role="group" aria-labelledby="pro-hero-heading"
     >
       <div className="flex flex-col justify-start">
-        <p className="v2-eyebrow-glow text-[11px] font-bold tracking-[0.16em] text-[var(--v2-eyebrow)] uppercase xs:text-[12px] sm:text-[13px] sm:tracking-[0.18em]">
+        <p className="v2-eyebrow-glow text-[12px] font-bold tracking-[0.16em] text-[var(--v2-eyebrow)] uppercase xs:text-[12px] sm:text-[13px] sm:tracking-[0.18em]">
           For Working Professionals
         </p>
 

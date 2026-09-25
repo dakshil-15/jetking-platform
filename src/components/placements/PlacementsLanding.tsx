@@ -211,7 +211,7 @@ export function PlacementsLanding() {
                     <IconGlyph src={PROCESS_STEP_ICONS[index] ?? ICONS.completeTraining} className="h-7 w-7" />
                     {/* Darkened a touch from the raw accent token — white text at 11px needs
                         4.5:1 for WCAG AA and the plain accent red only clears ~4.48:1. */}
-                    <span className="absolute -top-1.5 -left-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-[var(--dc-canvas)] bg-[color-mix(in_srgb,var(--dc-accent)_88%,black)] font-display text-[11px] font-extrabold text-white">
+                    <span className="absolute -top-1.5 -left-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-[var(--dc-canvas)] bg-[color-mix(in_srgb,var(--dc-accent)_88%,black)] font-display text-[12px] font-extrabold text-white">
                       {item.step}
                     </span>
                   </span>

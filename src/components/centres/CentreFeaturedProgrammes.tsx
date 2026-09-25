@@ -245,14 +245,14 @@ function ProgrammeCardShell({
 
           <div className={`flex flex-wrap items-center gap-2 ${featured ? 'max-w-[72%]' : ''}`}>
             {duration ? (
-              <span className="inline-flex items-center gap-1 rounded-full border border-[var(--centres-hairline)] bg-[var(--centres-surface)] px-2 py-0.5 text-[11px] font-semibold text-[var(--centres-ink-muted)]">
+              <span className="inline-flex items-center gap-1 rounded-full border border-[var(--centres-hairline)] bg-[var(--centres-surface)] px-2 py-0.5 text-[12px] font-semibold text-[var(--centres-ink-muted)]">
                 <Clock3 className="h-3 w-3 shrink-0" strokeWidth={2.25} aria-hidden="true" />
                 {duration}
               </span>
             ) : null}
             {mode ? (
               <span
-                className="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold"
+                className="inline-flex items-center rounded-full px-2 py-0.5 text-[12px] font-bold"
                 style={{ background: theme.tint, color: theme.ink }}
               >
                 {mode}

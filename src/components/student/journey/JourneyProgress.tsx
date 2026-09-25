@@ -46,7 +46,7 @@ export function JourneyProgress({ current }: { current: StudentJourneyStep }) {
                 <span
                   aria-hidden="true"
                   className={[
-                    'hidden text-[10px] font-semibold tracking-wide uppercase xs:block sm:text-[11px]',
+                    'hidden text-[12px] font-semibold tracking-wide uppercase xs:block sm:text-[12px]',
                     active ? 'text-[var(--stu-accent-soft)]' : 'text-[var(--stu-ink-muted)]',
                   ].join(' ')}
                 >

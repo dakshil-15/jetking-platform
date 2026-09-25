@@ -162,7 +162,7 @@
   right: -2px;
   background: var(--stu-accent);
   color: var(--stu-ink);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -186,7 +186,7 @@
      theme, but --stu-ink does (near-black in light mode), which produced
      low-contrast dark text on this red badge in light mode. */
   color: #fff;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.07em;
   text-transform: uppercase;
