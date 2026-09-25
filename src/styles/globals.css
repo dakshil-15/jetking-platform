@@ -820,6 +820,14 @@
     box-shadow: 0 0 0 2px rgb(from var(--focus-ring) r g b / 0.25);
   }
 
+  /* WCAG 2.2 target size (2.5.8): standalone links/buttons are never shorter than 24px.
+     Only flex/block-level ones — links inside running text stay inline and are exempt. */
+  a,
+  button,
+  .dc-filter-group-trigger {
+    min-height: 1.5rem;
+  }
+
   .link-underline {
     background-image: linear-gradient(currentColor, currentColor);
     background-position: 0 100%;
